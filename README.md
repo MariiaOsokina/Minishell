@@ -1,2 +1,2 @@
 # shell
-This is 42 Shell project
+This is a 42 Shell project
