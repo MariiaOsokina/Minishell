@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:45:04 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/03 10:58:59 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:13:21 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_io_fds
 	int		fd_out;
 	int		stdin_backup;
 	int		stdout_backup;
-	int     fdpipe[2];
+	int		fdpipe[2];
 }	t_io_fds;
 
 typedef struct s_command
@@ -62,7 +62,7 @@ typedef struct s_command
 	char				**args;
 	// bool				pipe_output;
 	// int					*pipe_fd;
-	t_io_fds			*io_fds;
+	// t_io_fds			*io_fds;
 	struct s_command	*next;
 	struct s_command	*prev;
 }	t_command;
@@ -79,8 +79,7 @@ typedef struct s_data
 	t_io_fds	io;
 }	t_data;
 
-void     execute(t_data *data, t_io_fds *io);
-
+void	execute(t_data *data, t_io_fds *io);
 
 
 // /* ENUMS */
