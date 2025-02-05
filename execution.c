@@ -6,11 +6,14 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 13:12:19 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/03 12:56:26 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/05 13:54:46 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//TO DO (1)pipes (2) then redirections - NEED TO BE CHANGED
+// TO DO The exit status of a pipeline is the exit status of the last command in the pipeline
 
 void	execute(t_data *data, t_io_fds *io)
 {
@@ -35,7 +38,7 @@ void	execute(t_data *data, t_io_fds *io)
 		dup2(io->fd_in, 0);
 		close(io->fd_in);
 		//setup output
-		if (cmd->next == NULL) // if the last cmd
+		if (cmd->next == NULL) // if the last cmd !!! CHECK CASE ls > output10 | wc -w
 		{
 			if (io->outfile)
 			{
