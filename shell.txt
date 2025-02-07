@@ -1,6 +1,5 @@
 /* Shell structure notes*/
-
-General structure:
+/*
 Parse
 Initialize;
 tokenization
@@ -14,7 +13,6 @@ Prompt display
 Command history (up and down arrows)
 System executables available from the environment (ls, cat, grep, etc.)
 Local executables (./minishell)
-
 Builtin commands :
 echo (and option -n)
 cd (with only a relative or absolute path)
@@ -24,7 +22,6 @@ unset (no options)
 env (no options or arguments)
 exit (with exit number but no other options)
 Pipes | which redirect output from one command to input for the next
-
 Redirections:
 > redirects output
 >> redirects output in append mode
@@ -38,14 +35,4 @@ ctrl-d exits minishell
 ctrl-\ does nothing
 However, Minishell does not support \, ;, &&, ||, or wildcards.
 
-Notes:
-PARSING
-read line.
-store input : Data structure : init data struture
-Concatenate commands : add 2 strings together.
-Tokenization
-
-BUILTIN Commands
-A list of commands that a user can use on the shell itself.
-Save them somewhere : ?? Data structure.
-Strings for names of commands and functions that gets called when command is used by user.
+*/
