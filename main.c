@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:11:42 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/03 12:47:30 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/10 13:23:57 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	main(void)
 {
-	
 	t_data	data;
 	t_command	cmd1,	cmd2, cmd3;
 	t_io_fds	io;

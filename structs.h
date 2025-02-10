@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   structs.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
+/*   Updated: 2025/02/10 14:05:10 by mosokina         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #pragma once
 
-#include "libft.h"
+#include "libft/libft.h"
 #include <limits.h>
 #include <stdbool.h>
 
@@ -28,28 +40,28 @@ typedef struct s_env
 	bool		is_printed;
 }				t_env;
 
-/*Command structs and typedefs*/
-typedef enum e_node_type
-{
-	N_PIPE,
-	N_EXEC,
-	N_ANDIF,
-	N_OR,
-}				t_node_type;
+// /*Command structs and typedefs*/
+// typedef enum e_node_type
+// {
+// 	N_PIPE,
+// 	N_EXEC,
+// 	N_ANDIF,
+// 	N_OR,
+// }				t_node_type;
 
-typedef struct s_node
-{
-	t_node_type	type;
-}				t_node;
+// typedef struct s_node
+// {
+// 	t_node_type	type;
+// }				t_node;
 
-typedef struct s_exec
-{
-	t_node		type;
-	char		*command;
-	char		**av;
-	t_list		*infiles;
-	t_list		*outfiles;
-}				t_exec;
+// typedef struct s_exec
+// {
+// 	t_node		type;
+// 	char		*command;
+// 	char		**av;
+// 	t_list		*infiles;
+// 	t_list		*outfiles;
+// }				t_exec;
 
 //mo_suggestions
 
@@ -78,12 +90,28 @@ typedef struct s_io
 	int					fd_here_doc;
 }	t_io;
 
+
 typedef struct s_node
 {
 	t_node_type			type;
+	t_io	*io;
 	t_list				*io_list; // t_list list.content should be t_io(io);
 	char				*args;
 	char				**expanded_args;
 	struct s_node		*left;
 	struct s_node		*right;
 }	t_node;
+
+// t_list *io_list;
+// t_io io;
+
+// io_list.content = &io;
+
+// io.type
+// io_list.content.type
+
+// int	io_list_set_type(t_node_type tp)
+// {
+
+// }
+
