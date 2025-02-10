@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:45:04 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/03 12:13:21 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/07 15:17:24 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,27 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <stdbool.h>
+
+
+typedef	struct io
+{
+	t_io_type			type;
+	char				*value;
+	char				**expanded_value;
+	int					here_doc;
+}
+
+typedef struct s_io_node
+{
+	t_io_type			type;
+	char				*value;
+	char				**expanded_value;
+	int					here_doc;
+	struct s_io_node	*prev;
+	struct s_io_node	*next;
+}	t_io_node;
+
 
 // typedef struct minishell
 // {
@@ -47,7 +68,7 @@ typedef struct s_io_fds
 {
 	char	*infile;
 	char	*outfile;
-	// char	*heredoc_delimiter;
+	char	*heredoc_delimiter;
 	int		fd_in;
 	int		fd_out;
 	int		stdin_backup;
@@ -62,7 +83,7 @@ typedef struct s_command
 	char				**args;
 	// bool				pipe_output;
 	// int					*pipe_fd;
-	// t_io_fds			*io_fds;
+	t_io_fds			*io_fds;
 	struct s_command	*next;
 	struct s_command	*prev;
 }	t_command;
