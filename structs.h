@@ -3,18 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/10 14:05:10 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/12 01:27:17 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#ifndef STRUCTS_H
+# define STRUCTS_H
 
 #include "libft/libft.h"
 #include <limits.h>
 #include <stdbool.h>
+
+#include <unistd.h> //functions access()
+#include <stdlib.h> // exit ()
 
 /*May require a pointer to cwd and old working dir*/
 typedef struct s_shell
@@ -94,7 +98,6 @@ typedef struct s_io
 typedef struct s_node
 {
 	t_node_type			type;
-	t_io	*io;
 	t_list				*io_list; // t_list list.content should be t_io(io);
 	char				*args;
 	char				**expanded_args;
@@ -115,3 +118,47 @@ typedef struct s_node
 
 // }
 
+
+
+
+typedef enum e_err_msg
+{
+	ERRMSG_CMD_NOT_FOUND,
+	ERRMSG_NO_SUCH_FILE,
+	ERRMSG_PERM_DENIED,
+	ERRMSG_AMBIGUOUS,
+	ERRMSG_TOO_MANY_ARGS,
+	ERRMSG_NUMERIC_REQUI
+}	t_err_msg;
+
+
+//return is exit status
+// 0: Success
+// 1: General error
+// 2: Misuse of shell builtins
+// 126: Command invoked cannot execute
+// 127: Command not found
+// 128: Invalid argument to exit
+
+typedef enum e_err_no
+{
+	ENO_SUCCESS,//0
+	ENO_GENERAL,//1
+	ENO_CANT_EXEC = 126,
+	ENO_NOT_FOUND, //127
+	ENO_EXEC_255 = 255
+}	t_err_no;
+
+typedef struct s_err
+{
+	t_err_no	no; // ENO_NOT_FOUND
+	t_err_msg	msg; // type ERRMSG_NO_SUCH_FILE, msg will be 
+	char		*cause; // for ex, "/ls"
+}	t_err;
+
+
+int	ft_err_msg(t_err err);
+bool ft_is_builtin(char *cmd);
+
+
+#endif
