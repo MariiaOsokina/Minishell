@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/12 01:27:17 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/13 00:10:09 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 #include <unistd.h> //functions access()
 #include <stdlib.h> // exit ()
+#include <wait.h> // for MACROS WIFSIGNALED, WTERMSIG, and WEXITSTATUS 
 
 /*May require a pointer to cwd and old working dir*/
 typedef struct s_shell
@@ -32,7 +33,8 @@ typedef struct s_shell
 	void *root;          // Root of an AST (Abstract Syntax Tree) for parsing
 	char *cmd_path;      // Stores the full executable path for a command.
 	char *cwd;           // Current working directory
-	int exit_code;       // Stores the exit code of the last command
+	int exit_code;       // Stores the exit code of the last command 
+	//MO: CHANGE NAME TO EXIT_STATUS?
 	int fd;              // Stores the file descriptor used for redirections.
 }				t_shell;
 
@@ -67,7 +69,7 @@ typedef struct s_env
 // 	t_list		*outfiles;
 // }				t_exec;
 
-//mo_suggestions
+//MO: SUGGESTIONS TO HEADER
 
 typedef enum e_node_type
 {
@@ -105,22 +107,6 @@ typedef struct s_node
 	struct s_node		*right;
 }	t_node;
 
-// t_list *io_list;
-// t_io io;
-
-// io_list.content = &io;
-
-// io.type
-// io_list.content.type
-
-// int	io_list_set_type(t_node_type tp)
-// {
-
-// }
-
-
-
-
 typedef enum e_err_msg
 {
 	ERRMSG_CMD_NOT_FOUND,
@@ -135,30 +121,29 @@ typedef enum e_err_msg
 //return is exit status
 // 0: Success
 // 1: General error
-// 2: Misuse of shell builtins
+// 2: Misuse of shell builtins !!!
 // 126: Command invoked cannot execute
 // 127: Command not found
-// 128: Invalid argument to exit
+// 128: Invalid argument to exit !!!
+// Exit status 130: Script terminated by Control-C !!!
 
 typedef enum e_err_no
 {
-	ENO_SUCCESS,//0
-	ENO_GENERAL,//1
+	ENO_SUCCESS, //0
+	ENO_GENERAL, //1
+	// ENO_MISUSE_BUILTIN; //2
 	ENO_CANT_EXEC = 126,
 	ENO_NOT_FOUND, //127
 	ENO_EXEC_255 = 255
 }	t_err_no;
 
-typedef struct s_err
-{
-	t_err_no	no; // ENO_NOT_FOUND
-	t_err_msg	msg; // type ERRMSG_NO_SUCH_FILE, msg will be 
-	char		*cause; // for ex, "/ls"
-}	t_err;
+int			ft_exec_child(t_shell shell, t_node *cmd);
+int			ft_exec_simple_cmd(t_shell shell, t_node *cmd);
+t_err_no	ft_check_file_access(char *file);
+int			ft_get_exit_status(int status);
 
-
-int	ft_err_msg(t_err err);
-bool ft_is_builtin(char *cmd);
-
+void		ft_err_msg(t_err_msg msg, char *cause);
+bool 		ft_is_builtin(char *cmd);
+t_err_no 	ft_exec_builtin(char **args);
 
 #endif

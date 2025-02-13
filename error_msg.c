@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 11:22:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/12 00:20:30 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/12 23:04:14 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,17 @@ cat: 90: No such file or directory
 cat: 909: No such file or directory
 exit status - 1
 
+
+cd jkjkjkjk
+bash: cd: jkjkjkjk: No such file or directory
+exit status - 1
+
+
+cd .. 89
+bash: cd: too many arguments
+exit status - 1
+
+
 */
 
 
@@ -109,21 +120,15 @@ exit status - 1
 
 //function prints the error message in the terminal and returns the exit number(int)
 
-int	ft_err_msg(t_err err)
+void	ft_err_msg(t_err_msg msg, char *cause)
 {
 	// if (err.msg == ERRMSG_CMD_NOT_FOUND)
 	// 	return (ft_putstr_fd("minishell: ", 2), ft_putstr_fd(err.cause, 2),
 	//ft_putstr_fd(": command not found\n", 2), err.no);
-	if (err.msg == ERRMSG_NO_SUCH_FILE)
-	{
-		printf("minishell: %s: No such file or directory\n", err.cause);
-		return (err.no);
-	}
-	else if (err.msg == ERRMSG_PERM_DENIED)
-	{
-		printf("minishell: %s : Permission denied\n", err.cause);
-		return (err.no);
-	}
+	if (msg == ERRMSG_NO_SUCH_FILE)
+		printf("minishell: %s: No such file or directory\n", cause);
+	else if (msg == ERRMSG_PERM_DENIED)
+		printf("minishell: %s: Permission denied\n", cause);
 	// else if (err.msg == ERRMSG_AMBIGUOUS)
 	// 	return (ft_putstr_fd("minishell: ", 2), ft_putstr_fd(err.cause, 2),
 	// 		ft_putstr_fd(": ambiguous redirect\n", 2), err.no);
@@ -134,7 +139,7 @@ int	ft_err_msg(t_err err)
 	// 	return (ft_putstr_fd("minishell: exit: ", 2),
 	// 		ft_putstr_fd(err.cause, 2),
 	// 		ft_putstr_fd(": numeric argument required\n", 2), err.no);
-	return (0);
+	return ;
 }
 
 
