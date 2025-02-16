@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 11:22:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/12 23:04:14 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/16 17:21:44 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,16 @@
 /*error examples:
 
 chmod 222 ./test
-msg - bash: ./test: Permission denied
+bash: ./test: Permission denied
 exit status -126
 
-
-
 /ls
-msg -  /ls: No such file or directory
+bash: /ls: No such file or directory
 exit status -  127
 
 /lklklk/ll
 bash: /lklklk/ll: No such file or directory
 exit status -  127
-
 
 ./uyu
 bash: ./uyu: No such file or directory
@@ -38,13 +35,14 @@ cat: test1.c: No such file or directory
 exit status - 1
 
 cat ls/test.c
-msg -  : ls/test.c: No such file or directory
+cat: ls/test.c: No such file or directory
 exit status: 1
 
 
 jkjkjkjkk
-msg - jkjkjkjkk: command not found
+jklkllk: command not found
 exit status - 127
+
 
 cat: test1.c
 Command 'cat:' not found, did you mean:
@@ -112,23 +110,31 @@ bash: cd: too many arguments
 exit status - 1
 
 
+pwd -;;;
+bash: syntax error near unexpected token `;;'
+exit status -2
+
+simple_cmd (with slash)
+./libft
+bash: ./libft: Is a directory
+exit status - 126
+
+.
+bash: .: filename argument required
+.: usage: . filename [arguments]
+exit status - 2
+
+ ..
+..: command not found
+exit status - 127
+
+!! NOT BASH??? - CHECK
 */
 
-
-
-
-
-//function prints the error message in the terminal and returns the exit number(int)
-
-void	ft_err_msg(t_err_msg msg, char *cause)
-{
 	// if (err.msg == ERRMSG_CMD_NOT_FOUND)
 	// 	return (ft_putstr_fd("minishell: ", 2), ft_putstr_fd(err.cause, 2),
 	//ft_putstr_fd(": command not found\n", 2), err.no);
-	if (msg == ERRMSG_NO_SUCH_FILE)
-		printf("minishell: %s: No such file or directory\n", cause);
-	else if (msg == ERRMSG_PERM_DENIED)
-		printf("minishell: %s: Permission denied\n", cause);
+	
 	// else if (err.msg == ERRMSG_AMBIGUOUS)
 	// 	return (ft_putstr_fd("minishell: ", 2), ft_putstr_fd(err.cause, 2),
 	// 		ft_putstr_fd(": ambiguous redirect\n", 2), err.no);
@@ -139,9 +145,25 @@ void	ft_err_msg(t_err_msg msg, char *cause)
 	// 	return (ft_putstr_fd("minishell: exit: ", 2),
 	// 		ft_putstr_fd(err.cause, 2),
 	// 		ft_putstr_fd(": numeric argument required\n", 2), err.no);
+
+
+
+//function prints the error message
+
+void	ft_err_msg(char *s1, char *s2, char *s3)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(s1, STDERR_FILENO);
+	if (s2)
+	{
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(s2, STDERR_FILENO);
+		if (s3)
+		{
+			ft_putstr_fd(": ", STDERR_FILENO);
+			ft_putstr_fd(s3, STDERR_FILENO);
+		}
+	}
+	ft_putstr_fd("\n", STDERR_FILENO);
 	return ;
 }
-
-
-
-

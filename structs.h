@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/13 00:10:09 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/16 17:24:32 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 #include <unistd.h> //functions access()
 #include <stdlib.h> // exit ()
 #include <wait.h> // for MACROS WIFSIGNALED, WTERMSIG, and WEXITSTATUS 
+#include <string.h> // for strerror()
+#include <sys/stat.h> // for stat() and stat structure
+#include <sys/types.h> // for MACRO S_ISDIR 
 
 /*May require a pointer to cwd and old working dir*/
 typedef struct s_shell
@@ -32,9 +35,12 @@ typedef struct s_shell
 	char *trimmed_input; // Stores trimmed input (no leading/trailing spaces).
 	void *root;          // Root of an AST (Abstract Syntax Tree) for parsing
 	char *cmd_path;      // Stores the full executable path for a command.
+	//MO: why we need it?
+
 	char *cwd;           // Current working directory
 	int exit_code;       // Stores the exit code of the last command 
 	//MO: CHANGE NAME TO EXIT_STATUS?
+	
 	int fd;              // Stores the file descriptor used for redirections.
 }				t_shell;
 
@@ -137,13 +143,33 @@ typedef enum e_err_no
 	ENO_EXEC_255 = 255
 }	t_err_no;
 
-int			ft_exec_child(t_shell shell, t_node *cmd);
-int			ft_exec_simple_cmd(t_shell shell, t_node *cmd);
-t_err_no	ft_check_file_access(char *file);
-int			ft_get_exit_status(int status);
 
-void		ft_err_msg(t_err_msg msg, char *cause);
+//execution of simple command
+int			ft_exec_simple_cmd(t_shell shell, t_node *cmd);
+
+//(3) execution of child command
+
+int			ft_exec_child(t_shell shell, t_node *cmd);
+int			ft_get_exit_status(int status);
+t_err_no	ft_check_access(char *file);
+bool		cmd_is_dir(char *cmd);
+
+char		*ft_get_env_path(t_shell shell, char *cmd_name, t_err_no *err_no);
+
+
+//(2) execution of builtins
 bool 		ft_is_builtin(char *cmd);
-t_err_no 	ft_exec_builtin(char **args);
+t_err_no	ft_exec_builtin(t_shell shell, t_node *cmd);
+t_err_no	builtin_echo(t_shell shell, t_node *cmd);
+t_err_no	builtin_cd(t_shell shell, t_node *cmd);
+t_err_no	builtin_export(t_shell shell, t_node *cmd);
+t_err_no	builtin_unset(t_shell shell, t_node *cmd);
+t_err_no	builtin_env(t_shell shell, t_node *cmd);
+t_err_no	builtin_exit(t_shell shell, t_node *cmd);
+
+//utils
+void		ft_err_msg(char *s1, char *s2, char *s3);
+int			ft_strcmp(const char *s1, const char *s2);
+
 
 #endif

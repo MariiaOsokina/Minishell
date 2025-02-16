@@ -48,13 +48,6 @@ typedef struct s_io_node
 // }		t_buildin;
 
 
-// typedef struct commands
-// {
-// 	char	*builtin_name;
-// 	int		(*foo)(char **);
-// }		t_buildin;
-
-
 // typedef struct s_token
 // {	
 // 	char			*str;

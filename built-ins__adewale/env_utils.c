@@ -73,7 +73,7 @@ char	*sh_get_env(t_list *envp, const char *value)
 	while (current)
 	{
 		env_entry = (t_env *)current->content;
-		if (is_exact_var(env_entry, value))
+		if (is_exact_var(env_entry, value)) //MO: ft_strcmp we can use here!!!
 			return (env_entry->content);
 		current = current->next;
 	}

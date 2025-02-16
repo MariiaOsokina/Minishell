@@ -4,6 +4,14 @@
         "structs.h": "c",
         "libft.h": "c",
         "limits.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "stdio.h": "c",
+        "system_error": "c",
+        "array": "c",
+        "functional": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c",
+        "cerrno": "c"
     }
 }

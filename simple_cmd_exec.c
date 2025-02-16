@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:03:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/13 00:05:09 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/16 18:30:19 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 #include <sys/wait.h>
 #include <stdio.h>
 
+static char	*find_cmd_path(char *cmd_name, t_shell shell);
+
+static void del(void *content) {
+    (void *)content;
+	return;
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	(void)argc;
@@ -22,21 +29,38 @@ int	main(int argc, char **argv, char **env)
 
 	t_shell shell;
 	t_node 	cmd;
+	t_list *path_next;
+	t_list *path_next2;
+
+	shell.path = ft_lstnew("/usr/bin/");
+	path_next = ft_lstnew("/usr/local/bin");
+	path_next2 = ft_lstnew("/home/mosokina/.local/bin");
+	ft_lstadd_front(&shell.path, path_next);
+	ft_lstadd_front(&shell.path->next, path_next2);
+
+	
 	char *expanded_args[3];
 	cmd.expanded_args = expanded_args;
 
-	// expanded_args[0] = "/usr/bin/ls";
-	expanded_args[0] = "echo";
-	// expanded_args[0] = "./test.o";
-	expanded_args[1] = "-la";
+	// expanded_args[0] = "nocommand";
+	expanded_args[0] = ".sss";
+	// expanded_args[0] = "nocmd";
+
+	// expanded_args[0] = "./test1";
+	// expanded_args[1] = "-la";
+	// expanded_args[1] = "invalidargs";
+	// expanded_args[1] = "./tests/test.o";
+	expanded_args[1] = "./tests/test.c";
+
+
 	expanded_args[2] = NULL;
 	shell.envp_arr = env;
 	// printf("env %s\n", shell.envp_arr[0]);
 	shell.exit_code = ft_exec_simple_cmd(shell, &cmd);
 	printf("exit status %d\n", shell.exit_code);
+	ft_lstclear(&shell.path, &del);
 	return (0);
 }
-
 
 /* execute the simple command */
 /*The return status is exit status as provided by waitpid(), 
@@ -49,19 +73,20 @@ or 128+n if the command was terminated by signal n.*/
 int	ft_exec_simple_cmd(t_shell shell, t_node *cmd)
 {
 	int		tmp_status;
-
-	// if (!node -> expanded_args) //1. if no cmd
+	//1. if no cmd
+	// if (!node -> expanded_args) 
 	// {
 	// 	tmp_status = ft_check_redirection(node); // handle redirection
 	// 	return (ft_reset_stds(piped), (tmp_status && ENO_GENERAL));
 	// }
-	if (ft_is_builtin((cmd->expanded_args)[0])) //2. if builtin command
+	//2. if builtin command
+	if (ft_is_builtin((cmd->expanded_args)[0])) 
 	{
-		printf("exec builtin\n");
 		//to add redirections ...
-		// tmp_status = ft_exec_builtin(cmd->expanded_args);
+		tmp_status = ft_exec_builtin(shell, cmd);
 		return (tmp_status); //128+n if signals
 	}
+	//3. system command (child process)
 	else
 	{
 		tmp_status = ft_exec_child(shell, cmd);
@@ -69,11 +94,11 @@ int	ft_exec_simple_cmd(t_shell shell, t_node *cmd)
 	}
 }
 
-/*3. if it's system command, itshould be in child process*/
+/*3. if it's system command, it should be in child process*/
 
 int	ft_exec_child(t_shell shell, t_node *cmd)
 {
-	char    *path;
+	char    *cmd_path;
     int		tmp_status;
 	int		fork_pid;
 	t_err_no	err_no;
@@ -88,25 +113,37 @@ int	ft_exec_child(t_shell shell, t_node *cmd)
 		//to add redirections ...
 		if (ft_strnstr(cmd->expanded_args[0], "/", ft_strlen(cmd->expanded_args[0])))
 		{
-			err_no = ft_check_file_access(cmd->expanded_args[0]);// check access(permission and that file is existed )
+			cmd_path = cmd->expanded_args[0];
+			err_no = ft_check_access(cmd_path);
 			if (err_no != ENO_SUCCESS)
 			{
 				//all clear;
 				exit(err_no); // from child proccess
 			}
-			else if (execve(cmd->expanded_args[0], cmd->expanded_args, shell.envp_arr) == - 1)
+			else if (execve(cmd_path, cmd->expanded_args, shell.envp_arr) == - 1)
 			{
 				// all clear;
+				// ft_err_msg("execve error", strerror(errno), NULL);
 				exit(ENO_GENERAL); // from child process;
-			};
+			}
 		}
 		else
 		{
-			printf("Need to seach path\n");
-			// path = ft_get_path(cmd->args[0]);
-		// 	execve(path, cmd->args, shell.envp);
-		// 	//to add error ...;
-		}
+			cmd_path = ft_get_env_path(shell, cmd->expanded_args[0], &err_no); // err_no as ptr for saving its value
+			printf("path: %s\n", cmd_path);
+			if (err_no != ENO_SUCCESS)
+			{
+				//all clear;
+				exit(err_no); // from child proccess
+			}
+			else if (execve(cmd_path, cmd->expanded_args, shell.envp_arr) == - 1)
+			{
+				free(cmd_path);
+				// all clear;
+				// ft_err_msg("execve error", strerror(errno), NULL);
+				exit(ENO_GENERAL); // from child process;
+				}
+			}
     }
     waitpid(fork_pid, &tmp_status, 0); //  tmp_status - parent process can retrieve the exit status of the child
 	return (ft_get_exit_status(tmp_status));
@@ -120,82 +157,88 @@ int	ft_get_exit_status(int status)
 	return (WEXITSTATUS(status)); // This MACROS WEXITSTATUS shifts to bits to right place,  as child exit status is stored in the higher bits.
 }
 
-t_err_no	ft_check_file_access(char *file) // check the permission to the file, print the error msg and return the error number
-{
-	t_err_no err_no;
-	
-	if (access(file, F_OK) == 0) // file exists
-	{
-		if (access(file, X_OK) == -1) // no exection rights
-		{
-
-			ft_err_msg(ERRMSG_PERM_DENIED, file);
-			return (ENO_CANT_EXEC);
-		}
-	}
-	else //file doesn't exist
-	{
-		err_no = ENO_NOT_FOUND;
-		ft_err_msg(ERRMSG_NO_SUCH_FILE, file);
-	} 
-	// ((t_err){ENO_NOT_FOUND, ERRMSG_CMD_NOT_FOUND, file}); // no slash
+t_err_no	ft_check_access(char *file) // check the permission to the file, print the error msg and return the error number
+{	
+	if (access(file, F_OK) != 0) //file doesn't exist
+		// if (path_seach)
+		// 	ft_err_msg(ERRMSG_CMD_NOT_FOUND, file);
+		return (ft_err_msg(file, "No such file or directory", NULL), ENO_NOT_FOUND);
+	else if (cmd_is_dir(file))
+		return (ft_err_msg(file, "Is a directory", NULL), ENO_CANT_EXEC);
+	else if (access(file, X_OK) != 0)// no execution rights
+		return (ft_err_msg(file, "Permission denied\n", NULL), ENO_CANT_EXEC); //??check: strerror(errno) instead "Permition denied"
 	return (ENO_SUCCESS);
 }
 
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	size_t	s1_len;
-	size_t	s2_len;
+/*This function, cmd_is_dir, checks if a given command (or file path) is a directory. 
+It uses the stat function to retrieve information about the file 
+and stores it in a struct stat called cmd_stat. 
+The S_ISDIR macro is then used to check if the file is a directory 
+by examining the st_mode field of cmd_stat. If the file is a directory, 
+the function returns true; otherwise, it returns false*/
 
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	if (s1_len > s2_len)
-		return (ft_strncmp(s1, s2, s1_len));
-	else
-		return (ft_strncmp(s1, s2, s2_len));
+bool	cmd_is_dir(char *cmd)
+{
+	struct stat	cmd_stat;
+
+	ft_memset(&cmd_stat, 0, sizeof(cmd_stat));
+	stat(cmd, &cmd_stat);
+	return (S_ISDIR(cmd_stat.st_mode));
 }
 
-bool ft_is_builtin(char *cmd)
+
+///IN PROCCESS....
+/*function for getting the proper path for the command
+based on list of directrories from $PATH parsed as a list (t_list) in the start of the program
+and saved as shell.path*/
+char	*ft_get_env_path(t_shell shell, char *cmd_name, t_err_no *err_no)
 {
-	if (!cmd)
-		return (false);
-	if (!ft_strcmp(cmd, "echo") 
-		|| !ft_strcmp(cmd, "cd") 
-		|| !ft_strcmp(cmd, "exit") 
-		|| !ft_strcmp(cmd, "export")
-		|| !ft_strcmp(cmd, "unset")
-		|| !ft_strcmp(cmd, "env"))
-		return (true);
-	return (false);
+	char *cmd_path;
+
+	if (!ft_strcmp(cmd_name, ".."))
+	{
+		ft_err_msg(cmd_name, "command not found", NULL);
+		*(err_no) = ENO_NOT_FOUND;
+		return (NULL);
+	}
+	if (!ft_strcmp(cmd_name, "."))
+	{
+		ft_err_msg(cmd_name, "filename argument required", NULL);
+		*(err_no) = 2;
+		return (NULL);
+	}
+	//check (1)empty "PATH=" in env - if unset PATH??? (2) empty cmd name/cmd?
+	cmd_path = find_cmd_path(cmd_name, shell); //malloc!!! to do free later
+	if (!cmd_path)
+	{
+		ft_err_msg(cmd_name, "command not found", NULL);
+		*(err_no) = ENO_NOT_FOUND;
+		return (NULL);
+	}
+	*(err_no) = ENO_SUCCESS;
+	return (cmd_path);
 }
 
-/*EXIT_STATUS FOR BUILTINS: zero if they succeed and a non-zero status on failure, 
-so they may be used by the conditional and list constructs.
-
-All builtins return an exit status of 2 to indicate incorrect usage, 
-generally invalid options or missing arguments.*/
-
-t_err_no ft_exec_builtin(char **args)
+static char	*find_cmd_path(char *cmd_name, t_shell shell)
 {
-	char *cmd;
+	t_list	*path_list;
+	char 	*part_path;
+	char 	*full_path;
 
-	cmd = args[0];
-	if (!ft_strcmp(cmd, "echo"))
-		return (builtin_echo(args));
-	else if (!ft_strcmp(cmd, "cd"))
-		return (builtin_cd(args));
-	else if (!ft_strcmp(cmd, "export"))
-		return (builtin_export(args));
-	else if (!ft_strcmp(cmd, "unset"))
-		return (builtin_unset(args));
-	else if (ft_strcmp(cmd, "env"))
-		return (builtin_env(args));
-	else if (!ft_strcmp(cmd, "exit"))
-		return (builtin_exit(args)); // ENO_GENERAL?
-	else
-		return (ENO_NOT_FOUND);
+	path_list = shell.path;
+	while (path_list)
+	{
+		full_path = NULL;
+		part_path = ft_strjoin(path_list->content, "/");
+		full_path = ft_strjoin(part_path, cmd_name);
+		free(part_path);
+		if ((access(full_path, F_OK)) == 0)
+			return (full_path);
+		free(full_path);
+		path_list = path_list->next;
+	}
+	return (NULL);
 }
-	
 
 // t_err_no redirection(t_node)
 // {
