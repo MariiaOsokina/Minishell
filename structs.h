@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/16 17:24:32 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/17 00:09:39 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <string.h> // for strerror()
 #include <sys/stat.h> // for stat() and stat structure
 #include <sys/types.h> // for MACRO S_ISDIR 
+#include <fcntl.h> // for open()
 
 /*May require a pointer to cwd and old working dir*/
 typedef struct s_shell

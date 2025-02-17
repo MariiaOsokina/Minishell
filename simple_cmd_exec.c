@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:03:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/16 18:30:19 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/17 00:38:15 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,12 +170,11 @@ t_err_no	ft_check_access(char *file) // check the permission to the file, print 
 	return (ENO_SUCCESS);
 }
 
-/*This function, cmd_is_dir, checks if a given command (or file path) is a directory. 
-It uses the stat function to retrieve information about the file 
+/*This function checks if a given command (or file path) is a directory. 
+It uses the stat() to retrieve info about the file 
 and stores it in a struct stat called cmd_stat. 
 The S_ISDIR macro is then used to check if the file is a directory 
-by examining the st_mode field of cmd_stat. If the file is a directory, 
-the function returns true; otherwise, it returns false*/
+by examining the st_mode field of cmd_stat.*/
 
 bool	cmd_is_dir(char *cmd)
 {
@@ -187,10 +186,9 @@ bool	cmd_is_dir(char *cmd)
 }
 
 
-///IN PROCCESS....
-/*function for getting the proper path for the command
-based on list of directrories from $PATH parsed as a list (t_list) in the start of the program
-and saved as shell.path*/
+/*This function gets the proper path for the command.
+It uses list of directiries parsed in advanced from $PATH and saved as shell.path*/
+
 char	*ft_get_env_path(t_shell shell, char *cmd_name, t_err_no *err_no)
 {
 	char *cmd_path;
@@ -240,13 +238,88 @@ static char	*find_cmd_path(char *cmd_name, t_shell shell)
 	return (NULL);
 }
 
-// t_err_no redirection(t_node)
-// {
-	
-// }
 
-// ft_out
-// ft_is
+int	redirection(t_node *cmd) //?? node instead cmd
+{
+	t_list	*tmp_io_list;
+	int		tmp_status;
+	t_io 	*tmp_io;
+
+	tmp_io_list = cmd->io_list;
+	while(tmp_io_list)
+	{
+		tmp_io = (t_io*)tmp_io_list->content;
+		if (tmp_io->type == IO_IN)
+			tmp_status = ft_in(tmp_io);
+		else if (tmp_io->type == IO_OUT)
+			tmp_status = ft_out(tmp_io);
+		else if (tmp_io->type == IO_APPEND)
+			tmp_status = ft_append(tmp_io);
+		//heredoc???
+		if (tmp_status != ENO_SUCCESS)
+			return (tmp_status);
+		tmp_io_list = tmp_io_list->next;
+	}
+	return (ENO_SUCCESS);
+}
+
+
+typedef enum e_io_type
+{
+	IO_IN,
+	IO_OUT,
+	IO_HEREDOC,
+	IO_APPEND
+}	t_io_type;
+
+
+typedef struct s_io
+{
+	t_io_type			type;
+	char				*value;
+	char				**expanded_value;
+	int					fd_here_doc;
+}	t_io;
+
+
+int		ft_in (t_io	*io)
+{
+	int fd;
+	char *file;
+
+	file = io->expanded_value;
+	if (!file)
+	{
+		ft_err_msg (file, "No such file or directory", NULL);
+		return (ENO_GENERAL);
+	}
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+	{
+		if (access(file, R_OK) == -1) // file doesn't exist
+			ft_err_msg (file, "No such file or directory", NULL);
+		else // file doesn't permission;
+			ft_err_msg (file, " Permission denied", NULL);
+		return (ENO_GENERAL);
+	}
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	return (ENO_SUCCESS);
+}
+
+
+
+int		ft_out(t_io *io)
+{
+	return(ENO_SUCCESS);
+}
+
+int		ft_append(t_io *io)
+{
+	return(ENO_SUCCESS);
+}
+
+
 // ft_append
 
 
