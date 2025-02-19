@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/17 00:09:39 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/18 23:51:55 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,9 +144,16 @@ typedef enum e_err_no
 	ENO_EXEC_255 = 255
 }	t_err_no;
 
+//redirections
+
+int		redirection(t_node *cmd);
+int		ft_in(t_io	*io);
+int		ft_out(t_io	*io);
+int		ft_append(t_io	*io);
 
 //execution of simple command
-int			ft_exec_simple_cmd(t_shell shell, t_node *cmd);
+int		ft_exec_simple_cmd(t_shell shell, t_node *cmd);
+
 
 //(3) execution of child command
 

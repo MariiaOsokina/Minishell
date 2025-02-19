@@ -6,11 +6,12 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/17 01:29:50 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/19 00:07:13 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs.h"
+#include <stdio.h>
 
 int	redirection(t_node *cmd) //?? node instead cmd
 {
@@ -38,16 +39,17 @@ int	redirection(t_node *cmd) //?? node instead cmd
 
 int		ft_in(t_io	*io)
 {
-	//need to be tested
-    int fd;
+	printf("fd_in\n");
+	int fd;
 	char *file;
 
-	file = io->expanded_value;
-	if (!file || file[1])
+	// file = io->expanded_value;
+	if (!io->expanded_value || io->expanded_value[1])
 	{
 		ft_err_msg (io->value, "ambiguous redirect", NULL); // for ex, < * $VAR = ""
 		return (ENO_GENERAL);
 	}
+	file = io->expanded_value[0];
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
@@ -55,6 +57,7 @@ int		ft_in(t_io	*io)
 			ft_err_msg (file, "No such file or directory", NULL);
 		else // file doesn't permission;
 			ft_err_msg (file, " Permission denied", NULL);
+		printf("1\n");
 		return (ENO_GENERAL);
 	}
 	dup2(fd, STDIN_FILENO);
@@ -64,12 +67,15 @@ int		ft_in(t_io	*io)
 
 int		ft_out(t_io *io)
 {
+	printf("fd_out\n");
+
 	//in progress
     return(ENO_SUCCESS);
 }
 
 int		ft_append(t_io *io)
 {
+	printf("fd_append\n");
 	// in progress
     return(ENO_SUCCESS);
 }

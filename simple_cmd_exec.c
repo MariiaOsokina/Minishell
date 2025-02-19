@@ -6,69 +6,20 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:03:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/17 00:38:15 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/19 00:13:12 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs.h"
-// #include "libft/libft.h"
 #include <sys/wait.h>
 #include <stdio.h>
 
 static char	*find_cmd_path(char *cmd_name, t_shell shell);
 
-static void del(void *content) {
-    (void *)content;
-	return;
-}
-
-int	main(int argc, char **argv, char **env)
-{
-	(void)argc;
-	(void)argv;
-
-	t_shell shell;
-	t_node 	cmd;
-	t_list *path_next;
-	t_list *path_next2;
-
-	shell.path = ft_lstnew("/usr/bin/");
-	path_next = ft_lstnew("/usr/local/bin");
-	path_next2 = ft_lstnew("/home/mosokina/.local/bin");
-	ft_lstadd_front(&shell.path, path_next);
-	ft_lstadd_front(&shell.path->next, path_next2);
-
-	
-	char *expanded_args[3];
-	cmd.expanded_args = expanded_args;
-
-	// expanded_args[0] = "nocommand";
-	expanded_args[0] = ".sss";
-	// expanded_args[0] = "nocmd";
-
-	// expanded_args[0] = "./test1";
-	// expanded_args[1] = "-la";
-	// expanded_args[1] = "invalidargs";
-	// expanded_args[1] = "./tests/test.o";
-	expanded_args[1] = "./tests/test.c";
-
-
-	expanded_args[2] = NULL;
-	shell.envp_arr = env;
-	// printf("env %s\n", shell.envp_arr[0]);
-	shell.exit_code = ft_exec_simple_cmd(shell, &cmd);
-	printf("exit status %d\n", shell.exit_code);
-	ft_lstclear(&shell.path, &del);
-	return (0);
-}
 
 /* execute the simple command */
 /*The return status is exit status as provided by waitpid(), 
 or 128+n if the command was terminated by signal n.*/
-
-
-/*error messsage: cdhhh: command not found
-*/
 
 int	ft_exec_simple_cmd(t_shell shell, t_node *cmd)
 {
@@ -110,15 +61,20 @@ int	ft_exec_child(t_shell shell, t_node *cmd)
 	// to add error fork ...
     if (fork_pid == 0)
     {
-		//to add redirections ...
+		tmp_status = redirection(cmd);
+		if (tmp_status != ENO_SUCCESS)
+		{
+			//all clear;
+			exit(tmp_status); // from child proccess
+		}
 		if (ft_strnstr(cmd->expanded_args[0], "/", ft_strlen(cmd->expanded_args[0])))
 		{
 			cmd_path = cmd->expanded_args[0];
-			err_no = ft_check_access(cmd_path);
-			if (err_no != ENO_SUCCESS)
+			tmp_status = ft_check_access(cmd_path);
+			if (tmp_status != ENO_SUCCESS)
 			{
 				//all clear;
-				exit(err_no); // from child proccess
+				exit(tmp_status); // from child proccess
 			}
 			else if (execve(cmd_path, cmd->expanded_args, shell.envp_arr) == - 1)
 			{
@@ -131,7 +87,7 @@ int	ft_exec_child(t_shell shell, t_node *cmd)
 		{
 			cmd_path = ft_get_env_path(shell, cmd->expanded_args[0], &err_no); // err_no as ptr for saving its value
 			printf("path: %s\n", cmd_path);
-			if (err_no != ENO_SUCCESS)
+			if (err_no != ENO_SUCCESS) //??change err_no to tmp status
 			{
 				//all clear;
 				exit(err_no); // from child proccess
@@ -145,7 +101,7 @@ int	ft_exec_child(t_shell shell, t_node *cmd)
 				}
 			}
     }
-    waitpid(fork_pid, &tmp_status, 0); //  tmp_status - parent process can retrieve the exit status of the child
+    waitpid(fork_pid, &tmp_status, 0); //  parent process can retrieve the tmp status(exit code) of the child
 	return (ft_get_exit_status(tmp_status));
 }
 
@@ -184,7 +140,6 @@ bool	cmd_is_dir(char *cmd)
 	stat(cmd, &cmd_stat);
 	return (S_ISDIR(cmd_stat.st_mode));
 }
-
 
 /*This function gets the proper path for the command.
 It uses list of directiries parsed in advanced from $PATH and saved as shell.path*/
@@ -238,89 +193,3 @@ static char	*find_cmd_path(char *cmd_name, t_shell shell)
 	return (NULL);
 }
 
-
-int	redirection(t_node *cmd) //?? node instead cmd
-{
-	t_list	*tmp_io_list;
-	int		tmp_status;
-	t_io 	*tmp_io;
-
-	tmp_io_list = cmd->io_list;
-	while(tmp_io_list)
-	{
-		tmp_io = (t_io*)tmp_io_list->content;
-		if (tmp_io->type == IO_IN)
-			tmp_status = ft_in(tmp_io);
-		else if (tmp_io->type == IO_OUT)
-			tmp_status = ft_out(tmp_io);
-		else if (tmp_io->type == IO_APPEND)
-			tmp_status = ft_append(tmp_io);
-		//heredoc???
-		if (tmp_status != ENO_SUCCESS)
-			return (tmp_status);
-		tmp_io_list = tmp_io_list->next;
-	}
-	return (ENO_SUCCESS);
-}
-
-
-typedef enum e_io_type
-{
-	IO_IN,
-	IO_OUT,
-	IO_HEREDOC,
-	IO_APPEND
-}	t_io_type;
-
-
-typedef struct s_io
-{
-	t_io_type			type;
-	char				*value;
-	char				**expanded_value;
-	int					fd_here_doc;
-}	t_io;
-
-
-int		ft_in (t_io	*io)
-{
-	int fd;
-	char *file;
-
-	file = io->expanded_value;
-	if (!file)
-	{
-		ft_err_msg (file, "No such file or directory", NULL);
-		return (ENO_GENERAL);
-	}
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
-	{
-		if (access(file, R_OK) == -1) // file doesn't exist
-			ft_err_msg (file, "No such file or directory", NULL);
-		else // file doesn't permission;
-			ft_err_msg (file, " Permission denied", NULL);
-		return (ENO_GENERAL);
-	}
-	dup2(fd, STDIN_FILENO);
-	close(fd);
-	return (ENO_SUCCESS);
-}
-
-
-
-int		ft_out(t_io *io)
-{
-	return(ENO_SUCCESS);
-}
-
-int		ft_append(t_io *io)
-{
-	return(ENO_SUCCESS);
-}
-
-
-// ft_append
-
-
-// heredoc
