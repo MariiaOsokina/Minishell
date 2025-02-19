@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/19 11:30:46 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:44:34 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int		ft_in(t_io	*io)
 			ft_err_msg (file, "No such file or directory", NULL);
 		else // file doesn't permission;
 			ft_err_msg (file, " Permission denied", NULL);
-		printf("1\n");
 		return (ENO_GENERAL);
 	}
 	dup2(fd, STDIN_FILENO);
@@ -81,7 +80,6 @@ int		ft_out(t_io *io)
 			ft_err_msg (file, "No such file or directory", NULL);
 		else // no permission;
 			ft_err_msg (file, " Permission denied", NULL);
-		printf("1\n");
 		return (ENO_GENERAL);
 	}
 	dup2(fd, STDOUT_FILENO);
@@ -108,7 +106,6 @@ int		ft_append(t_io *io)
 			ft_err_msg (file, "No such file or directory", NULL);
 		else // no permission;
 			ft_err_msg (file, " Permission denied", NULL);
-		printf("1\n");
 		return (ENO_GENERAL);
 	}
 	dup2(fd, STDOUT_FILENO);

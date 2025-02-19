@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_all.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:07:12 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/14 16:00:16 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:05:33 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ bool ft_is_builtin(char *cmd_name)
 		return (true);
 	return (false);
 }
-
 
 /*EXIT_STATUS FOR BUILTINS: zero if they succeed and a non-zero status on failure, 
 so they may be used by the conditional and list constructs.

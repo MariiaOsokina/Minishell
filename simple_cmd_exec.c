@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd_exec.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:03:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/19 00:13:12 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:02:43 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,12 @@ int	ft_exec_simple_cmd(t_shell shell, t_node *cmd)
 {
 	int		tmp_status;
 	//1. if no cmd
-	// if (!node -> expanded_args) 
+	if (!cmd -> expanded_args)
+	{
+		tmp_status = redirection(cmd);
+		//reset stds???
+		return (tmp_status);
+	}
 	// {
 	// 	tmp_status = ft_check_redirection(node); // handle redirection
 	// 	return (ft_reset_stds(piped), (tmp_status && ENO_GENERAL));
@@ -33,8 +38,15 @@ int	ft_exec_simple_cmd(t_shell shell, t_node *cmd)
 	//2. if builtin command
 	if (ft_is_builtin((cmd->expanded_args)[0])) 
 	{
-		//to add redirections ...
+		tmp_status = redirection(cmd);
+		if (tmp_status != ENO_SUCCESS)
+		{
+			//all clear;
+			//reset stds???
+			exit(tmp_status); // from child proccess
+		}
 		tmp_status = ft_exec_builtin(shell, cmd);
+		//reset stds???
 		return (tmp_status); //128+n if signals
 	}
 	//3. system command (child process)
