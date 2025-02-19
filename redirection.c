@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/19 11:44:34 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:05:54 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,12 @@ int	redirection(t_node *cmd) //?? node instead cmd
 			tmp_status = ft_out(tmp_io);
 		else if (tmp_io->type == IO_APPEND)
 			tmp_status = ft_append(tmp_io);
-		//heredoc???
+		//heredoc - to be tested!!!
+		else if (tmp_io->type == IO_HEREDOC)
+		{
+			dup2(STDIN_FILENO, tmp_io->fd_here_doc);
+			close(tmp_io->expanded_value);
+		}
 		if (tmp_status != ENO_SUCCESS)
 			return (tmp_status);
 		tmp_io_list = tmp_io_list->next;

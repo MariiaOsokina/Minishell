@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/18 23:51:55 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/19 13:27:39 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@
 #include <limits.h>
 #include <stdbool.h>
 
-#include <unistd.h> //functions access()
+#include <stdio.h>  // for readline()
+#include <readline/readline.h> // for readline()
+#include <readline/history.h> // for readline()
+#include <unistd.h> //functions access(), pipe(), fork()
 #include <stdlib.h> // exit ()
 #include <wait.h> // for MACROS WIFSIGNALED, WTERMSIG, and WEXITSTATUS 
 #include <string.h> // for strerror()
