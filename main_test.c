@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 22:59:19 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/19 00:19:22 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:24:31 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 // }	t_io;
 
 static void del(void *content) {
-    (void *)content;
+    (void)content;
 	return;
 }
 
@@ -54,7 +54,6 @@ int	main(int argc, char **argv, char **env)
 	t_node 	cmd;
 	t_list *path_next;
 	t_list *path_next2;
-
 
     t_list *io_list;
     io_list = malloc(sizeof(t_list));
@@ -77,19 +76,20 @@ int	main(int argc, char **argv, char **env)
     ft_lstadd_back(&io_list, io_list2);
 
     char *str_arr[2];
-    str_arr[0] = "infile";
+    str_arr[0] = "outfile1";
     str_arr[1] = NULL;
     io_1->expanded_value = str_arr;
 
     io_1->fd_here_doc = -1;
-    io_1->type = IO_IN;
-    io_1->value = "infile";
+    io_1->type = IO_APPEND;
+    io_1->value = "outfile1";
 
     char *str_arr2[2];
-    str_arr2[0] = "infile2";
+    str_arr2[0] = "outfile2";
     str_arr2[1] = NULL;
-    io_2->value = "infile2";
+    io_2->value = "outfile2";
 
+    // // for checking *wildcard
     // char *str_arr2[3];
     // str_arr2[0] = "infile2";
     // str_arr2[1] = "infile";
@@ -99,8 +99,7 @@ int	main(int argc, char **argv, char **env)
     io_2->expanded_value = str_arr2;
 
     io_2->fd_here_doc = -1;
-    io_2->type = IO_IN;
-
+    io_2->type = IO_APPEND;
 
 	shell.path = ft_lstnew("/usr/bin/");
 	path_next = ft_lstnew("/usr/local/bin");
@@ -113,11 +112,11 @@ int	main(int argc, char **argv, char **env)
 	cmd.expanded_args = expanded_args;
 
 	// expanded_args[0] = "nocommand";
-	expanded_args[0] = "wc";
+	expanded_args[0] = "ls";
 	// expanded_args[0] = "nocmd";
 
 	// expanded_args[0] = "./test1";
-	expanded_args[1] = "-c";
+	expanded_args[1] = "-l";
 	// expanded_args[1] = "invalidargs";
 	// expanded_args[1] = "./tests/test.o";
 	// expanded_args[1] = "./tests/test.c";

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/19 00:07:13 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:30:46 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs.h"
-#include <stdio.h>
 
 int	redirection(t_node *cmd) //?? node instead cmd
 {
@@ -39,11 +38,9 @@ int	redirection(t_node *cmd) //?? node instead cmd
 
 int		ft_in(t_io	*io)
 {
-	printf("fd_in\n");
 	int fd;
 	char *file;
 
-	// file = io->expanded_value;
 	if (!io->expanded_value || io->expanded_value[1])
 	{
 		ft_err_msg (io->value, "ambiguous redirect", NULL); // for ex, < * $VAR = ""
@@ -67,16 +64,55 @@ int		ft_in(t_io	*io)
 
 int		ft_out(t_io *io)
 {
-	printf("fd_out\n");
+	int fd;
+	char *file;
 
-	//in progress
+	if (!io->expanded_value || io->expanded_value[1])
+	{
+		ft_err_msg (io->value, "ambiguous redirect", NULL); // for ex, < * $VAR = ""
+		return (ENO_GENERAL);
+	}
+	file = io->expanded_value[0];
+	fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644); //  create the file if it doesn’t exist, open it for writing only, and truncate it to zero length
+
+	if (fd == -1)
+	{
+		if (access(file, R_OK) == -1) // file doesn't exist
+			ft_err_msg (file, "No such file or directory", NULL);
+		else // no permission;
+			ft_err_msg (file, " Permission denied", NULL);
+		printf("1\n");
+		return (ENO_GENERAL);
+	}
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
     return(ENO_SUCCESS);
 }
 
 int		ft_append(t_io *io)
 {
-	printf("fd_append\n");
-	// in progress
+	int fd;
+	char *file;
+
+	if (!io->expanded_value || io->expanded_value[1])
+	{
+		ft_err_msg (io->value, "ambiguous redirect", NULL); // for ex, < * $VAR = ""
+		return (ENO_GENERAL);
+	}
+	file = io->expanded_value[0];
+	fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644); //  create the file if it doesn’t exist, open it for writing only, and append it
+
+	if (fd == -1)
+	{
+		if (access(file, R_OK) == -1) // file doesn't exist
+			ft_err_msg (file, "No such file or directory", NULL);
+		else // no permission;
+			ft_err_msg (file, " Permission denied", NULL);
+		printf("1\n");
+		return (ENO_GENERAL);
+	}
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
     return(ENO_SUCCESS);
 }
 
