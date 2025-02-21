@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:17:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/19 14:15:38 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/21 00:40:18 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_put_hd_line(char *hd_line, int fd_hd_w)
 	i = 0;
 	while (hd_line[i])
 	{
-		//handle here_doc expantion $ later
+		//handle here_doc expansion $ later
 		ft_putchar_fd(hd_line[i], fd_hd_w);
 		i++;
 	}
@@ -29,15 +29,20 @@ void	ft_put_hd_line(char *hd_line, int fd_hd_w)
 
 bool ft_is_delimiter(char *delimiter, char *hd_line)
 {
-	//to be added
-	return (false);
+	if (*delimiter == '"' || *delimiter == '\'')
+		delimiter++;
+	if (ft_strcmp(hd_line, delimiter) != 0)
+		return (true);
+	else
+		return(false);
 }
 
-int		ft_heredoc_fd(t_io *io) // with ft_heredo
+int		ft_heredoc_fd(t_io *io) 
 {
 	int fd_hd[2];
 	int pid_hd;
 	char *hd_line;
+	int tmp_status;
 	//handle signals
 	if (io->type ==  IO_HEREDOC)
 	{
@@ -45,6 +50,7 @@ int		ft_heredoc_fd(t_io *io) // with ft_heredo
 		pid_hd = fork();
 		if (pid_hd == 0) //in here_doc child process
 		{
+			//skip quotes??
 			while(1)
 			{
 				hd_line = readline("> ");
@@ -56,6 +62,8 @@ int		ft_heredoc_fd(t_io *io) // with ft_heredo
 				// to haddle edge cases
 			}
 		}
+		waitpid(pid_hd, &tmp_status, NULL); //tmp_st??
+		//close fd_hd[1] ???
 		io->fd_here_doc = fd_hd[0]; // for reading here-document from pipe
 	}
 	return (ENO_SUCCESS);

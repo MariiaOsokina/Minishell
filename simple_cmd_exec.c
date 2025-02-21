@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd_exec.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:03:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/19 14:15:48 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/21 00:14:52 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,6 @@ int	ft_exec_simple_cmd(t_shell shell, t_node *cmd)
 		//reset stds???
 		return (tmp_status);
 	}
-	// {
-	// 	tmp_status = ft_check_redirection(node); // handle redirection
-	// 	return (ft_reset_stds(piped), (tmp_status && ENO_GENERAL));
-	// }
 	//2. if builtin command
 	if (ft_is_builtin((cmd->expanded_args)[0])) 
 	{
