@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_all.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:07:12 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/19 12:05:33 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/22 19:12:36 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 
 
 
-t_err_no ft_exec_builtin(t_shell shell, t_node *cmd)
+int		ft_exec_builtin(t_shell shell, t_node *cmd)
 {
 	char *cmd_name;
 
@@ -77,40 +77,40 @@ t_err_no ft_exec_builtin(t_shell shell, t_node *cmd)
 		return (ENO_NOT_FOUND);
 }
 
-t_err_no builtin_echo(t_shell shell, t_node *cmd)
+int  builtin_echo(t_shell shell, t_node *cmd)
 {
     printf("builtin: %s\n", cmd->expanded_args[0]);
     return (ENO_SUCCESS);
 }
 
 
-t_err_no builtin_cd(t_shell shell, t_node *cmd)
+int builtin_cd(t_shell shell, t_node *cmd)
 {
     printf("builtin: %s\n", cmd->expanded_args[0]);
     return (ENO_SUCCESS);
 }
 
 
-t_err_no builtin_export(t_shell shell, t_node *cmd)
+int		builtin_export(t_shell shell, t_node *cmd)
 {
     printf("builtin: %s\n", cmd->expanded_args[0]);
     return (ENO_SUCCESS);
 }
 
 
-t_err_no builtin_unset(t_shell shell, t_node *cmd)
+int builtin_unset(t_shell shell, t_node *cmd)
 {
     printf("builtin: %s\n", cmd->expanded_args[0]);
     return (ENO_SUCCESS);
 }
 
-t_err_no builtin_env(t_shell shell, t_node *cmd)
+int builtin_env(t_shell shell, t_node *cmd)
 {
     printf("builtin: %s\n", cmd->expanded_args[0]);
     return (ENO_SUCCESS);
 }
 
-t_err_no builtin_exit(t_shell shell, t_node *cmd)
+int builtin_exit(t_shell shell, t_node *cmd)
 {
     printf("builtin: %s\n", cmd->expanded_args[0]);
     return (ENO_SUCCESS);

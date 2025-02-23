@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/19 13:27:39 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/22 19:08:54 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ char		*ft_get_env_path(t_shell shell, char *cmd_name, t_err_no *err_no);
 
 //(2) execution of builtins
 bool 		ft_is_builtin(char *cmd);
-t_err_no	ft_exec_builtin(t_shell shell, t_node *cmd);
+int			ft_exec_builtin(t_shell shell, t_node *cmd);
 t_err_no	builtin_echo(t_shell shell, t_node *cmd);
 t_err_no	builtin_cd(t_shell shell, t_node *cmd);
 t_err_no	builtin_export(t_shell shell, t_node *cmd);
