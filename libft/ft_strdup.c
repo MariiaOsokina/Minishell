@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 14:36:39 by mosokina          #+#    #+#             */
-/*   Updated: 2024/04/29 14:40:32 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:02:50 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
+
 
 static char	*ft_strcpy(char *dest, const char *src)
 {

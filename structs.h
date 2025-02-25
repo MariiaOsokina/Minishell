@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/22 19:08:54 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/25 11:53:46 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_shell
 typedef struct s_env
 {
 	char		*value; //Value
-	char		*content; //Key
+	char		*key; //Key
 	bool		is_export;
 	bool		is_printed;
 }				t_env;
@@ -171,12 +171,12 @@ char		*ft_get_env_path(t_shell shell, char *cmd_name, t_err_no *err_no);
 //(2) execution of builtins
 bool 		ft_is_builtin(char *cmd);
 int			ft_exec_builtin(t_shell shell, t_node *cmd);
-t_err_no	builtin_echo(t_shell shell, t_node *cmd);
-t_err_no	builtin_cd(t_shell shell, t_node *cmd);
-t_err_no	builtin_export(t_shell shell, t_node *cmd);
-t_err_no	builtin_unset(t_shell shell, t_node *cmd);
-t_err_no	builtin_env(t_shell shell, t_node *cmd);
-t_err_no	builtin_exit(t_shell shell, t_node *cmd);
+int			builtin_echo(t_shell shell, t_node *cmd);
+int			builtin_cd(t_shell shell, t_node *cmd);
+int			builtin_export(t_shell shell, t_node *cmd);
+int			builtin_unset(t_shell shell, t_node *cmd);
+int			builtin_env(t_shell shell, t_node *cmd);
+int			builtin_exit(t_shell shell, t_node *cmd);
 
 //utils
 void		ft_err_msg(char *s1, char *s2, char *s3);
