@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 13:16:04 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/25 14:03:39 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/26 12:06:15 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../structs.h"
 
-bool	ft_is_n_option(char *str)
+static bool	ft_is_n_option(char *str)
 {
 	if (*str != '-')
 		return (false);
@@ -28,13 +28,13 @@ bool	ft_is_n_option(char *str)
 
 int	builtin_echo(t_shell shell, t_node *cmd)
 {
-	char **echo_args;
+	char 	**echo_args;
 	bool    n_op;
 	int		i;
 
 	i = 0;
 	echo_args = &(cmd->expanded_args[1]);
-	while ((echo_args[i] != NULL) && (ft_is_n_option(echo_args)))
+	while ((echo_args[i] != NULL) && (ft_is_n_option(echo_args[i])))
 	{
 		n_op = true;
 		i ++;
@@ -46,7 +46,7 @@ int	builtin_echo(t_shell shell, t_node *cmd)
 			ft_putstr_fd(" ", STDOUT_FILENO);
 		i ++;
 	}
-	if (n_op == true)
+	if (n_op == false)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 	return (ENO_SUCCESS);
 }
