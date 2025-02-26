@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:07:12 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/26 11:26:05 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/26 13:24:30 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ bool ft_is_builtin(char *cmd_name)
 		|| !ft_strcmp(cmd_name, "exit") 
 		|| !ft_strcmp(cmd_name, "export")
 		|| !ft_strcmp(cmd_name, "unset")
+		|| !ft_strcmp(cmd_name, "pwd")
 		|| !ft_strcmp(cmd_name, "env"))
 		return (true);
 	return (false);
@@ -69,12 +70,13 @@ int		ft_exec_builtin(t_shell shell, t_node *cmd)
 		return (builtin_export(shell, cmd));
 	else if (!ft_strcmp(cmd_name, "unset"))
 		return (builtin_unset(shell, cmd));
-	else if (ft_strcmp(cmd_name, "env"))
+	else if (!ft_strcmp(cmd_name, "env"))
 		return (builtin_env(shell, cmd));
+	else if (!ft_strcmp(cmd_name, "pwd"))
+		return (builtin_pwd(shell, cmd));
 	else if (!ft_strcmp(cmd_name, "exit"))
 		return (builtin_exit(shell, cmd)); // ENO_GENERAL?
-	else
-		return (ENO_NOT_FOUND);
+	return (ENO_NOT_FOUND);
 }
 
 // int  builtin_echo(t_shell shell, t_node *cmd)

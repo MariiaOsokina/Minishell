@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/25 11:53:46 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/26 13:14:30 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ int			builtin_echo(t_shell shell, t_node *cmd);
 int			builtin_cd(t_shell shell, t_node *cmd);
 int			builtin_export(t_shell shell, t_node *cmd);
 int			builtin_unset(t_shell shell, t_node *cmd);
+int			builtin_pwd(t_shell shell, t_node *cmd);
 int			builtin_env(t_shell shell, t_node *cmd);
 int			builtin_exit(t_shell shell, t_node *cmd);
 
