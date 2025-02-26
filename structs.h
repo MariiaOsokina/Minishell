@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/26 13:14:30 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/26 23:24:46 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ int			builtin_export(t_shell shell, t_node *cmd);
 int			builtin_unset(t_shell shell, t_node *cmd);
 int			builtin_pwd(t_shell shell, t_node *cmd);
 int			builtin_env(t_shell shell, t_node *cmd);
-int			builtin_exit(t_shell shell, t_node *cmd);
+void		builtin_exit(t_shell shell, t_node *cmd);
 
 //utils
 void		ft_err_msg(char *s1, char *s2, char *s3);

@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 22:59:19 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/26 13:21:00 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/26 23:34:07 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	main(int argc, char **argv, char **env)
 	t_node 	cmd;
 	t_list *path_next;
 	t_list *path_next2;
+    shell.exit_code = 0;
     
 
     // t_list *io_list;
@@ -93,22 +94,22 @@ int	main(int argc, char **argv, char **env)
     // // for checking no command(just redirections)
     // cmd.expanded_args = NULL;
     
-	char *expanded_args[4];
+	char *expanded_args[3];
 	cmd.expanded_args = expanded_args;
 
 	// expanded_args[0] = "wrongcommand";
-	expanded_args[0] = "pwd";
+	expanded_args[0] = "exit";
 	// expanded_args[0] = "wrongcmd";
 
 	// expanded_args[0] = "./test1";
-	expanded_args[1] = "-n";
+	expanded_args[1] = "arg";
 	// expanded_args[1] = "invalidargs";
 	// expanded_args[1] = "./tests/test.o";
 	// expanded_args[1] = "./tests/test.c";
 
-	expanded_args[2] = "text123";
+	// expanded_args[2] = "arg";
 
-	expanded_args[3] = NULL;
+	expanded_args[2] = NULL;
 	shell.envp_arr = env;
 	// printf("env %s\n", shell.envp_arr[0]);
 	shell.exit_code = ft_exec_simple_cmd(shell, &cmd);

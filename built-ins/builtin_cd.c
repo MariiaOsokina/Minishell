@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:00:51 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/25 14:03:46 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/26 13:47:01 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../structs.h"
-//#include "../../includes/minishell_flo.h"
-
+//NOTE: update env_arr, envp, cwd ??? three places with the same values
 static int ft_arr_size(char **arr)
 {
 	int	i;
@@ -110,7 +109,7 @@ int	builtin_cd(t_shell shell, t_node *cmd)
 	// }
 	if (chdir(path) != ENO_SUCCESS)
 		return (ft_err_msg("cd", path, "No such file or directory"), ENO_GENERAL);
-	printf("cur dir %s\n", getcwd(NULL, 0)); // for testing, to be deleted
+	// printf("cur dir %s\n", getcwd(NULL, 0)); // for testing, to be deleted
 	//check if unset OLDPWD
 	sh_update_env(shell.envp, "OLDPWD", sh_get_env(shell.envp, "PWD"), false);
 	//check if unset PWD

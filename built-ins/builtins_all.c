@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:07:12 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/26 13:24:30 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/26 23:31:28 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		ft_exec_builtin(t_shell shell, t_node *cmd)
 	else if (!ft_strcmp(cmd_name, "pwd"))
 		return (builtin_pwd(shell, cmd));
 	else if (!ft_strcmp(cmd_name, "exit"))
-		return (builtin_exit(shell, cmd)); // ENO_GENERAL?
+		builtin_exit(shell, cmd);
 	return (ENO_NOT_FOUND);
 }
 
@@ -112,9 +112,4 @@ int builtin_env(t_shell shell, t_node *cmd)
     return (ENO_SUCCESS);
 }
 
-int builtin_exit(t_shell shell, t_node *cmd)
-{
-    printf("builtin: %s\n", cmd->expanded_args[0]);
-    return (ENO_SUCCESS);
-}
 

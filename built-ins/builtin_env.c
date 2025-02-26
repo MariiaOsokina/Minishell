@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/26 12:27:56 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/26 13:49:24 by mosokina         ###   ########.fr       */
+/*   Created: 2025/02/26 13:35:22 by mosokina          #+#    #+#             */
+/*   Updated: 2025/02/26 17:08:27 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
+//to be tested later with shell.envp (parsed list)
 #include "../structs.h"
-//NOTE: two variables PWD and shell.cwd can't be in conflict//
 
-int builtin_pwd(t_shell shell, t_node *cmd)
-// int builtin_pwd(void)
+int builtin_env(t_shell shell, t_node *cmd)
 {
-	char *cwd;
+    
+    t_list	*current;
+	t_env	*env_entry;
 
-	cwd = getcwd(NULL, 0);// malloc!!
-	if (!cwd)
+    //check NULL? error???
+    current = shell.envp;
+	while (current)
 	{
-		// err msg?
-		return (ENO_GENERAL);
+		env_entry = (t_env *)current->content;
+        // if (env_entry->value != NULL) //if only key doesn't it print?
+        printf("%s=%s\n", env_entry->key, env_entry->value);
+        current = current->next;
 	}
-	ft_putstr_fd(cwd, STDOUT_FILENO);
-	ft_putstr_fd("\n", STDOUT_FILENO);
-	free(cwd);
 	return (ENO_SUCCESS);
 }
