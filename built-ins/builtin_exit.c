@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:40:30 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/26 23:30:50 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/26 23:53:12 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	builtin_exit(t_shell shell, t_node *cmd)
 	exit_code = shell.exit_code;
 
 	//in pipe doesn't printed(incl redirections)
-	printf("exit\n");
+	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (cmd->expanded_args[1])
 	{
-		exit_code = 2;
+		exit_code = STDERR_FILENO;
 		ft_err_msg("exit", cmd->expanded_args[1], "too many arguments");
 	}
 	//clean all
