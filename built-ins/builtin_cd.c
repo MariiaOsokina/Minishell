@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:00:51 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/26 13:47:01 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/28 01:11:15 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,65 +24,47 @@ static int ft_arr_size(char **arr)
 	return (i);
 }
 
-//in progress, needs to be tested
-
-static char	*sh_get_env(t_list *envp, const char *key) // MO : should be key
+char	*ft_get_env_value(t_list *envp, const char *key)
 {
-	t_list	*current;
-	t_env	*env_entry;
+	t_list	*current_list;
+	t_env	*env_content;
 
-	current = envp;
-	while (current)
+	current_list = envp;
+	while (current_list)
 	{
-		env_entry = (t_env *)current->content;
-		if (!ft_strcmp(env_entry->key, key)) //MO: ft_strcmp we can use here!!!
-			return (env_entry->value); //MO: not content, should be value;
-		current = current->next;
+		env_content = (t_env *)current_list->content;
+		if (!ft_strcmp(env_content->key, key))
+			return (env_content->value);
+        current_list = current_list->next;
 	}
 	return (NULL);
 }
 
-//in progress, needs to be tested
-
-
-static void	sh_update_env(t_list *envp, char *key, char *value, bool create)
+//for export and cd
+void	ft_update_env_value(t_list *envp, char *key, char *new_value)
 {
 	t_list	*current;
-	t_env	*env_entry;
+	t_env	*env_content;
 
 	current = envp;
 	while (current)
 	{
-		env_entry = (t_env *)current->content;
-		if (!ft_strcmp(env_entry->key, key))
+		env_content = (t_env *)current->content;
+		if (!ft_strcmp(env_content->key, key))
 		{
-			if (value)
-				env_entry->value = ft_garbage_collector(ft_strdup(value), false);
+			if (new_value)
+            {
+                free(env_content->value);
+                env_content->value = new_value;
+            }
 			return ;
 		}
 		current = current->next;
 	}
-	// if (create)
-	// 	ft_envlst_back(ft_envlst_new(key, value));
 	return ;
 }
 
-
-// void	*ft_garbage_collector(void *ptr, bool clean)
-// {
-// 	static t_list	*garbage_list;
-
-// 	if (clean)
-// 	{
-// 		ft_lstclear(&garbage_list, ft_del);
-// 		return (NULL);
-// 	}
-// 	else
-// 	{
-// 		ft_lstadd_back(&garbage_list, ft_lstnew(ptr));
-// 		return (ptr);
-// 	}
-// }
+//in progress, needs to be tested
 
 int	builtin_cd(t_shell shell, t_node *cmd)
 {
@@ -95,24 +77,23 @@ int	builtin_cd(t_shell shell, t_node *cmd)
 	}
 	else if (!path)
 	{
-		path = sh_get_env(shell.envp, "HOME");
+		path = ft_get_env_value(shell.envp, "HOME");
 		if (!path)
 			return (ft_err_msg("cd", "HOME not set", NULL), ENO_GENERAL);
 		printf("path home: %s\n", path);
 	}
 	// else if (ft_strcmp (path, "-") == 0)
 	// {
-	// 	path = ft_get_envlst_val("OLDPWD");
+	// 	path = ft_get_env_value("OLDPWD");
 	// 	if (!path)
 	// 		return (ft_err_msg("cd", "OLDPWD not set", NULL), ENO_GENERAL);
 	// 	ft_printf("%s\n", path);
 	// }
 	if (chdir(path) != ENO_SUCCESS)
 		return (ft_err_msg("cd", path, "No such file or directory"), ENO_GENERAL);
-	// printf("cur dir %s\n", getcwd(NULL, 0)); // for testing, to be deleted
-	//check if unset OLDPWD
-	sh_update_env(shell.envp, "OLDPWD", sh_get_env(shell.envp, "PWD"), false);
-	//check if unset PWD
-	sh_update_env(shell.envp, "PWD", getcwd(NULL, 0), false);
+	//check if unset OLDPWD // ft_add_envlist
+	ft_update_env_value(shell.envp, "OLDPWD", ft_get_env_value(shell.envp, "PWD"));
+	//check if unset PWD // ft_add_envlist
+	ft_update_env_value(shell.envp, "PWD", getcwd(NULL, 0));
     return (ENO_SUCCESS);
 }

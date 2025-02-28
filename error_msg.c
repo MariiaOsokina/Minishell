@@ -14,6 +14,7 @@
 #include <stdio.h>
 
 //function prints the error message
+//change to STD_OUT??
 
 void	ft_err_msg(char *s1, char *s2, char *s3)
 {

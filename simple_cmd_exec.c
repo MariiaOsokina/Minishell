@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:03:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/26 13:24:12 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/28 01:15:01 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_exec_simple_cmd(t_shell shell, t_node *cmd)
 		{
 			//all clear;
 			//reset stds???
-			exit(tmp_status); // from child proccess
+			return (tmp_status); // from child proccess
 		}
 		tmp_status = ft_exec_builtin(shell, cmd);
 		//reset stds???
@@ -200,4 +200,3 @@ static char	*find_cmd_path(char *cmd_name, t_shell shell)
 	}
 	return (NULL);
 }
-

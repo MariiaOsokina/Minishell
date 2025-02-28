@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:40:30 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/26 23:53:12 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/28 01:04:33 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	builtin_exit(t_shell shell, t_node *cmd)
 
 	exit_code = shell.exit_code;
 
-	//in pipe doesn't printed(incl redirections)
+	//in pipe or redirections doesn't printed in terminal. It should be STDERR
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (cmd->expanded_args[1])
 	{
@@ -30,6 +30,5 @@ void	builtin_exit(t_shell shell, t_node *cmd)
 		ft_err_msg("exit", cmd->expanded_args[1], "too many arguments");
 	}
 	//clean all
-	printf("exit code :%d\n", exit_code); // just for testing
 	exit(exit_code);
 }
