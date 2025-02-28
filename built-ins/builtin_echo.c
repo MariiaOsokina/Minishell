@@ -50,5 +50,3 @@ int	builtin_echo(t_shell shell, t_node *cmd)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 	return (ENO_SUCCESS);
 }
-
-

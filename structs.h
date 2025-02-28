@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/28 00:30:38 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/28 10:38:06 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 #include <wait.h> // for MACROS WIFSIGNALED, WTERMSIG, and WEXITSTATUS 
 #include <string.h> // for strerror()
 #include <sys/stat.h> // for stat() and stat structure
-#include <sys/types.h> // for MACRO S_ISDIR 
+#include <sys/types.h> // for MACRO S_ISDIR for t_pid
 #include <fcntl.h> // for open()
 
 /*May require a pointer to cwd and old working dir*/

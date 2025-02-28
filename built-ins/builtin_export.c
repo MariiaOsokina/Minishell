@@ -109,7 +109,6 @@ int	ft_add_envlist(t_list *envp, char *key, char *value)
 	return (ENO_SUCCESS);
 }
 
-
 int	builtin_export(t_shell shell, t_node *cmd)
 {
 	int exit_code;

@@ -60,4 +60,3 @@ int builtin_unset(t_shell shell, t_node *cmd)
 	}
 	return (ENO_SUCCESS);
 }
-
