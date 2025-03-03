@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../structs.h"
+#include "../../includes/structs.h"
 
 //in progress, needs to be tested
 

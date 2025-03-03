@@ -12,7 +12,7 @@
 
 
 //to be tested later with shell.envp (parsed list)
-#include "../structs.h"
+#include "../../includes/structs.h"
 
 int builtin_env(t_shell shell, t_node *cmd)
 {

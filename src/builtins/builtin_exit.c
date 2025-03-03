@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../structs.h"
+#include "../../includes/structs.h"
 
 /* no options according to the subject
 */

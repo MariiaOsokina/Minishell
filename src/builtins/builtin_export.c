@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../structs.h"
+#include "../../includes/structs.h"
 
 int ft_put_export_envp(t_shell shell, t_node *cmd)
 {
@@ -69,6 +69,7 @@ static char	*ft_extract_value(char *export_arg) //check no malloc!!
 	while (export_arg[i])
 	{
 		if (export_arg[i] == '=')
+			if (export_arg[i + 1])
 			return (export_arg[i + 1]); //no malloc //check quotes(is it parsing part)
 		i++;
 	}

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "structs.h"
+#include "../includes/structs.h"
 
 int	redirection(t_node *cmd) //?? node instead cmd
 {

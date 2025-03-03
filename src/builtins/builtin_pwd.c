@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../structs.h"
+#include "../../includes/structs.h"
 //NOTE: two variables PWD and shell.cwd can't be in conflict//
 
 int builtin_pwd(t_shell shell, t_node *cmd)

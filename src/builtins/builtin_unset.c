@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../structs.h"
+#include "../../includes/structs.h"
 
 
 char	*ft_unset_key(t_shell shell, const char *key) // MO : should be key

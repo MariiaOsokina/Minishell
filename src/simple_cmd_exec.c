@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "structs.h"
+#include "../includes/structs.h"
 #include <sys/wait.h>
 #include <stdio.h>
 
