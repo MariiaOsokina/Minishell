@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
+#include <stdint.h>
 static int	rec_print(unsigned long nbr)
 {
 	int				len;
@@ -27,10 +27,10 @@ static int	rec_print(unsigned long nbr)
 
 int	ft_putaddress(void *ptr)
 {
-	unsigned long	nbr;
+	uintptr_t	nbr;
 	int				len;
 
-	nbr = (unsigned long)ptr;
+	nbr = (uintptr_t)ptr;
 	len = ft_putstr("0x");
 	len += rec_print(nbr);
 	return (len);

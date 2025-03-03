@@ -6,13 +6,11 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:07:12 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/27 00:09:08 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/03 23:26:47 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../structs.h"
-
-#include <stdio.h>
+#include "../../includes/structs.h"
 
 bool ft_is_builtin(char *cmd_name)
 {
@@ -48,15 +46,6 @@ int	ft_strcmp(const char *s1, const char *s2)
 		return (ft_strncmp(s1, s2, s2_len));
 }
 
-
-// typedef struct commands
-// {
-// 	char	*builtin_name;
-// 	int		(*foo)(char **);
-// }		t_buildin;
-
-
-
 int		ft_exec_builtin(t_shell shell, t_node *cmd)
 {
 	char *cmd_name;
@@ -85,6 +74,7 @@ int		ft_exec_builtin(t_shell shell, t_node *cmd)
 //     return (ENO_SUCCESS);
 // }
 
+/*just for testing*/
 
 int builtin_cd(t_shell shell, t_node *cmd)
 {

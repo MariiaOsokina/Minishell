@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:29:20 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/28 01:04:58 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/03 01:32:52 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ bool	ft_is_env_key_valid(char *str)
 	return (1);
 }
 
-static char	*ft_extract_key(char *export_arg) //checl malloc!!
+static char	*ft_extract_key(char *export_arg) //check no malloc!!
 {
 	int	i;
 
@@ -61,7 +61,7 @@ static char	*ft_extract_key(char *export_arg) //checl malloc!!
 	return (export_arg);
 }
 
-static char	*ft_extract_value(char *export_arg) //checl malloc!!
+static char	*ft_extract_value(char *export_arg) //check no malloc!!
 {
 	int	i;
 
@@ -103,12 +103,6 @@ t_env	*new_env_content(char *key, char *value)
 	return (env_content);
 }
 
-int	ft_add_envlist(t_list *envp, char *key, char *value)
-{
-	ft_lstadd_back(envp, ft_lstnew(new_env_content(key, value))); // is back right//or alphabetic order??
-	return (ENO_SUCCESS);
-}
-
 int	builtin_export(t_shell shell, t_node *cmd)
 {
 	int exit_code;
@@ -132,8 +126,11 @@ int	builtin_export(t_shell shell, t_node *cmd)
 			exit_code = ENO_GENERAL;
 			ft_err_msg("exit", export_args[i], "not a valid identifier\n");
 		}
+		else if 	(!ft_strchr(export_args[i], '='))
+			break ;		//check, should be ""="
 		else
 		{
+
 			key = ft_extract_key(export_args[i]); //no malloc! check!
 			if (ft_is_key_in_env(shell.envp, key) == true)
 				ft_update_env_value(shell.envp, key, ft_extract_value(export_args[i])); //append +=??

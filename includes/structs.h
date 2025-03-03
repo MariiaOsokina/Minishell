@@ -6,16 +6,16 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/28 10:38:06 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/03 23:19:59 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-#include "libft/libft.h"
+#include "../libft/libft.h"
 #include <limits.h>
-#include <stdbool.h>
+#include <stdbool.h> //for type bool;
 
 #include <stdio.h>  // for readline()
 #include <readline/readline.h> // for readline()
@@ -181,6 +181,8 @@ void		builtin_exit(t_shell shell, t_node *cmd);
 
 void		ft_update_env_value(t_list *envp, char *key, char *new_value);
 char 		*ft_get_env_value(t_list *envp, const char *key);
+int			ft_add_envlist(t_list *envp, char *key, char *value);
+t_env		*new_env_content(char *key, char *value);
 
 
 //utils

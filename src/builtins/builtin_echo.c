@@ -6,11 +6,11 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 13:16:04 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/27 14:31:23 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/03 23:40:51 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../structs.h"
+#include "../../includes/structs.h"
 
 static bool	ft_is_n_option(char *str)
 {
@@ -41,7 +41,10 @@ int	builtin_echo(t_shell shell, t_node *cmd)
 	}
 	while (echo_args[i])
 	{
-		ft_putstr_fd(echo_args[i], STDOUT_FILENO);
+		// if (!ft_strncmp(echo_args[i], "$?", 3)) //need to be tested
+		// 	printf("%d", shell.exit_code);
+		// else
+			ft_putstr_fd(echo_args[i], STDOUT_FILENO);
 		if (echo_args [i + 1])
 			ft_putstr_fd(" ", STDOUT_FILENO);
 		i ++;

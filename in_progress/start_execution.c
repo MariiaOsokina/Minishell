@@ -6,13 +6,11 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/28 10:55:15 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/02/28 18:20:29 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs.h"
-
-
 
 int ft_exec_pipeline(t_shell shell, t_node *tree)
 {

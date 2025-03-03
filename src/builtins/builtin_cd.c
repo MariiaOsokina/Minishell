@@ -6,12 +6,14 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:00:51 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/28 01:11:15 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/03 23:24:25 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../structs.h"
+#include "../../includes/structs.h"
+
 //NOTE: update env_arr, envp, cwd ??? three places with the same values
+
 static int ft_arr_size(char **arr)
 {
 	int	i;
@@ -33,36 +35,14 @@ char	*ft_get_env_value(t_list *envp, const char *key)
 	while (current_list)
 	{
 		env_content = (t_env *)current_list->content;
-		if (!ft_strcmp(env_content->key, key))
+		if (!ft_strcmp(env_content->key, key)) // think about function from ade is_var!!!
 			return (env_content->value);
         current_list = current_list->next;
 	}
 	return (NULL);
 }
 
-//for export and cd
-void	ft_update_env_value(t_list *envp, char *key, char *new_value)
-{
-	t_list	*current;
-	t_env	*env_content;
 
-	current = envp;
-	while (current)
-	{
-		env_content = (t_env *)current->content;
-		if (!ft_strcmp(env_content->key, key))
-		{
-			if (new_value)
-            {
-                free(env_content->value);
-                env_content->value = new_value;
-            }
-			return ;
-		}
-		current = current->next;
-	}
-	return ;
-}
 
 //in progress, needs to be tested
 
@@ -80,7 +60,7 @@ int	builtin_cd(t_shell shell, t_node *cmd)
 		path = ft_get_env_value(shell.envp, "HOME");
 		if (!path)
 			return (ft_err_msg("cd", "HOME not set", NULL), ENO_GENERAL);
-		printf("path home: %s\n", path);
+		// printf("path home: %s\n", path);
 	}
 	// else if (ft_strcmp (path, "-") == 0)
 	// {
@@ -97,3 +77,33 @@ int	builtin_cd(t_shell shell, t_node *cmd)
 	ft_update_env_value(shell.envp, "PWD", getcwd(NULL, 0));
     return (ENO_SUCCESS);
 }
+
+
+// void	set_pwdenv(char *dir, int flag)
+// {
+// 	char	dir2[LINE_MAX];
+// 	t_env	*old;
+// 	t_env	*pwd;
+
+// 	pwd = ret_env("PWD");
+// 	old = ret_env("OLDPWD");
+// 	if (!old)
+// 	{
+// 		set_var("OLDPWD", '=', NULL, 0);
+// 		old = ret_env("OLDPWD");
+// 	}
+// 	if (pwd)
+// 		old->value = pwd->value;
+// 	else
+// 	{
+// 		old->value = ft_strdup(dir);
+// 		set_var("PWD", '=', NULL, 0);
+// 		pwd = ret_env("PWD");
+// 	}
+// 	if (!getcwd(dir2, LINE_MAX))
+// 		pwd->value = ft_strdup(pwd->value);
+// 	else
+// 		pwd->value = ft_strdup(dir2);
+// 	if (flag == 1)
+// 		pwd->value = cat_value(pwd->value, 0, "/.");
+// }
