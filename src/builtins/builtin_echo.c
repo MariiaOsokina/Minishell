@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 13:16:04 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/03 23:40:51 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/05 13:01:08 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,22 @@ static bool	ft_is_n_option(char *str)
 	return (true);
 }
 
+/*
+1 - Check the option “-nnnn…” (could be as second and the following arguments)
+2 - Print the arguments with space between each other;
+3 - If option print “\n” in the end;
+*/
+
+/*TO BE SOLVED:
+1 -$? should be at the parsing stage cmd.expanded args[i] = shell.exit_code
+*/
+
 int	builtin_echo(t_shell shell, t_node *cmd)
 {
 	char 	**echo_args;
 	bool    n_op;
 	int		i;
+	(void)shell;
 
 	i = 0;
 	echo_args = &(cmd->expanded_args[1]);
@@ -41,10 +52,7 @@ int	builtin_echo(t_shell shell, t_node *cmd)
 	}
 	while (echo_args[i])
 	{
-		// if (!ft_strncmp(echo_args[i], "$?", 3)) //need to be tested
-		// 	printf("%d", shell.exit_code);
-		// else
-			ft_putstr_fd(echo_args[i], STDOUT_FILENO);
+		ft_putstr_fd(echo_args[i], STDOUT_FILENO);
 		if (echo_args [i + 1])
 			ft_putstr_fd(" ", STDOUT_FILENO);
 		i ++;

@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 23:38:14 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/28 18:19:47 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/05 13:12:18 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/structs.h"
+
+/*
+1 - NOTE: Options are not in the Minishell Subject!
+2 - If just cmd without argos, just return with exit code 0;
+3 - Loop argos. If arg is key in envp, unset this key=value, i.e. delete the node from list. 
+4 - Check free properly (t_list, content, content->key, content->value) and reset ptrs to the next node.
+*/
 
 
 char	*ft_unset_key(t_shell shell, const char *key) // MO : should be key

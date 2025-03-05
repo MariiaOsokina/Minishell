@@ -3,16 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:00:51 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/03 23:24:25 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/05 13:00:53 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/structs.h"
 
-//NOTE: update env_arr, envp, cwd ??? three places with the same values
+/*TO BE SOLVED: 
+1 - update env_arr, envp, cwd ??? three places with the same values;
+2 - SHOULD BE HANDLED? 
+If path(2nd arg) is “-”, it should be previous dir
+seach OLDPWD path in the list of env variables,passed in the beginning of the program (shell.envp)
+If no OLDPWD in envp, error “OLDPWD not set” with exit code 1 (e.g. in case if unset OLDPWD)
+3 - ??In env update functions we need to think about garbage collector(clear old node);
+4 - //in progress, needs to be tested
+
+*/
+
+/*
+1 - NOTES: Options are not in the Minishell Subject! So, “--” should be treated as an option;
+2 - If more than two argos, error “too many arguments” with exit code 1 (but not exit from the process!!!)
+3 - If no path(2nd arg), it should be home dir
+	- seach HOME path in the list of env variables,passed in the beginning of the program (shell.envp)
+	- if no HOME in envp, error “HOME not set” with exit code 1 (e.g. in case if unset HOME);
+4 - Change dir with chdir(form unistd.h)
+- If chdir returns error, error “No such file or directory” with exit code 1 (e.g. in case…)
+5 - Update list of env (shell.envp): //updated shell.env_arr, shell.cwd??
+- OLDPWD should be equal to PWD //check case if no $OLDPWD??
+- PWD should be equal to getcwd()  //check case if no $PWD??
+*/
+
 
 static int ft_arr_size(char **arr)
 {
@@ -43,9 +66,6 @@ char	*ft_get_env_value(t_list *envp, const char *key)
 }
 
 
-
-//in progress, needs to be tested
-
 int	builtin_cd(t_shell shell, t_node *cmd)
 {
 	char *path;
@@ -60,7 +80,6 @@ int	builtin_cd(t_shell shell, t_node *cmd)
 		path = ft_get_env_value(shell.envp, "HOME");
 		if (!path)
 			return (ft_err_msg("cd", "HOME not set", NULL), ENO_GENERAL);
-		// printf("path home: %s\n", path);
 	}
 	// else if (ft_strcmp (path, "-") == 0)
 	// {
@@ -77,7 +96,6 @@ int	builtin_cd(t_shell shell, t_node *cmd)
 	ft_update_env_value(shell.envp, "PWD", getcwd(NULL, 0));
     return (ENO_SUCCESS);
 }
-
 
 // void	set_pwdenv(char *dir, int flag)
 // {

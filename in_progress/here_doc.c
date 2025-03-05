@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:17:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/21 00:40:18 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:30:05 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,19 @@ void	ft_put_hd_line(char *hd_line, int fd_hd_w)
 	ft_putchar_fd('\n', fd_hd_w);
 }
 
+
+// "bash: warning: here-document at line 7 delimited by end-of-file (wanted `delim')"
+
+// cat <<delim
+// > test
+// > test
+// > 
+// bash: warning: here-document at line 8 delimited by end-of-file (wanted `delim')
+// test
+// test
+// mosokina@c1r5s2:~/MY_42/MINISHELL/minishell_github/tests$ ^C
+
+
 bool ft_is_delimiter(char *delimiter, char *hd_line)
 {
 	if (*delimiter == '"' || *delimiter == '\'')
@@ -43,7 +56,7 @@ int		ft_heredoc_fd(t_io *io)
 	int pid_hd;
 	char *hd_line;
 	int tmp_status;
-	//handle signals
+	//handle signals //QUIT SHOULD BE IGNORED!
 	if (io->type ==  IO_HEREDOC)
 	{
 		pipe(fd_hd);
@@ -68,3 +81,6 @@ int		ft_heredoc_fd(t_io *io)
 	}
 	return (ENO_SUCCESS);
 }
+
+
+	signal(SIGINT, ft_heredoc_sigint_handler);

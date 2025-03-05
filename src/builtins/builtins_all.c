@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_all.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:07:12 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/03 23:26:47 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/05 10:53:48 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,30 +76,28 @@ int		ft_exec_builtin(t_shell shell, t_node *cmd)
 
 /*just for testing*/
 
-int builtin_cd(t_shell shell, t_node *cmd)
-{
-    printf("builtin: %s\n", cmd->expanded_args[0]);
-    return (ENO_SUCCESS);
-}
+// int builtin_cd(t_shell shell, t_node *cmd)
+// {
+// 	printf("builtin: %s\n", cmd->expanded_args[0]);
+// 	return (ENO_SUCCESS);
+// }
 
 
-int		builtin_export(t_shell shell, t_node *cmd)
-{
-    printf("builtin: %s\n", cmd->expanded_args[0]);
-    return (ENO_SUCCESS);
-}
+// int		builtin_export(t_shell shell, t_node *cmd)
+// {
+// 	printf("builtin: %s\n", cmd->expanded_args[0]);
+// 	return (ENO_SUCCESS);
+// }
 
 
-int builtin_unset(t_shell shell, t_node *cmd)
-{
-    printf("builtin: %s\n", cmd->expanded_args[0]);
-    return (ENO_SUCCESS);
-}
+// int builtin_unset(t_shell shell, t_node *cmd)
+// {
+// 	printf("builtin: %s\n", cmd->expanded_args[0]);
+// 	return (ENO_SUCCESS);
+// }
 
-int builtin_env(t_shell shell, t_node *cmd)
-{
-    printf("builtin: %s\n", cmd->expanded_args[0]);
-    return (ENO_SUCCESS);
-}
-
-
+// int builtin_env(t_shell shell, t_node *cmd)
+// {
+// 	printf("builtin: %s\n", cmd->expanded_args[0]);
+// 	return (ENO_SUCCESS);
+// }

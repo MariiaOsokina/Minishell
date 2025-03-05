@@ -3,20 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:29:20 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/03 01:32:52 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/05 13:08:50 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/structs.h"
+
+/*
+
+1 - NOTE: Options are not in the Minishell Subject!
+2 - if just cmd without argos, print list shell.envp with msg “declare -x”
+If only key without value??
+
+3 - Loop argos:
+a- Check is key value valid. It should start with the letter or ‘_’, followed by letters, numbers, or ‘_’.Plus ‘=’ exists
+b - If key is not valid, error msg “not a valid identifier” with exit code 1.
+c - If key is valid
+	- If  ‘=’ doesn’t exists do nothing with exit code 0;
+	- If key in env then update env value;and “=” replace or “+=” append;
+	- else - add new env (in the end?? Or //alphabetic  order???)
+*/
+
+
+
 
 int ft_put_export_envp(t_shell shell, t_node *cmd)
 {
 	
 	t_list	*current;
 	t_env	*env_entry;
+	(void)cmd;
 
 	//check NULL? error???
 	current = shell.envp;
@@ -70,7 +89,7 @@ static char	*ft_extract_value(char *export_arg) //check no malloc!!
 	{
 		if (export_arg[i] == '=')
 			if (export_arg[i + 1])
-			return (export_arg[i + 1]); //no malloc //check quotes(is it parsing part)
+			return (&(export_arg[i + 1])); //no malloc //check quotes(is it parsing part)
 		i++;
 	}
 	return (NULL); //check is it NULL or empty str with "\0"??

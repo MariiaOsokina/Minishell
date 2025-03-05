@@ -1,6 +1,12 @@
 #include<stdio.h>
+
 int main(void)
 {
-    printf("test\n");
-    return (1);
+    int i = 2;
+    
+    while(1)
+    {
+        printf("%d\n", i ++);
+    }
+    return (0);
 }

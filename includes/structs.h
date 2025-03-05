@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/03 23:19:59 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/05 11:14:48 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ int			builtin_export(t_shell shell, t_node *cmd);
 int			builtin_unset(t_shell shell, t_node *cmd);
 int			builtin_pwd(t_shell shell, t_node *cmd);
 int			builtin_env(t_shell shell, t_node *cmd);
-void		builtin_exit(t_shell shell, t_node *cmd);
+int			builtin_exit(t_shell shell, t_node *cmd);
 
 void		ft_update_env_value(t_list *envp, char *key, char *new_value);
 char 		*ft_get_env_value(t_list *envp, const char *key);

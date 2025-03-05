@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start_execution.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/05 00:15:29 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/05 15:38:51 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,17 @@ int ft_node_execution(t_shell shell, t_node *tree)
     if (tree->type == N_CMD)
         ft_exec_simple_cmd(shell, tree);
     return (ENO_GENERAL);
+}
+
+void start_execution(t_shell shell)
+{
+    signal(SIGQUIT, ft_sigquit_handler); //activate SIGQUIT NOT INTERACTIVE MODE
+
+    
+    //init_tree
+    //inside save io_list(HERE_DOC) save all heredocs
+    //if signal ctrl + C:inside heredoc:
+        //1-save  exit code = 130 
+        //2 - clear ast and this iteration's history;
+        //3 and continue in while (1)(i.e. stop this iteration and move n to next iteration)
 }
