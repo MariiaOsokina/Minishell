@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/02/28 18:20:29 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/05 00:15:29 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,26 @@ int ft_exec_pipeline(t_shell shell, t_node *tree)
     if (pid_left == 0)
     {
         //child process for left with recursion
+        dup2(STDOUT_FILENO, pipe_fds[1]);
+        close(pipe_fds[0]);
+        close(pipe_fds[1]);
+        //run cmd.left;
+
     }
-    pid_right = fork();
+    pid_right = fork1();
     if (pid_right == 0)
     {
-        ////child process for right with recursion
+        //child process for left with recursion
+        dup2(STDIN_FILENO, pipe_fds[0]);
+        close(pipe_fds[0]);
+        close(pipe_fds[1]);
+        //run cmd.right;    
     }
     close(pipe_fds[0]);
     close(pipe_fds[1]);
-    waitpid(pid_left,  &tmp_status, 0);
-    waitpid(pid_right,  &tmp_status, 0); // think about wait()?? and order of child proceess
+    waitpid(pid_left,  &tmp_status, 0); 
+    waitpid(pid_right,  &tmp_status, 0); // get exit status only from right
+    // think about wait()?? and order of child proceess
     //signals
     return (ft_get_exit_status(tmp_status));
 }
