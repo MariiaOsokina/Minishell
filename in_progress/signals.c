@@ -1,55 +1,129 @@
-static void	ft_sigint_handler(int num)
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/05 22:06:48 by mosokina          #+#    #+#             */
+/*   Updated: 2025/03/06 00:07:52 by mosokina         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
+#include "../../includes/structs.h"
+
+// NOTE: 
+// - instead signal(SIGINT, reset_prompt) we can use sigaction(SIGINT, &s_sigact, 0) with struct signation.sa_handler ;
+// - messages are STDERR messages;
+
+/*
+INTERACTIVE mode: in the main process (including saving heredoc) before execution:
+CTRL+C (SIGINT)displays a new prompt on a new line.
+CTR+\ (SIGQUIT) does nothing
+*/
+
+void ft_sigint_handler_int(void)
 {
-	(void)num;
-	if (g_minishell.signint_child)
-	{
-		ft_putstr_fd("\n", 1);
-		g_minishell.signint_child = false;
-		g_minishell.heredoc_sigint = true;
-	}
-	else //in parent
-	{
-		ft_putstr_fd("\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-        //exit code = 130;
-	}
+	write(STDERR_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	//exit code 130;
+	//exit(130); ???
+}
+
+void ft_signal_interact(void)
+{
+	signal(SIGINT, ft_sigint_handler_int);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+/*ctrl-D exits the shell.*/
+// readline() can help with checking for EOF. 
+//When using readline, if the user inputs Ctrl + D, readline will return NULL. You can check for this in your code to handle EOF.
+
+
+
+// if line is empty should be exit. check in readline!
+		// line = readline(PROMPT);
+		// if (!line)
+		// {
+		// 	ft_clean();
+		// 	ft_putstr_fd("exit\n", 1);
+		// 	exit(minishell.exit_s);
+		// }
+		/*
+NONINTERACTIVE mode - execuction:
+CTRL+C (SIGINT) -> quit process and print "^C" with a \n
+CTR+\ (SIGQUIT) -> quit process and print "^\Quit (core dumped)"
+*/
+
+void	ft_sigquit_handler(void)
+{
+	ft_putstr_fd(STDERR_FILENO, "Quit (core dumped)\n");
+	rl_on_new_line();
+	//exit code 131 // handles via waitpid() and ft_get_exit_status();
+}
+
+void ft_sigint_handler_nonint(void)
+{
+	write(STDERR_FILENO, "\n", 1);
+	rl_on_new_line();
+	//exit code 130 // handles via waitpid() and ft_get_exit_status();
+}
+
+void ft_sigint_handler_heredoc(void)
+{
+	write(STDERR_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	//exit code 130;
+	//exit(130); ???
 }
 
 
-void	ft_sigquit_handler(int num) //in execution, in not interactive mode;
+void signal_noniteract(void)
 {
-	(void)num;
-	ft_putstr_fd("Quit: 3\n", 1);
-    //exit_code = 131
+	signal(SIGINT, ft_sigint_handler_nonint);
+	signal(SIGQUIT, ft_sigquit_handler);
 }
 
-
-void	ft_init_signals(void) //in parent ..
-{
-	struct termios	term;
+	// struct termios	term;
 
 	// term = g_minishell.original_term;
 	// term.c_lflag &= ~ECHOCTL;
 	// tcsetattr(STDIN_FILENO, TCSANOW, &term);
 
 
-	// g_minishell.heredoc_sigint = false;
-	// g_minishell.signint_child = false;
+/*
+HEREDOC + SIGNALS:
+CTRL+C (SIGINT) -> 
+	(1)	ft_clean(); 
+	(2) print ""^C" with a \n"; 
+	(3) exit(2), i.e. quit process as readline inside child process;
+	(4) exit code 130 // handles via waitpid() and ft_get_exit_status(); ??? 
+	(5) if 130 then "continue", move to the next interaction in while();
 
+CTR+\ (SIGQUIT) -> quit process and print "^\Quit (core dumped)", the same as the main and inhereted by parent;
 
-	signal(SIGINT, ft_sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
-}
+CTRL+ D (EOF) -> check EOF(return readline() is NULL), print msg to STDERR and exit
 
-
-
-// CTRL  + D has 3 effects
-// if line is empty should be exit. check in readline!
-		// g_minishell.line = readline(PROMPT);
-		// if (!g_minishell.line)
-		// 	(ft_clean_ms(),
-		// 		ft_putstr_fd("exit\n", 1), exit(g_minishell.exit_s));
-
-//in here_doc
+		line = readline('>');
+		if (!line)
+		{
+				ft_clean();
+				ft_putstr_fd(STDERR, "\nbash: warning: here-document at line 16 delimited by end-of-file (\'")
+				ft_putstr_fd(STDERR, delimeter);
+				ft_putstr_fd(STDERR, "\')\n");
+				exit(0);
+		}
+cat <<e1 <<e2 >outfile
+> test1
+> 
+bash: warning: here-document at line 15 delimited by end-of-file (wanted `e1') // this message should be in STDERR!
+> test2test
+> 
+bash: warning: here-document at line 16 delimited by end-of-file (wanted `e2')
+*/

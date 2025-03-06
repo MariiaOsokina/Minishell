@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/05 11:14:48 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/05 22:19:52 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 #include <sys/stat.h> // for stat() and stat structure
 #include <sys/types.h> // for MACRO S_ISDIR for t_pid
 #include <fcntl.h> // for open()
-
+#include <signal.h> //for signal()
 /*May require a pointer to cwd and old working dir*/
 typedef struct s_shell
 {
