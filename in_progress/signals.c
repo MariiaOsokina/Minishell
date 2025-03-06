@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 22:06:48 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/06 00:07:52 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/06 00:22:54 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 
 // NOTE: 
 // - instead signal(SIGINT, reset_prompt) we can use sigaction(SIGINT, &s_sigact, 0) with struct signation.sa_handler ;
+
+// MAN: the  behavior  of  signal() varies across UNIX versions, and has also varied historically across different versions of Linux.
+// Avoid its use: use sigaction(2) instead.  See Portability below.
+// - we can use tcsetattr??
+	// struct termios	term;
+
+	// term = g_minishell.original_term;
+	// term.c_lflag &= ~ECHOCTL;
+	// tcsetattr(STDIN_FILENO, TCSANOW, &term);
 // - messages are STDERR messages;
 
 /*
@@ -90,13 +99,6 @@ void signal_noniteract(void)
 	signal(SIGQUIT, ft_sigquit_handler);
 }
 
-	// struct termios	term;
-
-	// term = g_minishell.original_term;
-	// term.c_lflag &= ~ECHOCTL;
-	// tcsetattr(STDIN_FILENO, TCSANOW, &term);
-
-
 /*
 HEREDOC + SIGNALS:
 CTRL+C (SIGINT) -> 
@@ -113,11 +115,10 @@ CTRL+ D (EOF) -> check EOF(return readline() is NULL), print msg to STDERR and e
 		line = readline('>');
 		if (!line)
 		{
-				ft_clean();
 				ft_putstr_fd(STDERR, "\nbash: warning: here-document at line 16 delimited by end-of-file (\'")
 				ft_putstr_fd(STDERR, delimeter);
 				ft_putstr_fd(STDERR, "\')\n");
-				exit(0);
+				break;
 		}
 cat <<e1 <<e2 >outfile
 > test1
