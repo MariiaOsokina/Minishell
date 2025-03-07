@@ -6,11 +6,27 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 13:16:04 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/05 13:01:08 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/07 12:20:55 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/structs.h"
+
+
+
+/*tests
+echo
+echo "hello"
+echo  "hello hello"
+echo hello1 hello2
+echo -n hello
+echo -n hello hello
+echo -nnnnnnn
+echo -n -nnnnnnnn
+echo hello -n
+echo 
+*/
+
 
 static bool	ft_is_n_option(char *str)
 {

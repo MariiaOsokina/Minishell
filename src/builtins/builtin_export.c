@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:29:20 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/05 13:08:50 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/07 15:30:48 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,42 @@
 /*
 
 1 - NOTE: Options are not in the Minishell Subject!
-2 - if just cmd without argos, print list shell.envp with msg “declare -x”
-If only key without value??
-
+2 - if just cmd without argos, print list shell.envp with msg “declare -x” (!including key with value=NULL)
 3 - Loop argos:
-a- Check is key value valid. It should start with the letter or ‘_’, followed by letters, numbers, or ‘_’.Plus ‘=’ exists
-b - If key is not valid, error msg “not a valid identifier” with exit code 1.
-c - If key is valid
-	- If  ‘=’ doesn’t exists do nothing with exit code 0;
-	- If key in env then update env value;and “=” replace or “+=” append;
-	- else - add new env (in the end?? Or //alphabetic  order???)
+	a- Check is key value valid. It should start with the letter or ‘_’, followed by letters, numbers, or ‘_’.Plus ‘=’ exists
+	b- If key is not valid, error msg “not a valid identifier” and change exit code to 1.
+	c- If key is valid
+		- If ‘=’ doesn’t exists and key doesn't exist then create node t_env with key and value=NULL
+		- if "=" exists get key and value:
+				- if key in env then update env value; and “=” replace or “+=” append;
+				- else - add new env (in the end?? Or //alphabetic  order???)
 */
 
+/*
+TESTS:
+export VAR
+export | grep "VAR"
 
+//VAR
+
+
+
+export VAR=
+export | grep "VAR"
+
+//VAR=""
+
+export VAR VAR
+export VAR=10 VAR=5
+
+export 2VAR
+export VAR,>vh
+
+export VAR,hs test=10
+echo $? //1
+export | grep test
+
+*/
 
 
 int ft_put_export_envp(t_shell shell, t_node *cmd)
@@ -42,9 +65,10 @@ int ft_put_export_envp(t_shell shell, t_node *cmd)
 	while (current)
 	{
 		env_entry = (t_env *)current->content;
-		// if (env_entry->value != NULL) //if only key doesn't it print?
-		printf("declare -x %s=\"", env_entry->key);
-		//add
+		printf("declare -x %s", env_entry->key);
+		if (env_entry->value != NULL)
+			printf("=%s", env_entry->value);
+		printf("\n");
 		current = current->next;
 	}
 	return (ENO_SUCCESS);
@@ -95,7 +119,7 @@ static char	*ft_extract_value(char *export_arg) //check no malloc!!
 	return (NULL); //check is it NULL or empty str with "\0"??
 }
 
-bool	ft_is_key_in_env(t_list *envp, char *key)
+static t_env	*ft_get_env_with_key(t_list *envp, char *check_key)
 {
 	t_list	*current_list;
 	t_env	*env_content;
@@ -104,11 +128,11 @@ bool	ft_is_key_in_env(t_list *envp, char *key)
 	while (current_list)
 	{
 		env_content = (t_env *)current_list->content;
-		if (!ft_strcmp(env_content->key, key))
-			return (true);
+		if (!ft_strcmp(env_content->key, check_key))
+			return (env_content);
         current_list = current_list->next;
 	}
-	return (false);
+	return (NULL);
 }
 
 t_env	*new_env_content(char *key, char *value)
@@ -128,7 +152,8 @@ int	builtin_export(t_shell shell, t_node *cmd)
 	int exit_code;
 	char **export_args;
 	int i;
-	char *key;
+	t_env *tmp_env;
+	t_env *new_env;
 	
 	exit_code = ENO_SUCCESS;
 	export_args = &(cmd->expanded_args[1]);
@@ -144,21 +169,29 @@ int	builtin_export(t_shell shell, t_node *cmd)
 		if (ft_is_env_key_valid(export_args[i]) == false)
 		{
 			exit_code = ENO_GENERAL;
-			ft_err_msg("exit", export_args[i], "not a valid identifier\n");
+			ft_err_msg("export", export_args[i], "not a valid identifier");
 		}
-		else if 	(!ft_strchr(export_args[i], '='))
-			break ;		//check, should be ""="
+		else if 	(!ft_strchr(export_args[i], '=') && \
+			!ft_get_env_with_key(shell.envp, export_args[i]))
+			printf("%s to be added to the env\n", export_args[i]);
 		else
 		{
-
-			key = ft_extract_key(export_args[i]); //no malloc! check!
-			if (ft_is_key_in_env(shell.envp, key) == true)
-				ft_update_env_value(shell.envp, key, ft_extract_value(export_args[i])); //append +=??
+			new_env->key = "VAR2";
+			// new_env->key = ft_extract_key(export_args[i]);
+			// new_env->value = ft_extract_value(export_args[i]);
+			if (tmp_env = ft_get_env_with_key(shell.envp, new_env->key) == true)
+			{
+				if (!strcmp(new_env->value, tmp_env->value))
+					printf("key and value are the same it doesn'i need to updated %s\n", export_args[i]);
+				else
+					printf("key is exists value should be updated %s\n", export_args[i]);
+	// 			ft_update_env_value(shell.envp, key, ft_extract_value(export_args[i])); //append +=??
+			}
 			else
-				ft_add_envlist(shell.envp, key, ft_extract_value(export_args[i]));
+				printf("%s key and value to be added to the env\n", export_args[i]);
+	// 			ft_add_envlist(shell.envp, key, ft_extract_value(export_args[i]));
 		}
 		i ++;
 	}
 	return (exit_code);
 }
-

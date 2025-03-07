@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 23:38:14 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/05 13:12:18 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/07 14:24:53 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,13 @@
 /*
 1 - NOTE: Options are not in the Minishell Subject!
 2 - If just cmd without argos, just return with exit code 0;
-3 - Loop argos. If arg is key in envp, unset this key=value, i.e. delete the node from list. 
-4 - Check free properly (t_list, content, content->key, content->value) and reset ptrs to the next node.
+3 - Loop argos. 
+4 - If arg is key in envp, unset this key=value, i.e. delete the node from list. 
+5 - Check FREE properly (t_list, content, content->key, content->value) and reset ptrs to the next node.
 */
 
+/*TO BE SOLVED
+- delete node in list!!!*/
 
 char	*ft_unset_key(t_shell shell, const char *key) // MO : should be key
 {
@@ -31,21 +34,35 @@ char	*ft_unset_key(t_shell shell, const char *key) // MO : should be key
 	while (current_list)
 	{
 		env_content = (t_env *)current_list->content;
-		if (!ft_strcmp(env_content->key, key))
+		if (ft_strcmp(env_content->key, key) == 0)
 		{
+			printf("test: key is here\n");
 			if(prev_list)
-				prev_list->next = current_list->next;
+				printf("test:  prev\n");
+		// 		prev_list->next = current_list->next;
 			else
-				shell.envp = current_list->next;
-			if (env_content)
-			{
-				free(env_content->value);
-				free(env_content->key);
-				free(env_content);
-			}
+				printf("test:  no prev\n");
+		// 		shell.envp = current_list->next;
+		// 	if (env_content)
+		// 	{
+				// if (env_content->value != NULL);
+				// {
+				// 	//env_content->value = NULL;
+				// 	free(env_content->value);
+				
+				// }
+				// if (env_content->key != NULL);
+				// {
+				// 	//env_content->key = NULL;
+				// 	free(env_content->key);
+				
+				// }
+		// 		free(env_content->key);
+		// 		free(env_content);
+		// 	}
 		}
 		prev_list = current_list; //??check
-		free(current_list);
+		// free(current_list);
 		current_list = current_list->next;
 	}
 	return (NULL);

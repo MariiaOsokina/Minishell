@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:00:51 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/05 13:00:53 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/07 12:14:22 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,17 @@ If no OLDPWD in envp, error “OLDPWD not set” with exit code 1 (e.g. in case 
 */
 
 /*
-1 - NOTES: Options are not in the Minishell Subject! So, “--” should be treated as an option;
-2 - If more than two argos, error “too many arguments” with exit code 1 (but not exit from the process!!!)
+1 - NOTES: No options in the Minishell Subject! So, “--” and "-" should be treated as an option;
+
+2 - If more than two args, error “too many arguments” with exit code 1 (but not exit from the process!!!)
+
 3 - If no path(2nd arg), it should be home dir
-	- seach HOME path in the list of env variables,passed in the beginning of the program (shell.envp)
+	- seach HOME path in the list of env variables, passed in the beginning of the program (shell.envp)
 	- if no HOME in envp, error “HOME not set” with exit code 1 (e.g. in case if unset HOME);
+
 4 - Change dir with chdir(form unistd.h)
-- If chdir returns error, error “No such file or directory” with exit code 1 (e.g. in case…)
+	- If chdir returns error, error “No such file or directory” with exit code 1 (e.g. in case…)
+
 5 - Update list of env (shell.envp): //updated shell.env_arr, shell.cwd??
 - OLDPWD should be equal to PWD //check case if no $OLDPWD??
 - PWD should be equal to getcwd()  //check case if no $PWD??

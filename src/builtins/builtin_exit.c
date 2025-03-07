@@ -6,11 +6,45 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:40:30 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/07 11:05:42 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/07 12:18:39 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/structs.h"
+
+/*
+tests:
+
+exit
+echo $?
+
+exit 10
+echo $?
+
+exit -10
+echo $?
+
+
+exit 2929229
+echo $?
+
+exit 16767676767676767677777777777777
+echo $?
+
+echo $SHLVL
+exit ab112hjh
+echo $SHLVL
+
+exit ab112hjh
+echo $?
+
+echo $SHLVL
+exit 70 args
+echo $SHLVL
+
+exit 70 args
+echo $?
+*/
 
 /*TO BE SOLVED:
 1- add panic function;
@@ -28,7 +62,7 @@ with saved exit_code from the last command executed;
 	- check if 2st arg exists, then (a) STDERR “too many arguments”, 
 		(b)exit status should be 1 and 
 		(c)just!!!! return (not exit from process);
-	- else - panic() and exit() with exit code getted from 1st arg;
+	- else - panic() and exit() with exit code getted from 1st arg (modulo %256);
 */
 
 static bool	ft_is_numeric(char *s)

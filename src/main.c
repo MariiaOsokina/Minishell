@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 22:59:19 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/07 11:01:29 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/07 12:22:44 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ int	main(int argc, char **argv, char **env)
     // io_2->type = IO_APPEND;
 
 
-
-    
 
 	shell.path = ft_lstnew("/usr/bin/");
 	path_next = ft_lstnew("/usr/local/bin");
