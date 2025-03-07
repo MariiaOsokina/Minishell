@@ -1,0 +1,6 @@
+Technically speaking, in bash if I remember correctly, when the env is being 
+printed by the env command it is displayed by asciibetic order but when using 
+export command it is displayed by the order of the pointers to the variable or something similar. 
+It's not required by the subject to to have the exact same behavior but during 
+the defense you have to be prepared to defend your choice to not implement these types of behavior
+
