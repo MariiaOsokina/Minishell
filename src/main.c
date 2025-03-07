@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 22:59:19 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/03 23:21:21 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/07 11:01:29 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,23 +94,23 @@ int	main(int argc, char **argv, char **env)
     // // for checking no command(just redirections)
     // cmd.expanded_args = NULL;
     
-	char *expanded_args[4];
+	char *expanded_args[2];
 	cmd.expanded_args = expanded_args;
 
 	// expanded_args[0] = "wrongcommand";
-	expanded_args[0] = "echo";
+	expanded_args[0] = "exit";
 	// expanded_args[0] = "wrongcmd";
 
 	// expanded_args[0] = "./test1";
-	expanded_args[1] = "$?";
+	expanded_args[1] = NULL;
 	// expanded_args[1] = "invalidargs";
 	// expanded_args[1] = "./tests/test.o";
 	// expanded_args[1] = "./tests/test.c";
 
 	// expanded_args[2] = "arg";
 
-	expanded_args[2] = "hello";
-    expanded_args[3] = NULL;
+	// expanded_args[2] = NULL;
+    // expanded_args[3] = NULL;
 
 	shell.envp_arr = env;
 	// printf("env %s\n", shell.envp_arr[0]);
