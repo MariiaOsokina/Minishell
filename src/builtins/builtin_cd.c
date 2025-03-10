@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:00:51 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/07 12:14:22 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/10 22:02:21 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,100 +32,60 @@ If no OLDPWD in envp, error “OLDPWD not set” with exit code 1 (e.g. in case 
 	- seach HOME path in the list of env variables, passed in the beginning of the program (shell.envp)
 	- if no HOME in envp, error “HOME not set” with exit code 1 (e.g. in case if unset HOME);
 
-4 - Change dir with chdir(form unistd.h)
-	- If chdir returns error, error “No such file or directory” with exit code 1 (e.g. in case…)
+4 - Change dir with function chdir(form unistd.h)
+	- If chdir returns error, error “No such file or directory” with exit code 1 
 
-5 - Update list of env (shell.envp): //updated shell.env_arr, shell.cwd??
-- OLDPWD should be equal to PWD //check case if no $OLDPWD??
-- PWD should be equal to getcwd()  //check case if no $PWD??
+5 - Update list of env (shell.envp);
+ - if $OLDPWD was unset, add new env node to envp, else update value OLDPWD, value is PWD;
+ - if $PWD was unset, add new env node to envp, else update value OLDPWD, value is getcwd())
 */
-
-
-static int ft_arr_size(char **arr)
-{
-	int	i;
-
-	i = 0;
-	if (!arr)
-		return (i);
-	while (arr[i])
-		i ++;
-	return (i);
-}
-
-char	*ft_get_env_value(t_list *envp, const char *key)
-{
-	t_list	*current_list;
-	t_env	*env_content;
-
-	current_list = envp;
-	while (current_list)
-	{
-		env_content = (t_env *)current_list->content;
-		if (!ft_strcmp(env_content->key, key)) // think about function from ade is_var!!!
-			return (env_content->value);
-        current_list = current_list->next;
-	}
-	return (NULL);
-}
-
 
 int	builtin_cd(t_shell shell, t_node *cmd)
 {
 	char *path;
+	t_env *tmp_env;
 
 	path = cmd->expanded_args[1];
+	tmp_env = malloc(sizeof(t_env));
 	if (ft_arr_size (cmd->expanded_args) > 2) //arr should be with null terminator
-	{
 		return (ft_err_msg("cd", "too many arguments", NULL), ENO_GENERAL);
-	}
 	else if (!path)
 	{
-		path = ft_get_env_value(shell.envp, "HOME");
-		if (!path)
+		printf("test\n");
+		tmp_env = ft_get_env(shell.envp, "HOME");
+		if (!tmp_env)
 			return (ft_err_msg("cd", "HOME not set", NULL), ENO_GENERAL);
+		else
+		{
+			path = tmp_env->value;
+			printf("path: %s\n", path);
+		}	
 	}
-	// else if (ft_strcmp (path, "-") == 0)
-	// {
-	// 	path = ft_get_env_value("OLDPWD");
-	// 	if (!path)
-	// 		return (ft_err_msg("cd", "OLDPWD not set", NULL), ENO_GENERAL);
-	// 	ft_printf("%s\n", path);
-	// }
 	if (chdir(path) != ENO_SUCCESS)
 		return (ft_err_msg("cd", path, "No such file or directory"), ENO_GENERAL);
-	//check if unset OLDPWD // ft_add_envlist
-	ft_update_env_value(shell.envp, "OLDPWD", ft_get_env_value(shell.envp, "PWD"));
-	//check if unset PWD // ft_add_envlist
-	ft_update_env_value(shell.envp, "PWD", getcwd(NULL, 0));
+	tmp_env = ft_get_env(shell.envp, "OLDPWD");
+	if(tmp_env != NULL)
+	{
+		tmp_env = ft_get_env(shell.envp, "PWD");
+		ft_update_env_value(shell.envp, "OLDPWD", tmp_env->value);
+	}
+	else
+	{
+		printf("OLDPWD is unset, create a new node with OLDPWD, value is value of PWD\n");
+		// create_env_node() // OLDPWD, tmp_env->value
+		// ft_lstadd_back(shell.envp, ft_lstnew(new_env)); ///ft from Adewale
+	}
+	tmp_env = ft_get_env(shell.envp, "PWD");
+	if(tmp_env != NULL)
+	{
+		// free(tmp_env); //check malloc issues
+		ft_update_env_value(shell.envp, "PWD", getcwd(NULL, 0));
+	}
+	else
+	{
+		printf("PWD is unset, create a new node with PWD, value is chdir()");
+		// create_env_node() // PWD, path(value)
+		// ft_lstadd_back(shell.envp, ft_lstnew(new_env)); ///ft from Adewale
+	}
     return (ENO_SUCCESS);
 }
-
-// void	set_pwdenv(char *dir, int flag)
-// {
-// 	char	dir2[LINE_MAX];
-// 	t_env	*old;
-// 	t_env	*pwd;
-
-// 	pwd = ret_env("PWD");
-// 	old = ret_env("OLDPWD");
-// 	if (!old)
-// 	{
-// 		set_var("OLDPWD", '=', NULL, 0);
-// 		old = ret_env("OLDPWD");
-// 	}
-// 	if (pwd)
-// 		old->value = pwd->value;
-// 	else
-// 	{
-// 		old->value = ft_strdup(dir);
-// 		set_var("PWD", '=', NULL, 0);
-// 		pwd = ret_env("PWD");
-// 	}
-// 	if (!getcwd(dir2, LINE_MAX))
-// 		pwd->value = ft_strdup(pwd->value);
-// 	else
-// 		pwd->value = ft_strdup(dir2);
-// 	if (flag == 1)
-// 		pwd->value = cat_value(pwd->value, 0, "/.");
-// }

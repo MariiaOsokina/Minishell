@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 22:59:19 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/07 15:18:49 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/10 21:52:34 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@ int	main(int argc, char **argv, char **env)
     t_env   *env_2 = malloc(sizeof(t_env));
     t_env   *env_3 = malloc(sizeof(t_env));
 
-    env_1->key = "VAR";
-    env_1->value = "10";
+    env_1->key = "OLDPWD2";
+    env_1->value = "/home/mosokina/my_projects";
 
-    env_2->key = "NEW_VAR";
-    env_2->value = NULL;
+    env_2->key = "PWD";
+    env_2->value = "/home/mosokina/";
 
     env_3->key = "VAR3";
     env_3->value = "hello";
@@ -158,23 +158,24 @@ int	main(int argc, char **argv, char **env)
 
 
 
-	char *expanded_args1[4];
+	char *expanded_args1[2];
 	cmd.expanded_args = expanded_args1;
 
 	// expanded_args[0] = "wrongcommand";
-	expanded_args1[0] = "export";
+	expanded_args1[0] = "cd";
 	// expanded_args[0] = "wrongcmd";
 
 	// expanded_args[0] = "./test1";
-	expanded_args1[1] = "VAR2=5";
+	// expanded_args1[1] = NULL;
+	expanded_args1[1] ="../includes";
 	// expanded_args[1] = "invalidargs";
 	// expanded_args[1] = "./tests/test.o";
 	// expanded_args[1] = "./tests/test.c";
 
-	expanded_args1[2] = "NEW_VAR3";
+	// expanded_args1[2] = "NEW_VAR3";
 
-	expanded_args1[3] = NULL;
-    // expanded_args[3] = NULL;
+	// expanded_args1[2] = "VAR1";
+    // expanded_args1[3] = NULL;
 
 
 	shell.exit_code = ft_exec_simple_cmd(shell, &cmd);
