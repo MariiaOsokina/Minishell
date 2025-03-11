@@ -23,30 +23,9 @@ typedef struct s_shell
 typedef struct s_env
 {
 	char		*value; //Value
-	char		*content; //Key
-	bool		is_export;
+	char		*key; //Key
+	bool		is_export; // Clarify use
 	bool		is_printed;
 }				t_env;
 
-/*Command structs and typedefs*/
-typedef enum e_node_type
-{
-	N_PIPE,
-	N_EXEC,
-	N_ANDIF,
-	N_OR,
-}				t_node_type;
-
-typedef struct s_node
-{
-	t_node_type	type;
-}				t_node;
-
-typedef struct s_exec
-{
-	t_node		type;
-	char		*command;
-	char		**av;
-	t_list		*infiles;
-	t_list		*outfiles;
-}				t_exec;
+/*AST in this project is built using recursive descent..*/

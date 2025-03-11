@@ -8,28 +8,33 @@
 void	shell_input(t_shell *shell)
 {
 	char	*cwd;
+	char	*tmp;
+	char	*tmp2;
 	char	*code;
 	char	*prompt;
-	size_t	prompt_size;
 
 	code = ft_itoa(exit_code(-1));
 	cwd = getcwd(NULL, 0);
-	prompt_size = snprintf(NULL, 0, "%s%s%s%s%s%s%s", ESC_START, PROMPT, \
-			ESC_RESET, code, ESC_CODE, cwd, ARROW) + 1;
-	prompt = malloc(prompt_size);
-	if (!prompt)
-	{
-		free(code);
-		free(cwd);
-		exit_failure(shell, "shell_input: unable to malloc for prompt");
-	}
-	snprintf(prompt, prompt_size, "%s%s%s%s%s%s%s", ESC_START, PROMPT, \
-			ESC_RESET, code, ESC_CODE, cwd, ARROW);
-	shell->cwd = prompt;
+	prompt = ESC_START PROMPT ESC_RESET;
+	tmp = ft_strjoin(prompt, code);
 	free(code);
+	if (!tmp)
+		exit_failure(shell, "shell_input");
+	tmp2 = ft_strjoin(tmp, ESC_CODE);
+	free(tmp);
+	if (!tmp2)
+		exit_failure(shell, "shell_input");
+	tmp = ft_strjoin(tmp2, cwd);
+	free(tmp2);
+	if (!tmp)
+		exit_failure(shell, "shell_input");
+	shell->cwd = ft_strjoin(tmp, ARROW);
 	free(cwd);
+	free(code);
 }
 
+/*
+Will be used in exec???
 int	handle_exec_node(t_shell *shell, void *root, int *status)
 {
 	t_exec	*exec;
@@ -70,3 +75,4 @@ void	exec_processes(t_shell *shell, void *root)
 	waitpid(-1, &status, 0);
 	exit_status(status);
 }
+*/

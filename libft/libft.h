@@ -51,6 +51,7 @@ char				**ft_split(char const *s, char c);
 void				*ft_memset(void *s, int c, size_t n);
 void				*ft_calloc(size_t nmemb, size_t size);
 int					ft_strcmp(const char *s1, const char *s2);
+char				*ft_strndup(const char *str, size_t size);
 void				ft_lstadd_back(t_list **lst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 void				ft_lstadd_front(t_list **lst, t_list *new);

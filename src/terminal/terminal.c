@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-#define del_token "To be implemented in lexer"
-
 void	terminal(t_shell *shell, char **envp)
 {
 	while (true)
@@ -18,14 +16,15 @@ void	terminal(t_shell *shell, char **envp)
 			continue ;
 		}
 		if (*shell->input)
-			add_history(shell->input); //Clarified!!
-		lexer(shell, shell->trimmed_input); // Tokenization
-		shell->envp_arr = env_arr(shell);   // Prep envs
-		shell->path = path_list(shell, envp); //Prep path
+			add_history(shell->input);
+		lexer(shell, shell->trimmed_input);
+		shell->envp_arr = env_arr(shell);
+		shell->path = path_list(shell, envp);
 		shell->root = build_ltree(shell, shell->token_lst); //Build and execute the cmd tree
-		lexec_tree(shell, shell->root);
-		free_shell(shell);
-		last_process(0); //Handles the last process in the pipeline.
+		/*section to call test functions to print out token and command lists*/
+		// lexec_tree(shell, shell->root);
+		// free_shell(shell);
+		// last_process(0); //Handles the last process in the pipeline.
 	}
 }
 
@@ -34,7 +33,7 @@ void	free_shell(t_shell *shell)
 	int	i;
 
 	i = 0;
-	ft_lstclear(&shell->token_lst, del_token);// TODO: In tokenization
+	ft_lstclear(&shell->token_lst, del_token);
 	if (shell->envp_arr)
 	{
 		while (shell->envp_arr[i])

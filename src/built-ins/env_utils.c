@@ -10,18 +10,18 @@
 void	*env_lst(t_shell *shell, char **envp)
 {
 	int	i;
-	t_env	*content; //content->content//key && content->value//value..
 
+	t_env *node;
 	shell->envp = NULL;
 	if (!envp || !*envp)
 		return (NULL);
 	i = 0;
 	while (envp[i])
 	{
-		content = create_env_node(shell, &envp[i]);
-		if (!content)
+		node = create_env_node(shell, &envp[i]);
+		if (!node)
 			exit_failure(shell, "env_list");
-		ft_lstadd_back(&shell->envp, ft_lstnew(content));
+		ft_lstadd_back(&shell->envp, ft_lstnew(node));
 		i++;
 	}
 	return (NULL);
@@ -30,41 +30,46 @@ void	*env_lst(t_shell *shell, char **envp)
 t_env	*create_env_node(t_shell *shell, char **envp)
 {
 	t_env	*node;
+	char	*savedptr;
 
 	node = malloc(sizeof(t_env));
 	if (!node)
 		exit_failure(shell, "create_env_node");
-	node->value = get_value(shell, *envp);
-	node->content = get_content(shell, *envp);
+	node->key = get_key(shell, *envp, savedptr);
+	node->value = get_value(shell, *envp, savedptr);
 	node->is_export = true;
 	node->is_printed = false;
 	return (node);
 }
 
-char	*get_value(t_shell *shell, char *env)
+char	*get_value(t_shell *shell, char *env, char *savedptr)
 {
 	char	*value;
+	char	*r_value;
 
-	value = malloc(sizeof(char) * value_size(env) + 1);
+	value = strtok_r(env, "=", &savedptr); //might change this
+	r_value = malloc(ft_strlen(value) + 1);
 	if (!value)
 		exit_failure(shell, "env_value");
-	ft_strlcpy(value, env, value_size(env) + 1);
-	return (value);
+	ft_strlcpy(r_value, value, ft_strlen(value) + 1);
+	return (r_value);
 }
 
-char	*get_content(t_shell *shell, char *env)
+char	*get_key(t_shell *shell, char *env, char *savedptr)
 {
-	char	*content;
+	char	*key;
+	char	*r_key;
 
-	content = malloc(sizeof(char) * content_size(env) + 1);
-	if (!content)
-		exit_failure(shell, "env_content");
-	ft_strlcpy(content, env, ft_strlen(env));
-	return (content);
+	key = strtok_r(env, "=", &savedptr); //might change this
+	r_key = malloc(ft_strlen(key) + 1);
+	if (!key)
+		exit_failure(shell, "env_key");
+	ft_strlcpy(r_key, key, ft_strlen(key) + 1);
+	return (r_key);
 }
 
 /* This function searches the env list in shell struct and the returns the value*/
-char	*sh_get_env(t_list *envp, const char *value)
+char	*sh_get_env(t_list *envp, const char *key)
 {
 	t_list	*current;
 	t_env	*env_entry;
@@ -73,8 +78,8 @@ char	*sh_get_env(t_list *envp, const char *value)
 	while (current)
 	{
 		env_entry = (t_env *)current->content;
-		if (is_exact_var(env_entry, value))
-			return (env_entry->content);
+		if (is_exact_var(env_entry, key)) //This helper is_exact_var();
+			return (env_entry->value);
 		current = current->next;
 	}
 	return (NULL);
