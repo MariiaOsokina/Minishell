@@ -1,11 +1,14 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#include "binary_tree.h"
 # include "builtins.h"
 # include "errors.h"
 # include "libft.h"
 # include "structs.h"
+# include "tokens.h"
 # include "utils.h"
+# include "logic_tree.h"
 # include <colors.h>
 # include <dirent.h>
 # include <errno.h>
@@ -28,12 +31,23 @@
 # define MINISHELL "\001\e[0;93mminishell\e[0;39m\002"
 
 /* Minishell.h: Metachars */
-# define METACHARS "|&;<>"
+# define METACHARS "|;<>"
 
 /*Minishell.h: This is a general util function*/
 int		check_args(int ac, char **av, char **envp);
 
 /* Minishell.h: Input management functions*/
 bool	check_line_len(char *line);
+
+/* terminal.c  && terminal_utils.c*/
+void	free_shell(t_shell *shell);
+void	reset_shell(t_shell *shell);
+void	is_env_empty(t_shell *shell);
+void	terminal(t_shell *shell, char **envp);
+
+/*terminal_utils.c*/
+void	shell_input(t_shell *shell);
+void	exec_processes(t_shell *shell, void *root);
+int		handle_exec_node(t_shell *shell, void *root, int *status);
 
 #endif

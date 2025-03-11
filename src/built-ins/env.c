@@ -15,8 +15,8 @@ char	**env_arr(t_shell *shell)
 	i = 0;
 	while (envp_list)
 	{
-		env_arr[i] = ft_strjoin(((t_env *)envp_list->content)->value, \
-			((t_env *)envp_list->content)->content);
+		env_arr[i] = ft_strjoin(((t_env *)envp_list->content)->key, \
+			((t_env *)envp_list->content)->value);
 		if (!env_arr[i])
 			exit_failure(shell, "env_arr_1");
 		envp_list = envp_list->next;
@@ -67,10 +67,10 @@ void	print_env_lst(t_list *lst)
 	while (lst)
 	{
 		env_var = (t_env *)lst->content;
-		if (env_var->content && ft_strchr(env_var->value, '='))
+		if (env_var->key && ft_strchr(env_var->value, '='))
 		{
-			printf("%s", env_var->value);
-			printf("%s\n", env_var->content);
+			printf("%s", env_var->key);
+			printf("%s\n", env_var->value);
 		}
 		lst = lst->next;
 	}
@@ -88,7 +88,7 @@ void	free_env_lst(t_list *envp)
 		if (envp_node)
 		{
 			free(envp_node->value);
-			free(envp_node->content);
+			free(envp_node->key);
 			free(envp_node);
 		}
 		free(envp);
