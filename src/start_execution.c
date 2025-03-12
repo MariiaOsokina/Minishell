@@ -3,16 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   start_execution.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/05 15:38:51 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/11 23:35:18 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs.h"
 
-int ft_exec_pipeline(t_shell shell, t_node *tree)
+int ft_node_execution(t_shell shell, t_node *tree)
+{
+    if (!tree)
+        return(ENO_GENERAL);
+    if (tree->type == N_PIPE)
+        return (ft_exec_pipeline(shell, tree));
+    //check AND and OR
+    if (tree->type == N_CMD)
+        return (ft_exec_simple_cmd(shell, tree));
+    return (ENO_GENERAL);
+}
+
+int ft_exec_pipeline(t_shell shell, t_node *pipe_node)
 {
     int pipe_fds[2];
     pid_t pid_left;
@@ -21,24 +33,28 @@ int ft_exec_pipeline(t_shell shell, t_node *tree)
 
     //signals
     pipe(pipe_fds);
-    pid_left = fork();
-    if (pid_left == 0)
-    {
-        //child process for left with recursion
-        dup2(STDOUT_FILENO, pipe_fds[1]);
-        close(pipe_fds[0]);
-        close(pipe_fds[1]);
-        //run cmd.left;
-
-    }
-    pid_right = fork1();
+    
+    pid_right = fork();
     if (pid_right == 0)
     {
         //child process for left with recursion
         dup2(STDIN_FILENO, pipe_fds[0]);
         close(pipe_fds[0]);
         close(pipe_fds[1]);
-        //run cmd.right;    
+        printf("STDIN: %d\n", STDIN_FILENO);
+        printf("STDOUT: %d\n", STDOUT_FILENO);
+        ft_node_execution(shell, pipe_node->right);
+    }
+    pid_left = fork();
+    if (pid_left == 0)
+    {
+        //child process for left with recursion
+        dup2(STDOUT_FILENO, pipe_fds[1]);
+        printf("STDIN: %d\n", STDIN_FILENO);
+        printf("STDOUT: %d\n", STDOUT_FILENO);
+        close(pipe_fds[0]);
+        close(pipe_fds[1]);
+        ft_node_execution(shell, pipe_node->left);
     }
     close(pipe_fds[0]);
     close(pipe_fds[1]);
@@ -49,22 +65,9 @@ int ft_exec_pipeline(t_shell shell, t_node *tree)
     return (ft_get_exit_status(tmp_status));
 }
 
-int ft_node_execution(t_shell shell, t_node *tree)
-{
-    if (!tree)
-        return(ENO_GENERAL);
-    if (tree->type == N_PIPE)
-        return (ft_exec_pipeline(shell, tree));
-    //check AND and OR
-    if (tree->type == N_CMD)
-        ft_exec_simple_cmd(shell, tree);
-    return (ENO_GENERAL);
-}
-
 void start_execution(t_shell shell)
 {
     signal(SIGQUIT, ft_sigquit_handler); //activate SIGQUIT NOT INTERACTIVE MODE
-
     
     //init_tree
     //inside save io_list(HERE_DOC) save all heredocs
