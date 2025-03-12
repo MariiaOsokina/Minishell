@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 13:16:04 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/07 12:20:55 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/12 12:56:40 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static bool	ft_is_n_option(char *str)
 1 -$? should be at the parsing stage cmd.expanded args[i] = shell.exit_code
 */
 
-int	builtin_echo(t_shell shell, t_node *cmd)
+int	builtin_echo(t_shell shell, t_exec *exec_node)
 {
 	char 	**echo_args;
 	bool    n_op;
@@ -60,7 +60,7 @@ int	builtin_echo(t_shell shell, t_node *cmd)
 	(void)shell;
 
 	i = 0;
-	echo_args = &(cmd->expanded_args[1]);
+	echo_args = &(exec_node->av[1]);
 	while ((echo_args[i] != NULL) && (ft_is_n_option(echo_args[i])))
 	{
 		n_op = true;

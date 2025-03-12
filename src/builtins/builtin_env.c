@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:35:22 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/07 13:55:57 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/12 12:57:26 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ export | grep "MYVAR" //export print w/o value
 
 /*Alphabetical order??*/
 
-int builtin_env(t_shell shell, t_node *cmd)
+int builtin_env(t_shell shell, t_exec *exec_node)
 {
     
     t_list	*current;
 	t_env	*env_entry;
-    (void)cmd;
+    (void)exec_node;
 
     current = shell.envp;
 	while (current)

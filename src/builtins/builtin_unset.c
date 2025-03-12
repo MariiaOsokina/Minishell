@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 23:38:14 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/07 14:24:53 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/12 13:10:31 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@
 /*TO BE SOLVED
 - delete node in list!!!*/
 
-char	*ft_unset_key(t_shell shell, const char *key) // MO : should be key
+char	*ft_unset_key(t_list *env_list, const char *key) // MO : should be key
 {
 	t_list	*current_list;
 	t_list	*prev_list;
 	t_env	*env_content;
 
 	prev_list = NULL;
-	current_list = shell.envp;
+	current_list = env_list;
 	while (current_list)
 	{
 		env_content = (t_env *)current_list->content;
@@ -68,18 +68,18 @@ char	*ft_unset_key(t_shell shell, const char *key) // MO : should be key
 	return (NULL);
 }
 
-int builtin_unset(t_shell shell, t_node *cmd)
+int builtin_unset(t_shell shell, t_exec *exec_node)
 {
 	char **unset_args;
 	int i;
 
-	unset_args = &(cmd->expanded_args[1]);
+	unset_args = &(exec_node->av[1]);
 	i = 0;
 	if (!unset_args[0])
 		return (ENO_SUCCESS);
 	while(unset_args[i])
 	{
-		ft_unset_key(shell, unset_args[i]);
+		ft_unset_key(shell.envp, unset_args[i]);
 		i ++;
 	}
 	return (ENO_SUCCESS);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:00:51 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/10 22:02:21 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:54:42 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,18 @@ If no OLDPWD in envp, error “OLDPWD not set” with exit code 1 (e.g. in case 
  - if $PWD was unset, add new env node to envp, else update value OLDPWD, value is getcwd())
 */
 
-int	builtin_cd(t_shell shell, t_node *cmd)
+int	builtin_cd(t_shell shell, t_exec *exec_node)
 {
 	char *path;
 	t_env *tmp_env;
-
-	path = cmd->expanded_args[1];
+	
+	path = exec_node->av[1];
 	tmp_env = malloc(sizeof(t_env));
-	if (ft_arr_size (cmd->expanded_args) > 2) //arr should be with null terminator
+	if (ft_arr_size (exec_node->av) > 2) //arr should be with null terminator
 		return (ft_err_msg("cd", "too many arguments", NULL), ENO_GENERAL);
 	else if (!path)
 	{
-		printf("test\n");
-		tmp_env = ft_get_env(shell.envp, "HOME");
+		tmp_env = ft_get_env(shell, "HOME");
 		if (!tmp_env)
 			return (ft_err_msg("cd", "HOME not set", NULL), ENO_GENERAL);
 		else
@@ -63,10 +62,10 @@ int	builtin_cd(t_shell shell, t_node *cmd)
 	}
 	if (chdir(path) != ENO_SUCCESS)
 		return (ft_err_msg("cd", path, "No such file or directory"), ENO_GENERAL);
-	tmp_env = ft_get_env(shell.envp, "OLDPWD");
+	tmp_env = ft_get_env(shell, "OLDPWD");
 	if(tmp_env != NULL)
 	{
-		tmp_env = ft_get_env(shell.envp, "PWD");
+		tmp_env = ft_get_env(shell, "PWD");
 		ft_update_env_value(shell.envp, "OLDPWD", tmp_env->value);
 	}
 	else
@@ -75,7 +74,7 @@ int	builtin_cd(t_shell shell, t_node *cmd)
 		// create_env_node() // OLDPWD, tmp_env->value
 		// ft_lstadd_back(shell.envp, ft_lstnew(new_env)); ///ft from Adewale
 	}
-	tmp_env = ft_get_env(shell.envp, "PWD");
+	tmp_env = ft_get_env(shell, "PWD");
 	if(tmp_env != NULL)
 	{
 		// free(tmp_env); //check malloc issues

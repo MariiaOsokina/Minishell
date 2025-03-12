@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 12:27:56 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/07 12:21:27 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:00:40 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,11 @@ NOTES - TO BE TESTED/FIXED:
 1 - variables PWD and shell.cwd can't be in conflict;
 */
 
-int builtin_pwd(t_shell shell, t_node *cmd)
+int builtin_pwd(t_shell shell, t_exec *exec_node)
 // int builtin_pwd(void)
 {
+	(void)exec_node;
+	(void)shell;
 	char *cwd;
 
 	cwd = getcwd(NULL, 0);// malloc!!

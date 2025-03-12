@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:40:30 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/10 22:00:37 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/12 12:58:57 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,25 +117,25 @@ static int	get_exit_code(char *exit_arg)
 	return ((result * sign) % 256);
 }
 
-int	builtin_exit(t_shell shell, t_node *cmd)
+int	builtin_exit(t_shell shell, t_exec *exec_node)
 {
 	int	exit_code;
 
 	ft_putstr_fd("exit\n", STDERR_FILENO);
-	if (!cmd->expanded_args[1])
+	if (!exec_node->av[1])
 		exit_code = shell.exit_code;
 	else
 	{
-		exit_code = get_exit_code(cmd->expanded_args[1]);
+		exit_code = get_exit_code(exec_node->av[1]);
 		if (exit_code == -1)
 		{
-			ft_err_msg("exit", cmd->expanded_args[1], \
+			ft_err_msg("exit", exec_node->av[1], \
 			"numeric argument required");
 			exit_code = STDERR_FILENO;
 		}
-		if (cmd->expanded_args[2])
+		if (exec_node->av[2])
 		{
-			ft_err_msg("exit", cmd->expanded_args[2], \
+			ft_err_msg("exit", exec_node->av[2], \
 			"too many arguments");
 			shell.exit_code = ENO_GENERAL;
 			return (shell.exit_code);

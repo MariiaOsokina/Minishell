@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:29:12 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/10 22:00:45 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:48:35 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 //in progress, needs to be tested
 
 
-t_env	*ft_get_env(t_list *envp, char *check_key)
+t_env	*ft_get_env(t_shell shell, char *check_key)
 {
 	t_list	*current_list;
 	t_env	*env_content;
-
-	current_list = envp;
+	
+	current_list = shell.envp;
 	while (current_list)
 	{
 		env_content = (t_env *)current_list->content;
-		if (!ft_strcmp(env_content->key, check_key))
-			return (env_content);
+		// if (!ft_strcmp(env_content->key, check_key))
+		// 	return (env_content);
         current_list = current_list->next;
 	}
 	return (NULL);
