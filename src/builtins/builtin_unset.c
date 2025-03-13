@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_unset.c                                    :+:      :+:    :+:   */
+/*   ft_builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 23:38:14 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/12 13:10:31 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/13 09:53:04 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/structs.h"
 
-/*
+/*STEPS:
 1 - NOTE: Options are not in the Minishell Subject!
 2 - If just cmd without argos, just return with exit code 0;
 3 - Loop argos. 
@@ -68,7 +68,7 @@ char	*ft_unset_key(t_list *env_list, const char *key) // MO : should be key
 	return (NULL);
 }
 
-int builtin_unset(t_shell shell, t_exec *exec_node)
+int ft_builtin_unset(t_shell shell, t_exec *exec_node)
 {
 	char **unset_args;
 	int i;

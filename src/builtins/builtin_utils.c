@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:29:12 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/12 16:48:35 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/13 10:22:35 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	ft_update_env_value(t_list *envp, char *key, char *new_value)
 // //for export and ?cd
 // int	ft_add_envlist(t_list *envp, char *key, char *value)
 // {
-// 	ft_lstadd_back(&envp, ft_lstnew(new_env_content(key, value))); // is back right//or alphabetic order??
+// 	ft_lstadd_back(&envp, ft_lstnew(ft_new_env_content(key, value))); // is back right//or alphabetic order??
 // 	return (ENO_SUCCESS);
 // }
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*   ft_builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:40:30 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/12 12:58:57 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/13 09:53:04 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ echo $?
 1- add panic function;
 */
 
-/*
+/*STEPS:
 1 - Put to STDERR!!! message “exit\n”;
-2 - If only command exit (w/o arguments), then panic() and exit() 
+2 - If only command exists (w/o arguments), then panic() and exit() 
 with saved exit_code from the last command executed;
-3 - if 1st arg exist:
+3 - if 1st arg exists:
 	- get exit code (number) from arg1
 	- check if 1st arg is not numeric (with no digits or >LONG_MAX), then 
 		(a)error message  "numeric argument required" and panic() 
@@ -117,7 +117,7 @@ static int	get_exit_code(char *exit_arg)
 	return ((result * sign) % 256);
 }
 
-int	builtin_exit(t_shell shell, t_exec *exec_node)
+int	ft_builtin_exit(t_shell shell, t_exec *exec_node)
 {
 	int	exit_code;
 

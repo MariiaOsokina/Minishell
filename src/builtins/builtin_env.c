@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   ft_builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:35:22 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/12 12:57:26 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/13 09:53:04 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../includes/structs.h"
 
-/*
+/*STEPS:
 1 - Loop the list of envp(parsed before);
 2 - If value not empty print “key”=”value”
 */
@@ -28,7 +28,7 @@ export | grep "MYVAR" //export print w/o value
 
 /*Alphabetical order??*/
 
-int builtin_env(t_shell shell, t_exec *exec_node)
+int ft_builtin_env(t_shell shell, t_exec *exec_node)
 {
     
     t_list	*current;

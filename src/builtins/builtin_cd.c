@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*   ft_builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 10:00:51 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/12 16:54:42 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/13 09:53:04 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ If no OLDPWD in envp, error “OLDPWD not set” with exit code 1 (e.g. in case 
 
 */
 
-/*
+/* STEPS:
 1 - NOTES: No options in the Minishell Subject! So, “--” and "-" should be treated as an option;
 
 2 - If more than two args, error “too many arguments” with exit code 1 (but not exit from the process!!!)
@@ -40,7 +40,7 @@ If no OLDPWD in envp, error “OLDPWD not set” with exit code 1 (e.g. in case 
  - if $PWD was unset, add new env node to envp, else update value OLDPWD, value is getcwd())
 */
 
-int	builtin_cd(t_shell shell, t_exec *exec_node)
+int	ft_builtin_cd(t_shell shell, t_exec *exec_node)
 {
 	char *path;
 	t_env *tmp_env;

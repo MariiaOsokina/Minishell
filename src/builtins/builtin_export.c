@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*   ft_builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:29:20 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/12 16:52:31 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/13 09:53:04 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/structs.h"
 
-/*
+/*STEPS:
 1 - NOTE: Options are not in the Minishell Subject!
 2 - if just cmd without argos, put list shell.envp with msg “declare -x” (!including key with value=NULL)
 3 - Loop argos:
@@ -88,7 +88,7 @@ bool	ft_is_env_key_valid(char *str)
 	return (1);
 }
 
-int	builtin_export(t_shell shell, t_exec *exec_node)
+int	ft_builtin_export(t_shell shell, t_exec *exec_node)
 {
 	int exit_code;
 	char **export_args;

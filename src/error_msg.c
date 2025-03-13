@@ -6,15 +6,14 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 11:22:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/03 23:23:05 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/13 09:53:04 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/structs.h"
 #include <stdio.h>
 
-//function prints the error message
-//change to STD_OUT??
+//function for printing an error message to STDERR
 
 void	ft_err_msg(char *s1, char *s2, char *s3)
 {

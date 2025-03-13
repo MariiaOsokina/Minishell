@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   ft_builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 13:16:04 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/12 12:56:40 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/13 09:53:04 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static bool	ft_is_n_option(char *str)
 	return (true);
 }
 
-/*
+/* STEPS:
 1 - Check the option “-nnnn…” (could be as second and the following arguments)
 2 - Print the arguments with space between each other;
 3 - If option print “\n” in the end;
@@ -52,7 +52,7 @@ static bool	ft_is_n_option(char *str)
 1 -$? should be at the parsing stage cmd.expanded args[i] = shell.exit_code
 */
 
-int	builtin_echo(t_shell shell, t_exec *exec_node)
+int	ft_builtin_echo(t_shell shell, t_exec *exec_node)
 {
 	char 	**echo_args;
 	bool    n_op;

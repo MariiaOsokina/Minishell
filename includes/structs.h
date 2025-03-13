@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/10 21:41:26 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/13 13:38:13 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,9 @@ typedef struct s_shell
 	void *root;          // Root of an AST (Abstract Syntax Tree) for parsing
 	char *cmd_path;      // Stores the full executable path for a command.
 	//MO: why we need it?
-
 	char *cwd;           // Current working directory
 	int exit_code;       // Stores the exit code of the last command 
 	//MO: CHANGE NAME TO EXIT_STATUS?
-	
 	int fd;              // Stores the file descriptor used for redirections.
 }				t_shell;
 
@@ -56,86 +54,90 @@ typedef struct s_env
 	bool		is_printed;
 }				t_env;
 
-// /*Command structs and typedefs*/
-// typedef enum e_node_type
-// {
-// 	N_PIPE,
-// 	N_EXEC,
-// 	N_ANDIF,
-// 	N_OR,
-// }				t_node_type;
-
-// typedef struct s_node
-// {
-// 	t_node_type	type;
-// }				t_node;
-
-// typedef struct s_exec
-// {
-// 	t_node		type;
-// 	char		*command;
-// 	char		**av;
-// 	t_list		*infiles;
-// 	t_list		*outfiles;
-// }				t_exec;
-
-//MO: SUGGESTIONS TO HEADER
-
+/*Types of command nodes*/
 typedef enum e_node_type
 {
 	N_PIPE,
-	N_AND,
+	N_EXEC,
+	N_ANDIF,
 	N_OR,
-	N_CMD
-}	t_node_type;
-
-typedef enum e_io_type
-{
-	IO_IN,
-	IO_OUT,
-	IO_HEREDOC,
-	IO_APPEND
-}	t_io_type;
-
-
-typedef struct s_io
-{
-	t_io_type			type;
-	char				*value;
-	char				**expanded_value;
-	int					fd_here_doc;
-}	t_io;
-
+}				t_node_type;
 
 typedef struct s_node
 {
-	t_node_type			type;
-	t_list				*io_list; // t_list list.content should be t_io(io);
-	char				*args;
-	char				**expanded_args;
-	struct s_node		*left;
-	struct s_node		*right;
-}	t_node;
+	t_node_type	type;
+}				t_node;
 
-typedef enum e_err_msg
+typedef enum e_io_type
 {
-	ERRMSG_CMD_NOT_FOUND,
-	ERRMSG_NO_SUCH_FILE,
-	ERRMSG_PERM_DENIED,
-	ERRMSG_AMBIGUOUS,
-	ERRMSG_TOO_MANY_ARGS,
-	ERRMSG_NUMERIC_REQUI
-}	t_err_msg;
+    INF,
+    HERE,
+    APP,
+    ADD,
+} t_io_type;
+
+typedef struct s_in_out
+{
+	t_io_type type;
+    char *name;
+    char **expanded_name;
+    char *eof; //check do we need it, may be it could be in "name";
+    int fd_heredoc;
+}	t_in_out;
+
+/*EXEC*/
+typedef struct s_exec
+{
+	t_node		type;
+	char		*command;
+	char		**av;
+	t_list		*in_out_list;
+}		t_exec;
+
+/*PIPES*/
+typedef struct s_pipe
+{
+	t_node		type;
+	t_exec		*left;
+	t_exec		*right;
+}				t_pipe;
+
+// typedef enum e_node_type
+// {
+// 	N_PIPE,
+// 	N_AND,
+// 	N_OR,
+// 	N_CMD
+// }	t_node_type;
+
+// typedef enum e_io_type
+// {
+// 	IO_IN,
+// 	IO_OUT,
+// 	IO_HEREDOC,
+// 	IO_APPEND
+// }	t_io_type;
 
 
-//return is exit status
-// 0: Success
-// 1: General error
-// 2: Misuse of shell builtins !!!
-// 126: Command invoked cannot execute
-// 127: Command not found
-// 128: Invalid argument to exit !!!
-// Exit status 130: Script terminated by Control-C !!!
+// typedef struct s_io
+// {
+// 	t_io_type			type;
+// 	char				*value;
+// 	char				**expanded_value;
+// 	int					fd_here_doc;
+// }	t_io;
+
+
+// typedef struct s_node
+// {
+// 	t_node_type			type;
+// 	t_list				*io_list; // t_list list.content should be t_io(io);
+// 	char				*args;
+// 	char				**expanded_args;
+// 	struct s_node		*left;
+// 	struct s_node		*right;
+// }	t_node;
+
 
 typedef enum e_err_no
 {
@@ -149,44 +151,44 @@ typedef enum e_err_no
 
 //redirections
 
-int		redirection(t_node *cmd);
-int		ft_in(t_io	*io);
-int		ft_out(t_io	*io);
-int		ft_append(t_io	*io);
+int		ft_redirection(t_exec *exec_node);
+int		ft_redir_inf(t_in_out	*in_out_node);
+int		ft_redir_outf(t_in_out	*in_out_node);
 
 //execution of simple command
-int		ft_exec_simple_cmd(t_shell shell, t_node *cmd);
+int	ft_exec_simple_cmd(t_shell shell, t_exec *exec_node);
 
 
-//(3) execution of child command
+//(3) execution of external command
 
-int			ft_exec_child(t_shell shell, t_node *cmd);
+int			ft_exec_external_cmd(t_shell shell, t_exec *exec_node);
 int			ft_get_exit_status(int status);
-t_err_no	ft_check_access(char *file);
-bool		cmd_is_dir(char *cmd);
-
+t_err_no	ft_check_access(char *cmd_path);
+bool		ft_cmd_is_dir(char *cmd_path);
 char		*ft_get_env_path(t_shell shell, char *cmd_name, t_err_no *err_no);
-
+char		*ft_find_cmd_path(char *cmd_name, t_list *path_list);
 
 //(2) execution of builtins
-bool 		ft_is_builtin(char *cmd);
-int			ft_exec_builtin(t_shell shell, t_node *cmd);
-int			builtin_echo(t_shell shell, t_node *cmd);
-int			builtin_cd(t_shell shell, t_node *cmd);
-int			builtin_export(t_shell shell, t_node *cmd);
-int			builtin_unset(t_shell shell, t_node *cmd);
-int			builtin_pwd(t_shell shell, t_node *cmd);
-int			builtin_env(t_shell shell, t_node *cmd);
-int			builtin_exit(t_shell shell, t_node *cmd);
+bool 		ft_is_builtin(char *cmd_name);
+int			ft_exec_builtin(t_shell shell, t_exec *exec_node);
+int			ft_strcmp(const char *s1, const char *s2);
+
+int			ft_builtin_echo(t_shell shell, t_exec *exec_node);
+int			ft_builtin_cd(t_shell shell, t_exec *exec_node);
+int			ft_builtin_export(t_shell shell, t_exec *exec_node);
+int			ft_builtin_unset(t_shell shell, t_exec *exec_node);
+int			ft_builtin_pwd(t_shell shell, t_exec *exec_node);
+int			ft_builtin_env(t_shell shell, t_exec *exec_node);
+int			ft_builtin_exit(t_shell shell, t_exec *exec_node);
 
 void		ft_update_env_value(t_list *envp, char *key, char *new_value);
 // char 		*ft_get_env_value(t_list *envp, const char *key);
 int			ft_add_envlist(t_list *envp, char *key, char *value);
-t_env		*new_env_content(char *key, char *value);
-t_env		*ft_get_env(t_list *envp, char *check_key);
-int 		ft_print_export_envp(t_shell shell, t_node *cmd);
+t_env		*ft_new_env_content(char *key, char *value);
+t_env		*ft_get_env(t_shell shell, char *check_key);
+int 		ft_print_export_envp(t_list *env_list);
 bool		ft_is_env_key_valid(char *str);
-int ft_arr_size(char **arr);
+int 		ft_arr_size(char **arr);
 
 
 //utils

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_all.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:07:12 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/12 16:29:34 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/13 10:22:22 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,7 @@ bool ft_is_builtin(char *cmd_name)
 	return (false);
 }
 
-/*EXIT_STATUS FOR BUILTINS: zero if they succeed and a non-zero status on failure, 
-so they may be used by the conditional and list constructs.
 
-All builtins return an exit status of 2 to indicate incorrect usage, 
-generally invalid options or missing arguments.*/
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -46,6 +42,10 @@ int	ft_strcmp(const char *s1, const char *s2)
 		return (ft_strncmp(s1, s2, s2_len));
 }
 
+/*NOTE:
+All builtins return an exit status of 2 to indicate incorrect usage, 
+generally invalid options or missing arguments.*/
+
 int		ft_exec_builtin(t_shell shell, t_exec *exec_node)
 {
 	char *cmd_name;
@@ -53,18 +53,18 @@ int		ft_exec_builtin(t_shell shell, t_exec *exec_node)
 	printf("test2\n");
 	cmd_name = exec_node->command;
 	if (!ft_strcmp(cmd_name, "echo"))
-		return (builtin_echo(shell, exec_node));
+		return (ft_builtin_echo(shell, exec_node));
 	else if (!ft_strcmp(cmd_name, "cd"))
-		return (builtin_cd(shell, exec_node));
+		return (ft_builtin_cd(shell, exec_node));
 	else if (!ft_strcmp(cmd_name, "export"))
-		return (builtin_export(shell, exec_node));
+		return (ft_builtin_export(shell, exec_node));
 	else if (!ft_strcmp(cmd_name, "unset"))
-		return (builtin_unset(shell, exec_node));
+		return (ft_builtin_unset(shell, exec_node));
 	else if (!ft_strcmp(cmd_name, "env"))
-		return (builtin_env(shell, exec_node));
+		return (ft_builtin_env(shell, exec_node));
 	else if (!ft_strcmp(cmd_name, "pwd"))
-		return (builtin_pwd(shell, exec_node));
+		return (ft_builtin_pwd(shell, exec_node));
 	else if (!ft_strcmp(cmd_name, "exit"))
-		builtin_exit(shell, exec_node);
+		ft_builtin_exit(shell, exec_node);
 	return (ENO_NOT_FOUND);
 }

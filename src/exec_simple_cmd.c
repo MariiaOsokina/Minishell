@@ -3,53 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   exec_simple_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:03:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/12 16:53:31 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/13 13:31:00 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/structs.h"
 
-/*
+/* STEPS:
 1 - No command:
-	- Redirections (see below);
+	- Redirections;
 	- Reset STDIN and STDOUT???
 2 - Built-ins: 
 	- Check is it built-in (is cmd in the  built-ins list)
-	- Redirections  (see below);
+	- Redirections;
 	- execution(call built-in functions);
 	- Reset STDIN and STDOUT???
-3 - System command(execve) (in child process);
+3 - External command(execve) in child process;
 */
 
-/*NOTE:
- The return status is exit status as provided by waitpid(), 
-or 128+n if the command was terminated by signal n.
-- handle signals*/
+/*TO BE SOLVED
+- panic()*/
+
 
 int	ft_exec_simple_cmd(t_shell shell, t_exec *exec_node)
 {
 	int		tmp_status;
 		
-	printf("test\n");
 
 	//1. if no cmd
 	if (exec_node->command == NULL)
 	{
-		printf("test\n");
-		tmp_status = redirection(exec_node);
+		tmp_status = ft_redirection(exec_node);
 		//reset stds???
 		return (tmp_status);
 	}
 	//2. if builtin command
 	if (ft_is_builtin(exec_node->command)) 
 	{
-		tmp_status = redirection(exec_node);
+		tmp_status = ft_redirection(exec_node);
 		if (tmp_status != ENO_SUCCESS)
 		{
-			//all clear;
+			//panic();
 			//reset stds???
 			return (tmp_status); // from child proccess
 		}
