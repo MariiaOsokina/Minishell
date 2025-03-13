@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:03:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/13 13:31:00 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/13 13:46:02 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 2 - Built-ins: 
 	- Check is it built-in (is cmd in the  built-ins list)
 	- Redirections;
-	- execution(call built-in functions);
+	- execution(call built-in function);
 	- Reset STDIN and STDOUT???
 3 - External command(execve) in child process;
 */

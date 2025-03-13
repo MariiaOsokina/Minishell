@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:44:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/13 10:20:54 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/13 13:56:28 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ or 128+n if the command was terminated by signal n.
 - handle signals*/
 
 /*TO BE SOLVED
-- add panic()*/
+- add panic()
+- 	//should be OK. check (1)empty "PATH=" in env - if unset PATH??? (2) empty cmd name/cmd?
+*/
 
 int	ft_exec_external_cmd(t_shell shell, t_exec *exec_node)
 {
@@ -47,7 +49,7 @@ int	ft_exec_external_cmd(t_shell shell, t_exec *exec_node)
 		tmp_status = ft_redirection(exec_node);
 		if (tmp_status != ENO_SUCCESS)
 		{
-			//all clear;
+			//panic();
 			exit(tmp_status); // from child proccess
 		}
 		if (ft_strnstr(exec_node->command, "/", ft_strlen(exec_node->command)))
@@ -143,7 +145,6 @@ char	*ft_get_env_path(t_shell shell, char *cmd_name, t_err_no *err_no)
 		*(err_no) = 2;
 		return (NULL);
 	}
-	//check (1)empty "PATH=" in env - if unset PATH??? (2) empty cmd name/cmd?
 	cmd_path = ft_find_cmd_path(cmd_name, shell.path); //malloc!!! to do free later
 	if (!cmd_path)
 	{

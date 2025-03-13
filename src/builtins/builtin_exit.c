@@ -132,6 +132,8 @@ int	ft_builtin_exit(t_shell shell, t_exec *exec_node)
 			ft_err_msg("exit", exec_node->av[1], \
 			"numeric argument required");
 			exit_code = STDERR_FILENO;
+				//panic()
+			exit(exit_code);
 		}
 		if (exec_node->av[2])
 		{

@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/13 13:37:40 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/13 13:45:09 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,7 @@ int	ft_redirection(t_exec *exec_node)
 		if (in_out_node->type == INF)
 			tmp_status = ft_redir_inf(in_out_node);
 		else if (in_out_node->type == ADD || in_out_node->type == APP)
-			tmp_status = ft_redir_outf(in_out_node);		
-		// else if (in_out_node->type == ADD)
-		// 	tmp_status = ft_redir_outf(in_out_node);
-		// else if (in_out_node->type == APP)
-			// tmp_status = ft_redir_append(in_out_node);
+			tmp_status = ft_redir_outf(in_out_node);
 		//heredoc - to be tested later!!!
 		else if (in_out_node->type == HERE)
 		{
