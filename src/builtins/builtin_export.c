@@ -88,6 +88,8 @@ bool	ft_is_env_key_valid(char *str)
 	return (1);
 }
 
+
+
 int	ft_builtin_export(t_shell shell, t_exec *exec_node)
 {
 	int exit_code;
@@ -120,7 +122,7 @@ int	ft_builtin_export(t_shell shell, t_exec *exec_node)
 			// ft_extract_key_value(*export_args); //ft_create_env_node////ft from Adewale, key; value = NULL(w/o =), "", "value";
 			if (ft_get_env(shell, new_env->key) == NULL)
 			{
-				printf("create node t_env with key %s and value %s\n", new_env->key, new_env->value);
+				ft_create_env_node(shell, *export_args); //to be tested
 				ft_lstadd_back(&shell.envp, ft_lstnew(new_env));				
 			}
 			else

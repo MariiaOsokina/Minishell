@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 22:59:19 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/13 14:06:09 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/13 22:31:21 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,35 @@ int	main(int argc, char **argv, char **env)
     // io_2->type = IO_APPEND;
 
 
+
+    t_list  *envplist_start = malloc(sizeof(t_list));
+    t_list  *envplist_next = malloc(sizeof(t_list));
+    t_list  *envplist_next2 = malloc(sizeof(t_list));
+    
+    envplist_start->next = envplist_next;
+    envplist_next->next = envplist_next2;
+    envplist_next2->next = NULL;
+
+    t_env   *env_1 = malloc(sizeof(t_env));
+    t_env   *env_2 = malloc(sizeof(t_env));
+    t_env   *env_3 = malloc(sizeof(t_env));
+
+    env_1->key = "OLDPWD2";
+    env_1->value = "/home/mosokina/my_projects";
+
+    env_2->key = "PWD";
+    env_2->value = "/home/mosokina/";
+
+    env_3->key = "VAR3";
+    env_3->value = "hello";
+    
+    envplist_start->content = env_1;
+    envplist_next->content = env_2;
+    envplist_next2->content = env_3;
+
+    shell.envp = envplist_start;
+    
+
     // //path for external cmds (like ls)
 	// shell.path = ft_lstnew("/usr/bin/");
 	// path_next = ft_lstnew("/usr/local/bin");
@@ -98,7 +127,7 @@ int	main(int argc, char **argv, char **env)
 	exec_node.av = expanded_args;
 
 	// expanded_args[0] = "wrongcommand";
-	expanded_args[0] = "exit";
+	expanded_args[0] = "env";
 	// expanded_args[0] = "wrongcmd";
 
 	// expanded_args[0] = "./test1";
