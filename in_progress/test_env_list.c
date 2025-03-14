@@ -1,9 +1,9 @@
 #include "../includes/structs.h"
 
-void	*env_lst(t_shell *shell, char **envp);
-t_env	*create_env_node(t_shell *shell, char *env);
-void	free_env_lst(t_list **envp);
-void	print_env_lst(t_list *lst);
+void	*ft_env_lst(t_shell *shell, char **envp);
+t_env	*ft_create_env_node(t_shell *shell, char *env);
+void	ft_free_env_lst(t_list **envp);
+void	ft_print_env_lst(t_list *lst);
 
 int	main(int ac, char **av, char **envp)
 {
