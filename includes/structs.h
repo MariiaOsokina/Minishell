@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/14 01:32:23 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:32:20 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,15 @@ t_env		*ft_get_env(t_shell shell, char *check_key);
 int 		ft_print_export_envp(t_list *env_list);
 bool		ft_is_env_key_valid(char *str);
 int 		ft_arr_size(char **arr);
+
+//env_list fucntions
+char	*ft_extract_key(char *str);
+char	*ft_extract_value(char *str);
+void	*ft_env_lst(t_shell *shell, char **envp);
+t_env	*ft_create_env_node(t_shell *shell, char *env);
+void	ft_free_env_lst(t_list **envp);
+void	ft_print_env_lst(t_list *lst);
+void	ft_free_env_node(t_env *envp_node);
 
 
 //utils

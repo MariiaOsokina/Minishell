@@ -101,7 +101,6 @@ int	ft_builtin_export(t_shell shell, t_exec *exec_node)
 	i = 0;
 	exit_code = ENO_SUCCESS;
 	export_args = &(exec_node->av[1]);
-	new_env = malloc(sizeof(t_env));
 	if (!export_args[0])
 	{
 		ft_print_export_envp(shell.envp);
@@ -109,26 +108,25 @@ int	ft_builtin_export(t_shell shell, t_exec *exec_node)
 	}
 	while (export_args[i])
 	{
+		printf("test1 %s\n", export_args[i]);
 		if (ft_is_env_key_valid(*export_args) == false)
 		{
 			printf("test %s\n", export_args[i]);
 			exit_code = ENO_GENERAL;
-			ft_err_msg("export", *export_args, "not a valid identifier");
+			ft_err_msg("export", export_args[i], "not a valid identifier");
 		}
 		else
 		{
-			new_env->key = "VAR13"; //delete later
-			new_env->value = "15"; //delete later
-			// ft_extract_key_value(*export_args); //ft_create_env_node////ft from Adewale, key; value = NULL(w/o =), "", "value";
+			new_env = ft_create_env_node(&shell, export_args[i]);
 			if (ft_get_env(shell, new_env->key) == NULL)
 			{
-				ft_create_env_node(shell, *export_args); //to be tested
-				ft_lstadd_back(&shell.envp, ft_lstnew(new_env));				
+				ft_lstadd_back(&shell.envp, ft_lstnew(new_env));			
 			}
 			else
 			{
 				printf("key exists %s, update node t_env with new value %s\n", new_env->key, new_env->value);
-				ft_update_env_value(shell.envp, new_env->key, new_env->value);				
+				ft_update_env_value(shell.envp, new_env->key, new_env->value);
+				ft_free_env_node(new_env);
 			}
 		}
 		i ++;

@@ -26,44 +26,49 @@
 char	*ft_unset_key(t_list *env_list, const char *key) // MO : should be key
 {
 	t_list	*current_list;
-	t_list	*prev_list;
+	t_list	*tmp_prev_list;
 	t_env	*env_content;
+	t_list	*tmp_next_list;
 
-	prev_list = NULL;
+	tmp_prev_list = NULL;
+	tmp_next_list = NULL;
 	current_list = env_list;
 	while (current_list)
 	{
+		tmp_next_list = current_list->next;
 		env_content = (t_env *)current_list->content;
 		if (ft_strcmp(env_content->key, key) == 0)
 		{
-			printf("test: key is here\n");
-			if(prev_list)
+			printf("test: key is %s here\n", env_content->key);
+			if(tmp_prev_list)
+			{
 				printf("test:  prev\n");
-		// 		prev_list->next = current_list->next;
+				tmp_prev_list->next = current_list->next;
+				current_list->next = NULL;
+				ft_free_env_node(env_content);
+				free(current_list);
+				current_list = tmp_prev_list;
+			}
 			else
+			{
 				printf("test:  no prev\n");
-		// 		shell.envp = current_list->next;
-		// 	if (env_content)
-		// 	{
-				// if (env_content->value != NULL);
-				// {
-				// 	//env_content->value = NULL;
-				// 	free(env_content->value);
+				// tmp_next_list = current_list->next;
+				// current_list->next = NULL;
+				// ft_free_env_node(env_content);
+				// free(current_list);
+
+				// current_list = NULL;
+				//SEGFAULT!!! NEEED TO BE TESTED!
 				
-				// }
-				// if (env_content->key != NULL);
-				// {
-				// 	//env_content->key = NULL;
-				// 	free(env_content->key);
-				
-				// }
-		// 		free(env_content->key);
-		// 		free(env_content);
-		// 	}
+			}
 		}
-		prev_list = current_list; //??check
-		// free(current_list);
-		current_list = current_list->next;
+		// printf("test: loop\n");
+		tmp_prev_list = current_list;
+		// printf("test: loop2\n");
+
+		current_list = tmp_next_list;
+		// printf("test: loop3\n");
+
 	}
 	return (NULL);
 }

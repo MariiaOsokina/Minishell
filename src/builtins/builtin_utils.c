@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:29:12 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/13 10:22:35 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:47:12 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/structs.h"
 
 //in progress, needs to be tested
-
-
 t_env	*ft_get_env(t_shell shell, char *check_key)
 {
 	t_list	*current_list;
@@ -24,13 +22,12 @@ t_env	*ft_get_env(t_shell shell, char *check_key)
 	while (current_list)
 	{
 		env_content = (t_env *)current_list->content;
-		// if (!ft_strcmp(env_content->key, check_key))
-		// 	return (env_content);
+		if (!ft_strcmp(env_content->key, check_key))
+			return (env_content);
         current_list = current_list->next;
 	}
 	return (NULL);
 }
-
 
 //for export and cd
 void	ft_update_env_value(t_list *envp, char *key, char *new_value)
@@ -44,11 +41,12 @@ void	ft_update_env_value(t_list *envp, char *key, char *new_value)
 		env_content = (t_env *)current->content;
 		if (!ft_strcmp(env_content->key, key))
 		{
-            printf("need to be updated %s\n", env_content->value);
-			// if (new_value)
-            //     free(env_content->value);
-			env_content->value = ft_strdup(new_value); //check malloc issues;
-			printf("has been updated %s\n", env_content->value);
+			if (new_value)
+			{
+				free(env_content->value);
+				env_content->value = NULL;
+			}
+			env_content->value = ft_strdup(new_value);
 			return ;
 		}
 		current = current->next;
