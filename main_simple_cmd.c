@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_simple_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 22:59:19 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/14 15:30:08 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/16 00:00:48 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,8 @@ int	main(int argc, char **argv, char **env)
     shell.exit_code = 0;
     
     ft_env_lst(&shell, env);
-	// ft_print_env_lst(shell.envp);
-	// ft_free_env_lst(&shell.envp);
+	ft_print_env_lst(shell.envp);
     
-
-
     exec_node.in_out_list = NULL;
 
     // //redirections:
@@ -108,10 +105,10 @@ int	main(int argc, char **argv, char **env)
 	// expanded_args[0] = "./test1";
 	// expanded_args[1] = NULL;
 	// expanded_args[1] = "invalidargs";
-	expanded_args[1] = "LANGUAGE";
+	expanded_args[1] = "SHELL";
 	// expanded_args[1] = "./tests/test.c";
 
-	expanded_args[2] = "SHLVL";
+	expanded_args[2] = "COLORTERM";
 
 	expanded_args[3] = NULL;
     // expanded_args[3] = NULL;
@@ -119,8 +116,8 @@ int	main(int argc, char **argv, char **env)
 
 	shell.envp_arr = env;
 	// printf("env %s\n", shell.envp_arr[0]);
-	shell.exit_code = ft_exec_simple_cmd(shell, &exec_node);
-    // ft_print_env_lst(shell.envp);
+	shell.exit_code = ft_exec_simple_cmd(&shell, &exec_node);
+    ft_print_env_lst(shell.envp);
 	printf("exit status %d\n", shell.exit_code);
     ft_free_env_lst(&shell.envp);
 	ft_lstclear(&shell.path, &del);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/14 13:32:20 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/15 23:51:51 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ int		ft_redir_inf(t_in_out	*in_out_node);
 int		ft_redir_outf(t_in_out	*in_out_node);
 
 //execution of simple command
-int	ft_exec_simple_cmd(t_shell shell, t_exec *exec_node);
+int	ft_exec_simple_cmd(t_shell *shell, t_exec *exec_node);
 
 
 //(3) execution of external command
@@ -170,13 +170,13 @@ char		*ft_find_cmd_path(char *cmd_name, t_list *path_list);
 
 //(2) execution of builtins
 bool 		ft_is_builtin(char *cmd_name);
-int			ft_exec_builtin(t_shell shell, t_exec *exec_node);
+int			ft_exec_builtin(t_shell *shell, t_exec *exec_node);
 int			ft_strcmp(const char *s1, const char *s2);
 
 int			ft_builtin_echo(t_shell shell, t_exec *exec_node);
 int			ft_builtin_cd(t_shell shell, t_exec *exec_node);
 int			ft_builtin_export(t_shell shell, t_exec *exec_node);
-int			ft_builtin_unset(t_shell shell, t_exec *exec_node);
+int			ft_builtin_unset(t_shell *shell, t_exec *exec_node);
 int			ft_builtin_pwd(t_shell shell, t_exec *exec_node);
 int			ft_builtin_env(t_shell shell, t_exec *exec_node);
 int			ft_builtin_exit(t_shell shell, t_exec *exec_node);

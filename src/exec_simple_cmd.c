@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:03:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/13 13:46:02 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/15 23:53:05 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 - panic()*/
 
 
-int	ft_exec_simple_cmd(t_shell shell, t_exec *exec_node)
+int	ft_exec_simple_cmd(t_shell *shell, t_exec *exec_node)
 {
 	int		tmp_status;
 		
@@ -57,7 +57,7 @@ int	ft_exec_simple_cmd(t_shell shell, t_exec *exec_node)
 	//3. system command (child process)
 	else
 	{
-		tmp_status = ft_exec_external_cmd(shell, exec_node);
+		tmp_status = ft_exec_external_cmd(*shell, exec_node);
 		return (tmp_status);
 	}
 }
