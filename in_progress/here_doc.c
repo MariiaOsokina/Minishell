@@ -6,14 +6,21 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:17:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/19 15:19:52 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/19 17:05:13 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include <structs.h>
 
+# define HEREDOC_NAME "/tmp/.minishell_heredoc_"
 
+
+/*TO BE SOLVE:
+- check that partsing checks the delimiter with closed quoutes, but saves in io_node.eof delimiter WITH quotes;
+- REMOVE HEREDOC: use the unlink() function -> removes a file, parameter is	the path of the file.
+- how to name tmp file, how improve the security
+*/
 /* generate heredoc:
 
 loop the list of in out nodes in case of heredoc:
@@ -27,7 +34,6 @@ loop the list of in out nodes in case of heredoc:
 	4 - close tmp_fd;
 */
 
-# define HEREDOC_NAME "/tmp/.minishell_heredoc_"
 /* 
 	creates a name for the heredoc file. It will be a hidden file in the /temp
 	folder. the static variable guarantees to have successive numbers.
@@ -78,20 +84,21 @@ w/o any expansions.
 
 bool 	ft_is_delimiter_quoted(char *delimiter)
 {
-	//to be done
-	bool flag_quotes;
-
-	flag_quotes = false;
-	return (flag_quotes);
+	while(*delimiter)
+	{
+		if (*delimiter == '"' || *delimiter == '\'')
+			return (true);
+		delimiter ++;
+	}
+	return (false);
 }
-
 
 /*
 fill heredoc tmp file (line by line):
 1 -  check delimiter for quotes;
 Infinity Loop: 
 1 - readline (>);
-2 - check CTRL + D if true then break loop;
+2 - check signal CTRL + D if true then break loop;
 3 - check "is delimiter" if true then break loop;
 4 - put heredoc line to heredoc tmp file;
 5 - free line as readline uses malloc
@@ -99,12 +106,12 @@ Infinity Loop:
 
 int		ft_fill_heredoc(t_in_out *io_here, int fd_hd) 
 {
-	bool 	flag_quotes;
+	bool 	has_quoted;
 	char 	*hd_line;
 	int		line_nbr;
 
 	line_nbr = 0;
-	flag_quotes = ft_is_delimiter_quoted(io_here->eof);
+	has_quoted = ft_is_delimiter_quoted(io_here->eof);
 	//handle signals //QUIT SHOULD BE IGNORED in PARENT PROCESS!
 	if (io_here->type ==  HERE)
 	{
@@ -122,7 +129,7 @@ int		ft_fill_heredoc(t_in_out *io_here, int fd_hd)
 			}
 			if (ft_is_delimiter(io_here->eof, hd_line))
 				break ;
-			ft_put_hd_line(hd_line, fd_hd, flag_quotes);
+			ft_put_hd_line(hd_line, fd_hd, has_quoted);
 			free(hd_line);
 			line_nbr ++;
 		}
@@ -137,11 +144,11 @@ char *ft_line_expantion(char *hd_line)
 }
 
 
-/* if delimiter is not quoted(flag_quotes = false):
+/* if delimiter is not quoted(has_quoted = false):
 - lines are subject to expansion;
 - \n is ignored;
 - \ for quoting characters \, $ and ` // to be check!!!
-if delimiter is quoted(flag_quotes = true):
+if delimiter is quoted(has_quoted = true):
 - the text in the here-document is taken literally,*/
 
 
@@ -164,15 +171,62 @@ void	ft_put_hd_line(char *hd_line, int fd_hd, bool flag_quoted)
 	// ft_putchar_fd('\n', fd_hd);
 }
 
-
-
-
-bool ft_is_delimiter(char *delimiter, char *hd_line)
+void	ft_heredoc_expander(char *hd_line, int fd_hd)
 {
-	if (*delimiter == '"' || *delimiter == '\'')
+	size_t	i;
+
+	i = 0;
+	while (hd_line[i])
+	{
+		// if (hd_line[i] == '\')
+		// if next \ n $ or ' write 2d if not skip 1st??
+		if (hd_line[i] == '$')
+			i += ft_heredoc_expand_writer(hd_line, i, fd_hd);
+
+		else
+			i += (ft_putchar_fd(hd_line[i], fd_hd), 1);
+	}
+	ft_putchar_fd('\n', fd_hd);
+}
+
+// static int	ft_heredoc_expand_writer(char *str, size_t i, int fd)
+// {
+// 	size_t	start;
+// 	char	*tmp;
+
+// 	start = ++i;
+// 	if (str[i] == '?')
+// 		return (ft_putnbr_fd(g_minishell.exit_s, fd), 2);
+// 	while (str[i] && str[i] != '$' && str[i] != ' ')
+// 		i++;
+// 	if (i != start)
+// 	{
+// 		tmp = ft_garbage_collector(ft_substr(str, start, i), false);
+// 		tmp = ft_get_envlst_val(tmp);
+// 		if (tmp)
+// 			ft_putstr_fd(tmp, fd);
+// 	}
+// 	return (i);
+// }
+
+bool	ft_is_delimiter(char *delimiter, char *hd_line)
+{
+	while (*hd_line)
+	{
+		if (*delimiter == '"' || *delimiter == '\'')
+		{
+			delimiter++;
+			continue ;
+		}
+		else if (*hd_line == *delimiter)
+		{
+			hd_line++;
+			delimiter++;
+		}
+		else
+			return (false);
+	}
+	while (*delimiter == '"' || *delimiter == '\'')
 		delimiter++;
-	if (ft_strcmp(hd_line, delimiter) != 0)
-		return (true);
-	else
-		return(false);
+	return (!*delimiter);
 }
