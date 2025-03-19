@@ -108,10 +108,8 @@ int	ft_builtin_export(t_shell shell, t_exec *exec_node)
 	}
 	while (export_args[i])
 	{
-		printf("test1 %s\n", export_args[i]);
 		if (ft_is_env_key_valid(*export_args) == false)
 		{
-			printf("test %s\n", export_args[i]);
 			exit_code = ENO_GENERAL;
 			ft_err_msg("export", export_args[i], "not a valid identifier");
 		}

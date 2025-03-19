@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_list_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/16 00:05:42 by mosokina          #+#    #+#             */
+/*   Updated: 2025/03/18 16:30:28 by mosokina         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/structs.h"
 
 char	*ft_extract_key(char *str);
@@ -95,7 +107,7 @@ t_env	*ft_create_env_node(t_shell *shell, char *env)
 	if (!node)
 		// exit_failure(shell, "create_env_node");
 	{
-		printf("env_value\n");
+		printf("error env_value\n");
 		exit(1);
 	}
 	if (ft_strcmp(env, "=") == 0)
@@ -108,6 +120,25 @@ t_env	*ft_create_env_node(t_shell *shell, char *env)
 		node->key = ft_extract_key(env);
 		node->value = ft_extract_value(env);		
 	}
+	return (node);
+}
+
+t_env	*ft_dup_env_node(t_shell *shell, char *key, char *value)
+{
+	t_env	*node;
+
+	node = malloc(sizeof(t_env));
+	if (!node)
+		// exit_failure(shell, "create_env_node");
+	{
+		printf("error env_value\n");
+		exit(1);
+	}
+	node->key = ft_strdup(key);
+	if (value != NULL)
+		node->value = ft_strdup(value);
+	else
+		node->value = NULL;
 	return (node);
 }
 

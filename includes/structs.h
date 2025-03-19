@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/15 23:51:51 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/18 10:59:03 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,23 @@ typedef struct s_exec
 typedef struct s_pipe
 {
 	t_node		type;
-	t_exec		*left;
-	t_exec		*right;
+	void		*left;
+	void		*right;
 }				t_pipe;
+
+typedef struct s_andif
+{
+	t_node	type;
+	void	*left;
+	void	*right;
+}			t_andif;
+
+typedef struct s_or
+{
+	t_node	type;
+	void	*left;
+	void	*right;
+}			t_or;
 
 // typedef enum e_node_type
 // {
@@ -189,6 +203,9 @@ t_env		*ft_get_env(t_shell shell, char *check_key);
 int 		ft_print_export_envp(t_list *env_list);
 bool		ft_is_env_key_valid(char *str);
 int 		ft_arr_size(char **arr);
+
+t_env	*ft_dup_env_node(t_shell *shell, char *key, char *value);
+
 
 //env_list fucntions
 char	*ft_extract_key(char *str);

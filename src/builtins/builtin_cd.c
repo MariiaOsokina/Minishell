@@ -37,9 +37,14 @@ If no OLDPWD in envp, error “OLDPWD not set” with exit code 1 (e.g. in case 
 
 5 - Update list of env (shell.envp);
  - if $OLDPWD was unset, add new env node to envp, else update value OLDPWD, value is PWD;
- - if $PWD was unset, add new env node to envp, else update value OLDPWD, value is getcwd())
+ - if $PWD was unset, add new env node to envp, else update value PWD, value is getcwd())
 */
 
+
+/*
+TESTS
+
+*/
 int	ft_builtin_cd(t_shell shell, t_exec *exec_node)
 {
 	char *path;
@@ -52,39 +57,48 @@ int	ft_builtin_cd(t_shell shell, t_exec *exec_node)
 	else if (!path)
 	{
 		tmp_env = ft_get_env(shell, "HOME");
+		printf("test3\n");
 		if (!tmp_env)
 			return (ft_err_msg("cd", "HOME not set", NULL), ENO_GENERAL);
 		else
 		{
 			path = tmp_env->value;
-			printf("path: %s\n", path);
 		}	
 	}
+	printf("path: %s\n", path);
+
 	if (chdir(path) != ENO_SUCCESS)
 		return (ft_err_msg("cd", path, "No such file or directory"), ENO_GENERAL);
+	printf("test4\n");
 	tmp_env = ft_get_env(shell, "OLDPWD");
 	if(tmp_env != NULL)
 	{
+		printf("OLDPWD: %s\n", tmp_env->value);	
 		tmp_env = ft_get_env(shell, "PWD");
+		printf("PWD: %s\n", tmp_env->value);
 		ft_update_env_value(shell.envp, "OLDPWD", tmp_env->value);
+		// ft_print_env_lst(shell.envp);
+		//free(tmp_env); //check don't need it
 	}
 	else
 	{
+		tmp_env = ft_get_env(shell, "PWD");
+		tmp_env = ft_dup_env_node(&shell, "OLDPWD", tmp_env->value);
 		printf("OLDPWD is unset, create a new node with OLDPWD, value is value of PWD\n");
-		// create_env_node() // OLDPWD, tmp_env->value
-		// ft_lstadd_back(shell.envp, ft_lstnew(new_env)); ///ft from Adewale
+		ft_lstadd_back(&shell.envp, ft_lstnew(tmp_env));
 	}
 	tmp_env = ft_get_env(shell, "PWD");
+	
 	if(tmp_env != NULL)
 	{
-		// free(tmp_env); //check malloc issues
+	// 	free(tmp_env); //check malloc issues
 		ft_update_env_value(shell.envp, "PWD", getcwd(NULL, 0));
 	}
 	else
 	{
 		printf("PWD is unset, create a new node with PWD, value is chdir()");
-		// create_env_node() // PWD, path(value)
-		// ft_lstadd_back(shell.envp, ft_lstnew(new_env)); ///ft from Adewale
+		tmp_env = ft_dup_env_node(&shell, "PWD", getcwd(NULL, 0));
+		ft_lstadd_back(&shell.envp, ft_lstnew(tmp_env));
 	}
     return (ENO_SUCCESS);
 }

@@ -38,7 +38,9 @@ char *ft_unset_key(t_shell *shell, const char *key)
             if (tmp_prev_list)
                 tmp_prev_list->next = current_list->next;
             else //first element
+            {
                 shell->envp = current_list->next; // Update the head of the list
+            }
             to_free = current_list;
             current_list = current_list->next;
 			to_free->next=NULL;

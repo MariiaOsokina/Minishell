@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:03:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/15 23:53:05 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/18 10:44:27 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	ft_exec_simple_cmd(t_shell *shell, t_exec *exec_node)
 	{
 		tmp_status = ft_redirection(exec_node);
 		//reset stds???
+		//dup2(STDIN, 0);
+		//dup2(STDOUT, 1);
 		return (tmp_status);
 	}
 	//2. if builtin command
@@ -48,10 +50,15 @@ int	ft_exec_simple_cmd(t_shell *shell, t_exec *exec_node)
 		{
 			//panic();
 			//reset stds???
+			//reset stds???
+			//dup2(STDIN, 0);
+			//dup2(STDOUT, 1);
 			return (tmp_status); // from child proccess
 		}
 		tmp_status = ft_exec_builtin(shell, exec_node);
-		//reset stds???
+			//reset stds???
+			//dup2(STDIN, 0);
+			//dup2(STDOUT, 1);
 		return (tmp_status); //128+n if signals
 	}
 	//3. system command (child process)

@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 22:59:19 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/16 00:00:48 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/18 11:45:02 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(int argc, char **argv, char **env)
     shell.exit_code = 0;
     
     ft_env_lst(&shell, env);
-	ft_print_env_lst(shell.envp);
+	// ft_print_env_lst(shell.envp);
     
     exec_node.in_out_list = NULL;
 
@@ -85,41 +85,55 @@ int	main(int argc, char **argv, char **env)
     // io_2->type = IO_APPEND;
 
 
-    // //path for external cmds (like ls)
-	// shell.path = ft_lstnew("/usr/bin/");
-	// path_next = ft_lstnew("/usr/local/bin");
-	// path_next2 = ft_lstnew("/home/mosokina/.local/bin");
-	// ft_lstadd_back(&shell.path, path_next);
-	// ft_lstadd_back(&shell.path->next, path_next2);
+    //path for external cmds (like ls)
+	shell.path = ft_lstnew("/usr/bin/");
+	path_next = ft_lstnew("/usr/local/bin");
+	path_next2 = ft_lstnew("/home/mosokina/.local/bin");
+	ft_lstadd_back(&shell.path, path_next);
+	ft_lstadd_back(&shell.path->next, path_next2);
     shell.path = NULL;
     // // for checking no command(just redirections)
     // exec_node.expanded_args = NULL;
     
-	char *expanded_args[4];
+	char *expanded_args[3];
 	exec_node.av = expanded_args;
 
 	// expanded_args[0] = "wrongcommand";
-	expanded_args[0] = "unset";
+	expanded_args[0] = "cd";
 	// expanded_args[0] = "wrongcmd";
 
 	// expanded_args[0] = "./test1";
 	// expanded_args[1] = NULL;
 	// expanded_args[1] = "invalidargs";
-	expanded_args[1] = "SHELL";
+	expanded_args[1] = "/home/mosokina";
 	// expanded_args[1] = "./tests/test.c";
 
-	expanded_args[2] = "COLORTERM";
+	// expanded_args[2] = "COLORTERM";
 
-	expanded_args[3] = NULL;
+	expanded_args[2] = NULL;
     // expanded_args[3] = NULL;
     exec_node.command = exec_node.av[0];
 
 	shell.envp_arr = env;
 	// printf("env %s\n", shell.envp_arr[0]);
+    
+    t_exec *exec_node1 = malloc(sizeof(t_exec));
+
+	char *expanded_args1[3];
+	expanded_args1[0] = "unset";
+    expanded_args1[1] = "PWD";
+    expanded_args1[2] = NULL;
+    exec_node1->av = expanded_args1;
+    exec_node1->command = expanded_args1[0];
+    exec_node1->type.type = N_EXEC;
+
+
+    ft_builtin_unset(&shell, exec_node1);
+    printf("unset\n");
 	shell.exit_code = ft_exec_simple_cmd(&shell, &exec_node);
-    ft_print_env_lst(shell.envp);
+    // ft_print_env_lst(shell.envp);
 	printf("exit status %d\n", shell.exit_code);
     ft_free_env_lst(&shell.envp);
-	ft_lstclear(&shell.path, &del);
+	// ft_lstclear(&shell.path, &del);
 	return (0);
 }
