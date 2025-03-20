@@ -87,8 +87,7 @@ int	ft_builtin_cd(t_shell shell, t_exec *exec_node)
 		printf("OLDPWD is unset, create a new node with OLDPWD, value is value of PWD\n");
 		ft_lstadd_back(&shell.envp, ft_lstnew(tmp_env));
 	}
-	tmp_env = ft_get_env(shell, "PWD");
-	
+	tmp_env = ft_get_env(shell, "PWD"); // FIND BUG AS SEGFAULT!!
 	if(tmp_env != NULL)
 	{
 	// 	free(tmp_env); //check malloc issues
