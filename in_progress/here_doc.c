@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:17:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/19 17:05:13 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/20 01:47:04 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 # define HEREDOC_NAME "/tmp/.minishell_heredoc_"
 
-
 /*TO BE SOLVE:
-- check that partsing checks the delimiter with closed quoutes, but saves in io_node.eof delimiter WITH quotes;
+- check that parsing checks the delimiter with closed quoutes, but saves in io_node.eof delimiter WITH quotes;
 - REMOVE HEREDOC: use the unlink() function -> removes a file, parameter is	the path of the file.
 - how to name tmp file, how improve the security
 */
-/* generate heredoc:
+
+/* functions for generating heredocs:
 
 loop the list of in out nodes in case of heredoc:
 
@@ -65,7 +65,7 @@ int	ft_generate_heredocs(t_exec *exec_node)
 		io_node = (t_in_out *)current->content;
 		if (io_node->type == HERE)
 		{
-			io_node = ft_generate_heredoc_name();
+			io_node->name = ft_generate_heredoc_name();
 			tmp_fd = open(io_node->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 			ft_fill_heredoc(io_node, tmp_fd);
 			close(tmp_fd);
@@ -94,14 +94,14 @@ bool 	ft_is_delimiter_quoted(char *delimiter)
 }
 
 /*
-fill heredoc tmp file (line by line):
+function for filling heredoc tmp file (line by line):
 1 -  check delimiter for quotes;
 Infinity Loop: 
 1 - readline (>);
 2 - check signal CTRL + D if true then break loop;
 3 - check "is delimiter" if true then break loop;
 4 - put heredoc line to heredoc tmp file;
-5 - free line as readline uses malloc
+5 - free line as readline uses malloc;
 */
 
 int		ft_fill_heredoc(t_in_out *io_here, int fd_hd) 
@@ -113,26 +113,23 @@ int		ft_fill_heredoc(t_in_out *io_here, int fd_hd)
 	line_nbr = 0;
 	has_quoted = ft_is_delimiter_quoted(io_here->eof);
 	//handle signals //QUIT SHOULD BE IGNORED in PARENT PROCESS!
-	if (io_here->type ==  HERE)
+	while(1)
 	{
-		while(1)
+		hd_line = readline("> "); // MALLOC!!!!
+		if (!hd_line) // note: it happends in case of signal CTRL + D
 		{
-			hd_line = readline("> "); // MALLOC!!!!
-			if (!hd_line) // note: it happends in case of signal CTRL + D
-			{
-				ft_putstr_fd(STDERR_FILENO, "\nbash: warning: here-document at line ");
-				ft_putnbr_fd(STDERR_FILENO, line_nbr);
-				ft_putstr_fd(STDERR_FILENO,  "delimited by end-of-file (\'");
-				ft_putstr_fd(STDERR_FILENO, io_here->eof);
-				ft_putstr_fd(STDERR_FILENO, "\')\n");
-				break ;
-			}
-			if (ft_is_delimiter(io_here->eof, hd_line))
-				break ;
-			ft_put_hd_line(hd_line, fd_hd, has_quoted);
-			free(hd_line);
-			line_nbr ++;
+			ft_putstr_fd(STDERR_FILENO, "\nbash: warning: here-document at line ");
+			ft_putnbr_fd(STDERR_FILENO, line_nbr);
+			ft_putstr_fd(STDERR_FILENO,  "delimited by end-of-file (\'");
+			ft_putstr_fd(STDERR_FILENO, io_here->eof);
+			ft_putstr_fd(STDERR_FILENO, "\')\n");
+			break ;
 		}
+		if (ft_is_delimiter(io_here->eof, hd_line))
+			break ;
+		ft_put_heredoc_line(hd_line, fd_hd, has_quoted);
+		free(hd_line);
+		line_nbr ++;
 	}
 	return (0);
 }
@@ -152,9 +149,9 @@ if delimiter is quoted(has_quoted = true):
 - the text in the here-document is taken literally,*/
 
 
-void	ft_put_hd_line(char *hd_line, int fd_hd, bool flag_quoted)
+void	ft_put_heredoc_line(char *hd_line, int fd_hd, bool quoted)
 {
-	if (flag_quoted == false)
+	if (quoted == false)
 		printf("Need to be no quotes rules");
 		// ft_putendl_fd(hd_line, fd_hd);
 	else

@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:03:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/19 23:35:26 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/20 01:46:52 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ int	ft_exec_simple_cmd(t_shell *shell, t_exec *exec_node)
 	//1. if no cmd
 	if (exec_node->command == NULL)
 	{
-		tmp_status = ft_redirection(exec_node);
+		tmp_status = ft_redirections(exec_node);
 		// //reset stds???
 		//dup2(STDIN, 0);
 		//dup2(STDOUT, 1);
 		return (tmp_status);
 	}
 	//2. if builtin command
-	if (ft_is_builtin(exec_node->command)) 
+	else if (ft_is_builtin(exec_node->command)) 
 	{
-		tmp_status = ft_redirection(exec_node);
+		tmp_status = ft_redirections(exec_node);
 		if (tmp_status != ENO_SUCCESS)
 		{
 			//panic();

@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 22:06:48 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/06 00:22:54 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/20 01:47:06 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ CTRL+C (SIGINT) ->
 
 CTR+\ (SIGQUIT) -> quit process and print "^\Quit (core dumped)", the same as the main and inhereted by parent;
 
-CTRL+ D (EOF) -> check EOF(return readline() is NULL), print msg to STDERR and exit
+CTRL+ D (EOF) -> check EOF(return readline() is NULL), print msg to STDERR and ?exit?
 
 		line = readline('>');
 		if (!line)

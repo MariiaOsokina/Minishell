@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection.c                                      :+:      :+:    :+:   */
+/*   exec_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/13 15:11:09 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/20 01:20:18 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ $echo $?
 1
 */
 
-int	ft_redirection(t_exec *exec_node)
+int	ft_redirections(t_exec *exec_node)
 {
 	t_list		*tmp_io_list;
 	int			tmp_status;

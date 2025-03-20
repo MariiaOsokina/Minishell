@@ -1,17 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_msg.c                                        :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 11:22:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/18 16:30:41 by mosokina         ###   ########.fr       */
+/*   Created: 2025/03/20 01:01:22 by mosokina          #+#    #+#             */
+/*   Updated: 2025/03/20 01:47:05 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/structs.h"
-#include <stdio.h>
+
+int	ft_get_exit_status(int status)
+{
+	// if (WIFSIGNALED(status)) 	//to add tmp_status + 127(signals)
+
+	// 	return (128 + WTERMSIG(status));
+	return (WEXITSTATUS(status)); // This MACROS WEXITSTATUS shifts to bits to right place,  as child exit status is stored in the higher bits.
+}
 
 //function for printing an error message to STDERR
 

@@ -1,36 +1,46 @@
-NAME	= shell
+NAME		:= minishell
 
-SRC_PATH = src/ builtins/
-OBJ_PATH = obj/ obj/builtins/
-SRC = *.c
-# main.c redirection.c error_msg.c simple_cmd_exec.c 
-# builtins/builtins_all.c builtins/builtin_cd.c builtins/builtin_echo.c builtins/builtin_env.c builtins/builtin_unset.c \
-# builtins/builtin_export builtins/builtin_pwd.c builtins/builtin_utils.c 
-SRCS	= $(addprefix $(SRC_PATH), $(SRC))
-OBJ 	= $(SRC:.c=.o)
-OBJS	= $(addprefix $(OBJ_PATH), $(OBJ))
+# LIBFT		:= libft.a
+# LIBFT_PATH	:= "libft/"
 
-CC 		= cc
-CFLAGS 	= -Wall -Wextra -Werror
+CC			:= cc
+
+CFLAGS		:= -Wall -Werror -Wextra
+
+BUILTINS	:=	builtins/*.c
+
+# CLEANING	:=	cleaning/ft_clean_ms.c
+
+EXEC		:=	exec/*.c
+
+SRCS		:=	$(BUILTINS)\
+				$(EXEC)\
+				main_simple_cmd.c
+
+OBJS		:=	$(SRCS:.c=.o)
+
 HEADER = -I includes
+
+# READLINE_PATH:=	/goinfre/homebrew/opt/readline
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@ $(HEADER)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	make -C ./libft
-	$(CC) $(OBJS) -L ./libft -lft -o $(NAME)
+$(LIBFT):
+	@make -C $(LIBFT_PATH)
 
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c
-	mkdir -p $(OBJ_PATH)
-	$(CC) $(CFLAGS) $(HEADER) -c $< -o $@
+$(NAME): $(LIBFT) $(OBJS)
+	@$(CC) -o $(NAME) $(OBJS) -L$(LIBFT_PATH) -lft
 
 clean:
-		make clean -C ./libft
-		rm -rf $(OBJ_PATH)
+	@make clean -C $(LIBFT_PATH)
+	@rm -f $(OBJS)
 
 fclean: clean
-		make fclean -C ./libft
-		rm -f $(NAME)
+	@make fclean -C $(LIBFT_PATH)
+	@rm -f $(NAME)
 
 re:			fclean all
 

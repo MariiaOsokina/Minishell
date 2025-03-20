@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:44:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/18 16:31:56 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/20 01:20:18 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,18 @@ int	ft_exec_external_cmd(t_shell shell, t_exec *exec_node)
 	t_err_no	err_no;
 
 	tmp_status = 0;
-	
 	// to handle signals??? ...
 	fork_pid = fork();
 	// to add error fork ...
     if (fork_pid == 0)
     {
-		tmp_status = ft_redirection(exec_node);
+		tmp_status = ft_redirections(exec_node);
 		if (tmp_status != ENO_SUCCESS)
 		{
 			//panic();
 			exit(tmp_status); // from child proccess
 		}
+		//execute with rel abs path
 		if (ft_strnstr(exec_node->command, "/", ft_strlen(exec_node->command)))
 		{
 			cmd_path = exec_node->command;
@@ -68,7 +68,7 @@ int	ft_exec_external_cmd(t_shell shell, t_exec *exec_node)
 				exit(ENO_GENERAL); // from child process;
 			}
 		}
-		else
+		else //exec no path
 		{
 			cmd_path = ft_get_env_path(shell, exec_node->command, &err_no); // err_no as ptr for saving its value
 			printf("path: %s\n", cmd_path);
@@ -90,13 +90,6 @@ int	ft_exec_external_cmd(t_shell shell, t_exec *exec_node)
 	return (ft_get_exit_status(tmp_status));
 }
 
-int	ft_get_exit_status(int status)
-{
-	// if (WIFSIGNALED(status)) 	//to add tmp_status + 127(signals)
-
-	// 	return (128 + WTERMSIG(status));
-	return (WEXITSTATUS(status)); // This MACROS WEXITSTATUS shifts to bits to right place,  as child exit status is stored in the higher bits.
-}
 
 t_err_no	ft_check_access(char *cmd_path) // check the permission to the file, print the error msg and return the error number
 {	
@@ -124,53 +117,4 @@ bool	ft_cmd_is_dir(char *cmd_path)
 	ft_memset(&cmd_stat, 0, sizeof(cmd_stat));
 	stat(cmd_path, &cmd_stat);
 	return (S_ISDIR(cmd_stat.st_mode));
-}
-
-/*This function gets the proper path for the command.
-It uses list of directories parsed in advanced from $PATH and saved as shell.path*/
-
-char	*ft_get_env_path(t_shell shell, char *cmd_name, t_err_no *err_no)
-{
-	char *cmd_path;
-
-	if (!ft_strcmp(cmd_name, ".."))
-	{
-		ft_err_msg(cmd_name, "command not found", NULL);
-		*(err_no) = ENO_NOT_FOUND;
-		return (NULL);
-	}
-	if (!ft_strcmp(cmd_name, "."))
-	{
-		ft_err_msg(cmd_name, "filename argument required", NULL);
-		*(err_no) = 2;
-		return (NULL);
-	}
-	cmd_path = ft_find_cmd_path(cmd_name, shell.path); //malloc!!! to do free later
-	if (!cmd_path)
-	{
-		ft_err_msg(cmd_name, "command not found", NULL);
-		*(err_no) = ENO_NOT_FOUND;
-		return (NULL);
-	}
-	*(err_no) = ENO_SUCCESS;
-	return (cmd_path);
-}
-
-char	*ft_find_cmd_path(char *cmd_name, t_list *path_list)
-{
-	char 	*part_path;
-	char 	*full_path;
-
-	while (path_list)
-	{
-		full_path = NULL;
-		part_path = ft_strjoin(path_list->content, "/");
-		full_path = ft_strjoin(part_path, cmd_name);
-		free(part_path);
-		if ((access(full_path, F_OK)) == 0)
-			return (full_path);
-		free(full_path);
-		path_list = path_list->next;
-	}
-	return (NULL);
 }

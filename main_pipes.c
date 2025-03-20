@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:03:10 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/17 14:20:45 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/20 00:18:16 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	main(int argc, char **argv, char **env)
     
 	shell.envp_arr = env;
 	// printf("env %s\n", shell.envp_arr[0]);
-	shell.exit_code = ft_node_execution(&shell, &shell.root);
+	shell.exit_code = ft_exec_node(&shell, &shell.root);
 	printf("exit status %d\n", shell.exit_code);
     ft_free_env_lst(&shell.envp);
 	ft_lstclear(&shell.path, &del);

@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/18 10:59:03 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/20 01:20:18 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ typedef enum e_err_no
 
 //redirections
 
-int		ft_redirection(t_exec *exec_node);
+int		ft_redirections(t_exec *exec_node);
 int		ft_redir_inf(t_in_out	*in_out_node);
 int		ft_redir_outf(t_in_out	*in_out_node);
 
