@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:44:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/20 01:20:18 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/20 13:53:16 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,16 +91,23 @@ int	ft_exec_external_cmd(t_shell shell, t_exec *exec_node)
 }
 
 
-t_err_no	ft_check_access(char *cmd_path) // check the permission to the file, print the error msg and return the error number
+int	ft_check_access(char *cmd_path) // check the permission to the file, print the error msg and return the error number
 {	
-	if (access(cmd_path, F_OK) != 0) //file doesn't exist
-		// if (path_seach)
-		// 	ft_err_msg(ERRMSG_CMD_NOT_FOUND, file);
-		return (ft_err_msg(cmd_path, "No such file or directory", NULL), ENO_NOT_FOUND);
+	if (access(cmd_path, F_OK) != 0)
+	{
+		ft_err_msg(cmd_path, "No such file or directory", NULL);
+		return (ENO_NOT_FOUND);
+	}
 	else if (ft_cmd_is_dir(cmd_path))
-		return (ft_err_msg(cmd_path, "Is a directory", NULL), ENO_CANT_EXEC);
+	{
+		ft_err_msg(cmd_path, "Is a directory", NULL);
+		return (ENO_CANT_EXEC);
+	}			
 	else if (access(cmd_path, X_OK) != 0)// no execution rights
-		return (ft_err_msg(cmd_path, "Permission denied\n", NULL), ENO_CANT_EXEC); //??check: strerror(errno) instead "Permition denied"
+	{
+		ft_err_msg(cmd_path, "Permission denied\n", NULL); //??check: strerror(errno) instead "Permition denied"
+		return (ENO_CANT_EXEC);
+	}
 	return (ENO_SUCCESS);
 }
 

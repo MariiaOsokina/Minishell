@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:53:30 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/20 00:55:52 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/20 15:01:04 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ int ft_exec_pipeline(t_shell *shell, t_pipe *pipe_node)
 	pid_t 	pid_left;
 	pid_t 	pid_right;
 	int		tmp_status;
+
+
+	printf("ft_exec_pipeline\n");
 
 	//signals
 	pipe(pipe_fds);
@@ -33,23 +36,23 @@ int ft_exec_pipeline(t_shell *shell, t_pipe *pipe_node)
 	waitpid(pid_right, &tmp_status, 0); // get exit status only from right
 	//signals
 	tmp_status = ft_get_exit_status(tmp_status);
-	return (tmp_status);
+	exit(tmp_status); // ???
 }
 
 void ft_exec_pipe_right(t_shell *shell, t_pipe *pipe_node, int *pipe_fds)
 {
-	dup2(STDIN_FILENO, pipe_fds[0]);
-	close(pipe_fds[0]);
+	printf("RIGHT PIPE CMD, pipe nbr %d\n", pipe_node->nbr);
 	close(pipe_fds[1]);
+	dup2(pipe_fds[0], STDIN_FILENO);
+	close(pipe_fds[0]);
 	ft_exec_node(shell, pipe_node->right);
 }
 
 void ft_exec_pipe_left(t_shell *shell, t_pipe *pipe_node, int *pipe_fds)
 {
-	dup2(STDOUT_FILENO, pipe_fds[1]);
+	printf("LEFT PIPE CMD, pipe nbr %d\n", pipe_node->nbr);
 	close(pipe_fds[0]);
+	dup2(pipe_fds[1], STDOUT_FILENO);
 	close(pipe_fds[1]);
 	ft_exec_node(shell, pipe_node->left);
 }
-
-

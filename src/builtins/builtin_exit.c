@@ -96,7 +96,6 @@ static int	get_exit_code(char *exit_arg)
 {
 	int					i;
 	int					sign;
-	int					exit_s;
 	unsigned long long	result;
 
 	i = 0;
@@ -117,13 +116,13 @@ static int	get_exit_code(char *exit_arg)
 	return ((result * sign) % 256);
 }
 
-int	ft_builtin_exit(t_shell shell, t_exec *exec_node)
+int	ft_builtin_exit(t_shell *shell, t_exec *exec_node)
 {
 	int	exit_code;
 
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (!exec_node->av[1])
-		exit_code = shell.exit_code;
+		exit_code = shell->exit_code;
 	else
 	{
 		exit_code = get_exit_code(exec_node->av[1]);
@@ -139,8 +138,8 @@ int	ft_builtin_exit(t_shell shell, t_exec *exec_node)
 		{
 			ft_err_msg("exit", exec_node->av[2], \
 			"too many arguments");
-			shell.exit_code = ENO_GENERAL;
-			return (shell.exit_code);
+			shell->exit_code = ENO_GENERAL;
+			return (shell->exit_code);
 		}
 	}
 	//panic()

@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/20 01:20:18 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/20 15:01:19 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_pipe
 	t_node		type;
 	void		*left;
 	void		*right;
+	int			nbr; //just for testing
 }				t_pipe;
 
 typedef struct s_andif
@@ -163,51 +164,50 @@ typedef enum e_err_no
 	ENO_EXEC_255 = 255
 }	t_err_no;
 
-//redirections
 
+/*EXECUTION*/
+int ft_exec_node(t_shell *shell, void *node);
+int ft_exec_andif(t_shell *shell, t_andif *andif_node);
+int ft_exec_or(t_shell *shell, t_or *or_node);
+int ft_exec_pipeline(t_shell *shell, t_pipe *pipe_node);
+void ft_exec_pipe_right(t_shell *shell, t_pipe *pipe_node, int *pipe_fds);
+void ft_exec_pipe_left(t_shell *shell, t_pipe *pipe_node, int *pipe_fds);
+/*execution of simple command*/
+int	ft_exec_simple_cmd(t_shell *shell, t_exec *exec_node);
+int	ft_exec_external_cmd(t_shell shell, t_exec *exec_node);
+int	ft_check_access(char *cmd_path); // check the permission to the file, print the error msg and return the error number
+bool	ft_cmd_is_dir(char *cmd_path);
+char	*ft_get_env_path(t_shell shell, char *cmd_name, t_err_no *err_no);
+char	*ft_find_cmd_path(char *cmd_name, t_list *path_list);
+
+/*redirections*/
 int		ft_redirections(t_exec *exec_node);
 int		ft_redir_inf(t_in_out	*in_out_node);
 int		ft_redir_outf(t_in_out	*in_out_node);
 
-//execution of simple command
-int	ft_exec_simple_cmd(t_shell *shell, t_exec *exec_node);
+/*exec utils*/
+int		ft_get_exit_status(int status);
+void	ft_err_msg(char *s1, char *s2, char *s3);
 
+/*BUILTINS*/
+bool 	ft_is_builtin(char *cmd_name);
+int		ft_exec_builtin(t_shell *shell, t_exec *exec_node);
+int		ft_strcmp(const char *s1, const char *s2);
 
-//(3) execution of external command
+int		ft_builtin_echo(t_shell *shell, t_exec *exec_node);
+int		ft_builtin_cd(t_shell *shell, t_exec *exec_node);
+int		ft_builtin_export(t_shell *shell, t_exec *exec_node);
+int		ft_builtin_unset(t_shell *shell, t_exec *exec_node);
+int		ft_builtin_pwd(t_shell *shell, t_exec *exec_node);
+int		ft_builtin_env(t_shell *shell, t_exec *exec_node);
+int		ft_builtin_exit(t_shell *shell, t_exec *exec_node);
 
-int			ft_exec_external_cmd(t_shell shell, t_exec *exec_node);
-int			ft_get_exit_status(int status);
-t_err_no	ft_check_access(char *cmd_path);
-bool		ft_cmd_is_dir(char *cmd_path);
-char		*ft_get_env_path(t_shell shell, char *cmd_name, t_err_no *err_no);
-char		*ft_find_cmd_path(char *cmd_name, t_list *path_list);
+t_env	*ft_get_env(t_shell shell, char *check_key);
+void	ft_update_env_value(t_list *envp, char *key, char *new_value);
+int 	ft_arr_size(char **arr);
 
-//(2) execution of builtins
-bool 		ft_is_builtin(char *cmd_name);
-int			ft_exec_builtin(t_shell *shell, t_exec *exec_node);
-int			ft_strcmp(const char *s1, const char *s2);
+/*envp list utils*/
 
-int			ft_builtin_echo(t_shell shell, t_exec *exec_node);
-int			ft_builtin_cd(t_shell shell, t_exec *exec_node);
-int			ft_builtin_export(t_shell shell, t_exec *exec_node);
-int			ft_builtin_unset(t_shell *shell, t_exec *exec_node);
-int			ft_builtin_pwd(t_shell shell, t_exec *exec_node);
-int			ft_builtin_env(t_shell shell, t_exec *exec_node);
-int			ft_builtin_exit(t_shell shell, t_exec *exec_node);
-
-void		ft_update_env_value(t_list *envp, char *key, char *new_value);
-// char 		*ft_get_env_value(t_list *envp, const char *key);
-int			ft_add_envlist(t_list *envp, char *key, char *value);
-t_env		*ft_new_env_content(char *key, char *value);
-t_env		*ft_get_env(t_shell shell, char *check_key);
-int 		ft_print_export_envp(t_list *env_list);
-bool		ft_is_env_key_valid(char *str);
-int 		ft_arr_size(char **arr);
-
-t_env	*ft_dup_env_node(t_shell *shell, char *key, char *value);
-
-
-//env_list fucntions
 char	*ft_extract_key(char *str);
 char	*ft_extract_value(char *str);
 void	*ft_env_lst(t_shell *shell, char **envp);
@@ -216,10 +216,15 @@ void	ft_free_env_lst(t_list **envp);
 void	ft_print_env_lst(t_list *lst);
 void	ft_free_env_node(t_env *envp_node);
 
-
-//utils
-void		ft_err_msg(char *s1, char *s2, char *s3);
-int			ft_strcmp(const char *s1, const char *s2);
+/*envp list utils*/
+char	*ft_extract_key(char *str);
+char	*ft_extract_value(char *str);
+void	*ft_env_lst(t_shell *shell, char **envp);
+t_env	*ft_create_env_node(t_shell *shell, char *env);
+t_env	*ft_dup_env_node(t_shell *shell, char *key, char *value);
+void	ft_print_env_lst(t_list *lst); //for testing
+void	ft_free_env_node(t_env *envp_node);
+void	ft_free_env_lst(t_list **envp);
 
 
 #endif

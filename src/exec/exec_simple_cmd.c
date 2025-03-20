@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:03:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/20 01:46:52 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:34:26 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,14 @@
 int	ft_exec_simple_cmd(t_shell *shell, t_exec *exec_node)
 {
 	int		tmp_status;
-		
+
+	printf("ft_exec_simple_cmd\n");
 
 	//1. if no cmd
 	if (exec_node->command == NULL)
 	{
 		tmp_status = ft_redirections(exec_node);
+		printf("test1\n");
 		// //reset stds???
 		//dup2(STDIN, 0);
 		//dup2(STDOUT, 1);

@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:03:10 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/20 00:18:16 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:40:32 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,11 @@ int	main(int argc, char **argv, char **env)
     exec_node4->type.type = N_EXEC;
 
 
-    t_pipe  *pipe1;
+    // t_pipe  *pipe1;
     t_pipe  *pipe2;
     t_pipe  *pipe3;
 
-    pipe1 = malloc(sizeof(t_pipe));
+    // pipe1 = malloc(sizeof(t_pipe));
     pipe2 = malloc(sizeof(t_pipe));
     pipe3 = malloc(sizeof(t_pipe));
 
@@ -88,23 +88,33 @@ int	main(int argc, char **argv, char **env)
     pipe3->type.type = N_PIPE;
     pipe3->left = pipe2;
     pipe3->right = exec_node4;
+    pipe3->nbr = 3;
 
     pipe2->type.type = N_PIPE;
-    pipe2->left = pipe1;
+    // pipe2->left = pipe1;
+    pipe2->left = exec_node2;
     pipe2->right = exec_node3;
+    pipe2->nbr = 2;
 
 
-    pipe1->type.type = N_PIPE;
-    pipe1->left = exec_node1;
-    pipe1->right = exec_node2;
+    // pipe1->type.type = N_PIPE;
+    // pipe1->left = exec_node1;
+    // pipe1->right = exec_node2;
+    // pipe1->nbr = 1;
 
     shell.root = pipe3;
-
+    printf("test main\n");
     
+        //path for external cmds (like ls)
+	shell.path = ft_lstnew("/usr/bin/");
+	path_next = ft_lstnew("/usr/local/bin");
+	path_next2 = ft_lstnew("/home/mosokina/.local/bin");
+	ft_lstadd_back(&shell.path, path_next);
+	ft_lstadd_back(&shell.path->next, path_next2);
 	shell.envp_arr = env;
 	// printf("env %s\n", shell.envp_arr[0]);
-	shell.exit_code = ft_exec_node(&shell, &shell.root);
-	printf("exit status %d\n", shell.exit_code);
+	shell.exit_code = ft_exec_node(&shell, shell.root);
+	// printf("exit status %d\n", shell.exit_code);
     ft_free_env_lst(&shell.envp);
 	ft_lstclear(&shell.path, &del);
 	return (0);

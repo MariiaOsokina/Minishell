@@ -6,20 +6,20 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:05:42 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/18 16:30:28 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/20 13:50:23 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/structs.h"
 
-char	*ft_extract_key(char *str);
-char	*ft_extract_value(char *str);
-void	*ft_env_lst(t_shell *shell, char **envp);
-t_env	*ft_create_env_node(t_shell *shell, char *env);
-void	ft_free_env_lst(t_list **envp);
-void	ft_print_env_lst(t_list *lst);
-void	ft_free_env_node(t_env *envp_node);
-
+// char	*ft_extract_key(char *str);
+// char	*ft_extract_value(char *str);
+// void	*ft_env_lst(t_shell *shell, char **envp);
+// t_env	*ft_create_env_node(t_shell *shell, char *env);
+// t_env	*ft_dup_env_node(t_shell *shell, char *key, char *value);
+// void	ft_print_env_lst(t_list *lst); //for testing
+// void	ft_free_env_node(t_env *envp_node);
+// void	ft_free_env_lst(t_list **envp);
 
 // int	main(int ac, char **av, char **envp)
 // {
@@ -102,6 +102,7 @@ void	*ft_env_lst(t_shell *shell, char **envp)
 t_env	*ft_create_env_node(t_shell *shell, char *env)
 {
 	t_env	*node;
+	(void)shell;
 
 	node = malloc(sizeof(t_env));
 	if (!node)
@@ -126,6 +127,7 @@ t_env	*ft_create_env_node(t_shell *shell, char *env)
 t_env	*ft_dup_env_node(t_shell *shell, char *key, char *value)
 {
 	t_env	*node;
+	(void)shell;
 
 	node = malloc(sizeof(t_env));
 	if (!node)

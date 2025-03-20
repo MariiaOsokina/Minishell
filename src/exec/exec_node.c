@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/20 01:39:41 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:25:40 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,18 @@ int ft_exec_node(t_shell *shell, void *node)
 	t_node *type_node;
 	int		tmp_status;
 
+	printf("ft_exec_node\n");
 	tmp_status = ENO_SUCCESS;
 	type_node = (t_node*)node;
 	if (type_node->type == N_OR)
-		tmp_status = ft_exec_andif(shell, (t_or *)node);
+		tmp_status = ft_exec_andif(shell, (t_andif *)node);
 	else if  (type_node->type == N_ANDIF)
-		tmp_status = ft_exec_or(shell, (t_andif *)node);
+		tmp_status = ft_exec_or(shell, (t_or *)node);
 	else if (type_node->type == N_PIPE)
+	{
+		printf("type PIPE\n");
 		tmp_status = ft_exec_pipeline(shell, (t_pipe *)node);
+	}
 	else if (type_node->type == N_EXEC)
 		tmp_status = ft_exec_simple_cmd(shell, (t_exec *)node);
 	return (tmp_status);
@@ -33,6 +37,8 @@ int ft_exec_node(t_shell *shell, void *node)
 int ft_exec_andif(t_shell *shell, t_andif *andif_node)
 {
 	int		tmp_status;
+
+	printf("ft_exec_andif\n");
 
 	tmp_status = ft_exec_node(shell, andif_node->left);
 	if (tmp_status == ENO_SUCCESS)
@@ -43,6 +49,8 @@ int ft_exec_andif(t_shell *shell, t_andif *andif_node)
 int ft_exec_or(t_shell *shell, t_or *or_node)
 {
 	int		tmp_status;
+
+	printf("ft_exec_or\n");
 
 	tmp_status = ft_exec_node(shell, or_node->left);
 	if (tmp_status != ENO_SUCCESS)

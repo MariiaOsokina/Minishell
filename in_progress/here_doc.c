@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:17:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/20 01:47:04 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/20 11:56:38 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 # define HEREDOC_NAME "/tmp/.minishell_heredoc_"
 
 /*TO BE SOLVE:
-- check that parsing checks the delimiter with closed quoutes, but saves in io_node.eof delimiter WITH quotes;
+- check that parsing checks the delimiter with closed quoutes, but saves delimiter WITH quotes in io_node.eof  ;
 - REMOVE HEREDOC: use the unlink() function -> removes a file, parameter is	the path of the file.
-- how to name tmp file, how improve the security
+- how to name tmp file, how to improve the security
 */
 
 /* functions for generating heredocs:

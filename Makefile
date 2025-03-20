@@ -1,30 +1,26 @@
-NAME		:= minishell
+NAME        := minishell
 
-# LIBFT		:= libft.a
-# LIBFT_PATH	:= "libft/"
+LIBFT       := libft.a
+LIBFT_PATH  := libft/
 
-CC			:= cc
+CC          := cc
+CFLAGS      := -Wall -Werror -Wextra
+INCLUDES    := -I includes
 
-CFLAGS		:= -Wall -Werror -Wextra
+# If you need to specify a custom path for readline
+# READLINE_PATH := /goinfre/homebrew/opt/readline
+# INCLUDES      += -I$(READLINE_PATH)/include
+# LDFLAGS       := -L$(READLINE_PATH)/lib
 
-BUILTINS	:=	builtins/*.c
+BUILTINS_SRC := $(wildcard src/builtins/*.c)
+EXEC_SRC     := $(wildcard src/exec/*.c)
+SRCS         := $(BUILTINS_SRC) $(EXEC_SRC) main_pipes.c
 
-# CLEANING	:=	cleaning/ft_clean_ms.c
-
-EXEC		:=	exec/*.c
-
-SRCS		:=	$(BUILTINS)\
-				$(EXEC)\
-				main_simple_cmd.c
-
-OBJS		:=	$(SRCS:.c=.o)
-
-HEADER = -I includes
-
-# READLINE_PATH:=	/goinfre/homebrew/opt/readline
+# Generate list of object files
+OBJS         := $(SRCS:.c=.o)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@ $(HEADER)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 all: $(NAME)
 
@@ -32,7 +28,7 @@ $(LIBFT):
 	@make -C $(LIBFT_PATH)
 
 $(NAME): $(LIBFT) $(OBJS)
-	@$(CC) -o $(NAME) $(OBJS) -L$(LIBFT_PATH) -lft
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -L$(LIBFT_PATH) -lft -lreadline
 
 clean:
 	@make clean -C $(LIBFT_PATH)
@@ -42,6 +38,12 @@ fclean: clean
 	@make fclean -C $(LIBFT_PATH)
 	@rm -f $(NAME)
 
-re:			fclean all
+debug:
+	@echo "BUILTINS_SRC: $(BUILTINS_SRC)"
+	@echo "EXEC_SRC: $(EXEC_SRC)"
+	@echo "All SRCS: $(SRCS)"
+	@echo "OBJS: $(OBJS)"
+
+re: fclean all
 
 .PHONY: all clean fclean re

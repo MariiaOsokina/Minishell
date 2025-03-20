@@ -24,7 +24,7 @@ NOTES - TO BE TESTED/FIXED:
 1 - variables PWD and shell.cwd can't be in conflict;
 */
 
-int ft_builtin_pwd(t_shell shell, t_exec *exec_node)
+int ft_builtin_pwd(t_shell *shell, t_exec *exec_node)
 // int ft_builtin_pwd(void)
 {
 	(void)exec_node;

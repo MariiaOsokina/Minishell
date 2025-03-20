@@ -18,7 +18,6 @@
 2 - If value not empty print “key”=”value”
 */
 
-
 /*
 export MYVAR
 env | grep "MYVAR" //env doesn't print if no value
@@ -28,14 +27,14 @@ export | grep "MYVAR" //export print w/o value
 
 /*Alphabetical order??*/
 
-int ft_builtin_env(t_shell shell, t_exec *exec_node)
+int ft_builtin_env(t_shell *shell, t_exec *exec_node)
 {
     
     t_list	*current;
 	t_env	*env_entry;
     (void)exec_node;
 
-    current = shell.envp;
+    current = shell->envp;
 	while (current)
 	{
         env_entry = (t_env *)current->content;

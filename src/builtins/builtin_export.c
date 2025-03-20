@@ -90,11 +90,10 @@ bool	ft_is_env_key_valid(char *str)
 
 
 
-int	ft_builtin_export(t_shell shell, t_exec *exec_node)
+int	ft_builtin_export(t_shell *shell, t_exec *exec_node)
 {
 	int exit_code;
 	char **export_args;
-	t_env *existed_env;
 	t_env *new_env;
 	int i;
 
@@ -103,7 +102,7 @@ int	ft_builtin_export(t_shell shell, t_exec *exec_node)
 	export_args = &(exec_node->av[1]);
 	if (!export_args[0])
 	{
-		ft_print_export_envp(shell.envp);
+		ft_print_export_envp(shell->envp);
 		return (ENO_SUCCESS);
 	}
 	while (export_args[i])
@@ -115,13 +114,13 @@ int	ft_builtin_export(t_shell shell, t_exec *exec_node)
 		}
 		else
 		{
-			new_env = ft_create_env_node(&shell, export_args[i]);
-			if (ft_get_env(shell, new_env->key) == NULL)
-				ft_lstadd_back(&shell.envp, ft_lstnew(new_env));			
+			new_env = ft_create_env_node(shell, export_args[i]);
+			if (ft_get_env(*shell, new_env->key) == NULL)
+				ft_lstadd_back(&shell->envp, ft_lstnew(new_env));			
 			else
 			{
 				printf("key exists %s, update node t_env with new value %s\n", new_env->key, new_env->value);
-				ft_update_env_value(shell.envp, new_env->key, new_env->value);
+				ft_update_env_value(shell->envp, new_env->key, new_env->value);
 				ft_free_env_node(new_env);
 			}
 		}

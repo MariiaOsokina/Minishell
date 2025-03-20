@@ -52,7 +52,7 @@ static bool	ft_is_n_option(char *str)
 1 -$? should be at the parsing stage cmd.expanded args[i] = shell.exit_code
 */
 
-int	ft_builtin_echo(t_shell shell, t_exec *exec_node)
+int	ft_builtin_echo(t_shell *shell, t_exec *exec_node)
 {
 	char 	**echo_args;
 	bool    n_op;

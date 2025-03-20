@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/20 01:20:18 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/20 12:02:18 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,3 +142,4 @@ int		ft_redir_outf(t_in_out *in_out_node)
 	close(fd);
     return(ENO_SUCCESS);
 }
+
