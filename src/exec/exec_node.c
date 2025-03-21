@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/20 14:25:40 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/21 00:16:00 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int ft_exec_node(t_shell *shell, void *node)
 		tmp_status = ft_exec_or(shell, (t_or *)node);
 	else if (type_node->type == N_PIPE)
 	{
-		printf("type PIPE\n");
+		// printf("type PIPE\n");
 		tmp_status = ft_exec_pipeline(shell, (t_pipe *)node);
 	}
 	else if (type_node->type == N_EXEC)

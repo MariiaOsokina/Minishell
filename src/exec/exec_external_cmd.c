@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:44:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/20 13:53:16 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/21 00:17:43 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	ft_exec_external_cmd(t_shell shell, t_exec *exec_node)
 		else //exec no path
 		{
 			cmd_path = ft_get_env_path(shell, exec_node->command, &err_no); // err_no as ptr for saving its value
-			printf("path: %s\n", cmd_path);
+			// printf("path: %s\n", cmd_path);
 			if (err_no != ENO_SUCCESS) //??change err_no to tmp status
 			{
 				//panic();
