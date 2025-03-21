@@ -4,3 +4,27 @@ export command it is displayed by the order of the pointers to the variable or s
 It's not required by the subject to to have the exact same behavior but during 
 the defense you have to be prepared to defend your choice to not implement these types of behavior
 
+
+
+test main
+
+
+127 3 right
+
+126 2 left
+126 3 left
+ls: cannot access 'klklklk': No such file or directory
+2 2 right
+2 3 left
+0 3 left
+
+126 pipe2 2 pipe3 127
+
+pipe3 right 127 +
+pipe3 left(i.e. pipe2) !!should be 2 +  
+
+
+!!! pipe3 left 0????
+
+pipe2 right 2 +
+pipe2 left 126 +

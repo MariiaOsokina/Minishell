@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 01:01:22 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/20 01:47:05 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/21 13:51:46 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/structs.h"
+
+int	g_signal;
 
 int	ft_get_exit_status(int status)
 {

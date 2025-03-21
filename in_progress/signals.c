@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 22:06:48 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/20 01:47:06 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/21 13:59:47 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@
 // - messages are STDERR messages;
 
 /*
-INTERACTIVE mode: in the main process (including saving heredoc) before execution:
+ mode: in the main process (including saving heredoc) before execution:
 CTRL+C (SIGINT)displays a new prompt on a new line.
 CTR+\ (SIGQUIT) does nothing
 */
 
 void ft_sigint_handler_int(void)
 {
+	g_signal = SIGINT;
 	write(STDERR_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -67,9 +68,9 @@ NONINTERACTIVE mode - execuction:
 CTRL+C (SIGINT) -> quit process and print "^C" with a \n
 CTR+\ (SIGQUIT) -> quit process and print "^\Quit (core dumped)"
 */
-
 void	ft_sigquit_handler(void)
 {
+	g_signal = SIGQUIT;
 	ft_putstr_fd(STDERR_FILENO, "Quit (core dumped)\n");
 	rl_on_new_line();
 	//exit code 131 // handles via waitpid() and ft_get_exit_status();
@@ -99,6 +100,45 @@ void signal_noniteract(void)
 	signal(SIGQUIT, ft_sigquit_handler);
 }
 
+char *readline(char *prompt)
+{
+	while (rl_done)
+	{
+		if (rl_done && rl_hook_function)
+		{
+			//exit loop...
+		}
+		//display prompt
+		//wait for user input
+		//etc...
+	}
+}
+
+void my_minishell(...)
+{
+	t_somes_truct st;
+	while (1)
+	{
+		st = malloc(...);
+		//... wait for input
+		if (input != NULL && g_signal != SIGINT)
+		{
+		//... process input
+		//... execute
+		//... etc
+		}
+		else
+		{
+			//clear str;
+			//countinue;
+
+		}
+		
+		//		g_signal = -1;
+
+	}
+}
+
 /*
 HEREDOC + SIGNALS:
 CTRL+C (SIGINT) -> 
@@ -108,7 +148,14 @@ CTRL+C (SIGINT) ->
 	(4) exit code 130 // handles via waitpid() and ft_get_exit_status(); ??? 
 	(5) if 130 then "continue", move to the next interaction in while();
 
-CTR+\ (SIGQUIT) -> quit process and print "^\Quit (core dumped)", the same as the main and inhereted by parent;
+int	rl_loop_exit_handler(..)
+{
+	return 0;
+}
+"\n"
+
+rl_hook_event = rl_loop_exit_handler;
+rl_done = 1;
 
 CTRL+ D (EOF) -> check EOF(return readline() is NULL), print msg to STDERR and ?exit?
 

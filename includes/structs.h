@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/20 15:01:19 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/21 11:48:38 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,16 +166,16 @@ typedef enum e_err_no
 
 
 /*EXECUTION*/
-int ft_exec_node(t_shell *shell, void *node);
-int ft_exec_andif(t_shell *shell, t_andif *andif_node);
-int ft_exec_or(t_shell *shell, t_or *or_node);
-int ft_exec_pipeline(t_shell *shell, t_pipe *pipe_node);
-void ft_exec_pipe_right(t_shell *shell, t_pipe *pipe_node, int *pipe_fds);
-void ft_exec_pipe_left(t_shell *shell, t_pipe *pipe_node, int *pipe_fds);
+int 	ft_exec_node(t_shell *shell, void *node);
+int 	ft_exec_andif(t_shell *shell, t_andif *andif_node);
+int 	ft_exec_or(t_shell *shell, t_or *or_node);
+int 	ft_exec_pipeline(t_shell *shell, t_pipe *pipe_node);
+int 	ft_exec_pipe_right(t_shell *shell, t_pipe *pipe_node, int *pipe_fds);
+int 	ft_exec_pipe_left(t_shell *shell, t_pipe *pipe_node, int *pipe_fds);
 /*execution of simple command*/
-int	ft_exec_simple_cmd(t_shell *shell, t_exec *exec_node);
-int	ft_exec_external_cmd(t_shell shell, t_exec *exec_node);
-int	ft_check_access(char *cmd_path); // check the permission to the file, print the error msg and return the error number
+int		ft_exec_simple_cmd(t_shell *shell, t_exec *exec_node);
+int		ft_exec_external_cmd(t_shell shell, t_exec *exec_node);
+int		ft_check_access(char *cmd_path); // check the permission to the file, print the error msg and return the error number
 bool	ft_cmd_is_dir(char *cmd_path);
 char	*ft_get_env_path(t_shell shell, char *cmd_name, t_err_no *err_no);
 char	*ft_find_cmd_path(char *cmd_name, t_list *path_list);

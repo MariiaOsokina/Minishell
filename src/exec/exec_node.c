@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_node.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/21 00:16:00 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/21 15:31:35 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int ft_exec_node(t_shell *shell, void *node)
 	t_node *type_node;
 	int		tmp_status;
 
-	printf("ft_exec_node\n");
 	tmp_status = ENO_SUCCESS;
 	type_node = (t_node*)node;
 	if (type_node->type == N_OR)
@@ -26,11 +25,13 @@ int ft_exec_node(t_shell *shell, void *node)
 		tmp_status = ft_exec_or(shell, (t_or *)node);
 	else if (type_node->type == N_PIPE)
 	{
-		// printf("type PIPE\n");
 		tmp_status = ft_exec_pipeline(shell, (t_pipe *)node);
+		return (tmp_status);
 	}
-	else if (type_node->type == N_EXEC)
+	else if (type_node->type == N_EXEC) {
 		tmp_status = ft_exec_simple_cmd(shell, (t_exec *)node);
+		return (tmp_status);
+	}
 	return (tmp_status);
 }
 

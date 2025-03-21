@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_all.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:07:12 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/20 12:33:49 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/21 11:17:42 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		ft_exec_builtin(t_shell *shell, t_exec *exec_node)
 {
 	char *cmd_name;
 	
-	printf("test2\n");
+	// ft_putstr_fd("builtins exec\n", STDERR_FILENO);
 	cmd_name = exec_node->command;
 	if (!ft_strcmp(cmd_name, "echo"))
 		return (ft_builtin_echo(shell, exec_node));
