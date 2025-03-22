@@ -1,14 +1,15 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "binary_tree.h"
+# include "binary_tree.h"
 # include "builtins.h"
 # include "errors.h"
+# include "input.h"
 # include "libft.h"
+# include "logic_tree.h"
 # include "structs.h"
 # include "tokens.h"
 # include "utils.h"
-# include "logic_tree.h"
 # include <colors.h>
 # include <dirent.h>
 # include <errno.h>
@@ -17,7 +18,6 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdarg.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
@@ -39,15 +39,16 @@ int		check_args(int ac, char **av, char **envp);
 /* Minishell.h: Input management functions*/
 bool	check_line_len(char *line);
 
-/* terminal.c  && terminal_utils.c*/
-void	free_shell(t_shell *shell);
-void	reset_shell(t_shell *shell);
-void	is_env_empty(t_shell *shell);
-void	terminal(t_shell *shell, char **envp);
-
 /*terminal_utils.c*/
 void	shell_input(t_shell *shell);
-void	exec_processes(t_shell *shell, void *root);
-int		handle_exec_node(t_shell *shell, void *root, int *status);
+// void	exec_processes(t_shell *shell, void *root);
+// int		handle_exec_node(t_shell *shell, void *root, int *status);
+
+/*To go in errors.h*/
+void	print_exit(void);
+int		exit_code(int value);
+bool	syntax_error_msg(char *str);
+char	*itoa_exit(t_shell *shell, char **str);
+# define SYNTAX_ERROR "minishell: syntax error "
 
 #endif

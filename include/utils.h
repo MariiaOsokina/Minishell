@@ -24,6 +24,11 @@ t_shell	*shell_struct(t_shell *shell, int flag);
 void	free_shell(t_shell *shell);
 void	shell_input(t_shell *shell);
 
+/* terminal.c  && terminal_utils.c*/
+void	reset_shell(t_shell *shell);
+bool	is_env_empty(t_shell *shell);
+void	terminal(t_shell *shell, char **envp);
+
 /*Function_file: input_utils.c, validation_utils.c, validation.c, check_vars.c*/
 bool	is_space(char c);
 bool	is_quote(char c);
@@ -42,5 +47,6 @@ void	toggle_quotes(char c, bool *in_single_quote, bool *in_double_quote);
 void	print_lst(t_list *lst);
 void	print_token_lst(t_list *lst);
 void	print_cmd_lst(t_shell *shell);
+void	print_env_arr(t_shell *shell);
 
 #endif
