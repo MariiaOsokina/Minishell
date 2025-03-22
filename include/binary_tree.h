@@ -1,6 +1,7 @@
 #pragma once
 
 #include "structs.h"
+#include <stdio.h>
 
 /*Types of command nodes*/
 typedef enum e_node_type
@@ -59,7 +60,7 @@ typedef struct s_pipe
 	t_exec		*right;
 }				t_pipe;
 
-/*Buildtree.c*/
+/*buildtree.c*/
 t_list			*get_name(t_list *tkn_lst);
 void			*build_tree(t_shell *shell, t_list *token_lst);
 void			*create_exec(t_shell *shell, t_list *token_lst);

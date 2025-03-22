@@ -2,7 +2,6 @@
 
 char	*ft_strndup(const char *str, size_t size)
 {
-	size_t	i;
 	char	*dest;
 
 	dest = malloc(size + 1);

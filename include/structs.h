@@ -22,8 +22,8 @@ typedef struct s_shell
 
 typedef struct s_env
 {
-	char		*value; //Value
-	char		*key; //Key
+	char		*value;
+	char		*key;
 	bool		is_export; // Clarify use
 	bool		is_printed;
 }				t_env;
