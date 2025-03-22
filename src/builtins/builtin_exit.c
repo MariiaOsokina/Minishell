@@ -48,10 +48,11 @@ echo $?
 
 /*TO BE SOLVED:
 1- add panic function;
+2 - !!!!subshell flag -- exit message only if one cmd not in subshell;
 */
 
 /*STEPS:
-1 - Put to STDERR!!! message “exit\n”;
+1 - if not subshell (flagg) ???!!! put to STDERR!!! message “exit\n”;
 2 - If only command exists (w/o arguments), then panic() and exit() 
 with saved exit_code from the last command executed;
 3 - if 1st arg exists:
@@ -120,7 +121,7 @@ int	ft_builtin_exit(t_shell *shell, t_exec *exec_node)
 {
 	int	exit_code;
 
-	ft_putstr_fd("exit\n", STDERR_FILENO);
+	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (!exec_node->av[1])
 		exit_code = shell->exit_code;
 	else

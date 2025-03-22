@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_pipes.c                                       :+:      :+:    :+:   */
+/*   main_andif_or.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:03:10 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/22 00:07:23 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/22 01:19:48 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,16 @@ int	main(int argc, char **argv, char **env)
     ft_env_lst(&shell, env);
     shell.path = NULL;
     
+    t_andif *andif_node1;
+    t_or    *or_node1;
     t_exec 	*exec_node1;
     t_exec 	*exec_node2;
     t_exec 	*exec_node3;
     t_exec 	*exec_node4;
 
+
+    andif_node1 = malloc(sizeof(t_andif));
+    or_node1 = malloc(sizeof(t_or));
     exec_node1 = malloc(sizeof(t_exec));
     exec_node2 = malloc(sizeof(t_exec));
     exec_node3 = malloc(sizeof(t_exec));
@@ -46,15 +51,15 @@ int	main(int argc, char **argv, char **env)
     exec_node4->in_out_list = NULL;
 
 	char *expanded_args1[3];
-	expanded_args1[0] = "/bin/ls";
-	expanded_args1[1] = "args";
+	expanded_args1[0] = "poppopo";
+	expanded_args1[1] = "42";
     expanded_args1[2] = NULL;
     exec_node1->av = expanded_args1;
     exec_node1->command = expanded_args1[0];
     exec_node1->type.type = N_EXEC;
 
 	char *expanded_args2[2];
-	expanded_args2[0] = "exit";
+	expanded_args2[0] = "pwd";
 	// expanded_args2[1] = "";
     expanded_args2[1] = NULL;
     exec_node2->av = expanded_args2;
@@ -62,7 +67,7 @@ int	main(int argc, char **argv, char **env)
     exec_node2->type.type = N_EXEC;
     
 	char *expanded_args3[3];
-	expanded_args3[0] = "echo";
+	expanded_args3[0] = "ecklkl";
     expanded_args3[1] = "$PWD";
     expanded_args3[2] = NULL;
     exec_node3->av = expanded_args3;
@@ -78,33 +83,39 @@ int	main(int argc, char **argv, char **env)
     exec_node4->command = expanded_args4[0];
     exec_node4->type.type = N_EXEC;
 
-    
-    t_pipe  *pipe1;
-    t_pipe  *pipe2;
-    t_pipe  *pipe3;
+    or_node1->type.type = N_OR;
+    andif_node1->type.type = N_ANDIF;
 
-    pipe1 = malloc(sizeof(t_pipe));
-    pipe2 = malloc(sizeof(t_pipe));
-    pipe3 = malloc(sizeof(t_pipe));
+    andif_node1->right = exec_node3;
+    andif_node1->left = or_node1;
+    or_node1->right = exec_node2;
+    or_node1->left = exec_node1;
+    // t_pipe  *pipe1;
+    // t_pipe  *pipe2;
+    // t_pipe  *pipe3;
 
-    pipe3->type.type = N_PIPE;
-    pipe3->left = pipe2;
-    pipe3->right = exec_node4;
-    pipe3->nbr = 3;
+    // pipe1 = malloc(sizeof(t_pipe));
+    // pipe2 = malloc(sizeof(t_pipe));
+    // pipe3 = malloc(sizeof(t_pipe));
 
-    pipe2->type.type = N_PIPE;
-    pipe2->left = pipe1;
-    // pipe2->left = exec_node2;
-    pipe2->right = exec_node3;
-    pipe2->nbr = 2;
+    // pipe3->type.type = N_PIPE;
+    // pipe3->left = pipe2;
+    // pipe3->right = exec_node4;
+    // pipe3->nbr = 3;
+
+    // pipe2->type.type = N_PIPE;
+    // pipe2->left = pipe1;
+    // // pipe2->left = exec_node2;
+    // pipe2->right = exec_node3;
+    // pipe2->nbr = 2;
 
 
-    pipe1->type.type = N_PIPE;
-    pipe1->left = exec_node1;
-    pipe1->right = exec_node2;
-    pipe1->nbr = 1;
+    // pipe1->type.type = N_PIPE;
+    // pipe1->left = exec_node1;
+    // pipe1->right = exec_node2;
+    // pipe1->nbr = 1;
 
-    shell.root = pipe3;
+    shell.root = andif_node1;
     printf("test main\n");
     
         //path for external cmds (like ls)

@@ -14,15 +14,34 @@ INCLUDES    := -I includes
 
 BUILTINS_SRC := $(wildcard src/builtins/*.c)
 EXEC_SRC     := $(wildcard src/exec/*.c)
-SRCS         := $(BUILTINS_SRC) $(EXEC_SRC) main_pipes.c
+SRCS         := $(BUILTINS_SRC) $(EXEC_SRC) main_andif_or.c
 
-# Generate list of object files
-OBJS         := $(SRCS:.c=.o)
+# Define object file paths that mirror the source structure
+BUILTINS_OBJ := $(patsubst src/builtins/%.c,obj/builtins/%.o,$(BUILTINS_SRC))
+EXEC_OBJ     := $(patsubst src/exec/%.c,obj/exec/%.o,$(EXEC_SRC))
+MAIN_OBJ     := $(patsubst %.c,obj/%.o,$(filter-out $(BUILTINS_SRC) $(EXEC_SRC),$(SRCS)))
+OBJS         := $(BUILTINS_OBJ) $(EXEC_OBJ) $(MAIN_OBJ)
 
-%.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+# Make sure obj directory and subdirectories exist
+OBJ_DIRS     := obj obj/builtins obj/exec
 
 all: $(NAME)
+
+# Create obj directories
+$(OBJ_DIRS):
+	@mkdir -p $@
+
+# Rule for main program objects
+obj/%.o: %.c | $(OBJ_DIRS)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+# Rule for builtins objects
+obj/builtins/%.o: src/builtins/%.c | $(OBJ_DIRS)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+# Rule for exec objects
+obj/exec/%.o: src/exec/%.c | $(OBJ_DIRS)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(LIBFT):
 	@make -C $(LIBFT_PATH)
@@ -32,7 +51,7 @@ $(NAME): $(LIBFT) $(OBJS)
 
 clean:
 	@make clean -C $(LIBFT_PATH)
-	@rm -f $(OBJS)
+	@rm -rf obj
 
 fclean: clean
 	@make fclean -C $(LIBFT_PATH)
@@ -46,4 +65,4 @@ debug:
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re $(OBJ_DIRS)

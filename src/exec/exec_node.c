@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_node.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/21 15:31:35 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/22 01:09:36 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int ft_exec_node(t_shell *shell, void *node)
 
 	tmp_status = ENO_SUCCESS;
 	type_node = (t_node*)node;
-	if (type_node->type == N_OR)
+	if (type_node->type == N_ANDIF)
 		tmp_status = ft_exec_andif(shell, (t_andif *)node);
-	else if  (type_node->type == N_ANDIF)
+	else if  (type_node->type == N_OR)
 		tmp_status = ft_exec_or(shell, (t_or *)node);
 	else if (type_node->type == N_PIPE)
 	{
@@ -39,7 +39,7 @@ int ft_exec_andif(t_shell *shell, t_andif *andif_node)
 {
 	int		tmp_status;
 
-	printf("ft_exec_andif\n");
+	ft_putstr_fd("ft_exec_andif\n", STDERR_FILENO);
 
 	tmp_status = ft_exec_node(shell, andif_node->left);
 	if (tmp_status == ENO_SUCCESS)
