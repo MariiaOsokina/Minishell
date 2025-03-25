@@ -36,7 +36,6 @@ If no OLDPWD in envp, error “OLDPWD not set” with exit code 1 (e.g. in case 
 	- If chdir returns error, error “No such file or directory” with exit code 1 
 
 5 - Update list of env (shell.envp);
- - if $OLDPWD was unset, add new env node to envp, else update value OLDPWD, value is PWD;
  - if $PWD was unset, add new env node to envp, else update value PWD, value is getcwd())
 */
 
@@ -57,7 +56,6 @@ int	ft_builtin_cd(t_shell *shell, t_exec *exec_node)
 	else if (!path)
 	{
 		tmp_env = ft_get_env(*shell, "HOME");
-		printf("test3\n");
 		if (!tmp_env)
 			return (ft_err_msg("cd", "HOME not set", NULL), ENO_GENERAL);
 		else
@@ -69,25 +67,7 @@ int	ft_builtin_cd(t_shell *shell, t_exec *exec_node)
 
 	if (chdir(path) != ENO_SUCCESS)
 		return (ft_err_msg("cd", path, "No such file or directory"), ENO_GENERAL);
-	printf("test4\n");
-	tmp_env = ft_get_env(*shell, "OLDPWD");
-	if(tmp_env != NULL)
-	{
-		printf("OLDPWD: %s\n", tmp_env->value);	
-		tmp_env = ft_get_env(*shell, "PWD");
-		printf("PWD: %s\n", tmp_env->value);
-		ft_update_env_value(shell->envp, "OLDPWD", tmp_env->value);
-		// ft_print_env_lst(shell.envp);
-		//free(tmp_env); //check don't need it
-	}
-	else
-	{
-		tmp_env = ft_get_env(*shell, "PWD");
-		tmp_env = ft_dup_env_node(shell, "OLDPWD", tmp_env->value);
-		printf("OLDPWD is unset, create a new node with OLDPWD, value is value of PWD\n");
-		ft_lstadd_back(&shell->envp, ft_lstnew(tmp_env));
-	}
-	tmp_env = ft_get_env(*shell, "PWD"); // FIND BUG AS SEGFAULT!!
+	tmp_env = ft_get_env(*shell, "PWD");
 	if(tmp_env != NULL)
 	{
 	// 	free(tmp_env); //check malloc issues

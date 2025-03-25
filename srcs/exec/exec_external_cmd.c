@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:44:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/24 13:49:36 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:48:49 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ft_exec_external_cmd(t_shell shell, t_exec *exec_node)
 	// to add error fork ...
     if (fork_pid == 0)
     {
-		// tmp_status = ft_redirections(exec_node);
+		tmp_status = ft_redirections(exec_node);
 		if (tmp_status != ENO_SUCCESS)
 		{
 			//panic();
