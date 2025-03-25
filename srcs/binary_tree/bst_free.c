@@ -61,7 +61,7 @@ void	free_bst(void *root)
 		free_sub_pipes((t_pipe *)root);
 	else if (node->type == N_EXEC)
 		free_exec((t_exec *)root);
-	else if (node->type == AND_IF)
+	else if (node->type == N_ANDIF) //MO: fixed
 		ltree_free((t_andif *)root);
 	else if (node->type == N_OR)
 		ltree_free((t_or *)root);

@@ -27,7 +27,8 @@ int	main(int ac, char **av, char **envp)
 	t_shell	shell;
 
 	check_args(ac, av, envp);
-	env_lst(&shell, envp);
+	// env_lst(&shell, envp);
+	ft_env_lst(&shell, envp);
 	// print_env_lst(shell.envp);
 	update_shlvl(shell);
 	terminal(&shell, envp); // Ongoing..

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/08 17:09:42 by aaladeok          #+#    #+#              #
-#    Updated: 2024/04/24 16:48:04 by aaladeok         ###   ########.fr        #
+#    Updated: 2025/03/24 00:03:08 by mosokina         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SRCS =	ft_isalpha.c ft_isalnum.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
 NAME = libft.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -arch arm64
+CFLAGS = -Wall -Wextra -Werror
 LIBC = ar rcs
 OBJS = $(SRCS:.c=.o)
 # BONUS_OBJS = $(BONUS_SRC:.c=.o)

@@ -1,5 +1,31 @@
 #include "minishell.h"
 
+// static void print_path_list(t_list *path_list)
+// {
+//     t_list *current;
+//     int count;
+
+//     if (!path_list)
+//     {
+//         printf("PATH is empty or not set\n");
+//         return;
+//     }
+
+//     printf("PATH directories:\n");
+//     current = path_list;
+//     count = 0;
+    
+//     while (current)
+//     {
+//         // Print each path with an index
+//         printf("[%d] %s\n", count++, (char *)current->content);
+//         current = current->next;
+//     }
+    
+//     printf("Total: %d directories in PATH\n", count);
+// }
+
+
 /*
 	terminal.c
 	calls the terminal function.
@@ -19,18 +45,22 @@ void	terminal(t_shell *shell, char **envp)
 			continue ;
 		}
 		if (!shell->input || !ft_strcmp(shell->trimmed_input, "exit"))
-			return (print_exit(), free_shell(shell));
+			return (print_exit(), free_shell(shell)); //MO:exit code! exit(shell.exit_code)
 		if (*shell->input)
 			add_history(shell->input);
 		lexer(shell, shell->trimmed_input);
 		print_token_lst(shell->token_lst); // Printing token list
-		shell->envp_arr = env_arr(shell);
+		shell->envp_arr = envp;
+		// shell->envp_arr = env_arr(shell);
 		shell->path = path_list(shell, envp);
+		// print_path_list(shell->path);
 		print_env_arr(shell); //Print array of env.
 		shell->root = build_ltree(shell, shell->token_lst);
-		// print_bst(shell->root, 5);
+		print_bst(shell->root, 5);
 		// Build and execute the cmd tree
 		/*section to call test functions to print out token and command lists*/
+		shell->exit_code = ft_exec_node(shell, shell->root); //MO: added
+		printf("exit status %d\n", shell->exit_code); //MO: added
 		// lexec_tree(shell, shell->root);
 		// free_shell(shell);
 		// last_process(0); //Handles the last process in the pipeline.
