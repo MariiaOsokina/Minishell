@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:07:12 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/24 14:11:17 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:49:45 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ bool ft_is_builtin(char *cmd_name)
 		|| !ft_strcmp(cmd_name, "cd") 
 		|| !ft_strcmp(cmd_name, "exit") 
 		|| !ft_strcmp(cmd_name, "export")
-		// || !ft_strcmp2(cmd_name, "unset")
+		|| !ft_strcmp(cmd_name, "unset")
 		|| !ft_strcmp(cmd_name, "pwd")
 		|| !ft_strcmp(cmd_name, "env"))
 		return (true);
@@ -57,8 +57,8 @@ int		ft_exec_builtin(t_shell *shell, t_exec *exec_node)
 		return (ft_builtin_cd(shell, exec_node));
 	else if (!ft_strcmp(cmd_name, "export"))
 		return (ft_builtin_export(shell, exec_node));
-	// else if (!ft_strcmp(cmd_name, "unset"))
-	// 	return (ft_builtin_unset(shell, exec_node));
+	else if (!ft_strcmp(cmd_name, "unset"))
+		return (ft_builtin_unset(shell, exec_node));
 	else if (!ft_strcmp(cmd_name, "env"))
 		return (ft_builtin_env(shell, exec_node));
 	else if (!ft_strcmp(cmd_name, "pwd"))

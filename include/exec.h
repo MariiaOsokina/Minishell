@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/24 14:11:01 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:47:21 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,31 +71,31 @@
 // 	t_node_type	type;
 // }				t_node;
 
-// typedef enum e_io_type
-// {
-//     INF,
-//     HERE,
-//     APP,
-//     ADD,
-// } t_io_type;
+typedef enum e_io_type
+{
+    INF,
+    HERE,
+    APP,
+    ADD,
+} t_io_type;
 
-// typedef struct s_in_out
-// {
-// 	t_io_type type;
-//     char *name;
-//     char **expanded_name;
-//     char *eof; //check do we need it, may be it could be in "name";
-//     int fd_heredoc;
-// }	t_in_out;
+typedef struct s_in_out
+{
+	t_io_type type;
+    char *name;
+    char **expanded_name;
+    char *eof; //check do we need it, may be it could be in "name";
+    int fd_heredoc;
+}	t_in_out;
 
 /*EXEC*/
-// typedef struct s_exec
-// {
-// 	t_node		type;
-// 	char		*command;
-// 	char		**av;
-// 	t_list		*in_out_list;
-// }		t_exec;
+typedef struct s_exec
+{
+	t_node		type;
+	char		*command;
+	char		**av;
+	t_list		*in_out_list;
+}		t_exec;
 
 // /*PIPES*/
 // typedef struct s_pipe
