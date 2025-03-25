@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/24 14:19:23 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/25 20:22:36 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int ft_exec_andif(t_shell *shell, t_andif *andif_node)
 	ft_putstr_fd("ft_exec_andif\n", STDERR_FILENO);
 
 	tmp_status = ft_exec_node(shell, andif_node->left);
+	printf("left executed\n");
 	if (tmp_status == ENO_SUCCESS)
 		tmp_status= ft_exec_node(shell, andif_node->right);
 	return (tmp_status);

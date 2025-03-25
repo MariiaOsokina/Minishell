@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/24 13:48:40 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/25 19:16:31 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,84 +62,86 @@ $echo $?
 1
 */
 
-// int	ft_redirections(t_exec *exec_node)
-// {
-// 	t_list		*tmp_io_list;
-// 	int			tmp_status;
-// 	t_in_out 	*in_out_node;
+int	ft_redirections(t_exec *exec_node)
+{
+	t_list		*tmp_io_list;
+	int			tmp_status;
+	t_in_out 	*in_out_node;
 
-// 	tmp_io_list = exec_node->in_out_list;
-// 	tmp_status = ENO_SUCCESS;
-// 	while(tmp_io_list)
-// 	{
-// 		in_out_node = (t_in_out*)tmp_io_list->content;
-// 		if (in_out_node->type == INF)
-// 			tmp_status = ft_redir_inf(in_out_node);
-// 		else if (in_out_node->type == ADD || in_out_node->type == APP)
-// 			tmp_status = ft_redir_outf(in_out_node);
-// 		//heredoc - to be tested later!!!
-// 		// else if (in_out_node->type == HERE)
-// 		// {
-// 		// 	dup2(STDIN_FILENO, in_out_node->fd_heredoc);
-// 		// 	close(in_out_node->fd_heredoc);
-// 		// }
-// 		if (tmp_status != ENO_SUCCESS)
-// 			return (tmp_status);
-// 		tmp_io_list = tmp_io_list->next;
-// 	}
-// 	return (tmp_status);
-// }
+	tmp_io_list = exec_node->in_out_list;
+	tmp_status = ENO_SUCCESS;
+	while(tmp_io_list)
+	{
+		in_out_node = (t_in_out*)tmp_io_list->content;
+		if (in_out_node->type == INF)
+			tmp_status = ft_redir_inf(in_out_node);
+		else if (in_out_node->type == ADD || in_out_node->type == APP)
+			tmp_status = ft_redir_outf(in_out_node);
+		//heredoc - to be tested later!!!
+		// else if (in_out_node->type == HERE)
+		// {
+		// 	dup2(STDIN_FILENO, in_out_node->fd_heredoc);
+		// 	close(in_out_node->fd_heredoc);
+		// }
+		if (tmp_status != ENO_SUCCESS)
+			return (tmp_status);
+		tmp_io_list = tmp_io_list->next;
+	}
+	return (tmp_status);
+}
 
-// int		ft_redir_inf(t_in_out	*in_out_node)
-// {
-// 	int fd;
-// 	char *file;
+int		ft_redir_inf(t_in_out	*in_out_node)
+{
+	int fd;
+	char *file;
 
-// 	if (!in_out_node->expanded_name || in_out_node->expanded_name[1])
-// 	{
-// 		ft_err_msg (in_out_node->name, "ambiguous redirect", NULL); // for ex, < * $VAR = ""
-// 		return (ENO_GENERAL);
-// 	}
-// 	file = in_out_node->expanded_name[0];
-// 	fd = open(file, O_RDONLY);
-// 	if (fd == -1)
-// 	{
-// 		if (access(file, R_OK) == -1) // file doesn't exist
-// 			ft_err_msg (file, "No such file or directory", NULL);
-// 		else // file doesn't permission;
-// 			ft_err_msg (file, " Permission denied", NULL);
-// 		return (ENO_GENERAL);
-// 	}
-// 	dup2(fd, STDIN_FILENO);
-// 	close(fd);
-// 	return (ENO_SUCCESS);
-// }
+	// if (!in_out_node->expanded_name || in_out_node->expanded_name[1])
+	// {
+	// 	ft_err_msg (in_out_node->name, "ambiguous redirect", NULL); // for ex, < * $VAR = ""
+	// 	return (ENO_GENERAL);
+	// }
+	// file = in_out_node->expanded_name[0];
+	file = in_out_node->name;
 
-// int		ft_redir_outf(t_in_out *in_out_node)
-// {
-// 	int fd;
-// 	char *file;
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+	{
+		if (access(file, R_OK) == -1) // file doesn't exist
+			ft_err_msg (file, "No such file or directory", NULL);
+		else // file doesn't permission;
+			ft_err_msg (file, " Permission denied", NULL);
+		return (ENO_GENERAL);
+	}
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	return (ENO_SUCCESS);
+}
 
-// 	if (!in_out_node->expanded_name || in_out_node->expanded_name[1])
-// 	{
-// 		ft_err_msg (in_out_node->name, "ambiguous redirect", NULL); // for ex, < * $VAR = ""
-// 		return (ENO_GENERAL);
-// 	}
-// 	file = in_out_node->expanded_name[0];
-// 	if (in_out_node->type == ADD)
-// 		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-// 	else
-// 		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-// 	if (fd == -1)
-// 	{
-// 		if (access(file, R_OK) == -1) // file doesn't exist
-// 			ft_err_msg (file, "No such file or directory", NULL);
-// 		else // no permission;
-// 			ft_err_msg (file, " Permission denied", NULL);
-// 		return (ENO_GENERAL);
-// 	}
-// 	dup2(fd, STDOUT_FILENO);
-// 	close(fd);
-//     return(ENO_SUCCESS);
-// }
+int		ft_redir_outf(t_in_out *in_out_node)
+{
+	int fd;
+	char *file;
+
+	// if (!in_out_node->expanded_name || in_out_node->expanded_name[1])
+	// {
+	// 	ft_err_msg (in_out_node->name, "ambiguous redirect", NULL); // for ex, < * $VAR = ""
+	// 	return (ENO_GENERAL);
+	// }
+	file = in_out_node->name;
+	if (in_out_node->type == ADD)
+		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	else
+		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	if (fd == -1)
+	{
+		if (access(file, R_OK) == -1) // file doesn't exist
+			ft_err_msg (file, "No such file or directory", NULL);
+		else // no permission;
+			ft_err_msg (file, " Permission denied", NULL);
+		return (ENO_GENERAL);
+	}
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+    return(ENO_SUCCESS);
+}
 

@@ -21,20 +21,35 @@ void	print_bst_pipe(t_pipe *node, int space)
 		printf("[PIPE]\n");
 }
 
-void	print_bst_exec(t_exec *node, int space)
+// void	print_bst_exec(t_exec *node, int space)
+// {
+// 	int	i;
+
+// 	i = -1;
+// 	if (node->outfiles)
+// 		print_outfiles(node->outfiles, space);
+// 	while (++i < space)
+// 		printf(" ");
+// 	printf("[EXEC]\n");
+// 	if (node->av)
+// 		print_exec(node->av, space);
+// 	if (node->infiles)
+// 		print_infiles(node->infiles, space);
+// }
+
+
+void	print_bst_exec(t_exec *node, int space) //MO: added
 {
 	int	i;
 
 	i = -1;
-	if (node->outfiles)
-		print_outfiles(node->outfiles, space);
+	if (node->in_out_list)
+		print_int_out_files(node->in_out_list, space);
 	while (++i < space)
 		printf(" ");
 	printf("[EXEC]\n");
 	if (node->av)
 		print_exec(node->av, space);
-	if (node->infiles)
-		print_infiles(node->infiles, space);
 }
 
 void	print_exec(char **av, int space)

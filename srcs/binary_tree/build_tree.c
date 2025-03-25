@@ -12,12 +12,14 @@ void	*create_exec(t_shell *shell, t_list *token_lst)
 	if (!node)
 		exit_failure(shell, "create_exec");
 	node->type.type = N_EXEC;
-	node->infiles = NULL;
+	// node->infiles = NULL;
 	node->command = NULL;
 	node->av = NULL;
-	node->outfiles = NULL;
-	get_infiles(shell, token_lst, &node->infiles);
-	get_outfiles(shell, token_lst, &node->outfiles);
+	// node->outfiles = NULL;
+	node->in_out_list = NULL; //MO: added
+	// get_infiles(shell, token_lst, &node->infiles);
+	// get_outfiles(shell, token_lst, &node->outfiles);
+	get_in_out_files(shell, token_lst, &node->in_out_list); //MO: added
 	current = get_name(token_lst);
 	if (current)
 	{

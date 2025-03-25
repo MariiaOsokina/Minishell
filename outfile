@@ -1,11 +1,2 @@
-Makefile
-README.md
-include
-libft
-minishell
-outfile
-readline.supp
-shell.txt
-srcs
-tests.c
-vscode
+empty
+
