@@ -1,0 +1,58 @@
+/*TESTS:
+/*TESTS:
+
+cat <<'EOF'
+Hello, $name
+EOF
+
+Hello, $name
+
+
+cat <<EOF
+Hello, $name
+EOF
+Hello, Alice
+
+
+cat <<EOF
+Hello, \$name
+EOF
+The output will be:
+Hello, $name
+
+
+cat <<"EOF"
+This is a long line of text that \
+continues onto the next line.
+EOF
+
+The output will be:
+
+This is a long line of text that \
+continues onto the next line.
+
+
+cat <<EOF
+This is a long line of text that \
+continues onto the next line.
+EOF
+
+The output will be:
+
+This is a long line of text that continues onto the next line.
+
+
+// "bash: warning: here-document at line 7 delimited by end-of-file (wanted `delim')"
+
+// cat <<delim
+// > test
+// > test
+// > 
+// bash: warning: here-document at line 8 delimited by end-of-file (wanted `delim')
+// test
+// test
+// ^C
+
+*/
+
+bool 	ft_is_delimiter_quo
