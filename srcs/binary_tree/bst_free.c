@@ -6,7 +6,10 @@ void	free_int_out_list(void *content) //MO: added
 	const t_in_out	*io_node = (t_in_out *)content;
 	if (io_node)
 	{
-		free(io_node->name);
+		if (io_node->eof)
+			free(io_node->eof);
+		if (io_node->name)
+			free(io_node->name);
 		free((void *)io_node);
 	}
 }
