@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/25 23:29:09 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/26 16:48:41 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ int	ft_redirections(t_exec *exec_node)
 	while(tmp_io_list)
 	{
 		in_out_node = (t_in_out*)tmp_io_list->content;
-		if (in_out_node->type == INF)
+		if (in_out_node->type == INF || in_out_node->type == HERE)
 			tmp_status = ft_redir_inf(in_out_node);
 		else if (in_out_node->type == ADD || in_out_node->type == APP)
 			tmp_status = ft_redir_outf(in_out_node);
-		//heredoc - to be tested later!!!
+		// heredoc - to be tested later!!!
 		// else if (in_out_node->type == HERE)
 		// {
 		// 	dup2(STDIN_FILENO, in_out_node->fd_heredoc);
@@ -111,6 +111,8 @@ int		ft_redir_inf(t_in_out	*in_out_node)
 	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);
+	if (in_out_node->type == HERE)
+		unlink(in_out_node->name);
 	return (ENO_SUCCESS);
 }
 
@@ -138,4 +140,3 @@ int		ft_redir_outf(t_in_out *in_out_node)
 	close(fd);
     return(ENO_SUCCESS);
 }
-

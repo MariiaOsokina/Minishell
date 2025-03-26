@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 00:27:52 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/26 12:10:01 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/26 16:42:09 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ loop the list of in out nodes in case of heredoc:
 	folder. the static variable guarantees to have successive numbers.
  */
 
-
 void ft_handle_heredocs(t_shell *shell, void *node)
 {
 	t_node *type_node;
@@ -48,9 +47,10 @@ void ft_handle_heredocs(t_shell *shell, void *node)
 		ft_handle_heredocs_andif(shell, (t_andif *)node);
 	else if  (type_node->type == N_OR)
 		ft_handle_heredocs_or(shell, (t_or *)node);
-	else if (type_node->type == N_PIPE)
+	if (type_node->type == N_PIPE)
 		ft_handle_heredocs_pipe(shell, (t_pipe *)node);
-	ft_generate_heredocs(shell, (t_exec *)node);
+	else if (type_node->type == N_EXEC)
+		ft_generate_heredocs(shell, (t_exec *)node);
 	printf("return from ft_handle_heredocs\n");
 	return ;
 }
@@ -87,6 +87,8 @@ void	ft_generate_heredocs(t_shell *shell, t_exec *exec_node)
 	t_list *current;
 	t_in_out *io_node;
 
+	printf("here_doc \n");
+
 	current = exec_node->in_out_list;
 	while (current)
 	{
@@ -97,6 +99,7 @@ void	ft_generate_heredocs(t_shell *shell, t_exec *exec_node)
 			printf("here_doc name %s", io_node->name);
 			tmp_fd = open(io_node->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 			ft_fill_heredoc(io_node, tmp_fd);
+			printf("heredoc_fd: %d\n", tmp_fd);
 			close(tmp_fd);
 			printf("test out of readline and close fd\n");
 		}

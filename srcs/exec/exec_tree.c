@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/26 12:13:46 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:28:13 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	ft_start_execution(t_shell *shell)
 {
 	// set_main_signals();
 //     signal(SIGQUIT, ft_sigquit_handler); //activate SIGQUIT NOT INTERACTIVE MODE
-	// ft_handle_heredocs(shell, shell->root);//to think the proper order
-	// printf("test: resady to execute");
+	ft_handle_heredocs(shell, shell->root);//to think the proper order
+	printf("test: resady to execute\n");
 	//inside save io_list(HERE_DOC) save all heredocs
 	//if signal ctrl + C:inside heredoc:
 		//1-save  exit code = 130 
