@@ -50,13 +50,14 @@ void	terminal(t_shell *shell, char **envp)
 			add_history(shell->input);
 		lexer(shell, shell->trimmed_input);
 		print_token_lst(shell->token_lst); // Printing token list
-		shell->envp_arr = envp;
+		shell->envp_arr = envp; //MO: added, need to be changed
 		// shell->envp_arr = env_arr(shell);
 		shell->path = path_list(shell, envp);
 		// print_path_list(shell->path);
-		print_env_arr(shell); //Print array of env.
+		// print_env_arr(shell); //Print array of env.
 		shell->root = build_ltree(shell, shell->token_lst);
 		print_bst(shell->root, 5);
+		ft_start_execution(shell);
 		// Build and execute the cmd tree
 		/*section to call test functions to print out token and command lists*/
 		// lexec_tree(shell, shell->root);
