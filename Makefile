@@ -21,7 +21,7 @@ ENV = env -i ${VALGRIND}
 
 UNAME := $(shell uname)
 ifeq ($(UNAME), Linux)
-	INCLUDE = -L${LIBFTDIR} -lft -readline -lhistory
+	INCLUDE = -L${LIBFTDIR} -lft -lreadline -lhistory
 	READLINE =
 else ifeq ($(UNAME), Darwin)
 	INCLUDE = -L${LIBFTDIR} -lft -L/opt/homebrew/opt/readline/lib -lreadline
@@ -55,7 +55,7 @@ ${NAME}:	${OBJS}
 
 clean:
 	@${RM} ${OBJS} ${NAME}
-	@cd ${LIBFTDIR} && $(MAKE) --silent clean
+	@cd ${LIBFTDIR} && $(MAKE) --silent fclean
 	@clear
 	@echo
 	@echo "$(RED)┏┓┓ ┏┓┏┓┳┓┏┓┳┓"
