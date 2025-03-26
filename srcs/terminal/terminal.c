@@ -59,8 +59,6 @@ void	terminal(t_shell *shell, char **envp)
 		print_bst(shell->root, 5);
 		// Build and execute the cmd tree
 		/*section to call test functions to print out token and command lists*/
-		shell->exit_code = ft_exec_node(shell, shell->root); //MO: added
-		printf("exit status %d\n", shell->exit_code); //MO: added
 		// lexec_tree(shell, shell->root);
 		// free_shell(shell);
 		// last_process(0); //Handles the last process in the pipeline.

@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/25 19:16:31 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/25 23:29:09 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,7 @@ int		ft_redir_inf(t_in_out	*in_out_node)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
-		if (access(file, R_OK) == -1) // file doesn't exist
-			ft_err_msg (file, "No such file or directory", NULL);
-		else // file doesn't permission;
-			ft_err_msg (file, " Permission denied", NULL);
+		ft_err_msg(file, strerror(errno), NULL);
 		return (ENO_GENERAL);
 	}
 	dup2(fd, STDIN_FILENO);
@@ -134,10 +131,7 @@ int		ft_redir_outf(t_in_out *in_out_node)
 		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (fd == -1)
 	{
-		if (access(file, R_OK) == -1) // file doesn't exist
-			ft_err_msg (file, "No such file or directory", NULL);
-		else // no permission;
-			ft_err_msg (file, " Permission denied", NULL);
+		ft_err_msg(file, strerror(errno), NULL);
 		return (ENO_GENERAL);
 	}
 	dup2(fd, STDOUT_FILENO);
