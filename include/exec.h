@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/26 00:39:05 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:53:14 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ typedef enum e_err_no
 }	t_err_no;
 
 /*EXECUTION*/
+void	ft_start_execution(t_shell *shell);
 int 	ft_exec_node(t_shell *shell, void *node);
 int 	ft_exec_andif(t_shell *shell, t_andif *andif_node);
 int 	ft_exec_or(t_shell *shell, t_or *or_node);
@@ -177,14 +178,23 @@ void	ft_print_env_lst(t_list *lst); //for testing
 void	ft_free_env_node(t_env *envp_node);
 void	ft_free_env_lst(t_list **envp);
 
-
 /*HANDLE HEREDOC*/
+void 	ft_handle_heredocs(t_shell *shell, void *node);
+void		ft_handle_heredocs_pipe(t_shell *shell, t_pipe *pipe);
+void		ft_handle_heredocs_andif(t_shell *shell, t_andif *andif);
+void		ft_handle_heredocs_or(t_shell *shell, t_or *or);
+void		ft_generate_heredocs(t_shell *shell, t_exec *exec_node);
+char	*ft_generate_heredoc_name(void);
+bool 	ft_is_delimiter_quoted(char *delimiter);
+void		ft_fill_heredoc(t_in_out *io_here, int fd_hd);
+char 	*ft_line_expantion(char *hd_line);
+void	ft_put_heredoc_line(char *hd_line, int fd_hd, bool quoted);
+void	ft_heredoc_expander(char *hd_line, int fd_hd);
+bool	ft_is_delimiter(char *delimiter, char *hd_line);
 
 /*move to binary_tree.h*/
 t_list	*get_in_out_files(t_shell *shell, t_list *tkn_lst, t_list **in_out_list);
 void	print_int_out_files(t_list *in_out_list, int space);
 void	free_int_out_list(void *content);
-
-
 
 #endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_node.c                                        :+:      :+:    :+:   */
+/*   exec_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/26 01:07:42 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:56:30 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,20 @@
 
 /*TO BE SOLVED:
 - subshell for parenhtesis*/
+
+void	ft_start_execution(t_shell *shell)
+{
+	// set_main_signals();
+//     signal(SIGQUIT, ft_sigquit_handler); //activate SIGQUIT NOT INTERACTIVE MODE
+	ft_handle_heredocs(shell, shell->root);//to think the proper order
+	printf("test: resady to execute");
+	//inside save io_list(HERE_DOC) save all heredocs
+	//if signal ctrl + C:inside heredoc:
+		//1-save  exit code = 130 
+		//2 - clear ast and this iteration's history;
+		//3 and continue in while (1)(i.e. stop this iteration and move n to next iteration)
+	shell->exit_code = ft_exec_node(shell, shell->root);
+}
 
 int ft_exec_node(t_shell *shell, void *node)
 {
@@ -59,30 +73,8 @@ int ft_exec_or(t_shell *shell, t_or *or_node)
 	return (tmp_status);
 }
 
-// void start_execution(t_shell shell)
-// {
-//     signal(SIGQUIT, ft_sigquit_handler); //activate SIGQUIT NOT INTERACTIVE MODE
-	
-	//init_tree
-	//inside save io_list(HERE_DOC) save all heredocs
-	//if signal ctrl + C:inside heredoc:
-		//1-save  exit code = 130 
-		//2 - clear ast and this iteration's history;
-		//3 and continue in while (1)(i.e. stop this iteration and move n to next iteration)
-// }
 
-// void	ft_start_execution(t_shell *shell)
-// {
-// 	// set_main_signals();
-// //     signal(SIGQUIT, ft_sigquit_handler); //activate SIGQUIT NOT INTERACTIVE MODE
-// 	handle_heredoc();
-// 	//inside save io_list(HERE_DOC) save all heredocs
-// 	//if signal ctrl + C:inside heredoc:
-// 		//1-save  exit code = 130 
-// 		//2 - clear ast and this iteration's history;
-// 		//3 and continue in while (1)(i.e. stop this iteration and move n to next iteration)
-// 	shell->exit_code = ft_exec_node(shell, shell->root);
-// }
+
 
 
 
