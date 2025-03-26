@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/20 12:02:18 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/22 19:21:42 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,11 @@ int	ft_redirections(t_exec *exec_node)
 		else if (in_out_node->type == ADD || in_out_node->type == APP)
 			tmp_status = ft_redir_outf(in_out_node);
 		//heredoc - to be tested later!!!
-		else if (in_out_node->type == HERE)
-		{
-			dup2(STDIN_FILENO, in_out_node->fd_heredoc);
-			close(in_out_node->fd_heredoc);
-		}
+		// else if (in_out_node->type == HERE)
+		// {
+		// 	dup2(STDIN_FILENO, in_out_node->fd_heredoc);
+		// 	close(in_out_node->fd_heredoc);
+		// }
 		if (tmp_status != ENO_SUCCESS)
 			return (tmp_status);
 		tmp_io_list = tmp_io_list->next;

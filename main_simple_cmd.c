@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 22:59:19 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/20 14:17:18 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/24 01:09:03 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,11 +119,11 @@ int	main(int argc, char **argv, char **env)
     
     t_exec *exec_node1 = malloc(sizeof(t_exec));
 
-	char *expanded_args1[4];
-	expanded_args1[0] = "exit";
-    expanded_args1[1] = "21";
-    expanded_args1[2] = "21";
-    expanded_args1[3] = NULL;
+	char *expanded_args1[3];
+	expanded_args1[0] = "cd";
+    expanded_args1[1] = "tests";
+    // expanded_args1[2] = "SHELL";
+    expanded_args1[2] = NULL;
     exec_node1->av = expanded_args1;
     exec_node1->command = expanded_args1[0];
     exec_node1->type.type = N_EXEC;

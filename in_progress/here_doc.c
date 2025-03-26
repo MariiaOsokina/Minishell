@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:17:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/20 11:56:38 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/24 23:05:21 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	ft_generate_heredocs(t_exec *exec_node)
 			ft_fill_heredoc(io_node, tmp_fd);
 			close(tmp_fd);
 		}
-		current = current->content;
+		current = current->next;
 	}
 	return (0);
 }

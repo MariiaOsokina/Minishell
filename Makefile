@@ -14,7 +14,7 @@ INCLUDES    := -I includes
 
 BUILTINS_SRC := $(wildcard src/builtins/*.c)
 EXEC_SRC     := $(wildcard src/exec/*.c)
-SRCS         := $(BUILTINS_SRC) $(EXEC_SRC) main_andif_or.c
+SRCS         := $(BUILTINS_SRC) $(EXEC_SRC) main_simple_cmd.c
 
 # Define object file paths that mirror the source structure
 BUILTINS_OBJ := $(patsubst src/builtins/%.c,obj/builtins/%.o,$(BUILTINS_SRC))

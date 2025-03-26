@@ -6,11 +6,14 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/22 01:09:36 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/22 19:18:42 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/structs.h"
+
+/*TO BE SOLVED:
+- subshell for parenhtesis*/
 
 int ft_exec_node(t_shell *shell, void *node)
 {
