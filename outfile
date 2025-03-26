@@ -1,0 +1,13 @@
+include
+infile1
+infile2
+libft
+Makefile
+minishell
+outfile
+readline.supp
+README.md
+shell.txt
+srcs
+tests.c
+vscode
