@@ -6,6 +6,7 @@ void	*create_exec(t_shell *shell, t_list *token_lst)
 	t_exec	*node;
 	t_list	*current;
 
+	printf("Called create_exec\n");
 	if (!token_lst)
 		return (NULL);
 	node = (t_exec *)malloc(sizeof(t_exec));
@@ -65,7 +66,7 @@ t_list	*get_name(t_list *tkn_lst)
 void	*create_pipe(t_shell *shell, void *left, void *right)
 {
 	t_pipe	*node;
-
+	printf("called pipe\n");
 	node = (t_pipe *)malloc(sizeof(t_pipe));
 	if (!node)
 		exit_failure(shell, "create_exec");
@@ -81,6 +82,7 @@ void	*insert_node(t_shell *shell, void *node, t_list *token_lst)
 	t_list	*new;
 	t_pipe	*pipe;
 
+	printf("called insert node\n");
 	if (!node)
 		return (create_exec(shell, token_lst));
 	if (is_parenthesis(token_lst->next))

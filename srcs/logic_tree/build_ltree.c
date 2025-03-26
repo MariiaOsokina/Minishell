@@ -7,11 +7,11 @@ void	*create_subtree(t_shell *shell, t_list *token_lst)
 
 	if (!token_lst)
 		return (NULL);
-	printf("Got here-3\n");
+	printf("called create_subtree from insert_lnode\n");
 	subtree = build_tree(shell, token_lst);
 	if (!subtree)
 		exit_failure(shell, "create_subtree");
-	printf("Got here-3\n");
+	printf("End of create_subtree, returning to insert_lnode here-3\n");
 	return (subtree);
 }
 
@@ -48,7 +48,7 @@ void	*insert_lnode(t_shell *shell, void *l_node, t_list *t_lst)
 {
 	t_token	*token;
 
-	printf("Got here-2\n");
+	printf("Called insert_lnode from build_ltree\n");
 	token = (t_token *)t_lst->content;
 	if (token->type == PARENTHESIS)
 		return (start_parenthesis(shell, t_lst, l_node));
@@ -77,16 +77,17 @@ void	*build_ltree(t_shell *shell, t_list *token_list)
 
 	tmp = token_list;
 	lroot = NULL;
-	printf("Got here-1\n");
+	printf("called build_ltree-1\n");
 	while (tmp)
 	{
 		lroot = insert_lnode(shell, lroot, tmp);
+		printf("Now in build_ltree \n");
 		if (check_token(tmp) && !is_parenthesis(tmp))
 			tmp = get_new_token(tmp);
 		else
 		{
 			if (is_parenthesis(tmp))
-				tmp = jump_parenthesis(tmp); // should be building a subtree.
+				tmp = jump_parenthesis(tmp);
 			else
 			{
 				tmp = tmp->next;
