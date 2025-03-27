@@ -48,7 +48,9 @@ int	ft_builtin_cd(t_shell *shell, t_exec *exec_node)
 {
 	char *path;
 	t_env *tmp_env;
+	char *tmp_dir;
 	
+	tmp_dir = getcwd(NULL, 0);
 	path = exec_node->av[1];
 	tmp_env = malloc(sizeof(t_env));
 	if (ft_arr_size (exec_node->av) > 2) //arr should be with null terminator
@@ -64,7 +66,6 @@ int	ft_builtin_cd(t_shell *shell, t_exec *exec_node)
 		}	
 	}
 	printf("path: %s\n", path);
-
 	if (chdir(path) != ENO_SUCCESS)
 		return (ft_err_msg("cd", path, "No such file or directory"), ENO_GENERAL);
 	tmp_env = ft_get_env(*shell, "PWD");
@@ -75,8 +76,20 @@ int	ft_builtin_cd(t_shell *shell, t_exec *exec_node)
 	}
 	else
 	{
-		printf("PWD is unset, create a new node with PWD, value is chdir()");
+		// printf("PWD is unset, create a new node with PWD, value is chdir()");
 		tmp_env = ft_dup_env_node(shell, "PWD", getcwd(NULL, 0));
+		ft_lstadd_back(&shell->envp, ft_lstnew(tmp_env));
+	}
+	tmp_env = ft_get_env(*shell, "OLDPWD");
+	if(tmp_env != NULL) //if OLDPWD exists in envp;
+	{
+	// 	free(tmp_env); //check malloc issues
+		ft_update_env_value(shell->envp, "OLDPWD", tmp_dir);
+	}
+	else //if OLDPWD is unset
+	{
+		printf("OLDPWD is unset, create a new node with PWD, value is chdir()");
+		tmp_env = ft_dup_env_node(shell, "OLDPWD", tmp_dir);
 		ft_lstadd_back(&shell->envp, ft_lstnew(tmp_env));
 	}
     return (ENO_SUCCESS);

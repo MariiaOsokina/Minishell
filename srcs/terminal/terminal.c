@@ -57,6 +57,7 @@ void	terminal(t_shell *shell, char **envp)
 		// print_env_arr(shell); //Print array of env.
 		shell->root = build_ltree(shell, shell->token_lst);
 		print_bst(shell->root, 5);
+		ft_handle_heredocs(shell, shell->root);
 		ft_start_execution(shell);
 		// Build and execute the cmd tree
 		/*section to call test functions to print out token and command lists*/
