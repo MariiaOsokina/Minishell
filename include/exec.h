@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/26 11:53:14 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/26 22:13:42 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ void		ft_generate_heredocs(t_shell *shell, t_exec *exec_node);
 char	*ft_generate_heredoc_name(void);
 bool 	ft_is_delimiter_quoted(char *delimiter);
 void		ft_fill_heredoc(t_in_out *io_here, int fd_hd);
-char 	*ft_line_expantion(char *hd_line);
+char 	*ft_hd_line_expansion(char *hd_line);
 void	ft_put_heredoc_line(char *hd_line, int fd_hd, bool quoted);
 void	ft_heredoc_expander(char *hd_line, int fd_hd);
 bool	ft_is_delimiter(char *delimiter, char *hd_line);
