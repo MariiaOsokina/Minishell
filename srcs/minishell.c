@@ -26,6 +26,8 @@ void	update_shlvl(t_shell shell) //MO: need to be changed as doesn't change env_
 	}
 }
 
+int g_signum;
+
 int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;

@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/26 22:13:42 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/29 01:17:44 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@
 #include <sys/types.h> // for MACRO S_ISDIR for t_pid
 #include <fcntl.h> // for open()
 #include <signal.h> //for signal()
+#include <sys/ioctl.h> //for iostl function
 /*May require a pointer to cwd and old working dir*/
 
 
 # define HEREDOC_NAME "/tmp/.minishell_heredoc_"
-
+# define MAX_SIZE_HEREDOC 1024
 
 // typedef struct s_shell
 // {
@@ -186,15 +187,20 @@ void		ft_handle_heredocs_or(t_shell *shell, t_or *or);
 void		ft_generate_heredocs(t_shell *shell, t_exec *exec_node);
 char	*ft_generate_heredoc_name(void);
 bool 	ft_is_delimiter_quoted(char *delimiter);
-void		ft_fill_heredoc(t_in_out *io_here, int fd_hd);
+void		ft_fill_heredoc(t_shell *shell, t_in_out *io_here);
 char 	*ft_hd_line_expansion(char *hd_line);
 void	ft_put_heredoc_line(char *hd_line, int fd_hd, bool quoted);
 void	ft_heredoc_expander(char *hd_line, int fd_hd);
 bool	ft_is_delimiter(char *delimiter, char *hd_line);
+void ft_unlink_heredoc(void *content);
+
 
 /*move to binary_tree.h*/
 t_list	*get_in_out_files(t_shell *shell, t_list *tkn_lst, t_list **in_out_list);
 void	print_int_out_files(t_list *in_out_list, int space);
 void	free_int_out_list(void *content);
+
+void ft_sigquit_handler(int signo);
+
 
 #endif

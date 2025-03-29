@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 21:30:26 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/26 22:13:38 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/29 01:38:14 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,42 +61,54 @@ Infinity Loop:
 5 - free line as readline uses malloc;
 */
 
-void		ft_fill_heredoc(t_in_out *io_here, int fd_hd) 
+void		ft_fill_heredoc(t_shell *shell, t_in_out *io_here) 
 {
 	bool 	has_quoted;
 	char 	*hd_line;
 	int		line_nbr;
+	int 	hd_fd;
+	(void)shell;
 
-	line_nbr = 0;
 	has_quoted = ft_is_delimiter_quoted(io_here->eof);
-	//handle signals //QUIT SHOULD BE IGNORED in PARENT PROCESS!
-	while(1)
+	line_nbr = 0;
+	hd_fd = open(io_here->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	//CLEAN ALL SHELL STRUCTURE();free_bst(shell->root);
+	signal(SIGINT, heredoc_sigint_handler);
+	while(g_signum != 2)
 	{
-		hd_line = readline("> "); // MALLOC!!!!
-		if (!hd_line) // note: it happends in case of signal CTRL + D
+		hd_line = readline("> ");// MALLOC!!!!
+		if (g_signum != 2)
 		{
-			ft_putstr_fd("bash: warning: here-document at line ", STDERR_FILENO);
-			ft_putnbr_fd(line_nbr, STDERR_FILENO);
-			ft_putstr_fd(" delimited by end-of-file (wanted \'", STDERR_FILENO);
-			ft_putstr_fd(io_here->eof, STDERR_FILENO);
-			ft_putstr_fd("\')\n", STDERR_FILENO);
+			if (!hd_line) // note: it happends in case of signal CTRL + D
+			{
+				ft_putstr_fd("bash: warning: here-document at line ", STDERR_FILENO);
+				ft_putnbr_fd(line_nbr, STDERR_FILENO);
+				ft_putstr_fd(" delimited by end-of-file (wanted \'", STDERR_FILENO);
+				ft_putstr_fd(io_here->eof, STDERR_FILENO);
+				ft_putstr_fd("\')\n", STDERR_FILENO);
+				free(hd_line);
+				//CLEANSHELL(); without unlink!!
+				exit(ENO_SUCCESS);
+			}
+			if (ft_is_delimiter(io_here->eof, hd_line) == true)
+			{
+				free(hd_line);
+				//CLEANSHELL();  without unlink!!
+				exit(ENO_SUCCESS);
+			}
+			ft_put_heredoc_line(hd_line, hd_fd, has_quoted);
 			free(hd_line);
-			//PANIC()
-			// break ;
-			return ;
+			line_nbr ++;
 		}
-		if (ft_is_delimiter(io_here->eof, hd_line) == true)
+		else
 		{
-			free(hd_line);
-			//PANIC()
-			return ;
-			// break ;
+			close(hd_fd);
+			//CLEANSHELL(); //for child process
+			exit(130);
 		}
-		ft_put_heredoc_line(hd_line, fd_hd, has_quoted);
-		free(hd_line);
-		line_nbr ++;
 	}
 }
+
 
 char *ft_hd_line_expansion(char *hd_line)
 {
@@ -186,4 +198,54 @@ bool	ft_is_delimiter(char *delimiter, char *hd_line)
 		return (true);
 	else
 		return (false);
+}
+
+// int ft_add_heredoc_arr(char **heredoc_arr, char *heredoc_name)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (heredoc_arr[i])
+// 		i ++;
+//     if ((i + 1) >= MAX_SIZE_HEREDOC)
+//         return (-1);
+//     heredoc_arr[i] = (char *)malloc((ft_strlen(heredoc_name) + 1) * sizeof(char));
+//     if (heredoc_arr[i] == NULL) 
+//         return (-1);
+//     ft_strcpy(heredoc_arr[i], heredoc_name);
+// 	i ++;
+// 	heredoc_arr[i] = NULL;
+// 	//print
+// 	for (int i = 0; heredoc_arr[i] != NULL; i++) {
+// 		printf("String %d: %s\n", i, heredoc_arr[i]);
+// 	}
+//     return (0);
+// }
+
+// void ft_unlink_heredoc_arr(t_shell *shell)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	if (!shell->heredoc_arr)
+// 		return ; 
+// 	while (shell->heredoc_arr[i])
+// 	{
+//         unlink(shell->heredoc_arr[i]);
+// 		free(shell->heredoc_arr[i]);
+//         shell->heredoc_arr[i] = NULL;
+//     }
+// 	shell->heredoc_arr = NULL;
+// 	return ;
+// }
+
+void ft_unlink_heredoc(void *content)
+{
+    if (content)
+    {
+        if (unlink((char *)content) != 0)
+			ft_putstr_fd("unlink error\n", STDERR_FILENO);
+        free(content);
+    }
+	return ;
 }

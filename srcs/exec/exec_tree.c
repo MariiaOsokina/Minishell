@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/27 14:10:22 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/29 01:37:06 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,13 @@
 
 void	ft_start_execution(t_shell *shell)
 {
-	// set_main_signals();
+//IF G_SIGNUM = 3 exit status = 131?
+	ft_handle_heredocs(shell, shell->root);
 //     signal(SIGQUIT, ft_sigquit_handler); //activate SIGQUIT NOT INTERACTIVE MODE
-	//to think the proper order
-	//if signal ctrl + C:inside heredoc:
-		//1-	save  exit code = 130 
-		//2 - clear ast and this iteration's history;
-		//3 and continue in while (1)(i.e. stop this iteration and move n to next iteration)
+	signal(SIGQUIT, ft_sigquit_handler);
 	shell->exit_code = ft_exec_node(shell, shell->root);
+	printf("shell ex code %d", shell->exit_code);
+	ft_lstclear(&(shell)->heredoc_names, &ft_unlink_heredoc);
 }
 
 int ft_exec_node(t_shell *shell, void *node)

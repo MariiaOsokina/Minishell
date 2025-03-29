@@ -30,6 +30,9 @@
 # define ARROW "\001\e[1;91m]\002 \001→\002\001\e[0m\002  \b"
 # define MINISHELL "\001\e[0;93mminishell\e[0;39m\002"
 
+
+extern int g_signum;
+
 /* Minishell.h: Metachars */
 # define METACHARS "|;<>"
 
@@ -50,5 +53,6 @@ int		exit_code(int value);
 bool	syntax_error_msg(char *str);
 char	*itoa_exit(t_shell *shell, char **str);
 # define SYNTAX_ERROR "minishell: syntax error "
+
 
 #endif

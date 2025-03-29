@@ -12,7 +12,6 @@ void	sig_main(int signo)
 	}
 }
 
-
 // void	sig_pipe(int signo)
 // {
 // 	if (signo == SIGPIPE)
@@ -39,4 +38,10 @@ void	handle_signals(void)
 {
 	signal(SIGINT, sig_main);
 	signal(SIGQUIT, SIG_IGN);
+}
+
+void ft_sigquit_handler(int signo)
+{
+	if (signo == SIGQUIT)
+		ft_putstr_fd("Quit: 3\n", 1);
 }
