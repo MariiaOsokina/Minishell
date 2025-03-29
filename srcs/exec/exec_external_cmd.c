@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:44:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/25 14:33:54 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/29 01:26:35 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	ft_exec_external_cmd(t_shell shell, t_exec *exec_node)
 	t_err_no	err_no;
 
 	tmp_status = 0;
-	// to handle signals??? ...
 	fork_pid = fork();
 	// to add error fork ...
     if (fork_pid == 0)
@@ -86,7 +85,7 @@ int	ft_exec_external_cmd(t_shell shell, t_exec *exec_node)
 				}
 			}
     }
-    waitpid(fork_pid, &tmp_status, 0); //  parent process can retrieve the tmp status(exit code) of the child
+    waitpid(fork_pid, &tmp_status, 0); //  retrieve the exit status from the child
 	return (ft_get_exit_status(tmp_status));
 }
 

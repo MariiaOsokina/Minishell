@@ -35,6 +35,7 @@ void	terminal(t_shell *shell, char **envp)
 {
 	while (true)
 	{
+		g_signum = 0;
 		reset_shell(shell);
 		handle_signals();
 		shell_input(shell);
@@ -57,8 +58,8 @@ void	terminal(t_shell *shell, char **envp)
 		// print_env_arr(shell); //Print array of env.
 		shell->root = build_ltree(shell, shell->token_lst);
 		print_bst(shell->root, 5);
-		ft_handle_heredocs(shell, shell->root);
 		ft_start_execution(shell);
+		printf("exit status after execution %d\n", shell->exit_code);
 		// Build and execute the cmd tree
 		/*section to call test functions to print out token and command lists*/
 		// lexec_tree(shell, shell->root);

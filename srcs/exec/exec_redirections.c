@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/26 16:48:41 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/29 00:58:35 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,8 @@ int		ft_redir_inf(t_in_out	*in_out_node)
 	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	if (in_out_node->type == HERE)
-		unlink(in_out_node->name);
+	// if (in_out_node->type == HERE)
+	// 	unlink(in_out_node->name);
 	return (ENO_SUCCESS);
 }
 

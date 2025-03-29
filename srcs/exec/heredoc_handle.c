@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 00:27:52 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/27 14:10:22 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/29 01:37:51 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ void ft_handle_heredocs(t_shell *shell, void *node)
 {
 	t_node *type_node;
 
+	if (g_signum == 2)
+	{
+		shell->exit_code = 130;
+		printf("return from handle heredoc\n");
+		return ;
+	}
+	// return
 	if (!node)
 		return ;
 	type_node = (t_node*)node;
@@ -53,33 +60,36 @@ void	ft_handle_heredocs_pipe(t_shell *shell, t_pipe *pipe)
 {
     if (pipe->left)
 		ft_handle_heredocs(shell, pipe->left);
-    if (pipe->right)
+    if (pipe->right && g_signum != 2) //&&  g_signal_number ==2
 		ft_handle_heredocs(shell, pipe->right);
 }
 
 void	ft_handle_heredocs_andif(t_shell *shell, t_andif *andif)
 {
-    if (andif->left)
+    if (andif->left && g_signum != 2)
 		ft_handle_heredocs(shell, andif->left);
-    if (andif->right)
+    if (andif->right && g_signum != 2)// &&  g_signal_number ==2
 		ft_handle_heredocs(shell, andif->right);
 }
 
 void	ft_handle_heredocs_or(t_shell *shell, t_or *or)
 {
-    if (or->left)
+    if (or->left && g_signum != 2)
 		ft_handle_heredocs(shell, or->left);
-    if (or->right)
+    if (or->right && g_signum != 2) //&&  g_signal_number ==2
 		ft_handle_heredocs(shell, or->right);
 }
 
 void	ft_generate_heredocs(t_shell *shell, t_exec *exec_node)
 {
 	(void)shell;
-	int		tmp_fd;
+	// int		tmp_fd;
 	t_list *current;
 	t_in_out *io_node;
+	int			hd_pid;
+	int			tmp_status;
 
+	tmp_status = 0;
 	current = exec_node->in_out_list;
 	while (current)
 	{
@@ -87,9 +97,25 @@ void	ft_generate_heredocs(t_shell *shell, t_exec *exec_node)
 		if (io_node->type == HERE)
 		{
 			io_node->name = ft_generate_heredoc_name();
-			tmp_fd = open(io_node->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-			ft_fill_heredoc(io_node, tmp_fd);
-			close(tmp_fd);
+			ft_lstadd_back(&(shell->heredoc_names), ft_lstnew(io_node->name));
+			hd_pid = fork();
+			if (hd_pid == 0)
+			{
+				ft_fill_heredoc(shell, io_node);
+			}
+			else
+			{
+				waitpid(hd_pid, &tmp_status, 0);
+				printf("tmp status from child hreredoc %d\n", ft_get_exit_status(tmp_status));
+				if (tmp_status == 130)
+				{
+					g_signum = 2;
+					shell->exit_code = 130;
+				}
+			}
+			// if  g_signal_number ==2
+			// return ;
+			// close(tmp_fd);
 		}
 		current = current->next;
 	}
