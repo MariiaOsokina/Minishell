@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	sig_main(int signo)
+void	ft_sigint_handler(int signo)
 {
 	if (signo == SIGINT)
 	{
@@ -34,14 +34,27 @@ void	sig_main(int signo)
 // 	signal(SIGQUIT, SIG_DFL);
 // }
 
-void	handle_signals(void)
-{
-	signal(SIGINT, sig_main);
-	signal(SIGQUIT, SIG_IGN);
-}
+// void	handle_signals(void)
+// {
+// 	signal(SIGINT, sig_main);
+// 	signal(SIGQUIT, SIG_IGN);
+// }
 
 void ft_sigquit_handler(int signo)
 {
 	if (signo == SIGQUIT)
+	{
 		ft_putstr_fd("Quit: 3\n", 1);
+		exit(3);
+	}
+}
+
+
+void	ft_sigint_heredoc_handler(int signo)
+{
+	if (signo == SIGINT)
+	{
+		g_signum = signo;
+		ioctl(0, TIOCSTI, "\n");
+	}
 }

@@ -31,13 +31,3 @@
 // 	signal(SIGINT, heredoc_sigint_handler);
 // 	signal(SIGQUIT, SIG_IGN);
 // }
-
-void	heredoc_sigint_handler(int signo)
-{
-	if (signo == SIGINT)
-	{
-		g_signum = signo;
-		ioctl(0, TIOCSTI, "\n");
-		// exit(130);ls
-	}
-}
