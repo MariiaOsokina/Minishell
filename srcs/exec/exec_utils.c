@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 01:01:22 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/24 13:47:06 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/31 13:54:07 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ int	g_signal;
 
 int	ft_get_exit_status(int status)
 {
-	// if (WIFSIGNALED(status)) 	//to add tmp_status + 127(signals)
+	if (WIFSIGNALED(status)) 	//to add tmp_status + 127(signals)
 
-	// 	return (128 + WTERMSIG(status));
+		return (128 + WTERMSIG(status));
 	return (WEXITSTATUS(status)); // This MACROS WEXITSTATUS shifts to bits to right place,  as child exit status is stored in the higher bits.
 }
 

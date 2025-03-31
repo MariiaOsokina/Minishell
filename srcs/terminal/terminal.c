@@ -36,17 +36,22 @@ void	terminal(t_shell *shell, char **envp)
 	while (true)
 	{
 		g_signum = 0;
+		printf("exit code in the begining of loop: %d and g_signum: %d\n", shell->exit_code, g_signum); //MO: for testing
 		reset_shell(shell);
-		handle_signals();
+		signal(SIGINT, ft_sigint_handler); //MO: to be changed
+		// signal(SIGQUIT, SIG_IGN); ??? CHECK SIGINT in execution!
 		shell_input(shell);
 		shell->input = readline(shell->cwd);
+		if (!shell->input)//MO: moved up! exit is deleted as it is a builtin function
+			return (print_exit(), free_shell(shell)); //MO:exit code! exit(shell.exit_code)
+		if (*shell->input)
 		if (shell->input[0] && !input_validation(shell))
 		{
 			free_shell(shell);
 			continue ;
 		}
-		if (!shell->input || !ft_strcmp(shell->trimmed_input, "exit"))
-			return (print_exit(), free_shell(shell)); //MO:exit code! exit(shell.exit_code)
+		// if (!shell->input || !ft_strcmp(shell->trimmed_input, "exit"))
+		// 	return (print_exit(), free_shell(shell)); //MO:exit code! exit(shell.exit_code)
 		if (*shell->input)
 			add_history(shell->input);
 		lexer(shell, shell->trimmed_input);
@@ -109,5 +114,6 @@ void	reset_shell(t_shell *shell)
 	shell->cmd_path = NULL;
 	shell->cwd = NULL;
 	shell->root = NULL;
-	shell->exit_code = 0;
+	if (!shell->exit_code) //MO: added
+		shell->exit_code = 0;
 }

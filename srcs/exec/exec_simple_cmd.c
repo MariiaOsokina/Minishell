@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:03:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/25 20:01:21 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/31 13:15:18 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	ft_exec_simple_cmd(t_shell *shell, t_exec *exec_node)
 	else
 	{
 		tmp_status = ft_exec_external_cmd(*shell, exec_node);
+		printf("3 exit code from execve: %d\n", tmp_status);
 		return (tmp_status);
 	}
 	return (tmp_status);

@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 21:30:26 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/29 01:38:14 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/31 14:40:04 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,11 @@ void		ft_fill_heredoc(t_shell *shell, t_in_out *io_here)
 	(void)shell;
 
 	has_quoted = ft_is_delimiter_quoted(io_here->eof);
-	line_nbr = 0;
+	line_nbr = 1;
 	hd_fd = open(io_here->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	//CLEAN ALL SHELL STRUCTURE();free_bst(shell->root);
-	signal(SIGINT, heredoc_sigint_handler);
+	signal(SIGINT, ft_sigint_heredoc_handler); //g_signum = 2
+	signal(SIGQUIT, SIG_IGN);
 	while(g_signum != 2)
 	{
 		hd_line = readline("> ");// MALLOC!!!!
@@ -88,27 +89,30 @@ void		ft_fill_heredoc(t_shell *shell, t_in_out *io_here)
 				ft_putstr_fd("\')\n", STDERR_FILENO);
 				free(hd_line);
 				//CLEANSHELL(); without unlink!!
-				exit(ENO_SUCCESS);
+				// exit(ENO_SUCCESS);
+				break ;
 			}
 			if (ft_is_delimiter(io_here->eof, hd_line) == true)
 			{
 				free(hd_line);
 				//CLEANSHELL();  without unlink!!
-				exit(ENO_SUCCESS);
+				// exit(ENO_SUCCESS);
+				break ;
 			}
 			ft_put_heredoc_line(hd_line, hd_fd, has_quoted);
 			free(hd_line);
 			line_nbr ++;
 		}
-		else
+		else//g_signum = 2
 		{
-			close(hd_fd);
-			//CLEANSHELL(); //for child process
-			exit(130);
+			shell->exit_code = 130;
+			// exit(130);
+			break ;
 		}
 	}
+	close(hd_fd);
+	signal(SIGINT, ft_sigint_handler);
 }
-
 
 char *ft_hd_line_expansion(char *hd_line)
 {

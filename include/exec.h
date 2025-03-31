@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/29 01:17:44 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/31 14:39:21 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,8 +199,10 @@ void ft_unlink_heredoc(void *content);
 t_list	*get_in_out_files(t_shell *shell, t_list *tkn_lst, t_list **in_out_list);
 void	print_int_out_files(t_list *in_out_list, int space);
 void	free_int_out_list(void *content);
+/*move to utils.h*/
 
-void ft_sigquit_handler(int signo);
-
+void 	ft_sigquit_handler(int signo);
+void	ft_sigint_handler(int	signo);
+void	ft_sigint_heredoc_handler(int signo);
 
 #endif

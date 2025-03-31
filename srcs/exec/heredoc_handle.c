@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 00:27:52 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/29 01:37:51 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/31 12:42:30 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ void ft_handle_heredocs(t_shell *shell, void *node)
 
 	if (g_signum == 2)
 	{
-		shell->exit_code = 130;
-		printf("return from handle heredoc\n");
+		// shell->exit_code = 130;
+		printf("2 return by SIGINT(2) from handle heredoc\n");
+		printf("2 exit status %d\n", shell->exit_code);
+		printf("2 g signum %d\n", g_signum);
 		return ;
 	}
 	// return
@@ -84,35 +86,40 @@ void	ft_generate_heredocs(t_shell *shell, t_exec *exec_node)
 {
 	(void)shell;
 	// int		tmp_fd;
-	t_list *current;
-	t_in_out *io_node;
-	int			hd_pid;
-	int			tmp_status;
+	t_list		*current;
+	t_in_out 	*io_node;
+	// int			hd_pid;
+	// int			tmp_status;
 
-	tmp_status = 0;
+	// tmp_status = 0;
 	current = exec_node->in_out_list;
-	while (current)
+	while (current && g_signum != 2)
 	{
 		io_node = (t_in_out *)current->content;
 		if (io_node->type == HERE)
 		{
 			io_node->name = ft_generate_heredoc_name();
 			ft_lstadd_back(&(shell->heredoc_names), ft_lstnew(io_node->name));
-			hd_pid = fork();
-			if (hd_pid == 0)
-			{
-				ft_fill_heredoc(shell, io_node);
-			}
-			else
-			{
-				waitpid(hd_pid, &tmp_status, 0);
-				printf("tmp status from child hreredoc %d\n", ft_get_exit_status(tmp_status));
-				if (tmp_status == 130)
-				{
-					g_signum = 2;
-					shell->exit_code = 130;
-				}
-			}
+			ft_fill_heredoc(shell, io_node);
+			printf("exit status %d\n", shell->exit_code);
+			printf("g signum %d\n", g_signum);
+
+
+			// hd_pid = fork();
+			// if (hd_pid == 0)
+			// {
+				// ft_fill_heredoc(shell, io_node);
+			// }
+			// else
+			// {
+			// 	waitpid(hd_pid, &tmp_status, 0);
+			// 	printf("tmp status from child hreredoc %d\n", ft_get_exit_status(tmp_status));
+			// 	if (tmp_status == 130)
+			// 	{
+			// 		g_signum = 2;
+			// 		shell->exit_code = 130;
+			// 	}
+			// }
 			// if  g_signal_number ==2
 			// return ;
 			// close(tmp_fd);
