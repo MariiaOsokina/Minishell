@@ -65,7 +65,6 @@ int	ft_builtin_cd(t_shell *shell, t_exec *exec_node)
 			path = tmp_env->value;
 		}	
 	}
-	printf("path: %s\n", path);
 	if (chdir(path) != ENO_SUCCESS)
 		return (ft_err_msg("cd", path, "No such file or directory"), ENO_GENERAL);
 	tmp_env = ft_get_env(*shell, "PWD");
@@ -88,7 +87,6 @@ int	ft_builtin_cd(t_shell *shell, t_exec *exec_node)
 	}
 	else //if OLDPWD is unset
 	{
-		printf("OLDPWD is unset, create a new node with PWD, value is chdir()");
 		tmp_env = ft_dup_env_node(shell, "OLDPWD", tmp_dir);
 		ft_lstadd_back(&shell->envp, ft_lstnew(tmp_env));
 	}

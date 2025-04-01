@@ -121,7 +121,7 @@ int	ft_builtin_exit(t_shell *shell, t_exec *exec_node)
 {
 	int	exit_code;
 
-	ft_putstr_fd("exit\n", STDOUT_FILENO);
+	// ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (!exec_node->av[1])
 		exit_code = shell->exit_code;
 	else
