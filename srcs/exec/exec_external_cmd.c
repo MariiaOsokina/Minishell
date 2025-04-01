@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:44:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/31 14:49:17 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/31 23:45:11 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,15 @@ int	ft_exec_external_cmd(t_shell shell, t_exec *exec_node)
 	// to add error fork ...
     if (fork_pid == 0)
     {
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, ft_sigquit_handler);
-
+		ft_signals_noninteractive();
 		tmp_status = ft_redirections(exec_node);
 		if (tmp_status != ENO_SUCCESS)
 		{
 			//panic();
 			exit(tmp_status); // from child proccess
 		}
-		//execute with rel abs path
-		if (ft_strnstr(exec_node->command, "/", ft_strlen(exec_node->command)))
+		if (ft_strnstr(exec_node->command, "/", ft_strlen(exec_node->command))) //execute with rel abs path
+
 		{
 			cmd_path = exec_node->command;
 			tmp_status = ft_check_access(cmd_path);
@@ -89,7 +87,6 @@ int	ft_exec_external_cmd(t_shell shell, t_exec *exec_node)
 			}
     }
     waitpid(fork_pid, &tmp_status, 0);
-	printf("exit code from child %d\n", tmp_status);//  retrieve the exit status from the child
 	return (ft_get_exit_status(tmp_status));
 }
 

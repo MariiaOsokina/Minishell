@@ -36,15 +36,16 @@ void	terminal(t_shell *shell, char **envp)
 	while (true)
 	{
 		g_signum = 0;
-		printf("exit code in the begining of loop: %d and g_signum: %d\n", shell->exit_code, g_signum); //MO: for testing
+		// printf("exit code in the begining of loop: %d and g_signum: %d\n", shell->exit_code, g_signum); //MO: for testing
 		reset_shell(shell);
-		signal(SIGINT, ft_sigint_handler); //MO: to be changed
-		// signal(SIGQUIT, SIG_IGN); ??? CHECK SIGINT in execution!
 		shell_input(shell);
+		// printf("exit code in the begining of loop: %d and g_signum: %d\n", shell->exit_code, g_signum); //MO: for testing
+		ft_signals_interactive();
 		shell->input = readline(shell->cwd);
+		if (g_signum == SIGINT)
+			shell->exit_code = 130;
 		if (!shell->input)//MO: moved up! exit is deleted as it is a builtin function
 			return (print_exit(), free_shell(shell)); //MO:exit code! exit(shell.exit_code)
-		if (*shell->input)
 		if (shell->input[0] && !input_validation(shell))
 		{
 			free_shell(shell);
@@ -64,6 +65,8 @@ void	terminal(t_shell *shell, char **envp)
 		shell->root = build_ltree(shell, shell->token_lst);
 		print_bst(shell->root, 5);
 		ft_start_execution(shell);
+		if (g_signum == SIGINT)
+			shell->exit_code = 130;
 		printf("exit status after execution %d\n", shell->exit_code);
 		// Build and execute the cmd tree
 		/*section to call test functions to print out token and command lists*/

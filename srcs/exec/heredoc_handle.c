@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 00:27:52 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/31 12:42:30 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/01 00:39:31 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,38 +62,34 @@ void	ft_handle_heredocs_pipe(t_shell *shell, t_pipe *pipe)
 {
     if (pipe->left)
 		ft_handle_heredocs(shell, pipe->left);
-    if (pipe->right && g_signum != 2) //&&  g_signal_number ==2
+    if (pipe->right && g_signum != SIGINT) //&&  g_signal_number ==2
 		ft_handle_heredocs(shell, pipe->right);
 }
 
 void	ft_handle_heredocs_andif(t_shell *shell, t_andif *andif)
 {
-    if (andif->left && g_signum != 2)
+    if (andif->left && g_signum != SIGINT)
 		ft_handle_heredocs(shell, andif->left);
-    if (andif->right && g_signum != 2)// &&  g_signal_number ==2
+    if (andif->right && g_signum != SIGINT)// &&  g_signal_number ==2
 		ft_handle_heredocs(shell, andif->right);
 }
 
 void	ft_handle_heredocs_or(t_shell *shell, t_or *or)
 {
-    if (or->left && g_signum != 2)
+    if (or->left && g_signum != SIGINT)
 		ft_handle_heredocs(shell, or->left);
-    if (or->right && g_signum != 2) //&&  g_signal_number ==2
+    if (or->right && g_signum != SIGINT) //&&  g_signal_number ==2
 		ft_handle_heredocs(shell, or->right);
 }
 
 void	ft_generate_heredocs(t_shell *shell, t_exec *exec_node)
 {
 	(void)shell;
-	// int		tmp_fd;
 	t_list		*current;
 	t_in_out 	*io_node;
-	// int			hd_pid;
-	// int			tmp_status;
 
-	// tmp_status = 0;
 	current = exec_node->in_out_list;
-	while (current && g_signum != 2)
+	while (current && g_signum != SIGINT)
 	{
 		io_node = (t_in_out *)current->content;
 		if (io_node->type == HERE)
@@ -101,28 +97,8 @@ void	ft_generate_heredocs(t_shell *shell, t_exec *exec_node)
 			io_node->name = ft_generate_heredoc_name();
 			ft_lstadd_back(&(shell->heredoc_names), ft_lstnew(io_node->name));
 			ft_fill_heredoc(shell, io_node);
-			printf("exit status %d\n", shell->exit_code);
-			printf("g signum %d\n", g_signum);
-
-
-			// hd_pid = fork();
-			// if (hd_pid == 0)
-			// {
-				// ft_fill_heredoc(shell, io_node);
-			// }
-			// else
-			// {
-			// 	waitpid(hd_pid, &tmp_status, 0);
-			// 	printf("tmp status from child hreredoc %d\n", ft_get_exit_status(tmp_status));
-			// 	if (tmp_status == 130)
-			// 	{
-			// 		g_signum = 2;
-			// 		shell->exit_code = 130;
-			// 	}
-			// }
-			// if  g_signal_number ==2
-			// return ;
-			// close(tmp_fd);
+			printf("exit status after fill heredoc %d\n", shell->exit_code);
+			printf("g signum after fill heredoc %d\n", g_signum);
 		}
 		current = current->next;
 	}

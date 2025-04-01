@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 21:30:26 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/31 14:40:04 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/01 00:06:05 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,11 @@ void		ft_fill_heredoc(t_shell *shell, t_in_out *io_here)
 	line_nbr = 1;
 	hd_fd = open(io_here->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	//CLEAN ALL SHELL STRUCTURE();free_bst(shell->root);
-	signal(SIGINT, ft_sigint_heredoc_handler); //g_signum = 2
-	signal(SIGQUIT, SIG_IGN);
-	while(g_signum != 2)
+	ft_signals_heredoc();
+	while(g_signum != SIGINT)
 	{
 		hd_line = readline("> ");// MALLOC!!!!
-		if (g_signum != 2)
+		if (g_signum != SIGINT)
 		{
 			if (!hd_line) // note: it happends in case of signal CTRL + D
 			{
@@ -103,15 +102,15 @@ void		ft_fill_heredoc(t_shell *shell, t_in_out *io_here)
 			free(hd_line);
 			line_nbr ++;
 		}
-		else//g_signum = 2
-		{
-			shell->exit_code = 130;
-			// exit(130);
-			break ;
-		}
+		// else//g_signum = SIGINT(2)
+		// {
+		// 	shell->exit_code = 130;
+		// 	// exit(130);
+		// 	break ;
+		// }
 	}
 	close(hd_fd);
-	signal(SIGINT, ft_sigint_handler);
+	ft_signals_interactive();
 }
 
 char *ft_hd_line_expansion(char *hd_line)
@@ -133,7 +132,7 @@ void	ft_put_heredoc_line(char *hd_line, int fd_hd, bool quoted)
 {
 	if (quoted == false)
 	{
-		printf("Need to be no quotes rules\n");
+		// printf("Need to be no quotes rules\n");
 		ft_heredoc_expander(hd_line, fd_hd);
 	}
 	else

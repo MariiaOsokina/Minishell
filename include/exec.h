@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/31 14:39:21 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/03/31 23:47:46 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,8 +201,13 @@ void	print_int_out_files(t_list *in_out_list, int space);
 void	free_int_out_list(void *content);
 /*move to utils.h*/
 
-void 	ft_sigquit_handler(int signo);
-void	ft_sigint_handler(int	signo);
+void	ft_signals_interactive(void);
+void	ft_sigint_interact_handler(int signo);
+void	ft_signals_heredoc(void);
 void	ft_sigint_heredoc_handler(int signo);
+void	ft_signals_noninteractive(void);
+void	ft_sigint_noninteract_handler(int signo);
+void	ft_siguit_noninteract_handler(int signo);
+
 
 #endif

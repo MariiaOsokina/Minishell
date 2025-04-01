@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/31 13:29:41 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/01 00:39:08 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,10 @@
 
 void	ft_start_execution(t_shell *shell)
 {
-//IF G_SIGNUM = 3 exit status = 131?
+	g_signum = 0;
 	ft_handle_heredocs(shell, shell->root);
-//     signal(SIGQUIT, ft_sigquit_handler); //activate SIGQUIT NOT INTERACTIVE MODE
-	// signal(SIGQUIT, SIG_DFL);
-	if (g_signum !=2)
+	if (g_signum != SIGINT)
 		shell->exit_code = ft_exec_node(shell, shell->root);
-	printf("shell ex code %d\n", shell->exit_code);
 	ft_lstclear(&(shell)->heredoc_names, &ft_unlink_heredoc);
 }
 
