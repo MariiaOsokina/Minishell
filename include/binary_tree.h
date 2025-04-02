@@ -21,6 +21,7 @@ typedef struct s_node
 	t_node_type		type;
 }					t_node;
 
+<<<<<<< HEAD
 typedef enum e_inf_t
 {
 	INF,
@@ -39,22 +40,85 @@ typedef struct s_inf
 	char			*name;
 	char			*eof;
 }					t_inf;
+=======
+// typedef enum e_inf_t
+// {
+// 	INF,
+// 	HERE,
+// }				t_inf_t;
 
-typedef struct s_outf
+// typedef enum e_outf_t
+// {
+// 	APP,
+// 	ADD,
+// }				t_outf_t;
+
+// typedef struct s_inf
+// {
+// 	t_inf_t		type;
+// 	char		*name;
+// 	char		*eof;
+// }				t_inf;
+>>>>>>> origin/main
+
+// typedef struct s_outf
+// {
+// 	t_outf_t	type;
+// 	char		*name;
+// }				t_outf;
+
+// /*EXEC*/
+// typedef struct s_exec
+// {
+// 	t_node		type;
+// 	char		*command;
+// 	char		**av;
+// 	t_list		*infiles;
+// 	t_list		*outfiles;
+// }				t_exec;
+
+
+typedef enum e_io_type //MO:added
 {
+<<<<<<< HEAD
 	t_outf_t		type;
 	char			*name;
 }					t_outf;
+=======
+    INF,
+    HERE,
+    APP,
+    ADD,
+} t_io_type;
+
+typedef struct s_in_out //MO:added
+{
+	t_io_type type;
+    char *name;
+    char **expanded_name;
+    char *eof; //check do we need it, may be it could be in "name";
+    int fd_heredoc;
+}	t_in_out;
+
+>>>>>>> origin/main
 
 /*EXEC*/
-typedef struct s_exec
+typedef struct s_exec //MO:added
 {
+<<<<<<< HEAD
 	t_node			type;
 	char			*command;
 	char			**av;
 	t_list			*infiles;
 	t_list			*outfiles;
 }					t_exec;
+=======
+	t_node		type;
+	char		*command;
+	char		**av;
+	t_list		*in_out_list;
+}		t_exec;
+>>>>>>> origin/main
 
 /*PIPES*/
 typedef struct s_pipe
@@ -91,6 +155,7 @@ void				*create_pipe(t_shell *shell, void *left, void *right);
 void				*insert_node(t_shell *shell, void *node, t_list *token_lst);
 
 /*buildtree_utils.c*/
+<<<<<<< HEAD
 int					count_args(t_list *tkn_lst);
 char				**get_colors(t_shell *shell, char **av);
 char				**get_argv(t_shell *shell, t_list *t_lst);
@@ -98,6 +163,13 @@ t_list				*get_infiles(t_shell *shell, t_list *tkn_lst,
 						t_list **infs);
 t_list				*get_outfiles(t_shell *shell, t_list *tkn_lst,
 						t_list **outfs);
+=======
+int				count_args(t_list *tkn_lst);
+char			**get_colors(t_shell *shell, char **av);
+char			**get_argv(t_shell *shell, t_list *t_lst);
+// t_list			*get_infiles(t_shell *shell, t_list *tkn_lst, t_list **infs);
+// t_list			*get_outfiles(t_shell *shell, t_list *tkn_lst, t_list **outfs);
+>>>>>>> origin/main
 
 /*bst_free.c*/
 void				free_bst(void *root);
@@ -118,5 +190,10 @@ void				print_bst_pipe(t_pipe *node, int space);
 void				print_bst_exec(t_exec *node, int space);
 
 /*bst_print_utils*/
+<<<<<<< HEAD
 void				print_infiles(t_list *infiles, int space);
 void				print_outfiles(t_list *outfiles, int space);
+=======
+// void			print_infiles(t_list *infiles, int space);
+// void			print_outfiles(t_list *outfiles, int space);
+>>>>>>> origin/main

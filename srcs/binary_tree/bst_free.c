@@ -1,26 +1,37 @@
 #include "minishell.h"
 
-void	free_outfile(void *content)
+
+void	free_int_out_list(void *content) //MO: added
 {
-	const t_outf	*outfile = (t_outf *)content;
-	if (outfile)
+	const t_in_out	*io_node = (t_in_out *)content;
+	if (io_node)
 	{
-		free(outfile->name);
-		free((void *)outfile);
+		free(io_node->name);
+		free((void *)io_node);
 	}
 }
 
-void	free_infile(void *content)
-{
-	const t_inf	*infile = (t_inf *)content;
+// void	free_outfile(void *content)
+// {
+// 	const t_outf	*outfile = (t_outf *)content;
+// 	if (outfile)
+// 	{
+// 		free(outfile->name);
+// 		free((void *)outfile);
+// 	}
+// }
 
-	if (infile)
-	{
-		free(infile->name);
-		free(infile->eof);
-		free((void *)infile);
-	}
-}
+// void	free_infile(void *content)
+// {
+// 	const t_inf	*infile = (t_inf *)content;
+
+// 	if (infile)
+// 	{
+// 		free(infile->name);
+// 		free(infile->eof);
+// 		free((void *)infile);
+// 	}
+// }
 
 void	free_sub_pipes(t_pipe *pipe)
 {
@@ -34,21 +45,35 @@ void	free_sub_pipes(t_pipe *pipe)
 	free(pipe);
 }
 
-void	free_exec(t_exec *node)
+
+void	free_exec(t_exec *node) //MO: added
 {
 	if (node)
 	{
 		if (node->av)
 			free(node->av);
-		if (node->infiles)
-			ft_lstclear(&node->infiles, free_infile);
-		free(node->infiles);
-		if (node->outfiles)
-			ft_lstclear(&node->outfiles, free_outfile);
-		free(node->outfiles);
+		if (node->in_out_list)
+			ft_lstclear(&node->in_out_list, free_int_out_list);
+		free(node->in_out_list);
 		free(node);
 	}
 }
+
+// void	free_exec(t_exec *node)
+// {
+// 	if (node)
+// 	{
+// 		if (node->av)
+// 			free(node->av);
+// 		if (node->infiles)
+// 			ft_lstclear(&node->infiles, free_infile);
+// 		free(node->infiles);
+// 		if (node->outfiles)
+// 			ft_lstclear(&node->outfiles, free_outfile);
+// 		free(node->outfiles);
+// 		free(node);
+// 	}
+// }
 
 void	free_bst(void *root)
 {
@@ -61,7 +86,7 @@ void	free_bst(void *root)
 		free_sub_pipes((t_pipe *)root);
 	else if (node->type == N_EXEC)
 		free_exec((t_exec *)root);
-	else if (node->type == AND_IF)
+	else if (node->type == N_ANDIF) //MO: fixed
 		ltree_free((t_andif *)root);
 	else if (node->type == N_OR)
 		ltree_free((t_or *)root);

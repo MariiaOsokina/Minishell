@@ -21,7 +21,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-
+# include "exec.h"
 /*Minishell.h:  Macro Defs*/
 # define ESC_START "\001\e[1;91m\002"
 # define ESC_RESET "\001\e[0;93m\002"

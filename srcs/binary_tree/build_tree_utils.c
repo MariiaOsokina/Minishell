@@ -1,25 +1,40 @@
 #include "minishell.h"
 
 /*build_tree_utils.c*/
-t_list	*get_infiles(t_shell *shell, t_list *tkn_lst, t_list **infs)
+t_list	*get_in_out_files(t_shell *shell, t_list *tkn_lst, t_list **in_out_list) //MO: added
 {
-	t_inf	*content;
+	t_in_out	*content;
 
 	printf("Got here-7.0\n");
-	while (tkn_lst && ((t_token *)tkn_lst->content)->type != PIPE)
+	// while (tkn_lst && ((t_token *)tkn_lst->content)->type != PIPE) 
+	while (tkn_lst && ((t_token *)tkn_lst->content)->type != PIPE
+		&&  ((t_token *)tkn_lst->content)->type != AND_IF
+		&& ((t_token *)tkn_lst->content)->type != OR)
 	{
 		if (tkn_lst && (((t_token *)tkn_lst->content)->type == INFILE
-				|| ((t_token *)tkn_lst->content)->type == HEREDOC))
+				|| ((t_token *)tkn_lst->content)->type == HEREDOC
+				|| ((t_token *)tkn_lst->content)->type == OUTFILE
+				|| ((t_token *)tkn_lst->content)->type == APPEND))
 		{
-			content = ft_calloc(sizeof(t_inf), 1);
+			content = ft_calloc(sizeof(t_in_out), 1);
 			if (!content)
-				exit_failure(shell, "get_infiles");
+				exit_failure(shell, "get_in_out_files");
 			if (((t_token *)tkn_lst->content)->type == INFILE)
 				content->type = INF;
-			else
+			else if (((t_token *)tkn_lst->content)->type == HEREDOC)
 				content->type = HERE;
-			content->eof = ft_strdup(((t_token *)tkn_lst->next->content)->value);
-			ft_lstadd_back(infs, ft_lstnew(content));
+			else if (((t_token *)tkn_lst->content)->type == APPEND)
+				content->type = APP;
+			else
+				content->type = ADD;
+			if (content->type == HERE)
+				content->eof = ft_strdup(((t_token *)tkn_lst->next->content)->value);
+			else
+			{
+				content->name = ft_strdup(((t_token *)tkn_lst->next->content)->value);
+				// content->expanded_name[0] = ft_strdup(((t_token *)tkn_lst->next->content)->value); // MO: add to free
+			}
+			ft_lstadd_back(in_out_list, ft_lstnew(content));
 			tkn_lst = tkn_lst->next->next;
 			continue ;
 		}
@@ -32,36 +47,69 @@ t_list	*get_infiles(t_shell *shell, t_list *tkn_lst, t_list **infs)
 	return (tkn_lst);
 }
 
-/*build_tree_utils.c*/
-t_list	*get_outfiles(t_shell *shell, t_list *tkn_lst, t_list **outfs)
-{
-	t_outf	*content;
 
-	printf("Got here 71.0\n");
-	while (tkn_lst && ((t_token *)tkn_lst->content)->type != PIPE)
-	{
-		if (tkn_lst && (((t_token *)tkn_lst->content)->type == OUTFILE
-				|| ((t_token *)tkn_lst->content)->type == APPEND))
-		{
-			content = ft_calloc(1, sizeof(t_outf));
-			if (!content)
-				exit_failure(shell, "get_outfiles");
-			if (((t_token *)tkn_lst->content)->type == APPEND)
-				content->type = APP;
-			else
-				content->type = ADD;
-			content->name = ft_strdup(((t_token *)tkn_lst->next->content)->value);
-			ft_lstadd_back(outfs, ft_lstnew(content));
-			tkn_lst = tkn_lst->next->next;
-			continue ;
-		}
-		tkn_lst = tkn_lst->next;
-		if (tkn_lst == NULL || !check_token(tkn_lst))
-			break ;
-	}
-	printf("Got here 71.1\n");
-	return (tkn_lst);
-}
+// // /*build_tree_utils.c*/
+// t_list	*get_infiles(t_shell *shell, t_list *tkn_lst, t_list **infs)
+// {
+// 	t_inf	*content;
+
+// 	printf("Got here-7.0\n");
+// 	while (tkn_lst && ((t_token *)tkn_lst->content)->type != PIPE)
+// 	{
+// 		if (tkn_lst && (((t_token *)tkn_lst->content)->type == INFILE
+// 				|| ((t_token *)tkn_lst->content)->type == HEREDOC))
+// 		{
+// 			content = ft_calloc(sizeof(t_inf), 1);
+// 			if (!content)
+// 				exit_failure(shell, "get_infiles");
+// 			if (((t_token *)tkn_lst->content)->type == INFILE)
+// 				content->type = INF;
+// 			else
+// 				content->type = HERE;
+// 			content->eof = ft_strdup(((t_token *)tkn_lst->next->content)->value);
+// 			ft_lstadd_back(infs, ft_lstnew(content));
+// 			tkn_lst = tkn_lst->next->next;
+// 			continue ;
+// 		}
+// 		printf("Got here-7.1\n");
+// 		tkn_lst = tkn_lst->next;
+// 		if (tkn_lst == NULL || !check_token(tkn_lst))
+// 			break ;
+// 	}
+// 	printf("Got here-7.2\n");
+// 	return (tkn_lst);
+// }
+
+// /*build_tree_utils.c*/
+// t_list	*get_outfiles(t_shell *shell, t_list *tkn_lst, t_list **outfs)
+// {
+// 	t_outf	*content;
+
+// 	printf("Got here 71.0\n");
+// 	while (tkn_lst && ((t_token *)tkn_lst->content)->type != PIPE)
+// 	{
+// 		if (tkn_lst && (((t_token *)tkn_lst->content)->type == OUTFILE
+// 				|| ((t_token *)tkn_lst->content)->type == APPEND))
+// 		{
+// 			content = ft_calloc(1, sizeof(t_outf));
+// 			if (!content)
+// 				exit_failure(shell, "get_outfiles");
+// 			if (((t_token *)tkn_lst->content)->type == APPEND)
+// 				content->type = APP;
+// 			else
+// 				content->type = ADD;
+// 			content->name = ft_strdup(((t_token *)tkn_lst->next->content)->value);
+// 			ft_lstadd_back(outfs, ft_lstnew(content));
+// 			tkn_lst = tkn_lst->next->next;
+// 			continue ;
+// 		}
+// 		tkn_lst = tkn_lst->next;
+// 		if (tkn_lst == NULL || !check_token(tkn_lst))
+// 			break ;
+// 	}
+// 	printf("Got here 71.1\n");
+// 	return (tkn_lst);
+// }
 
 /*build_tree_utils.c*/
 char	**get_argv(t_shell *shell, t_list *t_lst)
