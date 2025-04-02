@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_handle.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 00:27:52 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/01 00:39:31 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:00:13 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,7 @@ void ft_handle_heredocs(t_shell *shell, void *node)
 {
 	t_node *type_node;
 
-	if (g_signum == 2)
-	{
-		// shell->exit_code = 130;
-		printf("2 return by SIGINT(2) from handle heredoc\n");
-		printf("2 exit status %d\n", shell->exit_code);
-		printf("2 g signum %d\n", g_signum);
-		return ;
-	}
-	// return
-	if (!node)
+	if (g_signum == SIGINT || !node)
 		return ;
 	type_node = (t_node*)node;
 	if (type_node->type == N_ANDIF)
@@ -62,7 +53,7 @@ void	ft_handle_heredocs_pipe(t_shell *shell, t_pipe *pipe)
 {
     if (pipe->left)
 		ft_handle_heredocs(shell, pipe->left);
-    if (pipe->right && g_signum != SIGINT) //&&  g_signal_number ==2
+    if (pipe->right && g_signum != SIGINT)
 		ft_handle_heredocs(shell, pipe->right);
 }
 
@@ -70,7 +61,7 @@ void	ft_handle_heredocs_andif(t_shell *shell, t_andif *andif)
 {
     if (andif->left && g_signum != SIGINT)
 		ft_handle_heredocs(shell, andif->left);
-    if (andif->right && g_signum != SIGINT)// &&  g_signal_number ==2
+    if (andif->right && g_signum != SIGINT)
 		ft_handle_heredocs(shell, andif->right);
 }
 
@@ -78,7 +69,7 @@ void	ft_handle_heredocs_or(t_shell *shell, t_or *or)
 {
     if (or->left && g_signum != SIGINT)
 		ft_handle_heredocs(shell, or->left);
-    if (or->right && g_signum != SIGINT) //&&  g_signal_number ==2
+    if (or->right && g_signum != SIGINT)
 		ft_handle_heredocs(shell, or->right);
 }
 
@@ -97,51 +88,10 @@ void	ft_generate_heredocs(t_shell *shell, t_exec *exec_node)
 			io_node->name = ft_generate_heredoc_name();
 			ft_lstadd_back(&(shell->heredoc_names), ft_lstnew(io_node->name));
 			ft_fill_heredoc(shell, io_node);
-			printf("exit status after fill heredoc %d\n", shell->exit_code);
-			printf("g signum after fill heredoc %d\n", g_signum);
+			printf("exit status after fill heredoc %d\n", shell->exit_code); //MO; for testing, to be deleted
+			printf("g signum after fill heredoc %d\n", g_signum); //MO; for testing, to be deleted
 		}
 		current = current->next;
 	}
 	return ;
 }
-
-
-// void	signal_ctlc(int sig)
-// {
-// 	if (sig == SIGINT)
-// 	{
-// 		write(STDERR_FILENO, "\n", 1);
-// 		rl_replace_line("", 0);
-// 		rl_on_new_line();
-// 		rl_redisplay();
-// 	}
-// }
-
-// void	signal_ctlc_heredoc(int sig)
-// {
-// 	if (sig == SIGINT)
-// 	{
-// 		close(STDIN_FILENO);
-// 		write(STDERR_FILENO, "\n", 1);
-// 	}
-// }
-
-
-// int	termios_change(bool echo_ctl_chr)
-// {
-// 	struct termios	terminos_p;
-// 	int				status;
-
-// 	status = tcgetattr(STDOUT_FILENO, &terminos_p);
-// 	if (status == -1)
-// 		return (ERROR);
-// 	if (echo_ctl_chr)
-// 		terminos_p.c_lflag |= ECHOCTL;
-// 	else
-// 		terminos_p.c_lflag &= ~(ECHOCTL);
-// 	status = tcsetattr(STDOUT_FILENO, TCSANOW, &terminos_p);
-// 	if (status == -1)
-// 		return (ERROR);
-// 	return (0);
-// }
-//ioctl(0, TIOCSTI, "\n");

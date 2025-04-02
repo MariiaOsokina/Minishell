@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/29 00:58:35 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:02:07 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ LOOP thoought the list of in_out nodes and  based on type:
 		and return should be with teh exit status 1.
 5	- 	If here_doc(<<)
 	a - NOTE: Input was written to heredoc's fd BEFORE redirection!
-	b - dup2(fd_heredoc[1], STDIN) and close ??fd_heredoc[1];
+	b - handled by fd_in;
 */
 
 /*TESTS
@@ -77,12 +77,6 @@ int	ft_redirections(t_exec *exec_node)
 			tmp_status = ft_redir_inf(in_out_node);
 		else if (in_out_node->type == ADD || in_out_node->type == APP)
 			tmp_status = ft_redir_outf(in_out_node);
-		// heredoc - to be tested later!!!
-		// else if (in_out_node->type == HERE)
-		// {
-		// 	dup2(STDIN_FILENO, in_out_node->fd_heredoc);
-		// 	close(in_out_node->fd_heredoc);
-		// }
 		if (tmp_status != ENO_SUCCESS)
 			return (tmp_status);
 		tmp_io_list = tmp_io_list->next;
@@ -111,8 +105,6 @@ int		ft_redir_inf(t_in_out	*in_out_node)
 	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	// if (in_out_node->type == HERE)
-	// 	unlink(in_out_node->name);
 	return (ENO_SUCCESS);
 }
 

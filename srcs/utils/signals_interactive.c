@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_interactive.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 23:40:26 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/02 02:34:35 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:32:30 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,15 @@ void	ft_signals_heredoc(void)
 
 void	ft_sigint_heredoc_handler(int signo)
 {
+	// int tmpstdin;
+	// tmpstdin = dup(STDIN_FILENO);
 	if (signo == SIGINT)
 	{
 		ioctl(0, TIOCSTI, "\n");
-		ft_termios_notecho(); //test!!!
+		// close(STDIN_FILENO);
+		// ft_termios_notecho(); //test!!! it is needed that it indicates a newline should be processed, but not printed.
 		g_signum = signo;
+		// open(tmpstdin, O_RDONLY);
 	}
 }
 
@@ -59,16 +63,39 @@ void	ft_sigint_heredoc_handler(int signo)
 
 // In your function, ICANON is enabled, and ECHO is disabled. 
 // This means input is processed line by line, but characters are not echoed back to the terminal.
-int		ft_termios_notecho(void)
-{
-	struct termios	terminos_p;
-	int				status;
 
-	status = tcgetattr(STDOUT_FILENO, &terminos_p);
-	if (status == -1)
-		return (ENO_GENERAL);
+// int		ft_termios_notecho(void)
+// {
+// 	struct termios	terminos_p;
+// 	int				status;
 
-	terminos_p.c_lflag |= ICANON;
-	terminos_p.c_lflag &= ~ECHO;
-	return (0);
-}
+// 	status = tcgetattr(STDOUT_FILENO, &terminos_p);
+// 	if (status == -1)
+// 		return (ENO_GENERAL);
+
+// 	terminos_p.c_lflag |= ICANON;
+// 	terminos_p.c_lflag &= ~ECHO;
+	
+// 	status = tcsetattr(STDOUT_FILENO, TCSANOW, &terminos_p);
+// 	if (status == -1)
+// 		return (ENO_GENERAL);
+// 	return (0);
+// }
+
+// int		ft_termios_echo(void)
+// {
+// 	struct termios	terminos_p;
+// 	int				status;
+
+// 	status = tcgetattr(STDOUT_FILENO, &terminos_p);
+// 	if (status == -1)
+// 		return (ENO_GENERAL);
+
+// 	terminos_p.c_lflag &= ~ICANON;
+// 	terminos_p.c_lflag |= ECHO;
+	
+// 	status = tcsetattr(STDOUT_FILENO, TCSANOW, &terminos_p);
+// 	if (status == -1)
+// 		return (ENO_GENERAL);
+// 	return (0);
+// }

@@ -122,7 +122,7 @@ int	ft_builtin_export(t_shell *shell, t_exec *exec_node)
 				ft_lstadd_back(&shell->envp, ft_lstnew(new_env));			
 			else
 			{
-				printf("key exists %s, update node t_env with new value %s\n", new_env->key, new_env->value);
+				// printf("key exists %s, update node t_env with new value %s\n", new_env->key, new_env->value); MO: for testing
 				ft_update_env_value(shell->envp, new_env->key, new_env->value);
 				ft_free_env_node(new_env);
 			}

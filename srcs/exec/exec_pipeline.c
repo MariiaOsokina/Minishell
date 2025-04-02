@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:53:30 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/24 13:47:15 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:07:30 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int ft_exec_pipe_right(t_shell *shell, t_pipe *pipe_node, int *pipe_fds)
 	dup2(pipe_fds[0], STDIN_FILENO);
 	close(pipe_fds[0]);
 	tmp_status = ft_exec_node(shell, pipe_node->right);
-	exit(tmp_status); //OK
+	exit(tmp_status);
 }
 
 int ft_exec_pipe_left(t_shell *shell, t_pipe *pipe_node, int *pipe_fds)
