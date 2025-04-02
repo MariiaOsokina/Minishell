@@ -3,15 +3,9 @@
 int	check_token(t_list *node)
 {
 	printf("Got here-4.5\n");
-	if (node == NULL)
-		return (false);
-	else
-	{
-		printf("%s\n", ((t_token *)node->content)->value);
-		return (node && (((t_token *)node->content)->type != AND_IF
-				&& ((t_token *)node->content)->type != OR));
-	}
-	return (false);
+	// printf("%s\n", ((t_token *)node->content)->value);
+	return (node && (((t_token *)node->content)->type != AND_IF
+			&& ((t_token *)node->content)->type != OR));
 }
 
 void	*ltree_print(void *root, int space)
@@ -60,7 +54,11 @@ void	ltree_free(void *root)
 		ltree_free(((t_or *)node)->left);
 		ltree_free(((t_or *)node)->right);
 	}
+<<<<<<< HEAD
 	if (node->type != N_ANDIF && node->type != N_OR) //MO: fixed
+=======
+	if (node->type != N_ANDIF && node->type != N_OR)
+>>>>>>> refs/remotes/origin/lexy
 		free_bst((t_pipe *)root);
 	else if (node->type == N_ANDIF || node->type == N_OR)
 		free(root);

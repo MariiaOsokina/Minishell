@@ -86,7 +86,11 @@ void	free_bst(void *root)
 		free_sub_pipes((t_pipe *)root);
 	else if (node->type == N_EXEC)
 		free_exec((t_exec *)root);
+<<<<<<< HEAD
 	else if (node->type == N_ANDIF) //MO: fixed
+=======
+	else if (node->type == N_ANDIF)
+>>>>>>> refs/remotes/origin/lexy
 		ltree_free((t_andif *)root);
 	else if (node->type == N_OR)
 		ltree_free((t_or *)root);

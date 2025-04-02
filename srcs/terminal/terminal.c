@@ -54,6 +54,7 @@ void	terminal(t_shell *shell, char **envp)
 		// shell->envp_arr = env_arr(shell);
 		shell->path = path_list(shell, envp);
 <<<<<<< HEAD
+<<<<<<< HEAD
 		// print_env_arr(shell); //Print array of env.
 		// shell->root = build_ltree(shell, shell->token_lst);
 		shell->root = build_ast(shell);
@@ -66,6 +67,11 @@ void	terminal(t_shell *shell, char **envp)
 		print_bst(shell->root, 5);
 		ft_start_execution(shell);
 >>>>>>> origin/main
+=======
+		print_env_arr(shell); //Print array of env.
+		shell->root = build_ltree(shell, shell->token_lst);
+		print_bst(shell->root, 5);
+>>>>>>> refs/remotes/origin/lexy
 		// Build and execute the cmd tree
 		/*section to call test functions to print out token and command lists*/
 		// lexec_tree(shell, shell->root);

@@ -2,7 +2,7 @@
 
 t_list	*new_sublist(t_list *t_lst)
 {
-	int	balance;
+	int		balance;
 	t_list	*new;
 	t_token	*token;
 
@@ -51,8 +51,9 @@ void	clean_sublist(t_list *new)
 
 void	*get_andif_subnode(t_shell *shell, void *l_node, t_list *t_lst)
 {
-	t_list *new;
+	t_list	*new;
 
+	printf("called get_andif_subnode\n");
 	new = NULL;
 	new = new_sublist(t_lst->next);
 	l_node = create_and(shell, l_node, build_ltree(shell, new));

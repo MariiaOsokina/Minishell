@@ -16,6 +16,7 @@ void	*get_pipe_subnode(t_shell *shell, void *l_node, t_list *t_lst)
 {
 	t_list	*new;
 
+	printf("called get_pipe_subnode\n");
 	new = NULL;
 	new = new_sublist(t_lst->next);
 	print_token_lst(new);
@@ -31,8 +32,8 @@ t_list	*jump_parenthesis(t_list *tmp)
 
 	tmp = tmp->next;
 	balance = 1;
-	if (tmp)
-		token = (t_token *)tmp->content;
+	// if (tmp)
+	// 	token = (t_token *)tmp->content;
 	while (tmp && balance != 0)
 	{
 		if (tmp)
@@ -65,7 +66,7 @@ void	*start_parenthesis(t_shell *shell, t_list *t_lst, void *l_node)
 	token = (t_token *)t_lst->content;
 	if (!l_node)
 		l_node = build_ltree(shell, new);
-	if (token->type ==AND_IF)
+	if (token->type == AND_IF)
 		l_node = create_and(shell, l_node, build_ltree(shell, new));
 	if (token->type == OR)
 		l_node = create_or(shell, l_node, build_ltree(shell, new));
