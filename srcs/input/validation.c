@@ -7,11 +7,13 @@
 */
 bool	input_validation(t_shell *shell)
 {
-	if (!shell->input || shell->input[0] == '\0')
+	if (shell->input[0] == '\0')
 		return (true);
 	shell->trimmed_input = ft_strtrim(shell->input, "\t ");
 	if (!shell->trimmed_input)
 		exit_failure(shell, "input_validation");
+	if (shell->trimmed_input[0] == '\0')
+		return (true);
 	if (!check_pipes(shell->trimmed_input))
 		return (syntax_error_msg(PIPE_ERROR), exit_code(2), false);
 	if (!check_quotes(shell->trimmed_input))
@@ -22,7 +24,7 @@ bool	input_validation(t_shell *shell)
 		return (exit_code(2), false);
 	if (!check_line_len(shell->trimmed_input))
 		return (exit_code(2), false);
-	return (true);
+	return (false);
 }
 
 /*

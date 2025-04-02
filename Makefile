@@ -55,7 +55,7 @@ ${NAME}:	${OBJS}
 
 clean:
 	@${RM} ${OBJS} ${NAME}
-	@cd ${LIBFTDIR} && $(MAKE) --silent clean
+	@cd ${LIBFTDIR} && $(MAKE) --silent fclean
 	@clear
 	@echo
 	@echo "$(RED)┏┓┓ ┏┓┏┓┳┓┏┓┳┓"
