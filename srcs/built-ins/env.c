@@ -35,7 +35,7 @@ t_list	*path_list(t_shell *shell, char **envp)
 	(void)envp;
 	path_list = NULL;
 	path = sh_get_env(shell->envp, "PATH");
-	printf("path: %s\n", path);
+	// printf("path: %s\n", path);
 	// path = sh_get_env(envp, "PATH");
 
 	if (path == NULL)
