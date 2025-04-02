@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 21:30:26 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/01 00:06:05 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/02 00:57:33 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,9 @@ void		ft_fill_heredoc(t_shell *shell, t_in_out *io_here)
 	hd_fd = open(io_here->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	//CLEAN ALL SHELL STRUCTURE();free_bst(shell->root);
 	ft_signals_heredoc();
+	// ft_termios_change(false);
 	while(g_signum != SIGINT)
+	// while(1)
 	{
 		hd_line = readline("> ");// MALLOC!!!!
 		if (g_signum != SIGINT)
@@ -111,6 +113,8 @@ void		ft_fill_heredoc(t_shell *shell, t_in_out *io_here)
 	}
 	close(hd_fd);
 	ft_signals_interactive();
+	// ft_termios_change(true);
+
 }
 
 char *ft_hd_line_expansion(char *hd_line)

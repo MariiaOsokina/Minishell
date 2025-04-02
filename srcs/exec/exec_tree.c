@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/01 00:39:08 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/02 02:18:12 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,16 @@ void	ft_start_execution(t_shell *shell)
 	g_signum = 0;
 	ft_handle_heredocs(shell, shell->root);
 	if (g_signum != SIGINT)
+	{
+		ft_termios_change(false);
+		ft_signals_noninteractive();
 		shell->exit_code = ft_exec_node(shell, shell->root);
+		if (g_signum == SIGINT)
+			ft_putstr_fd("^C\n", STDERR_FILENO);
+		if (g_signum == SIGQUIT)
+			ft_putstr_fd("^QUIT\n", STDERR_FILENO);
+		g_signum = 0;
+	}
 	ft_lstclear(&(shell)->heredoc_names, &ft_unlink_heredoc);
 }
 

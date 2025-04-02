@@ -41,6 +41,7 @@ void	terminal(t_shell *shell, char **envp)
 		shell_input(shell);
 		// printf("exit code in the begining of loop: %d and g_signum: %d\n", shell->exit_code, g_signum); //MO: for testing
 		ft_signals_interactive();
+		ft_termios_change(true);
 		shell->input = readline(shell->cwd);
 		if (g_signum == SIGINT)
 			shell->exit_code = 130;
@@ -56,14 +57,14 @@ void	terminal(t_shell *shell, char **envp)
 		if (*shell->input)
 			add_history(shell->input);
 		lexer(shell, shell->trimmed_input);
-		print_token_lst(shell->token_lst); // Printing token list
+		// print_token_lst(shell->token_lst); // Printing token list
 		shell->envp_arr = envp; //MO: added, need to be changed
 		// shell->envp_arr = env_arr(shell);
 		shell->path = path_list(shell, envp);
 		// print_path_list(shell->path);
 		// print_env_arr(shell); //Print array of env.
 		shell->root = build_ltree(shell, shell->token_lst);
-		print_bst(shell->root, 5);
+		// print_bst(shell->root, 5);
 		ft_start_execution(shell);
 		if (g_signum == SIGINT)
 			shell->exit_code = 130;

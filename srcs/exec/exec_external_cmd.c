@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:44:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/31 23:45:11 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/02 02:19:06 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ int	ft_exec_external_cmd(t_shell shell, t_exec *exec_node)
 	// to add error fork ...
     if (fork_pid == 0)
     {
-		ft_signals_noninteractive();
+		// signal(SIGINT, SIG_IGN);
+		// signal(SIGQUIT, SIG_DFL);
+		// ft_termios_change(true);
+		// ft_signals_noninteractive();
 		tmp_status = ft_redirections(exec_node);
 		if (tmp_status != ENO_SUCCESS)
 		{
@@ -61,7 +64,7 @@ int	ft_exec_external_cmd(t_shell shell, t_exec *exec_node)
 				//panic();
 				exit(tmp_status); // from child proccess
 			}
-			else if (execve(cmd_path, exec_node->av, shell.envp_arr) == - 1)
+			else if (execve(cmd_path, exec_node->av, shell.envp_arr) == - 1) //all signals in execve reset to SIG_DEF!!!!
 			{
 				// panic();
 				// ft_err_msg("execve error", strerror(errno), NULL);
@@ -86,7 +89,12 @@ int	ft_exec_external_cmd(t_shell shell, t_exec *exec_node)
 				}
 			}
     }
+	// ft_signals_noninteractive();
+	// signal(SIGINT, SIG_IGN);
+	// signal(SIGQUIT, SIG_IGN);
     waitpid(fork_pid, &tmp_status, 0);
+	// ft_signals_interactive();
+	// ft_termios_change(true);
 	return (ft_get_exit_status(tmp_status));
 }
 
