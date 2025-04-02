@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_external_cmd_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 01:09:53 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/24 14:10:41 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:04:13 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_get_env_path(t_shell shell, char *cmd_name, t_err_no *err_no)
 		*(err_no) = 2;
 		return (NULL);
 	}
-	cmd_path = ft_find_cmd_path(cmd_name, shell.path); //malloc!!! to do free later
+	cmd_path = ft_find_cmd_path(cmd_name, shell.path); //malloc!!! check, needs to do free later
 	if (!cmd_path)
 	{
 		ft_err_msg(cmd_name, "command not found", NULL);

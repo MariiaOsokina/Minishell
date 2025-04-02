@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_external_cmd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:44:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/02 02:19:06 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:03:43 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,6 @@ int	ft_exec_external_cmd(t_shell shell, t_exec *exec_node)
 	// to add error fork ...
     if (fork_pid == 0)
     {
-		// signal(SIGINT, SIG_IGN);
-		// signal(SIGQUIT, SIG_DFL);
-		// ft_termios_change(true);
-		// ft_signals_noninteractive();
 		tmp_status = ft_redirections(exec_node);
 		if (tmp_status != ENO_SUCCESS)
 		{
@@ -74,7 +70,7 @@ int	ft_exec_external_cmd(t_shell shell, t_exec *exec_node)
 		else //exec no path
 		{
 			cmd_path = ft_get_env_path(shell, exec_node->command, &err_no); // err_no as ptr for saving its value
-			// printf("path: %s\n", cmd_path);
+			// printf("path: %s\n", cmd_path); //MO: for testing
 			if (err_no != ENO_SUCCESS) //??change err_no to tmp status
 			{
 				//panic();
@@ -89,12 +85,7 @@ int	ft_exec_external_cmd(t_shell shell, t_exec *exec_node)
 				}
 			}
     }
-	// ft_signals_noninteractive();
-	// signal(SIGINT, SIG_IGN);
-	// signal(SIGQUIT, SIG_IGN);
     waitpid(fork_pid, &tmp_status, 0);
-	// ft_signals_interactive();
-	// ft_termios_change(true);
 	return (ft_get_exit_status(tmp_status));
 }
 

@@ -19,6 +19,7 @@ typedef struct s_shell
 	int exit_code;       // Stores the exit code of the last command
 	int fd;              // Stores the file descriptor used for redirections.
 	t_list *heredoc_names; // MO: added
+	int		parent_pid; // MO: added
 }				t_shell;
 
 typedef struct s_env
