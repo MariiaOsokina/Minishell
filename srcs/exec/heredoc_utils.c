@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 21:30:26 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/02 13:08:39 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/03 12:50:47 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,9 @@ void		ft_fill_heredoc(t_shell *shell, t_in_out *io_here)
 	line_nbr = 1;
 	hd_fd = open(io_here->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	ft_signals_heredoc();
-	// ft_termios_change(false);
 	while(g_signum != SIGINT)
-	// while(1)
 	{
-		hd_line = readline("> ");// MALLOC!!!!
+		hd_line = readline("> ");
 		if (g_signum != SIGINT)
 		{
 			if (!hd_line) // note: it happends in case of signal CTRL + D
@@ -102,7 +100,6 @@ void		ft_fill_heredoc(t_shell *shell, t_in_out *io_here)
 	}
 	close(hd_fd);
 	ft_signals_interactive();
-	// ft_termios_change(true);
 }
 
 char *ft_hd_line_expansion(char *hd_line)
