@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/03 12:50:10 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/04 23:32:22 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@
 void	ft_start_execution(t_shell *shell)
 {
 	g_signum = 0;
-	printf("exit code before heredoc %d\n", shell->exit_code); //MO: for testing
-	ft_handle_heredocs(shell, shell->root);
-	
+	ft_process_heredocs(shell, shell->root);
 	if (g_signum == SIGINT)
 		shell->exit_code = 130;
 	else
@@ -34,7 +32,8 @@ void	ft_start_execution(t_shell *shell)
 			ft_putstr_fd("^\\Quit\n", STDERR_FILENO);
 		g_signum = 0;
 	}
-	ft_lstclear(&(shell)->heredoc_names, &ft_unlink_heredoc);
+	ft_unlink_heredocs(&(shell)->heredoc_names);
+	ft_lstclear(&(shell)->heredoc_names, free);  //MO: added
 }
 
 int ft_exec_node(t_shell *shell, void *node)

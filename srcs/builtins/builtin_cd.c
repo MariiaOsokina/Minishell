@@ -57,7 +57,7 @@ int	ft_builtin_cd(t_shell *shell, t_exec *exec_node)
 		return (ft_err_msg("cd", "too many arguments", NULL), ENO_GENERAL);
 	else if (!path)
 	{
-		tmp_env = ft_get_env(*shell, "HOME");
+		tmp_env = ft_get_env_node(*shell, "HOME");
 		if (!tmp_env)
 			return (ft_err_msg("cd", "HOME not set", NULL), ENO_GENERAL);
 		else
@@ -67,7 +67,7 @@ int	ft_builtin_cd(t_shell *shell, t_exec *exec_node)
 	}
 	if (chdir(path) != ENO_SUCCESS)
 		return (ft_err_msg("cd", path, "No such file or directory"), ENO_GENERAL);
-	tmp_env = ft_get_env(*shell, "PWD");
+	tmp_env = ft_get_env_node(*shell, "PWD");
 	if(tmp_env != NULL)
 	{
 	// 	free(tmp_env); //check malloc issues
@@ -79,7 +79,7 @@ int	ft_builtin_cd(t_shell *shell, t_exec *exec_node)
 		tmp_env = ft_dup_env_node(shell, "PWD", getcwd(NULL, 0));
 		ft_lstadd_back(&shell->envp, ft_lstnew(tmp_env));
 	}
-	tmp_env = ft_get_env(*shell, "OLDPWD");
+	tmp_env = ft_get_env_node(*shell, "OLDPWD");
 	if(tmp_env != NULL) //if OLDPWD exists in envp;
 	{
 	// 	free(tmp_env); //check malloc issues

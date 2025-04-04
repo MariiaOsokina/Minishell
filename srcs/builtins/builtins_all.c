@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:07:12 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/25 12:49:45 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/04 23:48:44 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,6 @@ bool ft_is_builtin(char *cmd_name)
 		return (true);
 	return (false);
 }
-
-// int	ft_strcmp(char *s1, char *s2)
-// {
-// 	size_t	s1_len;
-// 	size_t	s2_len;
-
-// 	s1_len = ft_strlen(s1);
-// 	s2_len = ft_strlen(s2);
-// 	if (s1_len > s2_len)
-// 		return (ft_strncmp(s1, s2, s1_len));
-// 	else
-// 		return (ft_strncmp(s1, s2, s2_len));
-// }
-
 
 /*NOTE:
 All builtins return an exit status of 2 to indicate incorrect usage, 

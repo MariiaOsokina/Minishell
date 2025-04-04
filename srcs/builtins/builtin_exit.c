@@ -93,7 +93,7 @@ static void	ft_handle_space_and_sign(char *s, int *nbr, int *sign)
 	}
 }
 
-static int	get_exit_code(char *exit_arg)
+static int	ft_get_exit_code(char *exit_arg)
 {
 	int					i;
 	int					sign;
@@ -126,14 +126,15 @@ int	ft_builtin_exit(t_shell *shell, t_exec *exec_node)
 		exit_code = shell->exit_code;
 	else
 	{
-		exit_code = get_exit_code(exec_node->av[1]);
+		exit_code = ft_get_exit_code(exec_node->av[1]);
 		if (exit_code == -1)
 		{
 			ft_err_msg("exit", exec_node->av[1], \
 			"numeric argument required");
-			exit_code = STDERR_FILENO;
-				//panic()
-			exit(exit_code);
+			exit_code = 2;
+			// ft_unlink_heredocs(&(shell)->heredoc_names);
+			// ft_free_full_shell(shell);
+			// exit(exit_code);
 		}
 		if (exec_node->av[2])
 		{
@@ -143,6 +144,7 @@ int	ft_builtin_exit(t_shell *shell, t_exec *exec_node)
 			return (shell->exit_code);
 		}
 	}
-	//panic()
+	ft_unlink_heredocs(&(shell)->heredoc_names);
+	ft_free_full_shell(shell);
 	exit(exit_code);
 }

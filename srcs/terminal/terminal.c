@@ -32,17 +32,13 @@
 	This is where the magic starts
 */
 
-void	terminal(t_shell *shell, char **envp)
+void	terminal(t_shell *shell)
 {
-	(void)envp;
-	shell->exit_code = 0;
 	while (true)
 	{
-		g_signum = 0;
 		printf("exit code in the begining of loop: %d and g_signum: %d\n", shell->exit_code, g_signum); //MO: for testing
 		reset_shell(shell);
 		shell_input(shell);
-		// printf("exit code in the begining of loop: %d and g_signum: %d\n", shell->exit_code, g_signum); //MO: for testing
 		ft_signals_interactive();
 		shell->input = readline(shell->cwd);
 		if (g_signum == SIGINT)
@@ -50,40 +46,30 @@ void	terminal(t_shell *shell, char **envp)
 		if (!shell->input)// Note: CTRL+D (EOF) case
 		{
 			ft_putstr_fd("exit\n", STDERR_FILENO);
-			//panic
-			ft_free_env_lst(&(shell)->envp);
-			free_shell(shell);
+			ft_free_full_shell(shell);//panic
 			exit(shell->exit_code);
 		}
+		add_history(shell->input);
 		if (input_validation(shell) == false|| !shell->input[0]) //MO: Made changes by ADEWALE plus my changes to confirm
 		{
-			add_history(shell->input); //MO: added
 			free_shell(shell);
 			continue ;
 		}
-		// if (!shell->input || !ft_strcmp(shell->trimmed_input, "exit"))
-		// 	return (print_exit(), free_shell(shell)); //MO:exit code! exit(shell.exit_code). TO THINK ABOUT "exit" msg
-		if (*shell->input)
-			add_history(shell->input);
 		lexer(shell, shell->trimmed_input);
 		// // print_token_lst(shell->token_lst); // Printing token list
-		shell->envp_arr = ft_env_arr(shell);
+		shell->envp_arr = ft_env_arr(shell, shell->envp);
 		shell->path = ft_path_list(shell);
 		// print_path_list(shell->path);
 		// print_env_arr(shell); //Print array of env.
 		shell->root = build_ltree(shell, shell->token_lst);
-		print_bst(shell->root, 5);
-		// ft_start_execution(shell);
+		// print_bst(shell->root, 5);
+		ft_start_execution(shell);
 		// printf("exit status after execution %d\n", shell->exit_code); //MO: for testing
-		// // Build and execute the cmd tree
-		// /*section to call test functions to print out token and command lists*/
-		// // lexec_tree(shell, shell->root);
 		free_shell(shell);
-		// last_process(0); //Handles the last process in the pipeline.
 	}
 }
 
-void	free_shell(t_shell *shell)
+void	free_shell(t_shell *shell) //it should not free evp list
 {
 	// int	i;
 
@@ -97,6 +83,7 @@ void	free_shell(t_shell *shell)
 	// }
 	ft_free_str_arr(shell->envp_arr, ft_arr_size(shell->envp_arr)); //MO: added
 	ft_lstclear(&shell->path, free);
+	ft_lstclear(&(shell)->heredoc_names, free);  //MO: added
 	if (shell->input)
 		free(shell->input);
 	if (shell->trimmed_input)
@@ -107,7 +94,6 @@ void	free_shell(t_shell *shell)
 		ltree_free(shell->root);
 	if (shell->cwd)
 		free(shell->cwd);
-	ft_lstclear(&(shell)->heredoc_names, &ft_unlink_heredoc);  //MO: added
 	reset_shell(shell);
 }
 
@@ -129,4 +115,5 @@ void	reset_shell(t_shell *shell)
 	shell->heredoc_names = NULL; //MO: added
 	// shell->exit_code = 0; MO: moved up, we need exit code for the next loop iteration and for exit from minishell
 	//shell.envp = NULL???
+	g_signum = 0;
 }
