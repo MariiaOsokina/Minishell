@@ -64,18 +64,18 @@
 // }
 
 /* This function searches the env list in shell struct and the returns the value*/
-char	*sh_get_env(t_list *envp, const char *key)
-{
-	t_list	*current;
-	t_env	*env_entry;
+// char	*sh_get_env(t_list *envp, const char *key)
+// {
+// 	t_list	*current;
+// 	t_env	*env_entry;
 
-	current = envp;
-	while (current)
-	{
-		env_entry = (t_env *)current->content;
-		if (is_exact_var(env_entry, key)) //This helper is_exact_var();
-			return (env_entry->value);
-		current = current->next;
-	}
-	return (NULL);
-}
+// 	current = envp;
+// 	while (current)
+// 	{
+// 		env_entry = (t_env *)current->content;
+// 		if (is_exact_var(env_entry, key)) //This helper is_exact_var();
+// 			return (env_entry->value);
+// 		current = current->next;
+// 	}
+// 	return (NULL);
+// }

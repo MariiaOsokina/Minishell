@@ -15,11 +15,10 @@ typedef struct s_shell
 	char *trimmed_input; // Stores trimmed input (no leading/trailing spaces).
 	void *root;          // Root of an AST (Abstract Syntax Tree) for parsing
 	char *cmd_path;      // Stores the full executable path for a command.
-	char *cwd;           // Current working directory
+	char *cwd;           // Current working directory //MO: PROMPT
 	int exit_code;       // Stores the exit code of the last command
 	int fd;              // Stores the file descriptor used for redirections.
 	t_list *heredoc_names; // MO: added
-	int		parent_pid; // MO: added
 }				t_shell;
 
 typedef struct s_env

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	update_shlvl(t_shell shell) //MO: need to be changed as doesn't change env_list
+void	update_shlvl(t_shell shell) //MO: need to be changed as doesn't change env_arr
 {
 	t_list	*tmp;
 	int		value;
@@ -9,14 +9,13 @@ void	update_shlvl(t_shell shell) //MO: need to be changed as doesn't change env_
 	tmp = shell.envp;
 	while (tmp)
 	{
-		// if (ft_strcmp(((t_env *)tmp->content)->key, "SHLVL=") == 0)
-		if (ft_strcmp(((t_env *)tmp->content)->key, "SHLVL") == 0) //MO: added
+		if (ft_strcmp(((t_env *)tmp->content)->key, "SHLVL") == 0) //MO: changed "SHLVL=" to "SHLVL"
 		{
 			
 			value = ft_atoi(((t_env *)tmp->content)->value);
-			// printf(" shlvl %d\n", value);
+			printf(" shlvl %d\n", value);
 			value++;
-			// printf("new shlvl %d\n", value);
+			printf("new shlvl %d\n", value);
 			n_val = ft_itoa(value);
 			free(((t_env *)tmp->content)->value);
 			((t_env *)tmp->content)->value = n_val;

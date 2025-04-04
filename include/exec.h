@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/03 12:18:24 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:33:33 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,13 @@ t_env	*ft_dup_env_node(t_shell *shell, char *key, char *value);
 void	ft_print_env_lst(t_list *lst); //for testing
 void	ft_free_env_node(t_env *envp_node);
 void	ft_free_env_lst(t_list **envp);
+/*env arr and path list*/
+char	**ft_env_arr(t_shell *shell);
+void 	ft_free_str_arr(char **arr, int count);
+t_list	*ft_path_list(t_shell *shell);
+int	ft_get_path(t_shell *shell, t_list **path_list, char *path, int i);
+
+
 
 /*HANDLE HEREDOC*/
 void 	ft_handle_heredocs(t_shell *shell, void *node);

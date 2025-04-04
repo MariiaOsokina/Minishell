@@ -1,29 +1,28 @@
-#include <stdio.h>
-#include <signal.h>
 #include <unistd.h>
+#include <string.h>
 
-void ft_sigint_noninteract_handler(int signum)
+
+void print_env(char **env)
 {
-    (void)signum;
-    write(1, "\nSIGINT received\n", 17);
+    int i;
+
+    i = 0;
+    while (env[i])
+    {
+        write(1, env[i], strlen(env[i]));
+        write(1, "\n", 1);
+        i++;
+    }
 }
 
-void ft_siguit_noninteract_handler(int signum)
+int main(int argc, char **argv, char **env)
 {
-    (void)signum;
-    write(1, "\nSIGQUIT received\n", 18);
-}
-
-void ft_signals_noninteractive(void)
-{
-    signal(SIGINT, ft_sigint_noninteract_handler);
-    signal(SIGQUIT, ft_siguit_noninteract_handler);
-}
-
-int main(void)
-{
-    ft_signals_noninteractive();
-    while (1) // Keep the program running to test signal handling
-        pause();
-    return 0;
+    (void)argc;    // Avoid unused parameter warning
+    (void)argv;    // Avoid unused parameter warning
+    
+    write(1, "Environment Variables:\n", 23);
+    print_env(env);
+    
+    write(1, "OK\n", 3);
+    return (0);
 }

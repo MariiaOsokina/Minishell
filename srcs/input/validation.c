@@ -5,12 +5,13 @@
 	may require extra functions for valid env input checks.
 	e.g. $VAR and ${VAR}
 */
-bool	input_validation(t_shell *shell)
+
+bool	input_validation(t_shell *shell) //MO: new version from Adewale at 2 April
 {
 	if (!shell->input || shell->input[0] == '\0')
 		return (true);
 	shell->trimmed_input = ft_strtrim(shell->input, "\t ");
-	if (!shell->trimmed_input)
+	if (!shell->trimmed_input) //MO: what is this case??
 		exit_failure(shell, "input_validation");
 	if (!check_pipes(shell->trimmed_input))
 		return (syntax_error_msg(PIPE_ERROR), exit_code(2), false);
@@ -24,6 +25,8 @@ bool	input_validation(t_shell *shell)
 		return (exit_code(2), false);
 	return (true);
 }
+
+
 
 /*
 	validation.c
