@@ -118,7 +118,7 @@ int	ft_builtin_export(t_shell *shell, t_exec *exec_node)
 		else
 		{
 			new_env = ft_create_env_node(shell, export_args[i]);
-			if (ft_get_env(*shell, new_env->key) == NULL)
+			if (ft_get_env_node(*shell, new_env->key) == NULL)
 				ft_lstadd_back(&shell->envp, ft_lstnew(new_env));			
 			else
 			{

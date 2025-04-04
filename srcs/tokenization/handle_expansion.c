@@ -1,5 +1,5 @@
 #include "minishell.h"
-
+/*
 int	expand_single(t_shell *shell, char **str, char *input, int i)
 {
 	int	start;
@@ -48,6 +48,7 @@ int	expand_quoted(t_shell *shell, char **str, char *input, int i)
 	}
 	return (i);
 }
+
 
 int	expand_unquoted(t_shell *shell, char **str, char *input, int i)
 {
@@ -126,3 +127,4 @@ char	*handle_expansion(t_shell *shell, char *input, int i)
 	}
 	return (str);
 }
+*/

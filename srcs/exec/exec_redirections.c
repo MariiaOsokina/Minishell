@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/02 13:02:07 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/04 23:11:57 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ int		ft_redir_inf(t_in_out	*in_out_node)
 	// }
 	// file = in_out_node->expanded_name[0];
 	file = in_out_node->name;
-
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{

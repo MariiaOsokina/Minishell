@@ -25,8 +25,8 @@ typedef struct s_env
 {
 	char		*value;
 	char		*key;
-	bool		is_export; // Clarify use
-	bool		is_printed;
+	// bool		is_export; // Clarify use
+	// bool		is_printed;
 }				t_env;
 
 /*AST in this project is built using recursive descent..*/

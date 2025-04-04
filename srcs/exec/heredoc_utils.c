@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 21:30:26 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/03 12:50:47 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/04 23:39:24 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ w/o any expansions.
 - If the delimiter is unquoted, the text in the here-document is subject to expansions.
 */
 
-bool 	ft_is_delimiter_quoted(char *delimiter)
+static bool 	ft_is_delimiter_quoted(char *delimiter)
 {
 	while(*delimiter)
 	{
@@ -48,6 +48,31 @@ bool 	ft_is_delimiter_quoted(char *delimiter)
 		delimiter ++;
 	}
 	return (false);
+}
+
+static bool	ft_is_delimiter(char *delimiter, char *hd_line)
+{
+	while (*hd_line)
+	{
+		if (*delimiter == '"' || *delimiter == '\'')
+		{
+			delimiter++;
+			continue ;
+		}
+		else if (*hd_line == *delimiter)
+		{
+			hd_line++;
+			delimiter++;
+		}
+		else
+			return (false);
+	}
+	while (*delimiter == '"' || *delimiter == '\'')
+		delimiter++;
+	if (!*delimiter)
+		return (true);
+	else
+		return (false);
 }
 
 /*
@@ -61,13 +86,12 @@ Infinity Loop:
 5 - free line as readline uses malloc;
 */
 
-void		ft_fill_heredoc(t_shell *shell, t_in_out *io_here) 
+void	ft_fill_heredoc(t_in_out *io_here) 
 {
 	bool 	has_quoted;
 	char 	*hd_line;
 	int		line_nbr;
 	int 	hd_fd;
-	(void)shell;
 
 	has_quoted = ft_is_delimiter_quoted(io_here->eof);
 	line_nbr = 1;
@@ -102,11 +126,6 @@ void		ft_fill_heredoc(t_shell *shell, t_in_out *io_here)
 	ft_signals_interactive();
 }
 
-char *ft_hd_line_expansion(char *hd_line)
-{
-	//to be done
-	return (hd_line);
-}
 
 
 /* if delimiter is not quoted(has_quoted = false):
@@ -128,77 +147,4 @@ void	ft_put_heredoc_line(char *hd_line, int fd_hd, bool quoted)
 		ft_putendl_fd(hd_line, fd_hd);
 }
 
-void	ft_heredoc_expander(char *hd_line, int fd_hd)
-{
-	int	i;
 
-	i = 0;
-	while (hd_line[i])
-	{
-		// if (hd_line[i] == '\')
-		// 	i ++;
-		// if next \ n $ or ' write 2d if not skip 1st??
-		if (hd_line[i] == '$')
-			// i += ft_heredoc_expand_writer(hd_line, i, fd_hd);
-			i++;
-		else
-			i += (ft_putchar_fd(hd_line[i], fd_hd), 1);
-	}
-	ft_putchar_fd('\n', fd_hd);
-}
-
-// static int	ft_heredoc_expand_writer(char *str, size_t i, int fd)
-// {
-// 	size_t	start;
-// 	char	*tmp;
-
-// 	start = ++i;
-// 	if (str[i] == '?')
-// 		return (ft_putnbr_fd(g_minishell.exit_s, fd), 2);
-// 	while (str[i] && str[i] != '$' && str[i] != ' ')
-// 		i++;
-// 	if (i != start)
-// 	{
-// 		tmp = ft_garbage_collector(ft_substr(str, start, i), false);
-// 		tmp = ft_get_envlst_val(tmp);
-// 		if (tmp)
-// 			ft_putstr_fd(tmp, fd);
-// 	}
-// 	return (i);
-// }
-
-bool	ft_is_delimiter(char *delimiter, char *hd_line)
-{
-	while (*hd_line)
-	{
-		if (*delimiter == '"' || *delimiter == '\'')
-		{
-			delimiter++;
-			continue ;
-		}
-		else if (*hd_line == *delimiter)
-		{
-			hd_line++;
-			delimiter++;
-		}
-		else
-			return (false);
-	}
-	while (*delimiter == '"' || *delimiter == '\'')
-		delimiter++;
-	if (!*delimiter)
-		return (true);
-	else
-		return (false);
-}
-
-void ft_unlink_heredoc(void *content)
-{
-	if (content)
-    {
-        if (unlink((char *)content) != 0)
-			ft_putstr_fd("unlink error\n", STDERR_FILENO);
-        free(content);
-    }
-	return ;
-}

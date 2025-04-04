@@ -36,7 +36,8 @@ int	main(int ac, char **av, char **envp)
 	ft_env_lst(&shell, envp);
 	// print_env_lst(shell.envp);
 	update_shlvl(shell);
-	terminal(&shell, envp); // Ongoing..
+	shell.exit_code = 0;
+	terminal(&shell); // Ongoing..
 	// free_env_lst(shell.envp);
 	ft_free_env_lst(&shell.envp);
 	return (0);

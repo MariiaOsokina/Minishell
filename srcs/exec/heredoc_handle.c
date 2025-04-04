@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_handle.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 00:27:52 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/02 13:00:13 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/04 23:37:00 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,12 @@ loop the list of in out nodes and if in it is heredoc:
 
 	4 - close tmp_fd;
 */
+static void	ft_process_hd_pipe(t_shell *shell, t_pipe *pipe);
+static void	ft_process_hd_andif(t_shell *shell, t_andif *andif);
+static void	ft_process_hd_or(t_shell *shell, t_or *or);
 
-void ft_handle_heredocs(t_shell *shell, void *node)
+
+void ft_process_heredocs(t_shell *shell, void *node)
 {
 	t_node *type_node;
 
@@ -39,45 +43,45 @@ void ft_handle_heredocs(t_shell *shell, void *node)
 		return ;
 	type_node = (t_node*)node;
 	if (type_node->type == N_ANDIF)
-		ft_handle_heredocs_andif(shell, (t_andif *)node);
+		ft_process_hd_andif(shell, (t_andif *)node);
 	else if  (type_node->type == N_OR)
-		ft_handle_heredocs_or(shell, (t_or *)node);
+		ft_process_hd_or(shell, (t_or *)node);
 	if (type_node->type == N_PIPE)
-		ft_handle_heredocs_pipe(shell, (t_pipe *)node);
+		ft_process_hd_pipe(shell, (t_pipe *)node);
 	else if (type_node->type == N_EXEC)
-		ft_generate_heredocs(shell, (t_exec *)node);
+		ft_handle_heredocs(shell, (t_exec *)node);
 	return ;
 }
 
-void	ft_handle_heredocs_pipe(t_shell *shell, t_pipe *pipe)
+static void	ft_process_hd_pipe(t_shell *shell, t_pipe *pipe)
 {
     if (pipe->left)
-		ft_handle_heredocs(shell, pipe->left);
+		ft_process_heredocs(shell, pipe->left);
     if (pipe->right && g_signum != SIGINT)
-		ft_handle_heredocs(shell, pipe->right);
+		ft_process_heredocs(shell, pipe->right);
 }
 
-void	ft_handle_heredocs_andif(t_shell *shell, t_andif *andif)
+static void	ft_process_hd_andif(t_shell *shell, t_andif *andif)
 {
     if (andif->left && g_signum != SIGINT)
-		ft_handle_heredocs(shell, andif->left);
+		ft_process_heredocs(shell, andif->left);
     if (andif->right && g_signum != SIGINT)
-		ft_handle_heredocs(shell, andif->right);
+		ft_process_heredocs(shell, andif->right);
 }
 
-void	ft_handle_heredocs_or(t_shell *shell, t_or *or)
+static void	ft_process_hd_or(t_shell *shell, t_or *or)
 {
     if (or->left && g_signum != SIGINT)
-		ft_handle_heredocs(shell, or->left);
+		ft_process_heredocs(shell, or->left);
     if (or->right && g_signum != SIGINT)
-		ft_handle_heredocs(shell, or->right);
+		ft_process_heredocs(shell, or->right);
 }
 
-void	ft_generate_heredocs(t_shell *shell, t_exec *exec_node)
+void	ft_handle_heredocs(t_shell *shell, t_exec *exec_node)
 {
-	(void)shell;
 	t_list		*current;
 	t_in_out 	*io_node;
+	char 		*hd_arr_name;
 
 	current = exec_node->in_out_list;
 	while (current && g_signum != SIGINT)
@@ -85,13 +89,33 @@ void	ft_generate_heredocs(t_shell *shell, t_exec *exec_node)
 		io_node = (t_in_out *)current->content;
 		if (io_node->type == HERE)
 		{
-			io_node->name = ft_generate_heredoc_name();
-			ft_lstadd_back(&(shell->heredoc_names), ft_lstnew(io_node->name));
-			ft_fill_heredoc(shell, io_node);
+			hd_arr_name = ft_generate_heredoc_name(); //save name to arr for unlink;
+			io_node->name = ft_strdup(hd_arr_name); //save name to node for redirection;
+			ft_lstadd_back(&(shell->heredoc_names), ft_lstnew(hd_arr_name));
+			ft_fill_heredoc(io_node);
 			printf("exit status after fill heredoc %d\n", shell->exit_code); //MO; for testing, to be deleted
 			printf("g signum after fill heredoc %d\n", g_signum); //MO; for testing, to be deleted
 		}
 		current = current->next;
 	}
 	return ;
+}
+
+void	ft_unlink_heredocs(t_list **heredoc_names)
+{
+	t_list	*next;
+
+	if (heredoc_names == NULL)
+		return ;
+	next = NULL;
+	while (*heredoc_names)
+	{
+		next = (*heredoc_names)->next;
+		if ((*heredoc_names)->content)
+		{
+			if (unlink((char *)(*heredoc_names)->content) != 0)
+				ft_putstr_fd("unlink error\n", STDERR_FILENO);
+		}
+		*heredoc_names = next;
+	}
 }
