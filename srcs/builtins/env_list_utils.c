@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:05:42 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/25 12:45:55 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/04 12:15:00 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,13 +113,13 @@ t_env	*ft_create_env_node(t_shell *shell, char *env)
 	}
 	if (ft_strchr(env, '=') == NULL)
 	{
-		// printf("in %s  = not exits\n", env);
+		// printf("in %s  = not exists\n", env); //MO: for testing;
 		node->key = ft_strdup(env);
 		node->value = NULL;
 	}
 	else
 	{
-		// printf("in %s  = exits\n", env);
+		// printf("in %s  = exists\n", env); //MO: for testing;
 		node->key = ft_extract_key(env);
 		node->value = ft_extract_value(env);		
 	}

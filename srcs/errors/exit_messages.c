@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	exit_failure(t_shell *shell, char *info)
+void	exit_failure(t_shell *shell, char *info) //MO: for malloc errors?
 {
 	// free_env_lst(shell->envp);
 	ft_free_env_lst(&shell->envp); //MO: added
