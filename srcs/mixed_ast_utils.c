@@ -82,6 +82,20 @@ t_in_out	*redirection_content(t_shell *shell, t_list **curr)
 	return (content);
 }
 
+t_in_out	*make_content(t_shell *shell, t_list **curr)
+{
+	t_in_out	*content;
+
+	content = malloc(sizeof(t_in_out));
+	if (!content)
+		exit_failure(shell, "make_content");
+	content->name = ft_strdup(((t_token *)(*curr)->content)->value);
+	content->fd_heredoc = ft_atoi(((t_token *)(*curr)->content)->value);
+	// if (*curr)
+	next_token(curr);
+	return (content);
+}
+
 void	collect_io(t_shell *shell, t_list **curr, t_list **i_ofiles)
 {
 	t_in_out	*content;
@@ -91,23 +105,23 @@ void	collect_io(t_shell *shell, t_list **curr, t_list **i_ofiles)
 		while (*curr && !is_operator(*curr) && (is_redirection(*curr)
 				|| ft_atoi(((t_token *)(*curr)->content)->value) <= 2))
 		{
-			if (((t_token *)(*curr)->content)->type == WORD)
+			if (((t_token *)(*curr)->content)->type == WORD
+				&& is_redirection((*curr)->next))
 			{
-				content = malloc(sizeof(t_in_out));
-				content->name = ft_strdup(((t_token *)(*curr)->content)->value);
-				content->fd_heredoc = ft_atoi(((t_token *)(*curr)->content)->value);
+				content = make_content(shell, curr);
 				ft_lstadd_back(i_ofiles, ft_lstnew(content));
-				next_token(curr);
 			}
-			else
+			else if (is_redirection(*curr))
 			{
-				printf("Current token in collect i_o %s\n",
-					((t_token *)(*curr)->content)->value);
+				// printf("Current token in collect i_o %s\n",
+				// 	((t_token *)(*curr)->content)->value);
 				content = redirection_content(shell, curr);
 				ft_lstadd_back(i_ofiles, ft_lstnew(content));
 				if (!((*curr) = ((*curr)->next)->next))
 					break ;
 			}
+			else
+				break ;
 		}
 	}
 	return ;
@@ -126,9 +140,15 @@ void	*create_exec_node(t_shell *shell, t_list **curr)
 	node->i_ofiles = NULL;
 	node->av = collect_args(curr);
 	collect_io(shell, curr, &node->i_ofiles);
+	if (node->i_ofiles)
+	{
+		if (*curr)
+			node->command = ft_strdup(((t_token *)(*curr)->content)->value);
+	}
+	// Needs to be freed.
 	if (node->av)
 	{
-		node->command = node->av[0];
+		node->command = ft_strdup(node->av[0]); // Needs to be freed;
 		if (ft_strcmp(node->av[0], "ls") == 0 || ft_strcmp(node->av[0],
 				"grep") == 0)
 			node->av = get_colors(shell, node->av);

@@ -33,6 +33,13 @@ void	print_bst_exec(t_exec *node, int space)
 	printf("[EXEC]\n");
 	if (node->av)
 		print_exec(node->av, space);
+	else if (node->command)
+	{
+		i = -1;
+		while (++i < space)
+			printf(" ");
+		printf("  [%s]\n", node->command);
+	}
 	// if (node->infiles)
 	// 	print_infiles(node->infiles, space);
 }
@@ -55,7 +62,7 @@ void	print_exec(char **av, int space)
 void	*print_bst(void *root, int space)
 {
 	t_node	*node;
-	int	spacing;
+	int		spacing;
 
 	if (space == 5)
 		printf("\n\n\nTREE VIEW:\n");
@@ -70,6 +77,8 @@ void	*print_bst(void *root, int space)
 		print_bst_exec((t_exec *)root, space);
 	else if (node->type == N_ANDIF)
 		ltree_print((t_andif *)root, space);
+	else if (node->type == N_SUBSHELL)
+		ltree_print((t_op *)root, space);
 	else if (node->type == N_OR)
 		ltree_print((t_or *)root, space);
 	return (NULL);

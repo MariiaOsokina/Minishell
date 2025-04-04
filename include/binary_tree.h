@@ -10,6 +10,7 @@ typedef enum e_node_type
 	N_EXEC,
 	N_ANDIF,
 	N_OR,
+	N_SUBSHELL,
 }					t_node_type;
 
 typedef struct s_node
@@ -105,11 +106,11 @@ char				**populate_args(t_list **curr, char **args);
 t_list				*next_token(t_list **current);
 int					is_redirection(t_list *token);
 void				past_parenthesis(t_list **curr);
-void				*parse_factor(t_shell *shell, t_list **curr);
-void				*parse_term(t_shell *shell, t_list **curr);
+void				*parse_factor(t_shell *shell, t_list **curr, bool in_subshell);
+void				*parse_term(t_shell *shell, t_list **curr, bool in_subshell);
 void				*build_ast(t_shell *shell);
 void				*create_exec_node(t_shell *shell, t_list **curr);
-void				*parse_expression(t_shell *shell, t_list **curr);
+void				*parse_expression(t_shell *shell, t_list **curr, bool in_subshell);
 void				collect_io(t_shell *shell, t_list **curr,
 						t_list **i_ofiles);
 

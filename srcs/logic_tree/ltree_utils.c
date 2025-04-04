@@ -29,6 +29,12 @@ void	*ltree_print(void *root, int space)
 		printf("%*s -> [||]\n", space, "");
 		ltree_print(((t_or *)root)->left, space);
 	}
+	else if (node->type == N_SUBSHELL)
+	{
+		ltree_print(((t_op *)root)->right, space + spacing);
+		printf("\n\n%*s[SUBSH]\n", space, "");
+		ltree_print(((t_op *)root)->left, space + spacing);
+	}
 	else if (node->type == N_PIPE)
 		print_bst((t_pipe *)root, space + spacing);
 	else if (node->type == N_EXEC)
