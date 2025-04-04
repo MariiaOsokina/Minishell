@@ -67,7 +67,6 @@ typedef struct s_in_out //MO:added
     char *name;
     char **expanded_name; //check for wildcards
     char *eof; //check do we need it, may be it could be in "name";
-    int fd_heredoc;
 }	t_in_out;
 
 

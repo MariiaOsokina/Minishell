@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/02 02:30:16 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/03 12:18:24 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 #include <sys/ioctl.h> //for iostl function
 /*May require a pointer to cwd and old working dir*/
 #include <termios.h>
-
 
 # define HEREDOC_NAME "/tmp/.minishell_heredoc_"
 # define MAX_SIZE_HEREDOC 1024
@@ -207,11 +206,10 @@ void	ft_sigint_interact_handler(int signo);
 void	ft_signals_heredoc(void);
 void	ft_sigint_heredoc_handler(int signo);
 void	ft_signals_noninteractive(void);
-void	ft_sigint_noninteract_handler(int signo);
-void	ft_siguit_noninteract_handler(int signo);
+void	ft_sigint_siquit_noninteract_handler(int signo);
 
-int	ft_termios_change(bool echo_ctl_chr);
-int	ft_termios_notecho(void);
+int	ft_termios_echoctl(bool echo_ctl_chr);
+int	ft_termios_echo(bool echo);
 
 
 

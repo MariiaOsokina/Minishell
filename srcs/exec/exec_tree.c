@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/02 13:07:41 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/03 12:50:10 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ void	ft_start_execution(t_shell *shell)
 		shell->exit_code = 130;
 	else
 	{
-		ft_termios_change(false);
 		ft_signals_noninteractive();
 		shell->exit_code = ft_exec_node(shell, shell->root);
+		ft_signals_interactive();
 		if (g_signum == SIGINT)
 			ft_putstr_fd("^C\n", STDERR_FILENO);
 		if (g_signum == SIGQUIT)
-			ft_putstr_fd("^\\Quit", STDERR_FILENO);
+			ft_putstr_fd("^\\Quit\n", STDERR_FILENO);
 		g_signum = 0;
 	}
 	ft_lstclear(&(shell)->heredoc_names, &ft_unlink_heredoc);
