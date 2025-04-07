@@ -67,6 +67,7 @@ void	terminal(t_shell *shell)
 		ft_start_execution(shell);
 		printf("exit status after execution %d\n", shell->exit_code); //MO: for testing
 		free_shell(shell);
+		// return ; //MO: testing
 	}
 }
 
@@ -75,7 +76,8 @@ void	free_shell(t_shell *shell) //it should not free evp list
 	// int	i;
 
 	// i = 0;
-	ft_lstclear(&shell->token_lst, del_token);
+	if (shell->token_lst != NULL)
+		ft_lstclear(&shell->token_lst, del_token);
 	// if (shell->envp_arr)
 	// {
 	// 	while (shell->envp_arr[i])
@@ -83,8 +85,10 @@ void	free_shell(t_shell *shell) //it should not free evp list
 	// 	free(shell->envp_arr);
 	// }
 	ft_free_str_arr(shell->envp_arr, ft_arr_size(shell->envp_arr)); //MO: added
-	ft_lstclear(&shell->path, free);
-	ft_lstclear(&shell->heredoc_names, free);  
+	if (shell->path != NULL)
+		ft_lstclear(&shell->path, free);
+	if (shell->heredoc_names !=NULL)
+		ft_lstclear(&shell->heredoc_names, free);
 //MO: added
 	if (shell->input)
 		free(shell->input);

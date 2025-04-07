@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:53:30 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/06 14:10:11 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/08 00:45:32 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int ft_exec_pipeline(t_shell *shell, t_pipe *pipe_node)
 			close(pipe_fds[1]);
 			waitpid(pid_left,  &tmp_status, 0);
 			waitpid(pid_right, &tmp_status, 0);
-			printf ("exit status from tmps status waitpid %d\n", tmp_status); // get exit status only from right
+			free_shell(shell);
+			// printf ("exit status from tmps status waitpid %d\n", tmp_status); // get exit status only from right
 			return (ft_get_exit_status(tmp_status));
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_handle.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 00:27:52 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/07 11:20:24 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/08 00:22:58 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,21 +101,37 @@ void	ft_handle_heredocs(t_shell *shell, t_exec *exec_node)
 	return ;
 }
 
-void	ft_unlink_heredocs(t_list **heredoc_names)
+// void	ft_unlink_heredocs(t_list **heredoc_names)
+// {
+// 	t_list	*next;
+
+// 	if (heredoc_names == NULL)
+// 		return ;
+// 	next = NULL;
+// 	while (*heredoc_names)
+// 	{
+// 		next = (*heredoc_names)->next;
+// 		if ((*heredoc_names)->content)
+// 		{
+// 			if (unlink((char *)(*heredoc_names)->content) != 0)
+// 				ft_putstr_fd("unlink error\n", STDERR_FILENO);
+// 		}
+// 		*heredoc_names = next;
+// 	}
+// }
+
+void	ft_unlink_heredocs(t_list *heredoc_names)
 {
-	t_list	*next;
 
 	if (heredoc_names == NULL)
 		return ;
-	next = NULL;
-	while (*heredoc_names)
+	while (heredoc_names)
 	{
-		next = (*heredoc_names)->next;
-		if ((*heredoc_names)->content)
+		if ((heredoc_names)->content)
 		{
-			if (unlink((char *)(*heredoc_names)->content) != 0)
+			if (unlink((char *)(heredoc_names)->content) != 0)
 				ft_putstr_fd("unlink error\n", STDERR_FILENO);
 		}
-		*heredoc_names = next;
+		heredoc_names = (heredoc_names)->next;
 	}
 }
