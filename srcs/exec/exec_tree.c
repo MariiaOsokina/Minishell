@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/04 23:32:22 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/06 14:15:30 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,16 @@ int ft_exec_node(t_shell *shell, void *node)
 
 	tmp_status = ENO_SUCCESS;
 	type_node = (t_node*)node;
-	if (type_node->type == N_ANDIF)
+	if (type_node->type == N_SUBSHELL)
+		tmp_status = ft_exec_subshell(shell, (t_op *)node);
+	else if (type_node->type == N_ANDIF)
 		tmp_status = ft_exec_andif(shell, (t_andif *)node);
 	else if  (type_node->type == N_OR)
 		tmp_status = ft_exec_or(shell, (t_or *)node);
 	else if (type_node->type == N_PIPE)
-	{
 		tmp_status = ft_exec_pipeline(shell, (t_pipe *)node);
-		return (tmp_status);
-	}
-	else if (type_node->type == N_EXEC) 
-	{
+	else if (type_node->type == N_EXEC)
 		tmp_status = ft_exec_simple_cmd(shell, (t_exec *)node);
-		return (tmp_status);
-	}
 	return (tmp_status);
 }
 
@@ -78,4 +74,24 @@ int ft_exec_or(t_shell *shell, t_or *or_node)
 	if (tmp_status != ENO_SUCCESS)
 		tmp_status= ft_exec_node(shell, or_node->right);
 	return (tmp_status);
+}
+
+int ft_exec_subshell(t_shell *shell, t_op *subshell_node)
+{
+	pid_t   pid_subshell;
+	int		tmp_status;
+
+	pid_subshell = fork();
+	if (pid_subshell == 0)
+	{
+		tmp_status = ft_exec_node(shell, subshell_node->left); //pointer to left is node inside subshell, pointer to left is null
+		ft_free_full_shell(shell);
+		exit(tmp_status);
+	}
+	else
+	{
+		waitpid(pid_subshell, &tmp_status, 0); // get exit status only from right
+		return (ft_get_exit_status(tmp_status));
+	}
+	return (ENO_GENERAL);
 }

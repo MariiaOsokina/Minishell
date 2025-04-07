@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 20:54:33 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/04 23:56:05 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/06 11:50:26 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,7 @@ void	*ft_env_lst(t_shell *shell, char **envp)
 	{
 		env_content = ft_create_env_node(shell, envp[i]);
 		if (!env_content)
-			// exit_failure(shell, "env_list");
-		{
-			printf("env_value\n");
-			exit(1);
-		}
+			exit_failure(shell, "env_list");
 		ft_lstadd_back(&shell->envp, ft_lstnew(env_content));
 		i++;
 	}
@@ -74,11 +70,7 @@ t_env	*ft_create_env_node(t_shell *shell, char *env)
 
 	node = malloc(sizeof(t_env));
 	if (!node)
-		// exit_failure(shell, "create_env_node");
-	{
-		printf("error env_value\n");
-		exit(1);
-	}
+		exit_failure(shell, "create_env_node");
 	if (ft_strchr(env, '=') == NULL)
 	{
 		// printf("in %s  = not exists\n", env); //MO: for testing;
@@ -93,4 +85,3 @@ t_env	*ft_create_env_node(t_shell *shell, char *env)
 	}
 	return (node);
 }
-

@@ -62,9 +62,9 @@ void	terminal(t_shell *shell)
 		// print_path_list(shell->path);
 		// print_env_arr(shell); //Print array of env.
 		shell->root = build_ltree(shell, shell->token_lst);
-		// print_bst(shell->root, 5);
+		print_bst(shell->root, 5);
 		ft_start_execution(shell);
-		// printf("exit status after execution %d\n", shell->exit_code); //MO: for testing
+		printf("exit status after execution %d\n", shell->exit_code); //MO: for testing
 		free_shell(shell);
 	}
 }

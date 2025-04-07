@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:07:12 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/04 23:48:44 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/06 14:18:22 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,6 @@ int		ft_exec_builtin(t_shell *shell, t_exec *exec_node)
 	else if (!ft_strcmp(cmd_name, "pwd"))
 		return (ft_builtin_pwd(shell, exec_node));
 	else if (!ft_strcmp(cmd_name, "exit"))
-		ft_builtin_exit(shell, exec_node);
+		return (ft_builtin_exit(shell, exec_node));
 	return (ENO_NOT_FOUND);
 }
