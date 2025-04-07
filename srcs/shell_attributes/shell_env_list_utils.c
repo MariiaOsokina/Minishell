@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_env_list_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:05:42 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/06 00:17:33 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/07 14:15:54 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,18 +74,16 @@ void	ft_free_env_node(t_env *envp_node)
 		}
 }
 
-t_env	*ft_dup_env_node(t_shell *shell, char *key, char *value)
+t_env	*ft_dup_env_node(t_shell *shell, char *key, char *value) //key and value were NOT malloced before
 {
 	t_env	*node;
 	(void)shell;
 
 	node = malloc(sizeof(t_env));
 	if (!node)
-		// exit_failure(shell, "create_env_node");
-	{
-		printf("error env_value\n");
-		exit(1);
-	}
+		exit_failure(shell, "create_env_node"); //check malloc of internal variables;
+	if (!key)
+		exit_failure(shell, "no key"); //check malloc of internal variables;
 	node->key = ft_strdup(key);
 	if (value != NULL)
 		node->value = ft_strdup(value);
@@ -112,7 +110,7 @@ t_env	*ft_get_env_node(t_shell shell, char *target_key)
 }
 
 //for export and cd
-void	ft_update_env_value(t_list *envp, char *key, char *new_value)
+void	ft_update_env_value(t_list *envp, char *key, char *new_value) //key and value were NOT malloced before
 {
 	t_list	*current;
 	t_env	*env_content;
