@@ -46,6 +46,7 @@ void	terminal(t_shell *shell)
 		if (!shell->input)// Note: CTRL+D (EOF) case
 		{
 			ft_putstr_fd("exit\n", STDERR_FILENO);
+			printf("test ctrl +D\n");
 			ft_free_full_shell(shell);//panic
 			exit(shell->exit_code);
 		}
@@ -83,7 +84,8 @@ void	free_shell(t_shell *shell) //it should not free evp list
 	// }
 	ft_free_str_arr(shell->envp_arr, ft_arr_size(shell->envp_arr)); //MO: added
 	ft_lstclear(&shell->path, free);
-	ft_lstclear(&(shell)->heredoc_names, free);  //MO: added
+	ft_lstclear(&shell->heredoc_names, free);  
+//MO: added
 	if (shell->input)
 		free(shell->input);
 	if (shell->trimmed_input)

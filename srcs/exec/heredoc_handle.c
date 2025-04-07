@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_handle.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 00:27:52 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/04 23:37:00 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/07 11:20:24 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ void	ft_handle_heredocs(t_shell *shell, t_exec *exec_node)
 		if (io_node->type == HERE)
 		{
 			hd_arr_name = ft_generate_heredoc_name(); //save name to arr for unlink;
-			io_node->name = ft_strdup(hd_arr_name); //save name to node for redirection;
 			ft_lstadd_back(&(shell->heredoc_names), ft_lstnew(hd_arr_name));
+			io_node->name = ft_strdup(hd_arr_name); //save name to node for redirection;
 			ft_fill_heredoc(io_node);
 			printf("exit status after fill heredoc %d\n", shell->exit_code); //MO; for testing, to be deleted
 			printf("g signum after fill heredoc %d\n", g_signum); //MO; for testing, to be deleted

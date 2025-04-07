@@ -1,16 +1,1 @@
-Makefile
-README.md
-a.out
-include
-infile
-libft
-loop
-loop.c
-minishell
-outfile
-readline.supp
-shell.txt
-srcs
-test.c
-tests.c
-vscode
+test2
