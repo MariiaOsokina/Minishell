@@ -39,6 +39,7 @@ int	main(int ac, char **av, char **envp)
 	shell.exit_code = 0;
 	terminal(&shell); // Ongoing..
 	// free_env_lst(shell.envp);
-	ft_free_env_lst(&shell.envp);
+	if (&shell.envp != NULL)
+		ft_free_env_lst(&shell.envp);
 	return (0);
 }

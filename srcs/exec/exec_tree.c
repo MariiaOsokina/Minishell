@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/06 14:15:30 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/08 00:24:09 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ void	ft_start_execution(t_shell *shell)
 			ft_putstr_fd("^\\Quit\n", STDERR_FILENO);
 		g_signum = 0;
 	}
-	ft_unlink_heredocs(&(shell)->heredoc_names);
-	ft_lstclear(&(shell)->heredoc_names, free);  //MO: added
+	ft_unlink_heredocs(shell->heredoc_names);
+	if (shell->heredoc_names != NULL)
+		ft_lstclear(&(shell)->heredoc_names, free);
 }
 
 int ft_exec_node(t_shell *shell, void *node)

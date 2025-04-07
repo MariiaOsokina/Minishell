@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 01:01:22 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/04 20:51:30 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/08 00:31:31 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	ft_err_msg(char *s1, char *s2, char *s3)
 
 void	ft_free_full_shell(t_shell *shell)
 {
-	ft_free_env_lst(&(shell)->envp);
+	if (shell->envp != NULL)
+		ft_free_env_lst(&(shell)->envp);
 	free_shell(shell);
 }

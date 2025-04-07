@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_env_list_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:05:42 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/07 14:15:54 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/08 00:28:45 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,26 @@
 // }
 
 
+// void	ft_free_env_lst(t_list **envp)
+// {
+// 	t_list	*tmp;
+// 	t_env	*envp_node;
+
+// 	while (*envp)
+// 	{
+// 		tmp = (*envp)->next;
+// 		envp_node = (t_env *)(*envp)->content;
+// 		ft_free_env_node(envp_node);
+// 		free(*envp);
+// 		*envp = tmp;
+// 	}
+// 	free(*envp);
+// 	envp = NULL;
+// }
+
 void	ft_free_env_lst(t_list **envp)
 {
-	t_list	*tmp;
-	t_env	*envp_node;
-
-	while (*envp)
-	{
-		tmp = (*envp)->next;
-		envp_node = (t_env *)(*envp)->content;
-		ft_free_env_node(envp_node);
-		free(*envp);
-		*envp = tmp;
-	}
-	free(*envp);
-	envp = NULL;
+	ft_lstclear(envp, (void (*)(void *))ft_free_env_node);
 }
 
 void	ft_free_env_node(t_env *envp_node)

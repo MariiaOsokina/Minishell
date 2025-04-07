@@ -19,6 +19,39 @@
 4 - If arg is key in envp, unset this key=value, i.e. delete the node from list. 
 */
 
+// char *ft_unset_key(t_shell *shell, const char *key)
+// {
+//     t_list *current_list;
+//     t_list *tmp_prev_list;
+//     t_env *env_content;
+//     t_list *to_free;
+
+//     tmp_prev_list = NULL;
+// 	to_free = NULL;
+//     current_list = shell->envp;
+//     while (current_list)
+//     {
+// 		env_content = (t_env *)current_list->content;
+
+//         if (ft_strcmp(env_content->key, key) == 0)
+//         {
+//             if (tmp_prev_list)
+//                 tmp_prev_list->next = current_list->next;
+//             else //first element
+//                 shell->envp = current_list->next; // Update the head of the list
+//             to_free = current_list;
+//             current_list = current_list->next;
+// 			to_free->next=NULL;
+// 			free(to_free);
+//             continue ;  // Skip the rest of the loop after deletion
+//         }
+//         tmp_prev_list = current_list;
+//         current_list = current_list->next;
+//     }
+//     return NULL;
+// }
+
+
 char *ft_unset_key(t_shell *shell, const char *key)
 {
     t_list *current_list;
@@ -26,30 +59,33 @@ char *ft_unset_key(t_shell *shell, const char *key)
     t_env *env_content;
     t_list *to_free;
 
+    // to_free = NULL;
     tmp_prev_list = NULL;
-	to_free = NULL;
     current_list = shell->envp;
     while (current_list)
     {
-		env_content = (t_env *)current_list->content;
+        env_content = (t_env *)current_list->content;
 
         if (ft_strcmp(env_content->key, key) == 0)
         {
+            // Update the list pointers
             if (tmp_prev_list)
                 tmp_prev_list->next = current_list->next;
-            else //first element
-                shell->envp = current_list->next; // Update the head of the list
+            else
+                shell->envp = current_list->next;
+            ft_free_env_node(env_content);         
+            // Free the node itself
             to_free = current_list;
             current_list = current_list->next;
-			to_free->next=NULL;
-			free(to_free);
-            continue ;  // Skip the rest of the loop after deletion
+            free(to_free);
+            continue;
         }
         tmp_prev_list = current_list;
         current_list = current_list->next;
     }
-    return NULL;
+    return (NULL);
 }
+
 
 int ft_builtin_unset(t_shell *shell, t_exec *exec_node)
 {
@@ -67,3 +103,5 @@ int ft_builtin_unset(t_shell *shell, t_exec *exec_node)
 	}
 	return (ENO_SUCCESS);
 }
+
+
