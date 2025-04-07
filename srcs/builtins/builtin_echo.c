@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-
-
 /*tests
 echo
 echo "hello"
@@ -60,6 +58,7 @@ int	ft_builtin_echo(t_shell *shell, t_exec *exec_node)
 	(void)shell;
 
 	i = 0;
+	n_op = false;
 	echo_args = &(exec_node->av[1]);
 	while ((echo_args[i] != NULL) && (ft_is_n_option(echo_args[i])))
 	{
@@ -69,7 +68,7 @@ int	ft_builtin_echo(t_shell *shell, t_exec *exec_node)
 	while (echo_args[i])
 	{
 		ft_putstr_fd(echo_args[i], STDOUT_FILENO);
-		if (echo_args [i + 1])
+		if (echo_args[i + 1])
 			ft_putstr_fd(" ", STDOUT_FILENO);
 		i ++;
 	}

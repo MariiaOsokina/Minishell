@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/05 00:04:21 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/06 12:53:28 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	ft_start_execution(t_shell *shell);
 int 	ft_exec_node(t_shell *shell, void *node);
 int 	ft_exec_andif(t_shell *shell, t_andif *andif_node);
 int 	ft_exec_or(t_shell *shell, t_or *or_node);
+int 	ft_exec_subshell(t_shell *shell, t_op *subshell_node);
 int 	ft_exec_pipeline(t_shell *shell, t_pipe *pipe_node);
 int 	ft_exec_pipe_right(t_shell *shell, t_pipe *pipe_node, int *pipe_fds);
 int 	ft_exec_pipe_left(t_shell *shell, t_pipe *pipe_node, int *pipe_fds);

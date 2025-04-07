@@ -132,15 +132,16 @@ int	ft_builtin_exit(t_shell *shell, t_exec *exec_node)
 			ft_err_msg("exit", exec_node->av[1], \
 			"numeric argument required");
 			exit_code = 2;
-			// ft_unlink_heredocs(&(shell)->heredoc_names);
-			// ft_free_full_shell(shell);
-			// exit(exit_code);
+			ft_unlink_heredocs(&(shell)->heredoc_names);
+			ft_free_full_shell(shell);
+			exit(exit_code);
 		}
 		if (exec_node->av[2])
 		{
 			ft_err_msg("exit", exec_node->av[2], \
 			"too many arguments");
 			shell->exit_code = ENO_GENERAL;
+			printf("exit status %d\n", shell->exit_code);
 			return (shell->exit_code);
 		}
 	}

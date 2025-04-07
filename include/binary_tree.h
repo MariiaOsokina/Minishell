@@ -10,6 +10,7 @@ typedef enum e_node_type
 	N_EXEC,
 	N_ANDIF,
 	N_OR,
+	N_SUBSHELL,
 }				t_node_type;
 
 typedef struct s_node
@@ -86,6 +87,13 @@ typedef struct s_pipe
 	t_exec		*left;
 	t_exec		*right;
 }				t_pipe;
+
+typedef struct s_op
+{
+	t_node			type;
+	t_exec			*left;
+	t_exec			*right;
+}					t_op;
 
 /*buildtree.c*/
 t_list			*get_name(t_list *tkn_lst);

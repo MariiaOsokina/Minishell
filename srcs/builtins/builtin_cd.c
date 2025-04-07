@@ -39,11 +39,6 @@ If no OLDPWD in envp, error “OLDPWD not set” with exit code 1 (e.g. in case 
  - if $PWD was unset, add new env node to envp, else update value PWD, value is getcwd())
 */
 
-
-/*
-TESTS
-
-*/
 int	ft_builtin_cd(t_shell *shell, t_exec *exec_node)
 {
 	char *path;
@@ -53,7 +48,7 @@ int	ft_builtin_cd(t_shell *shell, t_exec *exec_node)
 	tmp_dir = getcwd(NULL, 0);
 	path = exec_node->av[1];
 	tmp_env = malloc(sizeof(t_env));
-	if (ft_arr_size (exec_node->av) > 2) //arr should be with null terminator
+	if (ft_arr_size (exec_node->av) > 2)
 		return (ft_err_msg("cd", "too many arguments", NULL), ENO_GENERAL);
 	else if (!path)
 	{

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	update_shlvl(t_shell shell) //MO: need to be changed as doesn't change env_arr
+void	update_shlvl(t_shell shell)
 {
 	t_list	*tmp;
 	int		value;

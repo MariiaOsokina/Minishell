@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:44:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/04 23:13:10 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/06 00:17:33 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ int	ft_exec_external_cmd(t_shell *shell, t_exec *exec_node)
 		tmp_status = ft_redirections(exec_node);
 		if (tmp_status != ENO_SUCCESS)
 		{
-			//panic();
-			ft_free_full_shell(shell);
+			ft_free_full_shell(shell);//panic
 			exit(tmp_status); // from child proccess
 		}
 		if (ft_strnstr(exec_node->command, "/", ft_strlen(exec_node->command))) //execute with rel abs path

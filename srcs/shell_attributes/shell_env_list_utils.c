@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:05:42 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/04 23:58:12 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/06 00:17:33 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_env	*ft_dup_env_node(t_shell *shell, char *key, char *value)
 }
 
 //in progress, needs to be tested
-t_env	*ft_get_env_node(t_shell shell, char *check_key)
+t_env	*ft_get_env_node(t_shell shell, char *target_key)
 {
 	t_list	*current_list;
 	t_env	*env_content;
@@ -104,7 +104,7 @@ t_env	*ft_get_env_node(t_shell shell, char *check_key)
 	while (current_list)
 	{
 		env_content = (t_env *)current_list->content;
-		if (!ft_strcmp(env_content->key, check_key))
+		if (!ft_strcmp(env_content->key, target_key))
 			return (env_content);
         current_list = current_list->next;
 	}
