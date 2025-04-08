@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 21:30:26 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/04 23:39:24 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/08 12:31:25 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ void	ft_put_heredoc_line(char *hd_line, int fd_hd, bool quoted)
 {
 	if (quoted == false)
 	{
-		// printf("Need to be no quotes rules\n");
+		printf("Need to be no quotes rules\n");
 		ft_heredoc_expander(hd_line, fd_hd);
 	}
 	else

@@ -17,8 +17,9 @@ typedef struct s_shell
 	char *cmd_path;      // Stores the full executable path for a command.
 	char *cwd;           // Current working directory //MO: PROMPT
 	int exit_code;       // Stores the exit code of the last command
-	int fd;              // Stores the file descriptor used for redirections.
+	// int fd;              // Stores the file descriptor used for redirections. MO: we don't need it
 	t_list *heredoc_names; // MO: added
+	bool		in_child;
 }				t_shell;
 
 typedef struct s_env

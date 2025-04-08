@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_builtin_cd.c                                       :+:      :+:    :+:   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/05 10:00:51 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/13 09:53:04 by mosokina         ###   ########.fr       */
+/*   Created: 2025/04/08 13:25:38 by mosokina          #+#    #+#             */
+/*   Updated: 2025/04/08 13:31:06 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,36 @@
 1 - update env_arr, envp, cwd ??? three places with the same values;
 2 - SHOULD BE HANDLED? 
 If path(2nd arg) is “-”, it should be previous dir
-seach OLDPWD path in the list of env variables,passed in the beginning of the program (shell.envp)
-If no OLDPWD in envp, error “OLDPWD not set” with exit code 1 (e.g. in case if unset OLDPWD)
-3 - ??In env update functions we need to think about garbage collector(clear old node);
+seach OLDPWD path in the list of env variables,passed 
+in the beginning of the program (shell.envp)
+If no OLDPWD in envp, error “OLDPWD not set” with exit code 1 
+(e.g. in case if unset OLDPWD)
+3 - ??In env update functions we need to think about 
+garbage collector(clear old node);
 4 - //in progress, needs to be tested
 
 */
 
 /* STEPS:
-1 - NOTES: No options in the Minishell Subject! So, “--” and "-" should be treated as an option;
+1 - NOTES: No options in the Minishell Subject! 
+So, “--” and "-" should be treated as an option;
 
-2 - If more than two args, error “too many arguments” with exit code 1 (but NOT exit from the process!!!)
+2 - If more than two args, error “too many arguments” with exit code 1 
+(but NOT exit from the process!!!)
 
 3 - If no path(2nd arg), it should be home dir
-	- seach HOME path in the list of env variables, passed in the beginning of the program (shell.envp)
-	- if no HOME in envp, error “HOME not set” with exit code 1 (e.g. in case if unset HOME);
+	- seach HOME path in the list of env variables, passed 
+	in the beginning of the program (shell.envp)
+	- if no HOME in envp, error “HOME not set” 
+	with exit code 1 (e.g. in case if unset HOME);
 
 4 - Change dir with function chdir(form unistd.h)
 	- If chdir returns error, error “No such file or directory” with exit code 1 
 
 5 - Update list of env (shell.envp);
- - if $PWD was unset, add new env node to envp, else update value PWD, value is getcwd())
+ - if $PWD was unset, add new env node to envp, 
+ else update value PWD, value is getcwd())
 */
-
-
-
 
 static void	ft_update_pwd_env(t_shell *shell, char *new_dir)
 {
@@ -51,7 +56,6 @@ static void	ft_update_pwd_env(t_shell *shell, char *new_dir)
 		ft_update_env_value(shell->envp, "PWD", new_dir);
 	else
 	{
-		// printf("PWD is unset, create a new node with PWD, value is chdir()");
 		new_pwd_env = ft_dup_env_node(shell, "PWD", new_dir);
 		ft_lstadd_back(&shell->envp, ft_lstnew(new_pwd_env));
 	}
@@ -64,23 +68,24 @@ static void	ft_update_oldpwd_env(t_shell *shell, char *old_dir)
 	new_oldpwd_env = NULL;
 	if (ft_get_env_node(*shell, "OLDPWD") != NULL)
 		ft_update_env_value(shell->envp, "OLDPWD", old_dir);
-	else //if OLDPWD is unset
+	else
 	{
-		new_oldpwd_env = ft_dup_env_node(shell, "OLDPWD", old_dir); //malloc
+		new_oldpwd_env = ft_dup_env_node(shell, "OLDPWD", old_dir);
 		ft_lstadd_back(&shell->envp, ft_lstnew(new_oldpwd_env));
 	}
 }
 
 static int	ft_change_dir(t_shell *shell, char *path)
 {
-	char *old_dir;
-	char 	*new_dir;
+	char	*old_dir;
+	char	*new_dir;
 
 	old_dir = getcwd(NULL, 0);
 	if (chdir(path) != ENO_SUCCESS)
 	{
 		free(old_dir);
-		return (ft_err_msg("cd", path, "No such file or directory"), ENO_GENERAL);
+		ft_err_msg("cd", path, "No such file or directory");
+		return (ENO_GENERAL);
 	}
 	new_dir = getcwd(NULL, 0);
 	ft_update_pwd_env(shell, new_dir);
@@ -92,11 +97,10 @@ static int	ft_change_dir(t_shell *shell, char *path)
 	return (ENO_SUCCESS);
 }
 
-
 int	ft_builtin_cd(t_shell *shell, t_exec *exec_node)
 {
-	char *path;
-	t_env *home_env;
+	char	*path;
+	t_env	*home_env;
 
 	path = exec_node->av[1];
 	home_env = NULL;
@@ -104,11 +108,11 @@ int	ft_builtin_cd(t_shell *shell, t_exec *exec_node)
 		return (ft_err_msg("cd", "too many arguments", NULL), ENO_GENERAL);
 	else if (!path)
 	{
-		home_env = ft_get_env_node(*shell, "HOME"); //no malloc
+		home_env = ft_get_env_node(*shell, "HOME");
 		if (!home_env)
 			return (ft_err_msg("cd", "HOME not set", NULL), ENO_GENERAL);
 		else
-			path = home_env->value; //no malloc
+			path = home_env->value;
 	}
 	return (ft_change_dir(shell, path));
 }

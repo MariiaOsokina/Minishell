@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_builtin_export.c                                   :+:      :+:    :+:   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/05 11:29:20 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/13 09:53:04 by mosokina         ###   ########.fr       */
+/*   Created: 2025/04/08 14:03:55 by mosokina          #+#    #+#             */
+/*   Updated: 2025/04/08 14:23:17 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,15 @@
 
 /*STEPS:
 1 - NOTE: Options are not in the Minishell Subject!
-2 - if just cmd without argos, put list shell.envp with msg “declare -x” (!including key with value=NULL)
+2 - if just cmd without argos, put list shell.envp 
+with msg “declare -x” (!including key with value=NULL)
 3 - Loop argos:
-	a- Check is key value valid. It should start with the letter or ‘_’, followed by letters, numbers, or ‘_’.Plus ‘=’ exists
-	b- If key is not valid, error msg “not a valid identifier” and change exit code to 1.
-	c- If key is valid create a new node t_env from input (key = , value = ). If no value, value = NULL
+	a- Check is key value valid. It should start 
+	with the letter or ‘_’, followed by letters, numbers, or ‘_’.Plus ‘=’ exists
+	b- If key is not valid, error msg “not a valid identifier” 
+	and change exit code to 1.
+	c- If key is valid create a new node t_env 
+	from input (key = , value = ). If no value, value = NULL
 		- If key doesn't exist then add a new node t_env to shell.env;
 		- if key exists then update env value;
 */
@@ -26,7 +30,6 @@
 /*TO BE SOLVED:
 - //alphabetic  order???
 - append +=???*/
-
 
 /*
 TESTS:
@@ -55,13 +58,11 @@ export VAR //doesn't change the value!! - to be fixed
 
 */
 
-int ft_print_export_envp(t_list *env_list)
+static int	ft_print_export_envp(t_list *env_list)
 {
-	
 	t_list	*current;
 	t_env	*env_entry;
 
-	//check NULL? error???
 	current = env_list;
 	while (current)
 	{
@@ -75,7 +76,7 @@ int ft_print_export_envp(t_list *env_list)
 	return (ENO_SUCCESS);
 }
 
-bool	ft_is_env_key_valid(char *str)
+static bool	ft_is_env_key_valid(char *str)
 {
 	int	i;
 
@@ -91,16 +92,79 @@ bool	ft_is_env_key_valid(char *str)
 	return (1);
 }
 
+// int	ft_builtin_export(t_shell *shell, t_exec *exec_node)
+// {
+// 	int		exit_code;
+// 	char	**export_args;
+// 	t_env	*new_env;
+// 	int		i;
 
+// 	i = 0;
+// 	exit_code = ENO_SUCCESS;
+// 	export_args = &(exec_node->av[1]);
+// 	if (!export_args[0])
+// 	{
+// 		ft_print_export_envp(shell->envp);
+// 		return (ENO_SUCCESS);
+// 	}
+// 	while (export_args[i])
+// 	{
+// 		if (ft_is_env_key_valid(export_args[i]) == false)
+// 		{
+// 			exit_code = ENO_GENERAL;
+// 			ft_err_msg("export", export_args[i], "not a valid identifier");
+// 		}
+// 		else
+// 		{
+// 			new_env = ft_create_env_node(shell, export_args[i]);
+// 			if (ft_get_env_node(*shell, new_env->key) == NULL)
+// 				ft_lstadd_back(&shell->envp, ft_lstnew(new_env));
+// 			else
+// 			{
+// 				ft_update_env_value(shell->envp, new_env->key, new_env->value);
+// 				ft_free_env_node(new_env);
+// 			}
+// 		}
+// 		i ++;
+// 	}
+// 	exit_code = ft_export_with_args(shell, exec_node, export_args);
+// 	return (exit_code);
+// }
+
+static int	ft_export_with_args(t_shell *shell, char **export_args)
+{
+	t_env	*new_env;
+	int		exit_code;
+
+	exit_code = ENO_SUCCESS;
+	while (*export_args)
+	{
+		if (!ft_is_env_key_valid(*export_args))
+		{
+			ft_err_msg("export", *export_args, "not a valid identifier");
+			exit_code = ENO_GENERAL;
+		}
+		else
+		{
+			new_env = ft_create_env_node(shell, *export_args);
+			if (ft_get_env_node(*shell, new_env->key) == NULL)
+				ft_lstadd_back(&shell->envp, ft_lstnew(new_env));
+			else
+			{
+				ft_update_env_value(shell->envp, new_env->key, new_env->value);
+				ft_free_env_node(new_env);
+			}
+		}
+		export_args++;
+	}
+	return (exit_code);
+}
 
 int	ft_builtin_export(t_shell *shell, t_exec *exec_node)
 {
-	int exit_code;
-	char **export_args;
-	t_env *new_env;
-	int i;
+	int		exit_code;
+	char	**export_args;
 
-	i = 0;
 	exit_code = ENO_SUCCESS;
 	export_args = &(exec_node->av[1]);
 	if (!export_args[0])
@@ -108,26 +172,6 @@ int	ft_builtin_export(t_shell *shell, t_exec *exec_node)
 		ft_print_export_envp(shell->envp);
 		return (ENO_SUCCESS);
 	}
-	while (export_args[i])
-	{
-		if (ft_is_env_key_valid(*export_args) == false)
-		{
-			exit_code = ENO_GENERAL;
-			ft_err_msg("export", export_args[i], "not a valid identifier");
-		}
-		else
-		{
-			new_env = ft_create_env_node(shell, export_args[i]);
-			if (ft_get_env_node(*shell, new_env->key) == NULL)
-				ft_lstadd_back(&shell->envp, ft_lstnew(new_env));			
-			else
-			{
-				// printf("key exists %s, update node t_env with new value %s\n", new_env->key, new_env->value); MO: for testing
-				ft_update_env_value(shell->envp, new_env->key, new_env->value);
-				ft_free_env_node(new_env);
-			}
-		}
-		i ++;
-	}
+	exit_code = ft_export_with_args(shell, export_args);
 	return (exit_code);
 }

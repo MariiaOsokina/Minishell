@@ -118,7 +118,8 @@ void	reset_shell(t_shell *shell)
 	shell->cmd_path = NULL;
 	shell->cwd = NULL;
 	shell->root = NULL;
-	shell->heredoc_names = NULL; //MO: added
+	shell->heredoc_names = NULL;
+	shell->in_child = false; //MO: added
 	// shell->exit_code = 0; MO: moved up, we need exit code for the next loop iteration and for exit from minishell
 	//shell.envp = NULL???
 	g_signum = 0;
