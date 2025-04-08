@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:03:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/07 14:46:57 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/08 12:46:02 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ static int	ft_exec_no_cmd(t_shell *shell, t_exec *exec_node)
 	return (tmp_status);
 }
 
+
 static int	ft_exec_builtins_start(t_shell *shell, t_exec *exec_node)
 {
 	int		tmp_stdin;
@@ -106,8 +107,11 @@ static int	ft_exec_builtins_start(t_shell *shell, t_exec *exec_node)
 		ft_reset_stdio(tmp_stdin, tmp_stdout);
 		return (tmp_status);
 	}
-	tmp_status = ft_exec_builtin(shell, exec_node);
-		ft_reset_stdio(tmp_stdin, tmp_stdout);
+	if (!ft_strcmp(exec_node->command, "exit") && shell->in_child == false)
+		tmp_status = ft_builtin_exit_parent(shell, exec_node, tmp_stdin, tmp_stdout);	
+	else
+		tmp_status = ft_exec_builtin(shell, exec_node);
+	ft_reset_stdio(tmp_stdin, tmp_stdout);
 	return (tmp_status);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/08 00:24:09 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/08 11:10:33 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int ft_exec_subshell(t_shell *shell, t_op *subshell_node)
 	pid_subshell = fork();
 	if (pid_subshell == 0)
 	{
+		shell->in_child = true;
 		tmp_status = ft_exec_node(shell, subshell_node->left); //pointer to left is node inside subshell, pointer to left is null
 		ft_free_full_shell(shell);
 		exit(tmp_status);

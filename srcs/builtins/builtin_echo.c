@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_builtin_echo.c                                     :+:      :+:    :+:   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/25 13:16:04 by mosokina          #+#    #+#             */
-/*   Updated: 2025/03/13 09:53:04 by mosokina         ###   ########.fr       */
+/*   Created: 2025/04/08 13:37:02 by mosokina          #+#    #+#             */
+/*   Updated: 2025/04/08 13:38:38 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ echo -n -nnnnnnnn
 echo hello -n
 echo 
 */
-
 
 static bool	ft_is_n_option(char *str)
 {
@@ -52,11 +51,11 @@ static bool	ft_is_n_option(char *str)
 
 int	ft_builtin_echo(t_shell *shell, t_exec *exec_node)
 {
-	char 	**echo_args;
-	bool    n_op;
+	char	**echo_args;
+	bool	n_op;
 	int		i;
-	(void)shell;
 
+	(void)shell;
 	i = 0;
 	n_op = false;
 	echo_args = &(exec_node->av[1]);

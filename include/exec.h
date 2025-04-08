@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/07 23:50:10 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:59:59 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,9 @@ int		ft_builtin_unset(t_shell *shell, t_exec *exec_node);
 int		ft_builtin_pwd(t_shell *shell, t_exec *exec_node);
 int		ft_builtin_env(t_shell *shell, t_exec *exec_node);
 int		ft_builtin_exit(t_shell *shell, t_exec *exec_node);
-
+int		ft_builtin_exit_parent(t_shell *shell, t_exec *exec_node, int in, int out);
+int		ft_builtin_exit_child(t_shell *shell, t_exec *exec_node);
+int		ft_get_exit_code(char *exit_arg);
 
 /*envp list utils*/
 
