@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 01:01:22 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/08 00:31:31 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:18:15 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_get_exit_status(int status)
 {
 	if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
-	return (WEXITSTATUS(status)); 
+	return (WEXITSTATUS(status));
 }
 
 //function for printing an error message to STDERR
@@ -46,6 +46,7 @@ void	ft_err_msg(char *s1, char *s2, char *s3)
 void	ft_free_full_shell(t_shell *shell)
 {
 	if (shell->envp != NULL)
-		ft_free_env_lst(&(shell)->envp);
+		// ft_free_env_lst(&(shell)->envp);
+		ft_lstclear(&shell->envp, ft_free_env_node);
 	free_shell(shell);
 }

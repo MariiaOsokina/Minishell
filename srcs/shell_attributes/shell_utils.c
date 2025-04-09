@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals_noninteractive.c                           :+:      :+:    :+:   */
+/*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/31 23:41:16 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/09 12:02:18 by mosokina         ###   ########.fr       */
+/*   Created: 2025/04/09 12:07:31 by mosokina          #+#    #+#             */
+/*   Updated: 2025/04/09 12:09:55 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_signals_noninteractive(void)
+int	ft_arr_size(char **arr)
 {
-	ft_termios_echo(true);
-	ft_termios_echoctl(false);
-	signal(SIGINT, ft_sigint_siquit_noninteract_handler);
-	signal(SIGQUIT, ft_sigint_siquit_noninteract_handler);
-}
+	int	i;
 
-void	ft_sigint_siquit_noninteract_handler(int signo)
-{
-	if (signo == SIGINT)
-		g_signum = signo;
-	if (signo == SIGQUIT)
-		g_signum = signo;
+	i = 0;
+	if (!arr)
+		return (i);
+	while (arr[i])
+		i ++;
+	return (i);
 }

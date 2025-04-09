@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/04 23:11:57 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/09 11:39:37 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,32 @@
 /*STEPS:
 LOOP thoought the list of in_out nodes and  based on type:
 1 - If fd_in (<)
-	a - check "ambigunous redirect" (it occurs if after expansion there're 
+	a - check "ambigunous redirect" (
+	it occurs if after expansion there're 
 	more than one filename *wildcards <*inf or empty filename )
-	b - open file with flag O_RDONLY + check the access (existance and permission)
+	b - open file with flag O_RDONLY 
+	+ check the access (existance and permission)
  	c - dup2(fd, STDIN) and close fd;
 2- If fd_out(>)
-	a - check "ambigunous redirect" (case: e.g.,  if after expansion, more that one filename *wildcards,empty filename) 
-	b - open with flags (O_CREAT | O_WRONLY | O_TRUNC)  + check access (file’s existance and permission)
-	create the file (with mode 0664) if it doesn’t exist, open it for writing only, and TRUNCATE it to zero length
+	a - check "ambigunous redirect" (case: e.g.,  
+	if after expansion, more that one filename *wildcards,empty filename) 
+	b - open with flags (O_CREAT | O_WRONLY | O_TRUNC)  
+	+ check access (file’s existance and permission)
+	create the file (with mode 0664) if it doesn’t exist, 
+	open it for writing only, and TRUNCATE it to zero length
  	c - dup2(fd, STDOUT) and close fd;
 3 - If fd_append (>>) 
-	a - check "ambigunoous redirect"  (case: e.g.,  if after expansion, more that one filename *wildcards,empty filename) 
-	b - open with flags  (O_CREAT | O_WRONLY | O_APPEND)  + check access (file’s existance and permission)
-	create the file (with mode 0664) if it doesn’t exist, open it for writing only, and APPEND it
+	a - check "ambigunoous redirect"  
+	
+	(case: e.g.,  if after expansion, 
+	more that one filename *wildcards,empty filename) 
+	b - open with flags  (O_CREAT | O_WRONLY | O_APPEND)  
+	+ check access (file’s existance and permission)
+	create the file (with mode 0664) if it doesn’t exist, 
+	open it for writing only, and APPEND it
 	c - dup2(fd, STDOUT) and close fd;
-4	- 	If case of an error with in(<), out(>) or append(>>) (i.e. exit status is not SUCCESS) the redirection fails and stops
+4	- 	If case of an error with in(<), out(>) or append(>>) 
+(i.e. exit status is not SUCCESS) the redirection fails and stops
 		and return should be with teh exit status 1.
 5	- 	If here_doc(<<)
 	a - NOTE: Input was written to heredoc's fd BEFORE redirection!
@@ -66,13 +77,13 @@ int	ft_redirections(t_exec *exec_node)
 {
 	t_list		*tmp_io_list;
 	int			tmp_status;
-	t_in_out 	*in_out_node;
+	t_in_out	*in_out_node;
 
 	tmp_io_list = exec_node->in_out_list;
 	tmp_status = ENO_SUCCESS;
-	while(tmp_io_list)
+	while (tmp_io_list)
 	{
-		in_out_node = (t_in_out*)tmp_io_list->content;
+		in_out_node = (t_in_out *)tmp_io_list->content;
 		if (in_out_node->type == INF || in_out_node->type == HERE)
 			tmp_status = ft_redir_inf(in_out_node);
 		else if (in_out_node->type == ADD || in_out_node->type == APP)
@@ -84,10 +95,10 @@ int	ft_redirections(t_exec *exec_node)
 	return (tmp_status);
 }
 
-int		ft_redir_inf(t_in_out	*in_out_node)
+int	ft_redir_inf(t_in_out	*in_out_node)
 {
-	int fd;
-	char *file;
+	int		fd;
+	char	*file;
 
 	// if (!in_out_node->expanded_name || in_out_node->expanded_name[1])
 	// {
@@ -107,10 +118,10 @@ int		ft_redir_inf(t_in_out	*in_out_node)
 	return (ENO_SUCCESS);
 }
 
-int		ft_redir_outf(t_in_out *in_out_node)
+int	ft_redir_outf(t_in_out *in_out_node)
 {
-	int fd;
-	char *file;
+	int		fd;
+	char	*file;
 
 	// if (!in_out_node->expanded_name || in_out_node->expanded_name[1])
 	// {
@@ -129,5 +140,5 @@ int		ft_redir_outf(t_in_out *in_out_node)
 	}
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
-    return(ENO_SUCCESS);
+	return (ENO_SUCCESS);
 }

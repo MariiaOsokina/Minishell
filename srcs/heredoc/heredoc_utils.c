@@ -6,14 +6,15 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 21:30:26 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/08 12:31:25 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:00:46 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* 
-	Function creates a name for the heredoc file. It will be a hidden file in the /temp
+	Function creates a name for the heredoc file. 
+	It will be a hidden file in the /temp
 	folder. The static variable guarantees to have successive numbers.
  */
 
@@ -34,14 +35,15 @@ char	*ft_generate_heredoc_name(void)
 
 /*
 NOTE: 
-- If the delimiter is quoted, the text in the here-document is taken literally,
-w/o any expansions.
-- If the delimiter is unquoted, the text in the here-document is subject to expansions.
+- If the delimiter is quoted, the text in the here-document 
+is taken literally, w/o any expansions.
+- If the delimiter is unquoted, the text in the here-document
+ is subject to expansions.
 */
 
-static bool 	ft_is_delimiter_quoted(char *delimiter)
+static bool	ft_is_delimiter_quoted(char *delimiter)
 {
-	while(*delimiter)
+	while (*delimiter)
 	{
 		if (*delimiter == '"' || *delimiter == '\'')
 			return (true);
@@ -86,18 +88,18 @@ Infinity Loop:
 5 - free line as readline uses malloc;
 */
 
-void	ft_fill_heredoc(t_in_out *io_here) 
+void	ft_fill_heredoc(t_in_out *io_here)
 {
-	bool 	has_quoted;
-	char 	*hd_line;
+	bool	has_quoted;
+	char	*hd_line;
 	int		line_nbr;
-	int 	hd_fd;
+	int		hd_fd;
 
 	has_quoted = ft_is_delimiter_quoted(io_here->eof);
 	line_nbr = 1;
-	hd_fd = open(io_here->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	hd_fd = open(io_here->name, O_CREAT | O_WRONLY | O_TRUNC, 0644); //check?
 	ft_signals_heredoc();
-	while(g_signum != SIGINT)
+	while (g_signum != SIGINT)
 	{
 		hd_line = readline("> ");
 		if (g_signum != SIGINT)
@@ -126,15 +128,12 @@ void	ft_fill_heredoc(t_in_out *io_here)
 	ft_signals_interactive();
 }
 
-
-
 /* if delimiter is not quoted(has_quoted = false):
 - lines are subject to expansion;
 - \n is ignored;
 - \ for quoting characters \, $ and ` // to be check!!!
 if delimiter is quoted(has_quoted = true):
 - the text in the here-document is taken literally,*/
-
 
 void	ft_put_heredoc_line(char *hd_line, int fd_hd, bool quoted)
 {
@@ -146,5 +145,3 @@ void	ft_put_heredoc_line(char *hd_line, int fd_hd, bool quoted)
 	else
 		ft_putendl_fd(hd_line, fd_hd);
 }
-
-

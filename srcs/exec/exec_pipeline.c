@@ -6,45 +6,44 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:53:30 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/08 11:10:08 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/09 11:36:04 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_exec_pipeline(t_shell *shell, t_pipe *pipe_node)
+int	ft_exec_pipeline(t_shell *shell, t_pipe *pipe_node)
 {
-	int 	pipe_fds[2];
-	pid_t 	pid_left;
-	pid_t 	pid_right;
+	int		pipe_fds[2];
+	pid_t	pid_left;
+	pid_t	pid_right;
 	int		tmp_status;
 
 	pipe(pipe_fds);
 	pid_right = fork();
-	if (pid_right == 0)//child process for right with recursion
+	if (pid_right == 0)
 		ft_exec_pipe_right(shell, pipe_node, pipe_fds);
 	else
 	{
 		pid_left = fork();
-		if (pid_left == 0)//child process for left with recursion
+		if (pid_left == 0)
 			ft_exec_pipe_left(shell, pipe_node, pipe_fds);
 		else
 		{
 			close(pipe_fds[0]);
 			close(pipe_fds[1]);
-			waitpid(pid_left,  &tmp_status, 0);
+			waitpid(pid_left, &tmp_status, 0);
 			waitpid(pid_right, &tmp_status, 0);
 			free_shell(shell);
-			// printf ("exit status from tmps status waitpid %d\n", tmp_status); // get exit status only from right
 			return (ft_get_exit_status(tmp_status));
 		}
 	}
 	return (ENO_GENERAL);
 }
 
-int ft_exec_pipe_right(t_shell *shell, t_pipe *pipe_node, int *pipe_fds)
+int	ft_exec_pipe_right(t_shell *shell, t_pipe *pipe_node, int *pipe_fds)
 {
-	int tmp_status;
+	int	tmp_status;
 
 	shell->in_child = true;
 	close(pipe_fds[1]);
@@ -55,9 +54,9 @@ int ft_exec_pipe_right(t_shell *shell, t_pipe *pipe_node, int *pipe_fds)
 	exit(tmp_status);
 }
 
-int ft_exec_pipe_left(t_shell *shell, t_pipe *pipe_node, int *pipe_fds)
+int	ft_exec_pipe_left(t_shell *shell, t_pipe *pipe_node, int *pipe_fds)
 {
-	int tmp_status;
+	int	tmp_status;
 
 	shell->in_child = true;
 	close(pipe_fds[0]);

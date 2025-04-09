@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_external_cmd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:44:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/06 00:17:33 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/09 11:50:45 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int	ft_exec_external_cmd(t_shell *shell, t_exec *exec_node)
     waitpid(fork_pid, &tmp_status, 0);
 	return (ft_get_exit_status(tmp_status));
 }
-
 
 int	ft_check_access(char *cmd_path) // check the permission to the file, print the error msg and return the error number
 {	

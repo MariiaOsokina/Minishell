@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:13:35 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/09 11:23:39 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:18:39 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	main(int ac, char **av, char **envp)
 	terminal(&shell); // Ongoing..
 	// free_env_lst(shell.envp);
 	if (&shell.envp != NULL)
-		ft_free_env_lst(&shell.envp);
+		// ft_free_env_lst(&shell.envp);
+		ft_lstclear(&shell.envp, ft_free_env_node);
 	return (0);
 }
