@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 21:30:26 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/09 12:00:46 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:55:30 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ Infinity Loop:
 5 - free line as readline uses malloc;
 */
 
-void	ft_fill_heredoc(t_in_out *io_here)
+void	ft_fill_heredoc(t_shell *shell, t_in_out *io_here)
 {
 	bool	has_quoted;
 	char	*hd_line;
@@ -119,7 +119,13 @@ void	ft_fill_heredoc(t_in_out *io_here)
 				free(hd_line);
 				break ;
 			}
-			ft_put_heredoc_line(hd_line, hd_fd, has_quoted);
+			if (has_quoted == false)
+			{
+				printf("Need to be no quotes rules\n");
+				ft_heredoc_unquoted(shell, hd_line, hd_fd);
+			}
+			else
+				ft_putendl_fd(hd_line, hd_fd);
 			free(hd_line);
 			line_nbr ++;
 		}
@@ -135,13 +141,13 @@ void	ft_fill_heredoc(t_in_out *io_here)
 if delimiter is quoted(has_quoted = true):
 - the text in the here-document is taken literally,*/
 
-void	ft_put_heredoc_line(char *hd_line, int fd_hd, bool quoted)
-{
-	if (quoted == false)
-	{
-		printf("Need to be no quotes rules\n");
-		ft_heredoc_expander(hd_line, fd_hd);
-	}
-	else
-		ft_putendl_fd(hd_line, fd_hd);
-}
+// void	ft_put_heredoc_line(t_shell *shell, char *hd_line, int fd_hd, bool quoted)
+// {
+// 	if (quoted == false)
+// 	{
+// 		printf("Need to be no quotes rules\n");
+// 		ft_heredoc_unquoted(hd_line, fd_hd);
+// 	}
+// 	else
+// 		ft_putendl_fd(hd_line, fd_hd);
+// }

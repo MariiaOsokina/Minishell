@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 00:27:52 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/09 11:57:28 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:48:39 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	ft_handle_heredocs(t_shell *shell, t_exec *exec_node)
 			hd_arr_name = ft_generate_heredoc_name();
 			ft_lstadd_back(&(shell->heredoc_names), ft_lstnew(hd_arr_name));
 			io_node->name = ft_strdup(hd_arr_name);
-			ft_fill_heredoc(io_node);
+			ft_fill_heredoc(shell, io_node);
 			printf("exit status after fill heredoc %d\n", shell->exit_code); //MO; for testing, to be deleted
 			printf("g signum after fill heredoc %d\n", g_signum); //MO; for testing, to be deleted
 		}

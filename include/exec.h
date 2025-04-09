@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/09 12:24:21 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:55:14 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,10 +113,10 @@ int		ft_get_path(t_shell *shell, t_list **path_list, char *path, int i);
 void 	ft_process_heredocs(t_shell *shell, void *node);
 void	ft_handle_heredocs(t_shell *shell, t_exec *exec_node);
 char	*ft_generate_heredoc_name(void);
-void	ft_fill_heredoc(t_in_out *io_here);
+void	ft_fill_heredoc(t_shell *shell, t_in_out *io_here);
 char 	*ft_hd_line_expansion(char *hd_line);
-void	ft_put_heredoc_line(char *hd_line, int fd_hd, bool quoted);
-void	ft_heredoc_expander(char *hd_line, int fd_hd);
+void	ft_put_heredoc_line(t_shell *shell, char *hd_line, int fd_hd, bool quoted);
+void	ft_heredoc_unquoted(t_shell *shell, char *hd_line, int fd_hd);
 void	ft_unlink_heredocs(t_list *heredoc_names);
 
 /*move to binary_tree.h*/
