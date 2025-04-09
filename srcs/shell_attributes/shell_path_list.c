@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_path_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 20:46:59 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/06 11:50:41 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:31:23 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 t_list	*ft_path_list(t_shell *shell)
 {
 	t_list	*path_list;
-    t_env   *path_env;
+	t_env	*path_env;
 	char	*path;
 	int		i;
 
 	path_list = NULL;
-    path_env = ft_get_env_node(*shell, "PATH");
-    if (!path_env || !path_env->value)
-        return (NULL);
-    path = path_env->value;
+	path_env = ft_get_env_node(*shell, "PATH");
+	if (!path_env || !path_env->value)
+		return (NULL);
+	path = path_env->value;
 	if (path == NULL)
 		return (NULL);
 	i = 0;
@@ -42,7 +42,7 @@ int	ft_get_path(t_shell *shell, t_list **path_list, char *path, int i)
 		i++;
 	new_path = ft_substr(path, start, i - start);
 	if (!new_path)
-        exit_failure(shell, "get_path");
+		exit_failure(shell, "get_path");
 	ft_lstadd_back(path_list, ft_lstnew(new_path));
 	if (path[i] == ':')
 		i++;

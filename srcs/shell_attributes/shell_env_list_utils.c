@@ -3,92 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   shell_env_list_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:05:42 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/08 00:28:45 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:28:51 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// char	*ft_extract_key(char *str);
-// char	*ft_extract_value(char *str);
-// void	*ft_env_lst(t_shell *shell, char **envp);
-// t_env	*ft_create_env_node(t_shell *shell, char *env);
-// t_env	*ft_dup_env_node(t_shell *shell, char *key, char *value);
-// void	ft_print_env_lst(t_list *lst); //for testing
-// void	ft_free_env_node(t_env *envp_node);
-// void	ft_free_env_lst(t_list **envp);
-
-// int	main(int ac, char **av, char **envp)
-// {
-// 	t_shell	shell;
-
-//     ft_env_lst(&shell, envp);
-// 	ft_print_env_lst(shell.envp);
-// 	ft_free_env_lst(&shell.envp);
-// 	return 0;
-// }
-
-// int	ft_strcmp(const char *s1, const char *s2)
-// {
-// 	size_t	s1_len;
-// 	size_t	s2_len;
-
-// 	s1_len = ft_strlen(s1);
-// 	s2_len = ft_strlen(s2);
-// 	if (s1_len > s2_len)
-// 		return (ft_strncmp(s1, s2, s1_len));
-// 	else
-// 		return (ft_strncmp(s1, s2, s2_len));
-// }
-
-
 // void	ft_free_env_lst(t_list **envp)
 // {
-// 	t_list	*tmp;
-// 	t_env	*envp_node;
-
-// 	while (*envp)
-// 	{
-// 		tmp = (*envp)->next;
-// 		envp_node = (t_env *)(*envp)->content;
-// 		ft_free_env_node(envp_node);
-// 		free(*envp);
-// 		*envp = tmp;
-// 	}
-// 	free(*envp);
-// 	envp = NULL;
+// 	ft_lstclear(envp, (void (*)(void *))ft_free_env_node);
 // }
 
-void	ft_free_env_lst(t_list **envp)
+// void	ft_free_env_node(t_env *envp_node)
+// {
+// 	if (envp_node)
+// 	{
+// 		if (envp_node->key)
+// 			free(envp_node->key);
+// 		if (envp_node->value)
+// 			free(envp_node->value);
+// 		free(envp_node);
+// 	}
+// }
+
+void	ft_free_env_node(void *envp)
 {
-	ft_lstclear(envp, (void (*)(void *))ft_free_env_node);
+	t_env	*envp_node;
+
+	envp_node = (t_env *)envp;
+	if (envp_node)
+	{
+		if (envp_node->key)
+			free(envp_node->key);
+		if (envp_node->value)
+			free(envp_node->value);
+		free(envp_node);
+	}
 }
 
-void	ft_free_env_node(t_env *envp_node)
-{
-		if (envp_node)
-		{
-			if(envp_node->key)
-				free(envp_node->key);
-			if(envp_node->value)
-				free(envp_node->value);
-			free(envp_node);
-		}
-}
+//key and value are passed NOT malloced before
+//check exit_failure for malloc of internal variables;
 
-t_env	*ft_dup_env_node(t_shell *shell, char *key, char *value) //key and value were NOT malloced before
+t_env	*ft_dup_env_node(t_shell *shell, char *key, char *value)
 {
 	t_env	*node;
-	(void)shell;
 
+	(void)shell;
 	node = malloc(sizeof(t_env));
 	if (!node)
-		exit_failure(shell, "create_env_node"); //check malloc of internal variables;
+		exit_failure(shell, "create_env_node");
 	if (!key)
-		exit_failure(shell, "no key"); //check malloc of internal variables;
+		exit_failure(shell, "no key");
 	node->key = ft_strdup(key);
 	if (value != NULL)
 		node->value = ft_strdup(value);
@@ -97,25 +65,23 @@ t_env	*ft_dup_env_node(t_shell *shell, char *key, char *value) //key and value w
 	return (node);
 }
 
-//in progress, needs to be tested
 t_env	*ft_get_env_node(t_shell shell, char *target_key)
 {
 	t_list	*current_list;
 	t_env	*env_content;
-	
+
 	current_list = shell.envp;
 	while (current_list)
 	{
 		env_content = (t_env *)current_list->content;
 		if (!ft_strcmp(env_content->key, target_key))
 			return (env_content);
-        current_list = current_list->next;
+		current_list = current_list->next;
 	}
 	return (NULL);
 }
 
-//for export and cd
-void	ft_update_env_value(t_list *envp, char *key, char *new_value) //key and value were NOT malloced before
+void	ft_update_env_value(t_list *envp, char *key, char *new_value)
 {
 	t_list	*current;
 	t_env	*env_content;
@@ -153,4 +119,3 @@ void	ft_print_env_lst(t_list *lst) //for testing
 		lst = lst->next;
 	}
 }
-

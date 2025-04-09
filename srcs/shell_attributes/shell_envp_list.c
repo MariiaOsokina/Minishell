@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_envp_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 20:54:33 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/06 11:50:26 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:30:35 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	*ft_env_lst(t_shell *shell, char **envp)
 {
-	int	i;
+	int		i;
+	t_env	*env_content;
 
-	t_env *env_content;
 	shell->envp = NULL;
 	if (!envp || !*envp)
 		return (NULL);
@@ -66,8 +66,8 @@ static char	*ft_extract_value(char *str)
 t_env	*ft_create_env_node(t_shell *shell, char *env)
 {
 	t_env	*node;
-	(void)shell;
 
+	(void)shell;
 	node = malloc(sizeof(t_env));
 	if (!node)
 		exit_failure(shell, "create_env_node");
@@ -81,7 +81,7 @@ t_env	*ft_create_env_node(t_shell *shell, char *env)
 	{
 		// printf("in %s  = exists\n", env); //MO: for testing;
 		node->key = ft_extract_key(env);
-		node->value = ft_extract_value(env);		
+		node->value = ft_extract_value(env);
 	}
 	return (node);
 }

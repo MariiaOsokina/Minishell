@@ -103,10 +103,10 @@ void	free_shell(t_shell *shell) //it should not free evp list
 	reset_shell(shell);
 }
 
-bool	is_env_empty(t_shell *shell)
-{
-	return (shell->envp == NULL || ft_lstsize(shell->envp) == 0);
-}
+// bool	is_env_empty(t_shell *shell)
+// {
+// 	return (shell->envp == NULL || ft_lstsize(shell->envp) == 0);
+// }
 
 void	reset_shell(t_shell *shell)
 {

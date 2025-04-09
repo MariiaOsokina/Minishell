@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/09 11:24:11 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:24:21 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int		ft_get_exit_code(char *exit_arg);
 void	*ft_env_lst(t_shell *shell, char **envp);
 t_env	*ft_create_env_node(t_shell *shell, char *env);
 void	ft_free_env_lst(t_list **envp);
-void	ft_free_env_node(t_env *envp_node);
+void	ft_free_env_node(void *envp);
 t_env	*ft_dup_env_node(t_shell *shell, char *key, char *value);
 t_env	*ft_get_env_node(t_shell shell, char *target_key);
 void	ft_update_env_value(t_list *envp, char *key, char *new_value);

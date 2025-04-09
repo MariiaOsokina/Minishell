@@ -6,18 +6,19 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 01:09:53 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/02 13:04:13 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/09 11:52:02 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*These functions gets the proper path for the command.
-It uses list of directories parsed in advanced from $PATH and saved as shell.path*/
+It uses list of directories parsed in advanced 
+from $PATH and saved as shell.path*/
 
 char	*ft_get_env_path(t_shell shell, char *cmd_name, t_err_no *err_no)
 {
-	char *cmd_path;
+	char	*cmd_path;
 
 	if (!ft_strcmp(cmd_name, ".."))
 	{
@@ -31,7 +32,7 @@ char	*ft_get_env_path(t_shell shell, char *cmd_name, t_err_no *err_no)
 		*(err_no) = 2;
 		return (NULL);
 	}
-	cmd_path = ft_find_cmd_path(cmd_name, shell.path); //malloc!!! check, needs to do free later
+	cmd_path = ft_find_cmd_path(cmd_name, shell.path);
 	if (!cmd_path)
 	{
 		ft_err_msg(cmd_name, "command not found", NULL);
@@ -44,8 +45,8 @@ char	*ft_get_env_path(t_shell shell, char *cmd_name, t_err_no *err_no)
 
 char	*ft_find_cmd_path(char *cmd_name, t_list *path_list)
 {
-	char 	*part_path;
-	char 	*full_path;
+	char	*part_path;
+	char	*full_path;
 
 	while (path_list)
 	{
