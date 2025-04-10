@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_termios.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:22:47 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/09 12:03:41 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:34:35 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

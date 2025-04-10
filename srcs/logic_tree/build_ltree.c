@@ -7,11 +7,11 @@ void	*create_subtree(t_shell *shell, t_list *token_lst)
 
 	if (!token_lst)
 		return (NULL);
-	printf("Got here-3\n");
+	// printf("Got here-3\n");
 	subtree = build_tree(shell, token_lst);
 	if (!subtree)
 		exit_failure(shell, "create_subtree");
-	printf("Got here-3\n");
+	// printf("Got here-3\n");
 	return (subtree);
 }
 
@@ -48,7 +48,7 @@ void	*insert_lnode(t_shell *shell, void *l_node, t_list *t_lst)
 {
 	t_token	*token;
 
-	printf("Got here-2\n");
+	// printf("Got here-2\n");
 	token = (t_token *)t_lst->content;
 	if (token->type == PARENTHESIS)
 		return (start_parenthesis(shell, t_lst, l_node));
@@ -77,7 +77,7 @@ void	*build_ltree(t_shell *shell, t_list *token_list)
 
 	tmp = token_list;
 	lroot = NULL;
-	printf("Got here-1\n");
+	// printf("Got here-1\n");
 	while (tmp)
 	{
 		lroot = insert_lnode(shell, lroot, tmp);

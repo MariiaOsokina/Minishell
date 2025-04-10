@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_all.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:07:12 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/09 11:28:33 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:44:17 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,6 @@ int	ft_exec_builtin(t_shell *shell, t_exec *exec_node)
 	else if (!ft_strcmp(cmd_name, "pwd"))
 		return (ft_builtin_pwd(shell, exec_node));
 	else if (!ft_strcmp(cmd_name, "exit"))
-		return (ft_builtin_exit_child(shell, exec_node));
+		return (ft_exit_child(shell, exec_node));
 	return (ENO_NOT_FOUND);
 }
