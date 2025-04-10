@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 21:30:26 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/09 12:55:30 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:31:55 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ is taken literally, w/o any expansions.
  is subject to expansions.
 */
 
-static bool	ft_is_delimiter_quoted(char *delimiter)
+bool	ft_is_delimiter_quoted(char *delimiter)
 {
 	while (*delimiter)
 	{
@@ -52,7 +52,7 @@ static bool	ft_is_delimiter_quoted(char *delimiter)
 	return (false);
 }
 
-static bool	ft_is_delimiter(char *delimiter, char *hd_line)
+bool	ft_is_delimiter(char *delimiter, char *hd_line)
 {
 	while (*hd_line)
 	{
@@ -88,66 +88,17 @@ Infinity Loop:
 5 - free line as readline uses malloc;
 */
 
-void	ft_fill_heredoc(t_shell *shell, t_in_out *io_here)
+void	ft_unlink_heredocs(t_list *heredoc_names)
 {
-	bool	has_quoted;
-	char	*hd_line;
-	int		line_nbr;
-	int		hd_fd;
-
-	has_quoted = ft_is_delimiter_quoted(io_here->eof);
-	line_nbr = 1;
-	hd_fd = open(io_here->name, O_CREAT | O_WRONLY | O_TRUNC, 0644); //check?
-	ft_signals_heredoc();
-	while (g_signum != SIGINT)
+	if (heredoc_names == NULL)
+		return ;
+	while (heredoc_names)
 	{
-		hd_line = readline("> ");
-		if (g_signum != SIGINT)
+		if ((heredoc_names)->content)
 		{
-			if (!hd_line) // note: it happends in case of signal CTRL + D
-			{
-				ft_putstr_fd("bash: warning: here-document at line ", STDERR_FILENO);
-				ft_putnbr_fd(line_nbr, STDERR_FILENO);
-				ft_putstr_fd(" delimited by end-of-file (wanted \'", STDERR_FILENO);
-				ft_putstr_fd(io_here->eof, STDERR_FILENO);
-				ft_putstr_fd("\')\n", STDERR_FILENO);
-				free(hd_line);
-				break ;
-			}
-			if (ft_is_delimiter(io_here->eof, hd_line) == true)
-			{
-				free(hd_line);
-				break ;
-			}
-			if (has_quoted == false)
-			{
-				printf("Need to be no quotes rules\n");
-				ft_heredoc_unquoted(shell, hd_line, hd_fd);
-			}
-			else
-				ft_putendl_fd(hd_line, hd_fd);
-			free(hd_line);
-			line_nbr ++;
+			if (unlink((char *)(heredoc_names)->content) != 0)
+				ft_putstr_fd("unlink error\n", STDERR_FILENO);
 		}
+		heredoc_names = (heredoc_names)->next;
 	}
-	close(hd_fd);
-	ft_signals_interactive();
 }
-
-/* if delimiter is not quoted(has_quoted = false):
-- lines are subject to expansion;
-- \n is ignored;
-- \ for quoting characters \, $ and ` // to be check!!!
-if delimiter is quoted(has_quoted = true):
-- the text in the here-document is taken literally,*/
-
-// void	ft_put_heredoc_line(t_shell *shell, char *hd_line, int fd_hd, bool quoted)
-// {
-// 	if (quoted == false)
-// 	{
-// 		printf("Need to be no quotes rules\n");
-// 		ft_heredoc_unquoted(hd_line, fd_hd);
-// 	}
-// 	else
-// 		ft_putendl_fd(hd_line, fd_hd);
-// }

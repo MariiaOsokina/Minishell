@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/09 12:55:14 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:44:22 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ typedef enum e_err_no
 
 /*EXECUTION*/
 void	ft_start_execution(t_shell *shell);
-int 	ft_exec_node(t_shell *shell, void *node);
-int 	ft_exec_andif(t_shell *shell, t_andif *andif_node);
-int 	ft_exec_or(t_shell *shell, t_or *or_node);
-int 	ft_exec_subshell(t_shell *shell, t_op *subshell_node);
-int 	ft_exec_pipeline(t_shell *shell, t_pipe *pipe_node);
-int 	ft_exec_pipe_right(t_shell *shell, t_pipe *pipe_node, int *pipe_fds);
-int 	ft_exec_pipe_left(t_shell *shell, t_pipe *pipe_node, int *pipe_fds);
+int		ft_exec_node(t_shell *shell, void *node);
+int		ft_exec_andif(t_shell *shell, t_andif *andif_node);
+int		ft_exec_or(t_shell *shell, t_or *or_node);
+int		ft_exec_subshell(t_shell *shell, t_op *subshell_node);
+int		ft_exec_pipeline(t_shell *shell, t_pipe *pipe_node);
+int		ft_exec_pipe_right(t_shell *shell, t_pipe *pipe_node, int *pipe_fds);
+int		ft_exec_pipe_left(t_shell *shell, t_pipe *pipe_node, int *pipe_fds);
 
 /*execution of simple command*/
 int		ft_exec_simple_cmd(t_shell *shell, t_exec *exec_node);
@@ -73,7 +73,7 @@ void	ft_err_msg(char *s1, char *s2, char *s3);
 void	ft_free_full_shell(t_shell *shell);
 
 /*BUILTINS*/
-bool 	ft_is_builtin(char *cmd_name);
+bool	ft_is_builtin(char *cmd_name);
 int		ft_exec_builtin(t_shell *shell, t_exec *exec_node);
 
 int		ft_builtin_echo(t_shell *shell, t_exec *exec_node);
@@ -83,7 +83,7 @@ int		ft_builtin_unset(t_shell *shell, t_exec *exec_node);
 int		ft_builtin_pwd(t_shell *shell, t_exec *exec_node);
 int		ft_builtin_env(t_shell *shell, t_exec *exec_node);
 int		ft_builtin_exit(t_shell *shell, t_exec *exec_node);
-int		ft_builtin_exit_parent(t_shell *shell, t_exec *exec_node, int in, int out);
+int		ft_builtin_exit_parent(t_shell *shell, t_exec *exec_node, int in, int out); //long
 int		ft_builtin_exit_child(t_shell *shell, t_exec *exec_node);
 int		ft_get_exit_code(char *exit_arg);
 
@@ -102,22 +102,21 @@ void	ft_print_env_lst(t_list *lst); //for testing
 /*env arr and path list*/
 
 char	**ft_env_arr(t_shell *shell, t_list *envp_list);
-void 	ft_free_str_arr(char **arr, int count);
-int 	ft_arr_size(char **arr);
+void	ft_free_str_arr(char **arr, int count);
+int		ft_arr_size(char **arr);
 
 t_list	*ft_path_list(t_shell *shell);
 int		ft_get_path(t_shell *shell, t_list **path_list, char *path, int i);
 
-
 /*HANDLE HEREDOC*/
-void 	ft_process_heredocs(t_shell *shell, void *node);
+void	ft_process_heredocs(t_shell *shell, void *node);
 void	ft_handle_heredocs(t_shell *shell, t_exec *exec_node);
-char	*ft_generate_heredoc_name(void);
 void	ft_fill_heredoc(t_shell *shell, t_in_out *io_here);
-char 	*ft_hd_line_expansion(char *hd_line);
-void	ft_put_heredoc_line(t_shell *shell, char *hd_line, int fd_hd, bool quoted);
-void	ft_heredoc_unquoted(t_shell *shell, char *hd_line, int fd_hd);
+char	*ft_generate_heredoc_name(void);
+bool	ft_is_delimiter_quoted(char *delimiter);
+bool	ft_is_delimiter(char *delimiter, char *hd_line);
 void	ft_unlink_heredocs(t_list *heredoc_names);
+void	ft_heredoc_unquoted(t_shell *shell, char *hd_line, int hd_fd);
 
 /*move to binary_tree.h*/
 t_list	*get_in_out_files(t_shell *shell, t_list *tkn_lst, t_list **in_out_list);
@@ -134,7 +133,5 @@ void	ft_sigint_siquit_noninteract_handler(int signo);
 
 int		ft_termios_echoctl(bool echo_ctl_chr);
 int		ft_termios_echo(bool echo);
-
-
 
 #endif
