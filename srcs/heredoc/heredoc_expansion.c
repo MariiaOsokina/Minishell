@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_expansion.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 20:00:44 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/09 14:58:14 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/09 19:53:55 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,43 +25,49 @@ char *ft_hd_line_expansion(char *hd_line)
 	return (hd_line);
 }
 
-static bool	ft_is_double_cbraces(char *str)
+static bool	ft_is_valid_substitution(char *str)
 {
-	int i;
-	bool doubled;
+	int i = 0;
 
-	i = 0;
-	doubled = false;
-	if (str[i] == '{') // Handle ${VAR}
+	i += 2; // skip past '${'
+
+	// Empty content inside ${}
+	if (str[i] == '}')
+		return false;
+	// Check if it's a valid variable name or acceptable Bash expression
+	if (ft_isalpha(str[i]) || str[i] == '_')
 	{
-		while(str[i])
-		{
-			if (str[i] == "}")
-				doubled == true;
-			i ++;
-		}
+		i++;
+		while (ft_isalnum(str[i]) || str[i] == '_')
+			i++;
+		// Now allow bash constructs like :-, :=, //, ^^ etc. optionally
+		// e.g. ${VAR:-default}, ${VAR//a/b}
+		while (str[i] && str[i] != '}')
+			i++;
 	}
-	return (doubled);
+	else
+	{
+		// invalid start inside ${}
+		return false;
+	}
+	if (str[i] != '}')
+		return false;
+	return true;
 }
 
 static void	ft_handle_cbraces(char *str, size_t *i, size_t *start, char **var)
 {
-		if (str[*(i)] == '{') // Handle ${VAR}
-		{
-			if (ft_is_double_cbraces(str) == false)
-			{
-				ft_err_msg("should be hd_line", "bad substitution", NULL);
-			}
-			*(i)++; // skip '{'
-			*start = *i;
-			while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
-				*i++;
-			if (str[*i] != '}') // invalid syntax, skip
-				return (0);
-			*var = ft_substr(str, start, *i - *start);
-			*(i)++; // skip '}'	
-		}
+
+		*i += 2; // skip '${'
+		*start = *i;
+		while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
+			(*i)++;
+		*var = ft_substr(str, *start, *i - *start);
+		if (str[*i] == '}')
+			(*i)++; // skip '}'
+	}
 }
+
 
 static int	ft_heredoc_env_expand(t_shell *shell, char *str, size_t i, int fd)
 {
@@ -69,17 +75,28 @@ static int	ft_heredoc_env_expand(t_shell *shell, char *str, size_t i, int fd)
 	t_env	*tmp_env;
 	char	*var;
 
+	if (str[i] == '$' && str[i + 1] == '{')
+	{
+		if (!ft_is_valid_substitution(str + *i))
+		{
+			if (!ft_is_valid_substitution(str + *i))
+			{
+				ft_err_msg("should be hd_line", "bad substitution", NULL);
+				return ;
+			}
+		}
+
 	i += 1;
 	start = i;
 	var = NULL;
 	ft_handle_cbraces(str, &i, &start, &var);
-	if (str[i] == '?')
-		return (ft_putnbr_fd(shell->exit_code, fd), 2);
 	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
 		i++;
 	if (i != start)
 		var = ft_substr(str, start, i -start);
-	if (var)
+	if (ft_strcmp(var, "?"))
+		ft_putnbr_fd(shell->exit_code, fd);
+	else if (var)
 	{
 		tmp_env = ft_get_env_node(*shell, var);
 		free(var);
