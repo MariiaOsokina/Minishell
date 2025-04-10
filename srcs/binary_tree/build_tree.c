@@ -29,7 +29,7 @@ void	*create_exec(t_shell *shell, t_list *token_lst)
 				"grep") == 0)
 			node->av = get_colors(shell, node->av);
 	}
-	printf("created exec.\n");
+	// printf("created exec.\n");
 	return (node);
 }
 

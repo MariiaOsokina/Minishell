@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:13:35 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/09 12:18:39 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:00:27 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_update_shlvl(t_shell shell)
 			n_val = ft_itoa(value);
 			free(((t_env *)tmp->content)->value);
 			((t_env *)tmp->content)->value = n_val;
-			printf("new shvlv %s\n", ((t_env *)tmp->content)->value);
+			// printf("new shvlv %s\n", ((t_env *)tmp->content)->value);
 			break ;
 		}
 		tmp = tmp->next;

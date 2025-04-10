@@ -45,8 +45,8 @@ void	terminal(t_shell *shell)
 			shell->exit_code = 130;
 		if (!shell->input)// Note: CTRL+D (EOF) case
 		{
-			ft_putstr_fd("exit\n", STDERR_FILENO);
-			printf("test ctrl +D\n");
+			// ft_putstr_fd("exit\n", STDERR_FILENO);
+			// printf("test ctrl +D\n");
 			ft_free_full_shell(shell);//panic
 			exit(shell->exit_code);
 		}

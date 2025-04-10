@@ -2,12 +2,12 @@
 
 int	check_token(t_list *node)
 {
-	printf("Got here-4.5\n");
+	// printf("Got here-4.5\n");
 	if (node == NULL)
 		return (false);
 	else
 	{
-		printf("%s\n", ((t_token *)node->content)->value);
+		// printf("%s\n", ((t_token *)node->content)->value);
 		return (node && (((t_token *)node->content)->type != AND_IF
 				&& ((t_token *)node->content)->type != OR));
 	}
@@ -33,7 +33,7 @@ void	*ltree_print(void *root, int space)
 	else if (node->type == N_OR)
 	{
 		ltree_print(((t_or *)root)->right, space);
-		printf("%*s -> [||]\n", space, "");
+		// printf("%*s -> [||]\n", space, "");
 		ltree_print(((t_or *)root)->left, space);
 	}
 	else if (node->type == N_PIPE)

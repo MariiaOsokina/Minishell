@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 01:01:22 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/09 12:18:15 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/10 23:52:23 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,19 @@
 /* MACROS WEXITSTATUS shifts to bits to right place,  
 as child exit status is stored in the higher bits.
 */
+
+// int	ft_get_exit_status(int status)
+// {
+// 	if (WIFSIGNALED(status))
+// 	{
+// 		if (WTERMSIG(status) == SIGINT)
+// 			kill(getppid(), SIGUSR1);
+// 		if (WTERMSIG(status) == SIGQUIT)
+// 			kill(getppid(), SIGUSR2);
+// 		return (128 + WTERMSIG(status));
+// 	}
+// 	return (WEXITSTATUS(status));
+// }
 
 int	ft_get_exit_status(int status)
 {

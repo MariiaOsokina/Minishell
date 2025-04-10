@@ -6,11 +6,14 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 23:40:26 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/03 12:58:36 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:33:01 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	ft_sigint_interact_handler(int signo);
+static void	ft_sigint_heredoc_handler(int signo);
 
 void	ft_signals_interactive(void)
 {
@@ -27,7 +30,7 @@ void	ft_signals_heredoc(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	ft_sigint_interact_handler(int signo)
+static void	ft_sigint_interact_handler(int signo)
 {
 	if (signo == SIGINT)
 	{
@@ -39,7 +42,7 @@ void	ft_sigint_interact_handler(int signo)
 	}
 }
 
-void	ft_sigint_heredoc_handler(int signo)
+static void	ft_sigint_heredoc_handler(int signo)
 {
 	if (signo == SIGINT)
 	{

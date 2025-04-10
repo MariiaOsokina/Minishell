@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:43:58 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/08 14:02:35 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:49:17 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,13 @@ static void	ft_exit_panic(t_shell *shell, int in, int out)
 	return ;
 }
 
-int	ft_builtin_exit_parent(t_shell *shell, t_exec *exec_node, int in, int out)
+int	ft_exit_parent(t_shell *sh, t_exec *exec_node, int in, int out)
 {
-	int	exit_code;
+	int	exit_code;	
 
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (!exec_node->av[1])
-		exit_code = shell->exit_code;
+		exit_code = sh->exit_code;
 	else
 	{
 		exit_code = ft_get_exit_code(exec_node->av[1]);
@@ -89,21 +89,21 @@ int	ft_builtin_exit_parent(t_shell *shell, t_exec *exec_node, int in, int out)
 		{
 			ft_err_msg("exit", exec_node->av[1], "numeric argument required");
 			exit_code = 2;
-			ft_exit_panic(shell, in, out);
+			ft_exit_panic(sh, in, out);
 			exit(exit_code);
 		}
 		if (exec_node->av[2])
 		{
 			ft_err_msg("exit", exec_node->av[2], "too many arguments");
-			shell->exit_code = ENO_GENERAL;
-			return (shell->exit_code);
+			sh->exit_code = ENO_GENERAL;
+			return (sh->exit_code);
 		}
 	}
-	ft_exit_panic(shell, in, out);
+	ft_exit_panic(sh, in, out);
 	exit (exit_code);
 }
 
-int	ft_builtin_exit_child(t_shell *shell, t_exec *exec_node)
+int	ft_exit_child(t_shell *shell, t_exec *exec_node)
 {
 	int	exit_code;
 
@@ -122,7 +122,7 @@ int	ft_builtin_exit_child(t_shell *shell, t_exec *exec_node)
 		{
 			ft_err_msg("exit", exec_node->av[2], "too many arguments");
 			shell->exit_code = ENO_GENERAL;
-			printf("exit status %d\n", shell->exit_code);
+			// printf("exit status %d\n", shell->exit_code);
 			return (shell->exit_code);
 		}
 	}

@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   signals_noninteractive.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 23:41:16 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/09 12:02:18 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:33:53 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	ft_sigint_siquit_noninteract_handler(int signo)
+{
+	if (signo == SIGINT)
+		g_signum = signo;
+	if (signo == SIGQUIT)
+		g_signum = signo;
+}
 
 void	ft_signals_noninteractive(void)
 {
@@ -18,12 +26,4 @@ void	ft_signals_noninteractive(void)
 	ft_termios_echoctl(false);
 	signal(SIGINT, ft_sigint_siquit_noninteract_handler);
 	signal(SIGQUIT, ft_sigint_siquit_noninteract_handler);
-}
-
-void	ft_sigint_siquit_noninteract_handler(int signo)
-{
-	if (signo == SIGINT)
-		g_signum = signo;
-	if (signo == SIGQUIT)
-		g_signum = signo;
 }
