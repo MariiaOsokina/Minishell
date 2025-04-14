@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_external_cmd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:44:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/09 11:50:45 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/13 22:48:50 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,65 +27,112 @@
 or 128+n if the command was terminated by signal n.
 - handle signals*/
 
-/*TO BE SOLVED
-- add panic()
-- 	//should be OK. check (1)empty "PATH=" in env - if unset PATH??? (2) empty cmd name/cmd?
-*/
+static void	ft_exec_with_path(t_shell *shell, t_exec *exec_node)
+{
+	char	*cmd_path;
+	int		tmp_status;
+	
+	cmd_path = exec_node->command;
+	tmp_status = ft_check_access(cmd_path);
+	if (tmp_status != ENO_SUCCESS)
+		ft_exit_with_full_cleanup(shell, tmp_status);
+	else if (execve(cmd_path, exec_node->av, shell->envp_arr) == -1)
+		ft_exit_with_full_cleanup(shell, ENO_GENERAL);
+}
+
+static void	ft_exec_from_env(t_shell *shell, t_exec *exec_node)
+{
+	char		*cmd_path;
+	t_err_no	err_no;
+
+	cmd_path = ft_get_env_path(*shell, exec_node->command, &err_no);
+	if (err_no != ENO_SUCCESS)
+		ft_exit_with_full_cleanup(shell, err_no);
+	else if (execve(cmd_path, exec_node->av, shell->envp_arr) == -1)
+	{
+		free(cmd_path);
+		ft_exit_with_full_cleanup(shell, ENO_GENERAL);
+	}
+}
 
 int	ft_exec_external_cmd(t_shell *shell, t_exec *exec_node)
 {
-	char    *cmd_path;
     int		tmp_status;
 	int		fork_pid;
-	t_err_no	err_no;
 
 	tmp_status = 0;
 	fork_pid = fork();
 	// to add error fork ...
     if (fork_pid == 0)
     {
-		tmp_status = ft_redirections(exec_node);
+		tmp_status = ft_redirections(shell, exec_node);
 		if (tmp_status != ENO_SUCCESS)
-		{
-			ft_free_full_shell(shell);//panic
-			exit(tmp_status); // from child proccess
-		}
-		if (ft_strnstr(exec_node->command, "/", ft_strlen(exec_node->command))) //execute with rel abs path
-		{
-			cmd_path = exec_node->command;
-			tmp_status = ft_check_access(cmd_path);
-			if (tmp_status != ENO_SUCCESS)
-			{
-				ft_free_full_shell(shell);
-				exit(tmp_status); // from child proccess
-			}
-			else if (execve(cmd_path, exec_node->av, shell->envp_arr) == - 1) //all signals in execve reset to SIG_DEF!!!!
-			{
-				ft_free_full_shell(shell);
-				exit(ENO_GENERAL); // from child process;
-			}
-		}
-		else //exec no path
-		{
-			cmd_path = ft_get_env_path(*shell, exec_node->command, &err_no); // err_no as ptr for saving its value
-			if (err_no != ENO_SUCCESS) //??change err_no to tmp status
-			{
-				ft_free_full_shell(shell);
-				exit(err_no); // from child proccess
-			}
-			else if (execve(cmd_path, exec_node->av, (*shell).envp_arr) == - 1)
-			{
-				free(cmd_path);
-				ft_free_full_shell(shell);
-				exit(ENO_GENERAL); // from child process;
-			}
-		}
+			ft_exit_with_full_cleanup(shell, tmp_status);
+		if (ft_strnstr(exec_node->command, "/", ft_strlen(exec_node->command)))
+			ft_exec_with_path(shell, exec_node);
+		else
+			ft_exec_from_env(shell, exec_node);
     }
     waitpid(fork_pid, &tmp_status, 0);
 	return (ft_get_exit_status(tmp_status));
 }
 
-int	ft_check_access(char *cmd_path) // check the permission to the file, print the error msg and return the error number
+// int	ft_exec_external_cmd(t_shell *shell, t_exec *exec_node)
+// {
+// 	char    *cmd_path;
+//     int		tmp_status;
+// 	int		fork_pid;
+// 	t_err_no	err_no;
+
+// 	tmp_status = 0;
+// 	fork_pid = fork();
+// 	// to add error fork ...
+//     if (fork_pid == 0)
+//     {
+// 		tmp_status = ft_redirections(exec_node);
+// 		if (tmp_status != ENO_SUCCESS)
+// 		{
+// 			ft_free_full_shell(shell);//panic
+// 			exit(tmp_status); // from child proccess
+// 		}
+// 		if (ft_strnstr(exec_node->command, "/", ft_strlen(exec_node->command))) //execute with rel abs path
+// 		{
+// 			cmd_path = exec_node->command;
+// 			tmp_status = ft_check_access(cmd_path);
+// 			if (tmp_status != ENO_SUCCESS)
+// 			{
+// 				ft_free_full_shell(shell);
+// 				exit(tmp_status); // from child proccess
+// 			}
+// 			else if (execve(cmd_path, exec_node->av, shell->envp_arr) == - 1) //all signals in execve reset to SIG_DEF!!!!
+// 			{
+// 				ft_free_full_shell(shell);
+// 				exit(ENO_GENERAL); // from child process;
+// 			}
+// 		}
+// 		else //exec no path
+// 		{
+// 			cmd_path = ft_get_env_path(*shell, exec_node->command, &err_no); // err_no as ptr for saving its value
+// 			if (err_no != ENO_SUCCESS) //??change err_no to tmp status
+// 			{
+// 				ft_free_full_shell(shell);
+// 				exit(err_no); // from child proccess
+// 			}
+// 			else if (execve(cmd_path, exec_node->av, (*shell).envp_arr) == - 1)
+// 			{
+// 				free(cmd_path);
+// 				ft_free_full_shell(shell);
+// 				exit(ENO_GENERAL); // from child process;
+// 			}
+// 		}
+//     }
+//     waitpid(fork_pid, &tmp_status, 0);
+// 	return (ft_get_exit_status(tmp_status));
+// }
+
+/* check the permission to the file, print the error msg and return the error number*/
+
+int	ft_check_access(char *cmd_path) 
 {	
 	if (access(cmd_path, F_OK) != 0)
 	{
@@ -99,7 +146,7 @@ int	ft_check_access(char *cmd_path) // check the permission to the file, print t
 	}			
 	else if (access(cmd_path, X_OK) != 0)// no execution rights
 	{
-		ft_err_msg(cmd_path, "Permission denied\n", NULL); //??check: strerror(errno) instead "Permition denied"
+		ft_err_msg(cmd_path, "Permission denied\n", NULL);
 		return (ENO_CANT_EXEC);
 	}
 	return (ENO_SUCCESS);

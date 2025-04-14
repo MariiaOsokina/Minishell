@@ -45,10 +45,8 @@ void	terminal(t_shell *shell)
 			shell->exit_code = 130;
 		if (!shell->input)// Note: CTRL+D (EOF) case
 		{
-			// ft_putstr_fd("exit\n", STDERR_FILENO);
-			// printf("test ctrl +D\n");
-			ft_free_full_shell(shell);//panic
-			exit(shell->exit_code);
+			ft_putstr_fd("exit\n", STDERR_FILENO);
+			ft_exit_with_full_cleanup(shell, shell->exit_code);
 		}
 		add_history(shell->input);
 		if (input_validation(shell) == false|| !shell->input[0]) //MO: Made changes by ADEWALE plus my changes to confirm

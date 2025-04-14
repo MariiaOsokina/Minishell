@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/09 11:39:37 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/13 23:03:22 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ $echo $?
 1
 */
 
-int	ft_redirections(t_exec *exec_node)
+int	ft_redirections(t_shell *shell, t_exec *exec_node)
 {
 	t_list		*tmp_io_list;
 	int			tmp_status;
@@ -85,9 +85,9 @@ int	ft_redirections(t_exec *exec_node)
 	{
 		in_out_node = (t_in_out *)tmp_io_list->content;
 		if (in_out_node->type == INF || in_out_node->type == HERE)
-			tmp_status = ft_redir_inf(in_out_node);
+			tmp_status = ft_redir_inf(shell, in_out_node);
 		else if (in_out_node->type == ADD || in_out_node->type == APP)
-			tmp_status = ft_redir_outf(in_out_node);
+			tmp_status = ft_redir_outf(shell, in_out_node);
 		if (tmp_status != ENO_SUCCESS)
 			return (tmp_status);
 		tmp_io_list = tmp_io_list->next;
@@ -95,21 +95,31 @@ int	ft_redirections(t_exec *exec_node)
 	return (tmp_status);
 }
 
-int	ft_redir_inf(t_in_out	*in_out_node)
+int	ft_redir_inf(t_shell *shell, t_in_out	*in_out_node)
 {
 	int		fd;
 	char	*file;
 
+	if (in_out_node->type != HERE)
+	{
+	// if (ft_expand_redir_name(shell, in_out_node) != ENO_SUCCESS)
+	// 	return (ENO_GENERAL);
+		ft_expand_redir_name(shell, in_out_node);
+	}
+	ft_putendl_fd(in_out_node->name, STDERR_FILENO); //for testing
 	// if (!in_out_node->expanded_name || in_out_node->expanded_name[1])
 	// {
 	// 	ft_err_msg (in_out_node->name, "ambiguous redirect", NULL); // for ex, < * $VAR = ""
 	// 	return (ENO_GENERAL);
 	// }
 	// file = in_out_node->expanded_name[0];
+	//if (expNSION != sUSSES)
+	// RETURN(ENO_GENERAL)
 	file = in_out_node->name;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
+		ft_putendl_fd("test open", STDERR_FILENO);
 		ft_err_msg(file, strerror(errno), NULL);
 		return (ENO_GENERAL);
 	}
@@ -118,11 +128,13 @@ int	ft_redir_inf(t_in_out	*in_out_node)
 	return (ENO_SUCCESS);
 }
 
-int	ft_redir_outf(t_in_out *in_out_node)
+int	ft_redir_outf(t_shell *shell, t_in_out *in_out_node)
 {
 	int		fd;
 	char	*file;
 
+	if (ft_expand_redir_name(shell, in_out_node) != ENO_SUCCESS)
+	return (ENO_GENERAL);
 	// if (!in_out_node->expanded_name || in_out_node->expanded_name[1])
 	// {
 	// 	ft_err_msg (in_out_node->name, "ambiguous redirect", NULL); // for ex, < * $VAR = ""

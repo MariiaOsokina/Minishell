@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/09 11:33:01 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/14 20:19:58 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,7 @@ int	ft_exec_subshell(t_shell *shell, t_op *subshell_node)
 	{
 		shell->in_child = true;
 		tmp_status = ft_exec_node(shell, subshell_node->left);
-		ft_free_full_shell(shell);
-		exit(tmp_status);
+		ft_exit_with_full_cleanup(shell, tmp_status);
 	}
 	else
 	{

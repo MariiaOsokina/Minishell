@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/10 18:44:41 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/14 19:48:28 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 #include <sys/ioctl.h> //for iostl function
 /*May require a pointer to cwd and old working dir*/
 #include <termios.h>
+#include <dirent.h>  // opendir, readdir, closedir
 
 # define HEREDOC_NAME "/tmp/.minishell_heredoc_"
 # define MAX_SIZE_HEREDOC 1024
@@ -51,8 +52,8 @@ int		ft_exec_andif(t_shell *shell, t_andif *andif_node);
 int		ft_exec_or(t_shell *shell, t_or *or_node);
 int		ft_exec_subshell(t_shell *shell, t_op *subshell_node);
 int		ft_exec_pipeline(t_shell *shell, t_pipe *pipe_node);
-int		ft_exec_pipe_right(t_shell *shell, t_pipe *pipe_node, int *pipe_fds);
-int		ft_exec_pipe_left(t_shell *shell, t_pipe *pipe_node, int *pipe_fds);
+void	ft_exec_pipe_right(t_shell *shell, t_pipe *pipe_node, int *pipe_fds);
+void	ft_exec_pipe_left(t_shell *shell, t_pipe *pipe_node, int *pipe_fds);
 
 /*execution of simple command*/
 int		ft_exec_simple_cmd(t_shell *shell, t_exec *exec_node);
@@ -65,14 +66,16 @@ int		ft_exec_no_cmd(t_shell *shell, t_exec *exec_node);
 int		ft_exec_builtins_start(t_shell *shell, t_exec *exec_node);
 
 /*redirections*/
-int		ft_redirections(t_exec *exec_node);
-int		ft_redir_inf(t_in_out	*in_out_node);
-int		ft_redir_outf(t_in_out	*in_out_node);
+int		ft_redirections(t_shell *shell, t_exec *exec_node);
+int		ft_redir_inf(t_shell *shell, t_in_out	*in_out_node);
+int		ft_redir_outf(t_shell *shell, t_in_out	*in_out_node);
 
 /*exec utils*/
 int		ft_get_exit_status(int status);
 void	ft_err_msg(char *s1, char *s2, char *s3);
 void	ft_free_full_shell(t_shell *shell);
+void	ft_exit_with_full_cleanup(t_shell *shell, int status);
+
 
 /*BUILTINS*/
 bool	ft_is_builtin(char *cmd_name);
@@ -119,6 +122,17 @@ bool	ft_is_delimiter_quoted(char *delimiter);
 bool	ft_is_delimiter(char *delimiter, char *hd_line);
 void	ft_unlink_heredocs(t_list *heredoc_names);
 void	ft_heredoc_unquoted(t_shell *shell, char *hd_line, int hd_fd);
+
+/*EXPANSION*/
+
+void	ft_expand_args(t_shell *shell, t_exec *exec_node);
+int		ft_expand_redir_name(t_shell *shell, t_in_out *io_node);
+char	*ft_var_expansion(t_shell *shell, char *word);
+char 	**ft_replace_args(char **old_args, char **new_items, int index);
+char 	**ft_get_filenames_arr(const char *pattern);
+bool	ft_scan_for_asterisk(char *word);
+
+char	*ft_quote_removal(const char *word);
 
 /*move to utils.h*/
 

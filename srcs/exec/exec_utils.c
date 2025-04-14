@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 01:01:22 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/10 23:52:23 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/11 00:36:29 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,10 @@ void	ft_free_full_shell(t_shell *shell)
 		// ft_free_env_lst(&(shell)->envp);
 		ft_lstclear(&shell->envp, ft_free_env_node);
 	free_shell(shell);
+}
+
+void	ft_exit_with_full_cleanup(t_shell *shell, int status)
+{
+	ft_free_full_shell(shell);
+	exit(status);
 }
