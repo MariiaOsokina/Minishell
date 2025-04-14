@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:03:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/10 18:44:41 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/14 23:25:16 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,21 @@
 /*TO BE SOLVED
 - panic()*/
 
+static void ft_print_str_arr(char **arr)
+{
+	if (!arr)
+	{
+		printf("(null array)\n");
+		return;
+	}
+
+	for (int i = 0; arr[i] != NULL; i++)
+	{
+		printf("[%d] %s\n", i, arr[i]);
+	}
+}
+
+
 static void	ft_reset_stdio(int tmp_stdin, int tmp_stdout);
 
 int	ft_exec_simple_cmd(t_shell *shell, t_exec *exec_node)
@@ -34,6 +49,9 @@ int	ft_exec_simple_cmd(t_shell *shell, t_exec *exec_node)
 	int	tmp_status;
 
 	tmp_status = ENO_SUCCESS;
+	ft_print_str_arr(exec_node->av);
+
+	ft_expand_args(shell, exec_node);
 	if (exec_node->command == NULL)
 		tmp_status = ft_exec_no_cmd(shell, exec_node);
 	else if (ft_is_builtin(exec_node->command))
@@ -53,7 +71,7 @@ int	ft_exec_no_cmd(t_shell *shell, t_exec *exec_node)
 	tmp_stdin = dup(STDIN_FILENO);
 	tmp_stdout = dup(STDOUT_FILENO);
 	tmp_status = ENO_SUCCESS;
-	tmp_status = ft_redirections(exec_node);
+	tmp_status = ft_redirections(shell, exec_node);
 	//reset
 	ft_reset_stdio(tmp_stdin, tmp_stdout);
 	return (tmp_status);
@@ -67,7 +85,7 @@ int	ft_exec_builtins_start(t_shell *shell, t_exec *exec_node)
 
 	tmp_stdin = dup(STDIN_FILENO);
 	tmp_stdout = dup(STDOUT_FILENO);
-	tmp_status = ft_redirections(exec_node);
+	tmp_status = ft_redirections(shell, exec_node);
 	if (tmp_status != ENO_SUCCESS)
 	{
 		ft_reset_stdio(tmp_stdin, tmp_stdout);

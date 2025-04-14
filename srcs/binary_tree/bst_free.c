@@ -53,8 +53,9 @@ void	free_exec(t_exec *node) //MO: added
 {
 	if (node)
 	{
-		if (node->av)
-			free(node->av);
+		ft_free_str_arr(node->av, ft_arr_size(node->av));  //MO: added
+		// if (node->av)
+		// 	free(node->av);
 		if (node->in_out_list)
 			ft_lstclear(&node->in_out_list, free_int_out_list);
 		free(node->in_out_list);
