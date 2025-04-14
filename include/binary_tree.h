@@ -97,20 +97,25 @@ typedef struct s_ast
 }					t_ast;
 
 /*New AST functions*/
-void				print_i_ofiles(t_list *in_ofiles,
-						int space);
-void free_ast_node(void *node);
+void				print_i_ofiles(t_list *in_ofiles, int space);
+void				free_ast_node(void *node);
 int					is_operator(t_list *token);
-char				**collect_args(t_list **curr);
-char				**populate_args(t_list **curr, char **args);
+// char				**collect_args(t_list **curr);
+char				**collect_args(char **argv, t_list **curr);
+// char				**populate_args(t_list **curr, char **args);
+char				**populate_args(t_list **curr, char **args, int i);
 t_list				*next_token(t_list **current);
 int					is_redirection(t_list *token);
 void				past_parenthesis(t_list **curr);
-void				*parse_factor(t_shell *shell, t_list **curr, bool in_subshell);
-void				*parse_term(t_shell *shell, t_list **curr, bool in_subshell);
+void				*parse_factor(t_shell *shell, t_list **curr,
+						bool in_subshell);
+void				*parse_term(t_shell *shell, t_list **curr,
+						bool in_subshell);
 void				*build_ast(t_shell *shell);
-void				*create_exec_node(t_shell *shell, t_list **curr);
-void				*parse_expression(t_shell *shell, t_list **curr, bool in_subshell);
+void *create_exec_node(t_shell *shell, t_list **curr);
+void NewFunction(t_exec *node, t_list **curr);
+void				*parse_expression(t_shell *shell, t_list **curr,
+						bool in_subshell);
 void				collect_io(t_shell *shell, t_list **curr,
 						t_list **i_ofiles);
 

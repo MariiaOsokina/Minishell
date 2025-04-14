@@ -1,10 +1,13 @@
 #include "minishell.h"
 
-char	**populate_args(t_list **curr, char **args)
+char	**populate_args(t_list **curr, char **args, int i)
 {
 	int	count;
 
-	count = 0;
+	if (i > 0)
+		count = i;
+	else
+		count = 0;
 	while ((*curr) && ((t_token *)(*curr)->content)->type == WORD)
 	{
 		args[count] = ft_strdup(((t_token *)(*curr)->content)->value);
@@ -35,7 +38,7 @@ void	free_ast_node(void *node)
 
 bool	is_valid_fd(t_list *curr)
 {
-	int	i;
+	int		i;
 	t_token	*token;
 	t_token	*next_token;
 
@@ -55,13 +58,42 @@ bool	is_valid_fd(t_list *curr)
 		&& ft_atoi(token->value) <= 9)
 	{
 		if (next_token->type == INFILE || next_token->type == OUTFILE
-				|| next_token->type == APPEND || next_token->type == HEREDOC)
-				return (true);
+			|| next_token->type == APPEND || next_token->type == HEREDOC)
+			return (true);
 	}
 	return (false);
 }
 
-char	**collect_args(t_list **curr)
+int	get_av_len(char **av)
+{
+	int	i;
+
+	i = 0;
+	while (av[i])
+		i++;
+	return (i);
+}
+
+char	**copy_and_populate(char **av, t_list **curr, char **args)
+{
+	int		i;
+	char	**copied_args;
+
+	i = 0;
+	while (av[i])
+	{
+		args[i] = ft_strdup(av[i]);
+		i++;
+	}
+	copied_args = populate_args(curr, args, i);
+	i = -1;
+	while (av[++i])
+		free(av[i]);
+	free(av);
+	return (copied_args);
+}
+
+char	**collect_args(char **argv, t_list **curr)
 {
 	char	**args;
 	int		count;
@@ -76,10 +108,16 @@ char	**collect_args(t_list **curr)
 	}
 	if (count == 0)
 		return (NULL);
-	args = malloc(sizeof(char *) * (count + 1));
+	if (argv)
+		args = malloc(sizeof(char *) * (count + get_av_len(argv) + 1));
+	else
+		args = malloc(sizeof(char *) * (count + 1));
 	if (!args)
 		return (NULL);
-	args = populate_args(curr, args);
+	if (argv)
+		args = copy_and_populate(argv, curr, args);
+	else
+		args = populate_args(curr, args, 0);
 	return (args);
 }
 
@@ -130,7 +168,7 @@ void	collect_io(t_shell *shell, t_list **curr, t_list **i_ofiles)
 
 	if (*curr && is_redirection(*curr))
 	{
-		while (*curr && !is_operator(*curr) )
+		while (*curr && !is_operator(*curr))
 		{
 			if (is_valid_fd(*curr))
 			{
@@ -145,7 +183,8 @@ void	collect_io(t_shell *shell, t_list **curr, t_list **i_ofiles)
 				ft_lstadd_back(i_ofiles, ft_lstnew(content));
 				if (!((*curr) = ((*curr)->next)->next))
 					break ;
-				printf("The value of curr in collect_io %s\n", ((t_token *)(*curr)->content)->value);
+				printf("The value of curr in collect_io %s\n",
+					((t_token *)(*curr)->content)->value);
 			}
 			else
 				break ;
@@ -165,27 +204,29 @@ void	*create_exec_node(t_shell *shell, t_list **curr)
 		exit_failure(shell, "create_exec");
 	node->type.type = N_EXEC;
 	node->i_ofiles = NULL;
-	node->av = collect_args(curr);
+	node->av = collect_args(node->av, curr);
 	collect_io(shell, curr, &node->i_ofiles);
-	if (node->i_ofiles)
-	{
-		if (((t_token *)(*curr)->content)->type == WORD)
-		{
-			node->command = ft_strdup(((t_token *)(*curr)->content)->value);
-			// next_token(curr);
-			node->av = collect_args(curr); // Was not here initially
-			if (is_redirection(*curr))
-				collect_io(shell, curr, &node->i_ofiles);
-		}
-	}
-	// Needs to be freed.
-	if (node->av)
+	if (node->av) // Was second
 	{
 		node->command = ft_strdup(node->av[0]); // Needs to be freed;
 		if (ft_strcmp(node->av[0], "ls") == 0 || ft_strcmp(node->av[0],
 				"grep") == 0)
 			node->av = get_colors(shell, node->av);
 	}
+	if (node->i_ofiles) // was first
+	{
+		while ((*curr) && ((t_token *)(*curr)->content)->type == WORD
+			&& !is_operator(*curr))
+		{
+			// node->command = ft_strdup(((t_token *)(*curr)->content)->value);
+			// next_token(curr);
+			node->av = collect_args(node->av, curr); // Was not here initially
+			node->command = ft_strdup(node->av[0]);
+			if (is_redirection(*curr))
+				collect_io(shell, curr, &node->i_ofiles);
+		}
+	}
+	// Needs to be freed.
 	printf("created exec\n");
 	return (node);
 }

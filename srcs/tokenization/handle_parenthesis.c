@@ -85,7 +85,7 @@ int	handle_opening(t_shell *shell, char *input, int i, bool valid)
 int	handle_parenthesis(t_shell *shell, char *input, int i)
 {
 	int			start;
-	char		*subs;
+	// char		*subs;
 	static bool	valid = true;//was false
 
 	if (input[i] == ')')
@@ -96,9 +96,9 @@ int	handle_parenthesis(t_shell *shell, char *input, int i)
 	}
 	start = i;
 	i = check_balance(input, i);
-	subs = ft_substr(&input[start + 1], 0, i - start - 1);
+	// subs = ft_substr(&input[start + 1], 0, i - start - 1);
 	// valid = validate_subs(subs);'
-	free(subs);
+	// free(subs);
 	i = handle_opening(shell, input, start, valid);
 	if (i != -1)
 		return (i);
