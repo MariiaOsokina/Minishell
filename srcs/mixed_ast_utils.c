@@ -33,6 +33,34 @@ void	free_ast_node(void *node)
 	free(node);
 }
 
+bool	is_valid_fd(t_list *curr)
+{
+	int	i;
+	t_token	*token;
+	t_token	*next_token;
+
+	if (!curr || !curr->next)
+		return (false);
+	token = (t_token *)curr->content;
+	next_token = (t_token *)curr->next->content;
+	if (!token || !next_token)
+		return (false);
+	i = -1;
+	while (token->value[++i])
+	{
+		if (!ft_isdigit(token->value[i]))
+			return (false);
+	}
+	if (token->type == WORD && ft_atoi(token->value) >= 0
+		&& ft_atoi(token->value) <= 9)
+	{
+		if (next_token->type == INFILE || next_token->type == OUTFILE
+				|| next_token->type == APPEND || next_token->type == HEREDOC)
+				return (true);
+	}
+	return (false);
+}
+
 char	**collect_args(t_list **curr)
 {
 	char	**args;
@@ -102,11 +130,9 @@ void	collect_io(t_shell *shell, t_list **curr, t_list **i_ofiles)
 
 	if (*curr && is_redirection(*curr))
 	{
-		while (*curr && !is_operator(*curr) && (is_redirection(*curr)
-				|| ft_atoi(((t_token *)(*curr)->content)->value) <= 2))
+		while (*curr && !is_operator(*curr) )
 		{
-			if (((t_token *)(*curr)->content)->type == WORD
-				&& is_redirection((*curr)->next))
+			if (is_valid_fd(*curr))
 			{
 				content = make_content(shell, curr);
 				ft_lstadd_back(i_ofiles, ft_lstnew(content));
@@ -119,6 +145,7 @@ void	collect_io(t_shell *shell, t_list **curr, t_list **i_ofiles)
 				ft_lstadd_back(i_ofiles, ft_lstnew(content));
 				if (!((*curr) = ((*curr)->next)->next))
 					break ;
+				printf("The value of curr in collect_io %s\n", ((t_token *)(*curr)->content)->value);
 			}
 			else
 				break ;
@@ -142,8 +169,14 @@ void	*create_exec_node(t_shell *shell, t_list **curr)
 	collect_io(shell, curr, &node->i_ofiles);
 	if (node->i_ofiles)
 	{
-		if (*curr)
+		if (((t_token *)(*curr)->content)->type == WORD)
+		{
 			node->command = ft_strdup(((t_token *)(*curr)->content)->value);
+			// next_token(curr);
+			node->av = collect_args(curr); // Was not here initially
+			if (is_redirection(*curr))
+				collect_io(shell, curr, &node->i_ofiles);
+		}
 	}
 	// Needs to be freed.
 	if (node->av)
