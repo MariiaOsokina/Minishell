@@ -13,7 +13,7 @@ void	terminal(t_shell *shell, char **envp)
 		handle_signals();
 		shell_input(shell);
 		shell->input = readline(shell->cwd);
-		if (input_validation(shell) && !shell->input[0])
+		if (input_validation(shell) && shell->input)
 		{
 			free_shell(shell);
 			continue ;
@@ -26,8 +26,6 @@ void	terminal(t_shell *shell, char **envp)
 		print_token_lst(shell->token_lst); // Printing token list
 		shell->envp_arr = env_arr(shell);
 		shell->path = path_list(shell, envp);
-		// print_env_arr(shell); // Print array of env.
-		// shell->root = build_ltree(shell, shell->token_lst);
 		shell->root = build_ast(shell);
 		print_bst(shell->root, 5);
 		// Build and execute the cmd tree

@@ -12,17 +12,19 @@ bool	input_validation(t_shell *shell)
 	shell->trimmed_input = ft_strtrim(shell->input, "\t ");
 	if (!shell->trimmed_input)
 		exit_failure(shell, "input_validation");
+	if (shell->trimmed_input[0] == '\0')
+		return (true); //new line
 	if (!check_pipes(shell->trimmed_input))
-		return (syntax_error_msg(PIPE_ERROR), exit_code(2), false);
+		return (syntax_error_msg(PIPE_ERROR), exit_code(2));
 	if (!check_quotes(shell->trimmed_input))
-		return (syntax_error_msg(OPEN_QUOTE), exit_code(2), false);
+		return (syntax_error_msg(OPEN_QUOTE), exit_code(2));
 	if (!check_redirections(shell->trimmed_input))
-		return (exit_code(2), false);
+		return (exit_code(2));
 	if (!check_parenthesis(shell->trimmed_input))
-		return (exit_code(2), false);
+		return (exit_code(2));
 	if (!check_line_len(shell->trimmed_input))
-		return (exit_code(2), false);
-	return (true);
+		return (exit_code(2));
+	return (false);
 }
 
 /*

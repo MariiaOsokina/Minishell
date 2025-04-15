@@ -218,15 +218,11 @@ void	*create_exec_node(t_shell *shell, t_list **curr)
 		while ((*curr) && ((t_token *)(*curr)->content)->type == WORD
 			&& !is_operator(*curr))
 		{
-			// node->command = ft_strdup(((t_token *)(*curr)->content)->value);
-			// next_token(curr);
 			node->av = collect_args(node->av, curr); // Was not here initially
 			node->command = ft_strdup(node->av[0]);
 			if (is_redirection(*curr))
 				collect_io(shell, curr, &node->i_ofiles);
 		}
 	}
-	// Needs to be freed.
-	printf("created exec\n");
 	return (node);
 }

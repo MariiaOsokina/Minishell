@@ -23,24 +23,28 @@ void	balance_message(int balance)
 /*Checking for valid parenthesis*/
 bool	check_parenthesis(char *str)
 {
-	int	i;
-	int	balance;
+	int		i;
+	int		balance;
+	bool	valid_content;
 
 	i = 0;
 	balance = 0;
+	valid_content = true;
 	while (str[i])
 	{
 		if (str[i] == ')' && balance == 0)
 			return (balance_message(-1), false);
 		if (str[i] == '(')
 			balance++;
+		if (str[i] == '(' && (str[i + 1] == ')' || str[i + 1] == ' '))
+			return (balance_message(-1), false);
 		else if (str[i] == ')')
 			balance--;
 		i++;
 	}
 	if (balance != 0)
 		balance_message(balance);
-	if (balance == 0)
+	if (balance == 0 && valid_content)
 		return (true);
 	return (false);
 }
