@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:03:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/14 23:25:16 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:13:27 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ int	ft_exec_simple_cmd(t_shell *shell, t_exec *exec_node)
 	tmp_status = ENO_SUCCESS;
 	ft_print_str_arr(exec_node->av);
 
-	ft_expand_args(shell, exec_node);
-	if (exec_node->command == NULL)
+	// ft_expand_args(shell, exec_node);
+	if (exec_node->av == NULL || exec_node->av[0] == NULL)
 		tmp_status = ft_exec_no_cmd(shell, exec_node);
-	else if (ft_is_builtin(exec_node->command))
+	else if (ft_is_builtin(exec_node->av[0]))
 		tmp_status = ft_exec_builtins_start(shell, exec_node);
 	else
 		tmp_status = ft_exec_external_cmd(shell, exec_node);
@@ -91,7 +91,7 @@ int	ft_exec_builtins_start(t_shell *shell, t_exec *exec_node)
 		ft_reset_stdio(tmp_stdin, tmp_stdout);
 		return (tmp_status);
 	}
-	if (!ft_strcmp(exec_node->command, "exit") && shell->in_child == false)
+	if (!ft_strcmp(exec_node->av[0], "exit") && shell->in_child == false)
 		tmp_status = ft_exit_parent(shell, exec_node,
 				tmp_stdin, tmp_stdout);
 	else

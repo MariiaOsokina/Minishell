@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_env_list_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:05:42 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/09 12:28:51 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/16 10:31:30 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

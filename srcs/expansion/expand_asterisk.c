@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exp_asterisk.c                                     :+:      :+:    :+:   */
+/*   expand_asterisk.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 23:34:04 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/15 00:24:00 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:09:30 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,32 +74,39 @@ char **ft_replace_args(char **old_args, char **new_items, int index)
 	int new_len = ft_strs_count(new_items);
 	int new_total = old_len - 1 + new_len;
 	char **new_args = malloc(sizeof(char *) * (new_total + 1));
+	char **temp_items;
+	int i, j = 0;
 
 	if (!new_args)
 		return NULL;
 
-	int i = 0, j = 0;
+	// Step 1: Duplicate all new_items safely
+	temp_items = malloc(sizeof(char *) * new_len);
+	if (!temp_items)
+		return (free(new_args), NULL);
 
-	// Copy args before index
-	for (; i < index; i++)
-		new_args[j++] = old_args[i];
-
-	// Free and replace the arg at index
-	free(old_args[i]);
-
-	for (int k = 0; k < new_len; k++) {
-		new_args[j] = ft_strdup(new_items[k]);
-		if (!new_args[j]) {
-			// Free already copied args
-			for (int x = 0; x < j; x++)
-				free(new_args[x]);
+	for (i = 0; i < new_len; i++) {
+		temp_items[i] = ft_strdup(new_items[i]);
+		if (!temp_items[i]) {
+			while (i--)
+				free(temp_items[i]);
+			free(temp_items);
 			free(new_args);
 			return NULL;
 		}
-		j++;
 	}
 
-	// Copy the remaining args
+	// Step 2: Build the new argument list
+	for (i = 0; i < index; i++)
+		new_args[j++] = old_args[i];
+
+	free(old_args[index]); // Safe to free now
+
+	for (i = 0; i < new_len; i++)
+		new_args[j++] = temp_items[i];
+
+	free(temp_items); // temp_items array is not needed anymore
+
 	for (i = index + 1; i < old_len; i++)
 		new_args[j++] = old_args[i];
 
@@ -108,7 +115,6 @@ char **ft_replace_args(char **old_args, char **new_items, int index)
 	free(old_args);
 	return new_args;
 }
-
 
 bool ft_scan_for_asterisk(char *word)
 {

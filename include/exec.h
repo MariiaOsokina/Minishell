@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/14 19:48:28 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/16 13:25:26 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,11 +128,15 @@ void	ft_heredoc_unquoted(t_shell *shell, char *hd_line, int hd_fd);
 void	ft_expand_args(t_shell *shell, t_exec *exec_node);
 int		ft_expand_redir_name(t_shell *shell, t_in_out *io_node);
 char	*ft_var_expansion(t_shell *shell, char *word);
+char	**ft_expand_word_split(char const *word);
+size_t 	ft_count_words(const char *word);
+
+char	*ft_quote_removal(const char *word);
+/*wildcards*/
 char 	**ft_replace_args(char **old_args, char **new_items, int index);
 char 	**ft_get_filenames_arr(const char *pattern);
 bool	ft_scan_for_asterisk(char *word);
 
-char	*ft_quote_removal(const char *word);
 
 /*move to utils.h*/
 

@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:44:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/13 22:48:50 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/16 10:40:40 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	ft_exec_with_path(t_shell *shell, t_exec *exec_node)
 	char	*cmd_path;
 	int		tmp_status;
 	
-	cmd_path = exec_node->command;
+	cmd_path = exec_node->av[0];
 	tmp_status = ft_check_access(cmd_path);
 	if (tmp_status != ENO_SUCCESS)
 		ft_exit_with_full_cleanup(shell, tmp_status);
@@ -45,7 +45,7 @@ static void	ft_exec_from_env(t_shell *shell, t_exec *exec_node)
 	char		*cmd_path;
 	t_err_no	err_no;
 
-	cmd_path = ft_get_env_path(*shell, exec_node->command, &err_no);
+	cmd_path = ft_get_env_path(*shell, exec_node->av[0], &err_no);
 	if (err_no != ENO_SUCCESS)
 		ft_exit_with_full_cleanup(shell, err_no);
 	else if (execve(cmd_path, exec_node->av, shell->envp_arr) == -1)
@@ -68,7 +68,7 @@ int	ft_exec_external_cmd(t_shell *shell, t_exec *exec_node)
 		tmp_status = ft_redirections(shell, exec_node);
 		if (tmp_status != ENO_SUCCESS)
 			ft_exit_with_full_cleanup(shell, tmp_status);
-		if (ft_strnstr(exec_node->command, "/", ft_strlen(exec_node->command)))
+		if (ft_strnstr(exec_node->av[0], "/", ft_strlen(exec_node->av[0])))
 			ft_exec_with_path(shell, exec_node);
 		else
 			ft_exec_from_env(shell, exec_node);
