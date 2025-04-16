@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:07:12 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/10 18:44:17 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/16 10:40:41 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_exec_builtin(t_shell *shell, t_exec *exec_node)
 {
 	char	*cmd_name;
 
-	cmd_name = exec_node->command;
+	cmd_name = exec_node->av[0];
 	if (!ft_strcmp(cmd_name, "echo"))
 		return (ft_builtin_echo(shell, exec_node));
 	else if (!ft_strcmp(cmd_name, "cd"))

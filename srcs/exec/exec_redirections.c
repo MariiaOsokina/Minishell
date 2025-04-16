@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/13 23:03:22 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:13:46 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,22 +99,13 @@ int	ft_redir_inf(t_shell *shell, t_in_out	*in_out_node)
 {
 	int		fd;
 	char	*file;
+	(void)shell;
 
-	if (in_out_node->type != HERE)
-	{
-	// if (ft_expand_redir_name(shell, in_out_node) != ENO_SUCCESS)
-	// 	return (ENO_GENERAL);
-		ft_expand_redir_name(shell, in_out_node);
-	}
-	ft_putendl_fd(in_out_node->name, STDERR_FILENO); //for testing
-	// if (!in_out_node->expanded_name || in_out_node->expanded_name[1])
+	// if (in_out_node->type != HERE)
 	// {
-	// 	ft_err_msg (in_out_node->name, "ambiguous redirect", NULL); // for ex, < * $VAR = ""
-	// 	return (ENO_GENERAL);
+	// 	if (ft_expand_redir_name(shell, in_out_node) != ENO_SUCCESS)
+	// 		return (ENO_GENERAL);
 	// }
-	// file = in_out_node->expanded_name[0];
-	//if (expNSION != sUSSES)
-	// RETURN(ENO_GENERAL)
 	file = in_out_node->name;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
@@ -132,14 +123,10 @@ int	ft_redir_outf(t_shell *shell, t_in_out *in_out_node)
 {
 	int		fd;
 	char	*file;
+	(void)shell;
 
-	if (ft_expand_redir_name(shell, in_out_node) != ENO_SUCCESS)
-	return (ENO_GENERAL);
-	// if (!in_out_node->expanded_name || in_out_node->expanded_name[1])
-	// {
-	// 	ft_err_msg (in_out_node->name, "ambiguous redirect", NULL); // for ex, < * $VAR = ""
+	// if (ft_expand_redir_name(shell, in_out_node) != ENO_SUCCESS)
 	// 	return (ENO_GENERAL);
-	// }
 	file = in_out_node->name;
 	if (in_out_node->type == ADD)
 		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
