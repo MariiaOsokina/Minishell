@@ -1,31 +1,5 @@
 #include "minishell.h"
 
-// static void print_path_list(t_list *path_list)
-// {
-//     t_list *current;
-//     int count;
-
-//     if (!path_list)
-//     {
-//         printf("PATH is empty or not set\n");
-//         return;
-//     }
-
-//     printf("PATH directories:\n");
-//     current = path_list;
-//     count = 0;
-    
-//     while (current)
-//     {
-//         // Print each path with an index
-//         printf("[%d] %s\n", count++, (char *)current->content);
-//         current = current->next;
-//     }
-    
-//     printf("Total: %d directories in PATH\n", count);
-// }
-
-
 /*
 	terminal.c
 	calls the terminal function.
@@ -36,7 +10,7 @@ void	terminal(t_shell *shell)
 {
 	while (true)
 	{
-		printf("exit code in the begining of loop: %d and g_signum: %d\n", shell->exit_code, g_signum); //MO: for testing
+		// printf("exit code in the begining of loop: %d and g_signum: %d\n", shell->exit_code, g_signum); //MO: for testing
 		reset_shell(shell);
 		shell_input(shell);
 		ft_signals_interactive();
@@ -45,11 +19,11 @@ void	terminal(t_shell *shell)
 			shell->exit_code = 130;
 		if (!shell->input)// Note: CTRL+D (EOF) case
 		{
-			ft_putstr_fd("exit\n", STDERR_FILENO);
+			// ft_putstr_fd("exit\n", STDERR_FILENO); //MO: reset, muted for testing
 			ft_exit_with_full_cleanup(shell, shell->exit_code);
 		}
 		add_history(shell->input);
-		if (input_validation(shell) == false|| !shell->input[0]) //MO: Made changes by ADEWALE plus my changes to confirm
+		if (input_validation(shell) == true || !shell->input[0]) //MO: Made changes by ADEWALE plus my changes to confirm
 		{
 			free_shell(shell);
 			continue ;
@@ -61,9 +35,10 @@ void	terminal(t_shell *shell)
 		// print_path_list(shell->path);
 		// print_env_arr(shell); //Print array of env.
 		shell->root = build_ltree(shell, shell->token_lst);
-		print_bst(shell->root, 5);
+		// print_bst(shell->root, 5);
+		ft_process_av(shell, shell->root);
 		ft_start_execution(shell);
-		printf("exit status after execution %d\n", shell->exit_code); //MO: for testing
+		// printf("exit status after execution %d\n", shell->exit_code); //MO: for testing
 		free_shell(shell);
 		// return ; //MO: testing
 	}

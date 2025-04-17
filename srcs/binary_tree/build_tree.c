@@ -16,18 +16,17 @@ void	*create_exec(t_shell *shell, t_list *token_lst)
 	node->command = NULL;
 	node->av = NULL;
 	// node->outfiles = NULL;
-	node->in_out_list = NULL; //MO: added
+	node->i_ofiles = NULL; //MO: added
 	// get_infiles(shell, token_lst, &node->infiles);
 	// get_outfiles(shell, token_lst, &node->outfiles);
-	get_in_out_files(shell, token_lst, &node->in_out_list); //MO: added
+	get_in_out_files(shell, token_lst, &node->i_ofiles); //MO: added
 	current = get_name(token_lst);
 	if (current)
 	{
 		node->command = ((t_token *)current->content)->value;
 		node->av = get_argv(shell, token_lst);
-		if (ft_strcmp(node->av[0], "ls") == 0 || ft_strcmp(node->av[0], \
-				"grep") == 0)
-			node->av = get_colors(shell, node->av);
+		// if (ft_strcmp(node->av[0], "ls") == 0 || ft_strcmp(node->av[0], "grep") == 0)
+		// 	node->av = get_colors(shell, node->av);
 	}
 	// printf("created exec.\n");
 	return (node);

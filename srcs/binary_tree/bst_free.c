@@ -14,28 +14,6 @@ void	free_int_out_list(void *content) //MO: added
 	}
 }
 
-// void	free_outfile(void *content)
-// {
-// 	const t_outf	*outfile = (t_outf *)content;
-// 	if (outfile)
-// 	{
-// 		free(outfile->name);
-// 		free((void *)outfile);
-// 	}
-// }
-
-// void	free_infile(void *content)
-// {
-// 	const t_inf	*infile = (t_inf *)content;
-
-// 	if (infile)
-// 	{
-// 		free(infile->name);
-// 		free(infile->eof);
-// 		free((void *)infile);
-// 	}
-// }
-
 void	free_sub_pipes(t_pipe *pipe)
 {
 	if (pipe)
@@ -53,31 +31,18 @@ void	free_exec(t_exec *node) //MO: added
 {
 	if (node)
 	{
-		// ft_free_str_arr(node->av, ft_arr_size(node->av));  //MO: added
+		if (node->command)
+			free(node->command);
+		// if (node->av)
+		// 	free(node->av);
 		if (node->av)
-			free(node->av);
-		if (node->in_out_list)
-			ft_lstclear(&node->in_out_list, free_int_out_list);
-		free(node->in_out_list);
+			ft_free_str_arr(node->av, ft_arr_size(node->av));  //MO: added
+		if (node->i_ofiles)
+			ft_lstclear(&node->i_ofiles, free_int_out_list);
+		free(node->i_ofiles);
 		free(node);
 	}
 }
-
-// void	free_exec(t_exec *node)
-// {
-// 	if (node)
-// 	{
-// 		if (node->av)
-// 			free(node->av);
-// 		if (node->infiles)
-// 			ft_lstclear(&node->infiles, free_infile);
-// 		free(node->infiles);
-// 		if (node->outfiles)
-// 			ft_lstclear(&node->outfiles, free_outfile);
-// 		free(node->outfiles);
-// 		free(node);
-// 	}
-// }
 
 void	free_bst(void *root)
 {

@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:18:01 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/16 19:09:33 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/17 00:36:53 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ size_t ft_count_words(const char *word)
         while (word[i] && word[i] == ' ')
             i++;
     }
-    printf("test: count words in splitting: %ld\n", word_count);
+    // printf("test: count words in splitting: %ld\n", word_count);
     return (word_count);
 }
 
@@ -186,14 +186,12 @@ char **ft_expand_word_split(char const *word)
         ft_free_str_arr(tofree, ft_arr_size(tofree));  // Assuming ft_free_str_arr is defined elsewhere
         return NULL;
     }
-
     temp = ft_words_alloc(word, new_arr);  // Allocate memory for words
     if (!temp)
     {
         ft_free_str_arr(new_arr, ft_arr_size(new_arr));  // Or just free(new_arr) if it was zeroed
         return NULL;
     }
-
     new_arr = temp;
     return new_arr;
 }

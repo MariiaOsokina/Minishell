@@ -6,12 +6,11 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:57:02 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/16 19:05:30 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/16 22:31:15 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 /*
 Expand and validate a file name in redirection (like <, >, >>) by:

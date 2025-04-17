@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:07:31 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/09 12:09:55 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/16 23:55:41 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,19 @@ int	ft_arr_size(char **arr)
 	while (arr[i])
 		i ++;
 	return (i);
+}
+
+void	ft_free_str_arr(char **arr, int count)
+{
+	int	i;
+
+	i = 0;
+	if (!arr)
+		return ;
+	while (i < count)
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
 }

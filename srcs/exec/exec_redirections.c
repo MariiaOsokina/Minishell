@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/16 19:13:46 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/16 22:19:05 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	ft_redirections(t_shell *shell, t_exec *exec_node)
 	int			tmp_status;
 	t_in_out	*in_out_node;
 
-	tmp_io_list = exec_node->in_out_list;
+	tmp_io_list = exec_node->i_ofiles;
 	tmp_status = ENO_SUCCESS;
 	while (tmp_io_list)
 	{
@@ -99,13 +99,13 @@ int	ft_redir_inf(t_shell *shell, t_in_out	*in_out_node)
 {
 	int		fd;
 	char	*file;
-	(void)shell;
+	// (void)shell;
 
-	// if (in_out_node->type != HERE)
-	// {
-	// 	if (ft_expand_redir_name(shell, in_out_node) != ENO_SUCCESS)
-	// 		return (ENO_GENERAL);
-	// }
+	if (in_out_node->type != HERE)
+	{
+		if (ft_expand_redir_name(shell, in_out_node) != ENO_SUCCESS)
+			return (ENO_GENERAL);
+	}
 	file = in_out_node->name;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
@@ -123,10 +123,10 @@ int	ft_redir_outf(t_shell *shell, t_in_out *in_out_node)
 {
 	int		fd;
 	char	*file;
-	(void)shell;
+	// (void)shell;
 
-	// if (ft_expand_redir_name(shell, in_out_node) != ENO_SUCCESS)
-	// 	return (ENO_GENERAL);
+	if (ft_expand_redir_name(shell, in_out_node) != ENO_SUCCESS)
+		return (ENO_GENERAL);
 	file = in_out_node->name;
 	if (in_out_node->type == ADD)
 		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
