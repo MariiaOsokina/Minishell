@@ -6,19 +6,11 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 00:27:52 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/16 23:33:34 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/17 20:24:26 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*TO BE SOLVE:
-- check that parsing checks the delimiter with closed quoutes, 
-but saves delimiter WITH quotes in io_node.eof  ;
-- REMOVE HEREDOC: use the unlink() function -> removes a file, 
-parameter is	the path of the file.
-- how to name tmp file, how to improve the security
-*/
 
 /* functions for generating heredocs:
 

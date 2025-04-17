@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exp_var_expansion.c                                :+:      :+:    :+:   */
+/*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 23:37:19 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/14 23:04:55 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/17 19:41:48 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 char	*ft_strjoin_f(char *s1, char *s2)
 {
@@ -47,13 +46,11 @@ static char *ft_handle_env_expand(t_shell *shell, char *word, size_t *i)
 
 	(*i)++;
 	start = *i;
-
 	if (word[*i] == '?')
 	{
 		(*i)++;
 		return (ft_itoa(shell->exit_code));
 	}
-
 	while (word[*i] && (ft_isalnum(word[*i]) || word[*i] == '_'))
 		(*i)++;
 
@@ -67,7 +64,6 @@ static char *ft_handle_env_expand(t_shell *shell, char *word, size_t *i)
 		if (tmp_env && tmp_env->value)
 			return (ft_strdup(tmp_env->value));
 	}
-
 	return (ft_strdup(""));
 }
 
@@ -78,9 +74,7 @@ static char	*ft_handle_dquote_str(char *word, size_t *i)
 
 	start = *i;
 	while (word[*i] != '"' && word[*i] != '$')
-	{
 		(*i)++;
-	}
 	ret = ft_substr(word, start, *i - start);
 	return (ret);
 }
@@ -127,7 +121,7 @@ char	*ft_handle_dquotes(t_shell *shell, char *word, size_t *i)
 	return (ret);
 }
 
-char *ft_var_expansion(t_shell *shell, char *word)
+char	*ft_var_expansion(t_shell *shell, char *word)
 {
 	size_t	i;
 	char *new_word;

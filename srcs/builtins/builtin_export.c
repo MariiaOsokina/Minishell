@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:03:55 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/08 14:23:17 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/17 20:19:08 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,45 +91,6 @@ static bool	ft_is_env_key_valid(char *str)
 	}
 	return (1);
 }
-
-// int	ft_builtin_export(t_shell *shell, t_exec *exec_node)
-// {
-// 	int		exit_code;
-// 	char	**export_args;
-// 	t_env	*new_env;
-// 	int		i;
-
-// 	i = 0;
-// 	exit_code = ENO_SUCCESS;
-// 	export_args = &(exec_node->av[1]);
-// 	if (!export_args[0])
-// 	{
-// 		ft_print_export_envp(shell->envp);
-// 		return (ENO_SUCCESS);
-// 	}
-// 	while (export_args[i])
-// 	{
-// 		if (ft_is_env_key_valid(export_args[i]) == false)
-// 		{
-// 			exit_code = ENO_GENERAL;
-// 			ft_err_msg("export", export_args[i], "not a valid identifier");
-// 		}
-// 		else
-// 		{
-// 			new_env = ft_create_env_node(shell, export_args[i]);
-// 			if (ft_get_env_node(*shell, new_env->key) == NULL)
-// 				ft_lstadd_back(&shell->envp, ft_lstnew(new_env));
-// 			else
-// 			{
-// 				ft_update_env_value(shell->envp, new_env->key, new_env->value);
-// 				ft_free_env_node(new_env);
-// 			}
-// 		}
-// 		i ++;
-// 	}
-// 	exit_code = ft_export_with_args(shell, exec_node, export_args);
-// 	return (exit_code);
-// }
 
 static int	ft_export_with_args(t_shell *shell, char **export_args)
 {

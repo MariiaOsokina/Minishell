@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:03:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/17 01:29:18 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/17 20:24:27 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@
 3 - External command(execve) in child process;
 */
 
-/*TO BE SOLVED
-- panic()*/
 
 // static void ft_print_str_arr(char **arr)
 // {

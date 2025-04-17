@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:37:02 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/08 13:38:38 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/17 20:19:42 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,6 @@ static bool	ft_is_n_option(char *str)
 3 - If option print “\n” in the end;
 */
 
-/*TO BE SOLVED:
-1 -$? should be at the parsing stage cmd.expanded args[i] = shell.exit_code
-*/
 
 int	ft_builtin_echo(t_shell *shell, t_exec *exec_node)
 {
