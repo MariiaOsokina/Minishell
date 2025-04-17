@@ -12,7 +12,7 @@ bool	is_meta(char *str, int i)
 	int	j;
 	char	*metachars;
 
-	metachars = "<|>();";
+	metachars = "<|>();&";
 	j = 0;
 	if (!str || i < 0)
 		return (false);

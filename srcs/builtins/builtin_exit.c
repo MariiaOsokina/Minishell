@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:43:58 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/16 23:21:59 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/17 20:24:27 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,6 @@ exit 70 args
 echo $?
 */
 
-/*TO BE SOLVED:
-1- add panic function;
-2 - !!!!subshell flag -- exit message only if one cmd not in subshell;
-*/
 
 /*STEPS:
 1 - if not subshell (flagg) ???!!! put to STDERR!!! message “exit\n”;
@@ -99,8 +95,6 @@ int	ft_exit_parent(t_shell *sh, t_exec *exec_node, int in, int out)
 			return (sh->exit_code);
 		}
 	}
-	// if (exec_node->av)
-	// 	ft_free_str_arr(exec_node->av, ft_arr_size(exec_node->av));  //MO: added
 	ft_exit_panic(sh, in, out);
 	exit (exit_code);
 }

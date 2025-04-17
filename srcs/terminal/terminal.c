@@ -40,7 +40,6 @@ void	terminal(t_shell *shell)
 		ft_start_execution(shell);
 		// printf("exit status after execution %d\n", shell->exit_code); //MO: for testing
 		free_shell(shell);
-		// return ; //MO: testing
 	}
 }
 

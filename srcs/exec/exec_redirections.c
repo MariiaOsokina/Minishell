@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/16 22:19:05 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/17 20:16:59 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ int	ft_redir_inf(t_shell *shell, t_in_out	*in_out_node)
 {
 	int		fd;
 	char	*file;
-	// (void)shell;
 
 	if (in_out_node->type != HERE)
 	{
@@ -123,7 +122,6 @@ int	ft_redir_outf(t_shell *shell, t_in_out *in_out_node)
 {
 	int		fd;
 	char	*file;
-	// (void)shell;
 
 	if (ft_expand_redir_name(shell, in_out_node) != ENO_SUCCESS)
 		return (ENO_GENERAL);

@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:37:16 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/17 12:25:41 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/17 20:24:28 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,6 @@
 // 		printf("[%d] %s\n", i, arr[i]);
 // 	}
 // }
-
-/* ft_expand_args function processes command arguments in multiple steps typical of a shell:
--  variable expansion, 
-- word splitting, 
-- globbing (wildcard expansion), 
--  quote removal. */
-
 
 static void	ft_expand_variables(t_shell *shell, t_exec *exec_node)
 {
@@ -82,11 +75,6 @@ static void	ft_expand_globbing(t_exec *exec_node)
 	{
 		if (ft_scan_for_asterisk(exec_node->av[i]))
 		{
-			// quoted_removed = ft_quote_removal(exec_node->av[i]);
-			// if (exec_node->av[i])
-			// 	free(exec_node->av[i]);
-			// exec_node->av[i] = quoted_removed;
-			// printf("quoted_removed %s\n", exec_node->av[i]);
 			filenames = ft_get_filenames_arr(exec_node->av[i]);
 			if (filenames)
 			{
@@ -115,14 +103,23 @@ static void	ft_remove_quotes_in_args(t_exec *exec_node)
 	}
 }
 
-
 void	ft_expand_args(t_shell *shell, t_exec *exec_node)
 {
 	if (!exec_node->av)
 		return ;
 	ft_expand_variables(shell, exec_node);
+	// printf("after $\n");
+	// ft_print_str_arr(exec_node->av); //for testing
+	ft_delete_empty_arg(exec_node);
+	// printf("after delete empty str arg\n");
+	// ft_print_str_arr(exec_node->av); //for testing
+	ft_clean_empty_strs(exec_node);
 	ft_expand_word_splitting(exec_node);
 	ft_expand_globbing(exec_node);
+	// printf("after globbing\n");
+	// ft_print_str_arr(exec_node->av); //for testing
 	ft_remove_quotes_in_args(exec_node);
+	// printf("after removing quotes\n");
+	// ft_print_str_arr(exec_node->av); //for testing
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:57:02 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/17 13:03:56 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/17 19:35:58 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,65 +23,6 @@ Expand and validate a file name in redirection (like <, >, >>) by:
 
 4 - Performing quote removal on the final string
 */
-/*
-int ft_expand_redir_name(t_shell *shell, t_in_out *io_node)
-{
-	char 	*expanded;
-	// char 	**filenames;
-	char	*quoted_removed;
-
-	expanded = ft_var_expansion(shell, io_node->name);
-	// printf("test expand redir: %s\n", expanded); //for testing
-	if (!expanded || expanded[0] == '\0' || ft_count_words(expanded) > 1)
-	{
-		if (expanded)
-			free(expanded);
-		ft_err_msg (io_node->name, "ambiguous redirect", NULL); // for ex, < * $VAR = ""
-		return (ENO_GENERAL); // Malloc failure or similar
-	}
-	// // Asterisk (globbing) expansion
-	// if (ft_scan_for_asterisk(expanded))
-	// {
-	// 	// Replace current argument with matched filenames
-	// 	filenames = ft_get_filenames_arr(expanded);
-	// 	if (!filenames || filenames[0] == NULL)
-	// 	{
-	// 		ft_free_str_arr(filenames, ft_arr_size(filenames));
-	// 		if (expanded)
-	// 			free(expanded);
-	// 		expanded = NULL;
-	// 	}
-	// 	else if (ft_arr_size(filenames) > 1)
-	// 	{
-	// 		if (expanded)
-	// 			free (expanded);
-	// 		ft_print_str_arr(filenames); //for testing
-	// 		ft_free_str_arr(filenames, ft_arr_size(filenames));
-	// 		ft_err_msg (io_node->name, "ambiguous redirect", NULL); // for ex, < * $VAR = ""
-	// 		return (ENO_GENERAL);
-	// 	}
-	// 	else if (ft_arr_size(filenames) == 1 && filenames[0])
-	// 	{
-	// 		if (expanded)
-	// 			free(expanded);
-	// 		expanded = ft_strdup(filenames[0]);
-	// 		ft_free_str_arr(filenames, ft_arr_size(filenames));
-	// 	}
-	// }
-	if (io_node->name)
-		free(io_node->name);
-	quoted_removed = ft_quote_removal(expanded);
-	// printf("test after quote removed redir: %s\n", quoted_removed); for testing
-	if (quoted_removed)
-    	io_node->name = quoted_removed;
-	else
-			io_node->name = ft_strdup("");
-	if (expanded)
-		free(expanded);		
-	return (ENO_SUCCESS);
-}
-*/
-
 
 static int	ft_check_expanded(char *expanded, char *original)
 {
@@ -109,7 +50,7 @@ static void ft_remove_quotes_in_redir(t_in_out *io_n, char *str)
 		io_n->name = ft_strdup("");
 }
 
-static int	ft_check_globbing(t_in_out *io_node, char **exp, char **arr)
+static int	ft_check_globbing(t_in_out *io_n, char **exp, char **arr)
 {
 	int	size;
 
@@ -123,16 +64,14 @@ static int	ft_check_globbing(t_in_out *io_node, char **exp, char **arr)
 		*exp = NULL;
 		return (ENO_SUCCESS);
 	}
-
 	size = ft_arr_size(arr);
 	if (size > 1)
 	{
 		free(*exp);
 		ft_free_str_arr(arr, size);
-		ft_err_msg(io_node->name, "ambiguous redirect", NULL);
+		ft_err_msg(io_n->name, "ambiguous redirect", NULL);
 		return (ENO_GENERAL);
 	}
-
 	free(*exp);
 	*exp = ft_strdup(arr[0]);
 	ft_free_str_arr(arr, size);

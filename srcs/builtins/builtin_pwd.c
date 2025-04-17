@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:27:16 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/08 14:27:57 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/17 20:18:56 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,6 @@
 2 - Check error with getcwd
 3 - Print cwd with “\n”;
 4 - Don’t forget free as getcwd return char * allocated by malloc;
-*/
-
-/*
-NOTES - TO BE TESTED/FIXED:
-1 - variables PWD and shell.cwd can't be in conflict;
 */
 
 int	ft_builtin_pwd(t_shell *shell, t_exec *exec_node)

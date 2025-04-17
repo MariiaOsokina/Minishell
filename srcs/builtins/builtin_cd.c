@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:25:38 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/08 13:31:06 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/17 20:20:02 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*TO BE SOLVED: 
-1 - update env_arr, envp, cwd ??? three places with the same values;
-2 - SHOULD BE HANDLED? 
-If path(2nd arg) is “-”, it should be previous dir
-seach OLDPWD path in the list of env variables,passed 
-in the beginning of the program (shell.envp)
-If no OLDPWD in envp, error “OLDPWD not set” with exit code 1 
-(e.g. in case if unset OLDPWD)
-3 - ??In env update functions we need to think about 
-garbage collector(clear old node);
-4 - //in progress, needs to be tested
-
-*/
 
 /* STEPS:
 1 - NOTES: No options in the Minishell Subject! 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:28:20 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/08 14:56:19 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/17 20:18:28 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,81 +19,6 @@
 4 - If arg is key in envp, unset this key=value, 
 i.e. delete the node from list. 
 */
-
-/*
-static char	*ft_unset_key(t_shell *shell, const char *key)
-{
-	t_list	*current_list;
-	t_list	*tmp_prev_list;
-	t_env	*env_content;
-	t_list	*to_free;
-
-	// to_free = NULL;
-	tmp_prev_list = NULL;
-	current_list = shell->envp;
-	while (current_list)
-	{
-		env_content = (t_env *)current_list->content;
-		if (ft_strcmp(env_content->key, key) == 0)
-		{
-			// Update the list pointers
-			if (tmp_prev_list)
-				tmp_prev_list->next = current_list->next;
-			else
-				shell->envp = current_list->next;
-			ft_free_env_node(env_content);
-			// Free the node itself
-			to_free = current_list;
-			current_list = current_list->next;
-			free (to_free);
-			continue ;
-		}
-		tmp_prev_list = current_list;
-		current_list = current_list->next;
-	}
-	return (NULL);
-}
-*/
-
-// static 	void ft_unset_key(t_shell *sh, t_list **cur, t_list **prev, t_env *env_c)
-// {
-// 	t_list	*to_free;
-
-// 	to_free = NULL;
-
-// 	// Update the list pointers
-// 	if (*prev)
-// 		*(prev)->next = *cur->next;
-// 	else
-// 		sh->envp = *(cur)->next;
-// 	ft_free_env_node(env_c);
-// 	// Free the node itself
-// 	to_free = *cur;
-// 	*cur = *(cur)->next;
-// 	free (to_free);
-// }
-
-// static void	ft_check_key(t_shell *shell, const char *key)
-// {
-// 	t_list	*current_list;
-// 	t_list	*tmp_prev_list;
-// 	t_env	*env_content;
-
-// 	tmp_prev_list = NULL;
-// 	current_list = shell->envp;
-// 	while (current_list)
-// 	{
-// 		env_content = (t_env *)current_list->content;
-// 		if (ft_strcmp(env_content->key, key) == 0)
-// 		{
-// 			ft_unset_key(shell, current_list, tmp_prev_list, env_content);
-// 			continue ;
-// 		}
-// 		tmp_prev_list = current_list;
-// 		current_list = current_list->next;
-// 	}
-// 	return ;
-// }
 
 static void	ft_unset_key(t_shell *sh, t_list *cur, t_list *prev)
 {
