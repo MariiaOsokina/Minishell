@@ -77,7 +77,7 @@ typedef struct s_exec //MO:added
 	t_node		type;
 	char		*command;
 	char		**av;
-	t_list		*in_out_list;
+	t_list		*i_ofiles;
 }		t_exec;
 
 /*PIPES*/

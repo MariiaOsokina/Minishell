@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	print_int_out_files(t_list *in_out_list, int space) //MO: added
+void	print_int_out_files(t_list *i_ofiles, int space) //MO: added
 {
 	int	i;
 
@@ -12,13 +12,13 @@ void	print_int_out_files(t_list *in_out_list, int space) //MO: added
 	}
 	printf("[IN_OUT_FILES]: ");
 	i = 0;
-	while (in_out_list)
+	while (i_ofiles)
 	{
-		printf("%s", (char *)((t_in_out *)in_out_list->content)->name);
-		printf("%s", (char *)((t_in_out *)in_out_list->content)->eof);
-		if (in_out_list->next)
+		printf("%s", (char *)((t_in_out *)i_ofiles->content)->name);
+		printf("%s", (char *)((t_in_out *)i_ofiles->content)->eof);
+		if (i_ofiles->next)
 			printf(", ");
-		in_out_list = in_out_list->next;
+		i_ofiles = i_ofiles->next;
 	}
 	printf("\n");
 }

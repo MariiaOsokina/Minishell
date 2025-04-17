@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/14 20:19:58 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/17 01:38:42 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	ft_start_execution(t_shell *shell)
 {
 	g_signum = 0;
+	// ft_process_av(shell, shell->root);
 	ft_process_heredocs(shell, shell->root);
 	if (g_signum == SIGINT)
 		shell->exit_code = 130;

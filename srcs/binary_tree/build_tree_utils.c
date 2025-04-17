@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 /*build_tree_utils.c*/
-t_list	*get_in_out_files(t_shell *shell, t_list *tkn_lst, t_list **in_out_list) //MO: added
+t_list	*get_in_out_files(t_shell *shell, t_list *tkn_lst, t_list **i_ofiles) //MO: added
 {
 	t_in_out	*content;
 
@@ -34,7 +34,7 @@ t_list	*get_in_out_files(t_shell *shell, t_list *tkn_lst, t_list **in_out_list) 
 				content->name = ft_strdup(((t_token *)tkn_lst->next->content)->value);
 				// content->expanded_name[0] = ft_strdup(((t_token *)tkn_lst->next->content)->value); // MO: add to free
 			}
-			ft_lstadd_back(in_out_list, ft_lstnew(content));
+			ft_lstadd_back(i_ofiles, ft_lstnew(content));
 			tkn_lst = tkn_lst->next->next;
 			continue ;
 		}

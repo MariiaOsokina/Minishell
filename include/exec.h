@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/16 13:25:26 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/16 23:36:16 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,8 +149,12 @@ int		ft_termios_echoctl(bool echo_ctl_chr);
 int		ft_termios_echo(bool echo);
 
 /*move to binary_tree.h*/
-t_list	*get_in_out_files(t_shell *shell, t_list *tkn_lst, t_list **in_out_list);
-void	print_int_out_files(t_list *in_out_list, int space);
+t_list	*get_in_out_files(t_shell *shell, t_list *tkn_lst, t_list **i_ofiles);
+void	print_int_out_files(t_list *i_ofiles, int space);
 void	free_int_out_list(void *content);
+
+
+void	ft_process_av(t_shell *shell, void *node);
+
 
 #endif

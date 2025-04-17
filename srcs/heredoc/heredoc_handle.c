@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_handle.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 00:27:52 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/10 14:39:49 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/16 23:33:34 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	ft_handle_heredocs(t_shell *shell, t_exec *exec_node)
 	t_in_out	*io_node;
 	char		*hd_arr_name;
 
-	current = exec_node->in_out_list;
+	current = exec_node->i_ofiles;
 	while (current && g_signum != SIGINT)
 	{
 		io_node = (t_in_out *)current->content;

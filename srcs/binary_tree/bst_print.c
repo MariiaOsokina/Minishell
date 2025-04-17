@@ -43,8 +43,8 @@ void	print_bst_exec(t_exec *node, int space) //MO: added
 	int	i;
 
 	i = -1;
-	if (node->in_out_list)
-		print_int_out_files(node->in_out_list, space);
+	if (node->i_ofiles)
+		print_int_out_files(node->i_ofiles, space);
 	while (++i < space)
 		printf(" ");
 	printf("[EXEC]\n");
