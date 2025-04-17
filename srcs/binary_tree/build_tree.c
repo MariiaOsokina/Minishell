@@ -23,7 +23,7 @@ void	*create_exec(t_shell *shell, t_list *token_lst)
 	current = get_name(token_lst);
 	if (current)
 	{
-		node->command = ((t_token *)current->content)->value;
+		// node->command = ((t_token *)current->content)->value;
 		node->av = get_argv(shell, token_lst);
 		// if (ft_strcmp(node->av[0], "ls") == 0 || ft_strcmp(node->av[0], "grep") == 0)
 		// 	node->av = get_colors(shell, node->av);

@@ -17,9 +17,9 @@ void	del_token(void *token_node)
 	token = (t_token *)token_node;
 	if (token)
 	{
-		// free(token->value);
-		if (token->value)
-			free(token->value); // MO: added
+		free(token->value);
+		// if (token->value)
+		// 	free(token->value); // MO: added
 		free(token);
 	}
 }
