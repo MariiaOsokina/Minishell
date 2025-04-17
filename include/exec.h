@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/16 23:36:16 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/17 11:49:39 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ void	ft_print_env_lst(t_list *lst); //for testing
 char	**ft_env_arr(t_shell *shell, t_list *envp_list);
 void	ft_free_str_arr(char **arr, int count);
 int		ft_arr_size(char **arr);
+int		ft_count_str_arr(char **arr);
+
 
 t_list	*ft_path_list(t_shell *shell);
 int		ft_get_path(t_shell *shell, t_list **path_list, char *path, int i);

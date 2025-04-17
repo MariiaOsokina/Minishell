@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:18:01 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/17 00:36:53 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/17 10:38:07 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,28 +170,22 @@ char **ft_expand_word_split(char const *word)
 {
     size_t word_count;
     char **new_arr;
-    char **tofree;
-    char **temp;
 
     if (!word)
         return NULL;
 
-    word_count = ft_count_words(word);  // Use the new function to count words
-    new_arr = ft_calloc(word_count + 1, sizeof(char *));
-    tofree = new_arr;
+    word_count = ft_count_words(word);
+    if (word_count == 0)
+        return NULL;
 
-    new_arr = ft_fill_arr(word, new_arr);  // Assuming ft_words_alloc is defined elsewhere
-    if (!new_arr || !word_count)
-    {
-        ft_free_str_arr(tofree, ft_arr_size(tofree));  // Assuming ft_free_str_arr is defined elsewhere
+    new_arr = ft_calloc(word_count + 1, sizeof(char *));
+    if (!new_arr)
         return NULL;
-    }
-    temp = ft_words_alloc(word, new_arr);  // Allocate memory for words
-    if (!temp)
-    {
-        ft_free_str_arr(new_arr, ft_arr_size(new_arr));  // Or just free(new_arr) if it was zeroed
+
+    new_arr = ft_words_alloc(word, new_arr);  // Allocate memory for each word
+    if (!new_arr)
         return NULL;
-    }
-    new_arr = temp;
+
+    new_arr = ft_fill_arr(word, new_arr);     // Fill each word's content
     return new_arr;
 }

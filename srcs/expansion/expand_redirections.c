@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:57:02 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/16 22:31:15 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/17 13:03:56 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,15 +109,54 @@ static void ft_remove_quotes_in_redir(t_in_out *io_n, char *str)
 		io_n->name = ft_strdup("");
 }
 
+static int	ft_check_globbing(t_in_out *io_node, char **exp, char **arr)
+{
+	int	size;
+
+	if (!arr || arr[0] == NULL)
+	{
+		if (arr)
+			ft_free_str_arr(arr, ft_arr_size(arr));
+		else
+			ft_free_str_arr(NULL, 0);
+		free(*exp);
+		*exp = NULL;
+		return (ENO_SUCCESS);
+	}
+
+	size = ft_arr_size(arr);
+	if (size > 1)
+	{
+		free(*exp);
+		ft_free_str_arr(arr, size);
+		ft_err_msg(io_node->name, "ambiguous redirect", NULL);
+		return (ENO_GENERAL);
+	}
+
+	free(*exp);
+	*exp = ft_strdup(arr[0]);
+	ft_free_str_arr(arr, size);
+	return (ENO_SUCCESS);
+}
+
 int	ft_expand_redir_name(t_shell *shell, t_in_out *io_node)
 {
 	char	*expanded;
 	int		status;
+	char	**filenames;
 
 	expanded = ft_var_expansion(shell, io_node->name);
 	status = ft_check_expanded(expanded, io_node->name);
 	if (status != ENO_SUCCESS)
 		return (status);
+
+	if (expanded && ft_scan_for_asterisk(expanded))
+	{
+		filenames = ft_get_filenames_arr(expanded);
+		status = ft_check_globbing(io_node, &expanded, filenames);
+		if (status != ENO_SUCCESS)
+			return (status);
+	}
 	ft_remove_quotes_in_redir(io_node, expanded);
 	if (expanded)
 		free(expanded);

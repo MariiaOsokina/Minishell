@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:07:31 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/16 23:55:41 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/17 11:49:55 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,12 @@ void	ft_free_str_arr(char **arr, int count)
 		i++;
 	}
 	free(arr);
+}
+
+int	ft_count_str_arr(char **arr)
+{
+	int count = 0;
+	while (arr && arr[count])
+		count++;
+	return count;
 }
