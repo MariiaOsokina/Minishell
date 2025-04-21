@@ -4,6 +4,8 @@ int	get_av_len(char **av)
 {
 	int	i;
 
+	if (!av)
+		return (0);
 	i = 0;
 	while (av[i])
 		i++;

@@ -30,14 +30,31 @@ void	free_sub_pipes(t_pipe *pipe)
 
 void	free_exec(t_exec *node)
 {
+	int	i;
+
+	i = 0;
 	if (node)
 	{
 		if (node->command)
 			free(node->command);
 		if (node->av)
+		{
+			fprintf(stderr, "Freeing av at %p\n", (void *)node->av);
+			while (node->av[i])
+			{
+				fprintf(stderr, "Freeing av[%d] at %p: %s\n", i,
+					(void *)node->av[i], node->av[i]);
+				free(node->av[i]);
+				i++;
+			}
 			free(node->av);
+			node->av = NULL;
+		}
 		if (node->i_ofiles)
+		{
 			ft_lstclear(&node->i_ofiles, free_in_outfiles);
+			node->i_ofiles = NULL;
+		}
 		free(node);
 	}
 }

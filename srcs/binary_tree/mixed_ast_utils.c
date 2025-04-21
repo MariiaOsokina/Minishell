@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	**populate_args(t_list **curr, char **args, int i)
+void	populate_args(t_list **curr, char **args, int i)
 {
 	int	count;
 
@@ -14,7 +14,6 @@ char	**populate_args(t_list **curr, char **args, int i)
 		next_token(curr);
 	}
 	args[count] = NULL;
-	return (args);
 }
 
 bool	is_valid_fd(t_list *curr)
@@ -48,7 +47,6 @@ bool	is_valid_fd(t_list *curr)
 char	**copy_and_populate(char **av, t_list **curr, char **args)
 {
 	int		i;
-	char	**copied_args;
 
 	i = 0;
 	while (av[i])
@@ -57,12 +55,12 @@ char	**copy_and_populate(char **av, t_list **curr, char **args)
 		i++;
 	}
 	args[i] = NULL;
-	copied_args = populate_args(curr, args, i);
+	populate_args(curr, args, i);
 	i = -1;
 	while (av[++i])
 		free(av[i]);
 	free(av);
-	return (copied_args);
+	return (args);
 }
 
 t_in_out	*make_content(t_shell *shell, t_list **curr)

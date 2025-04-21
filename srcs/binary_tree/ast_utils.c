@@ -25,7 +25,7 @@ char	**collect_args(char **argv, t_list **curr)
 	if (argv)
 		args = copy_and_populate(argv, curr, args);
 	else
-		args = populate_args(curr, args, 0);
+		populate_args(curr, args, 0);
 	return (args);
 }
 
@@ -107,6 +107,8 @@ void	*create_exec_node(t_shell *shell, t_list **curr)
 		exit_failure(shell, "create_exec");
 	node->type.type = N_EXEC;
 	node->i_ofiles = NULL;
+	node->av = NULL;
+	node->command = NULL;
 	node->av = collect_args(node->av, curr);
 	collect_io(shell, curr, &node->i_ofiles);
 	if (node->av) // Was second

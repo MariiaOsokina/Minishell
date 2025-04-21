@@ -26,6 +26,7 @@ void	terminal(t_shell *shell, char **envp)
 		shell->path = path_list(shell, envp);
 		shell->root = build_ast(shell);
 		print_bst(shell->root, 5);
+		free_shell(shell); //Not here..
 		// Build and execute the cmd tree
 		/*section to call test functions to print out token and command lists*/
 		// lexec_tree(shell, shell->root);

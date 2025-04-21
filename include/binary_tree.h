@@ -63,6 +63,7 @@ typedef struct s_op
 /*New AST functions*/
 int				get_av_len(char **av);
 bool			is_valid_fd(t_list *curr);
+void			populate_args(t_list **curr, char **args, int i);
 t_in_out		*make_content(t_shell *shell, t_list **curr);
 char			**copy_and_populate(char **av, t_list **curr, char **args);
 void			repopulate_args(t_shell *shell, t_list **curr, t_exec *node);
@@ -70,7 +71,7 @@ void			print_i_ofiles(t_list *in_ofiles, int space);
 void			free_ast_node(void *node);
 int				is_operator(t_list *token);
 char			**collect_args(char **argv, t_list **curr);
-char			**populate_args(t_list **curr, char **args, int i);
+// char			**populate_args(t_list **curr, char **args, int i);
 t_list			*next_token(t_list **current);
 int				is_redirection(t_list *token);
 void			past_parenthesis(t_list **curr);
