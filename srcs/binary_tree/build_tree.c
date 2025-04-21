@@ -1,121 +1,88 @@
 #include "minishell.h"
 
-/*build_tree.c*/
-// void	*create_exec(t_shell *shell, t_list *token_lst)
-// {
-// 	t_exec	*node;
-// 	t_list	*current;
-
-// 	if (!token_lst)
-// 		return (NULL);
-// 	node = (t_exec *)malloc(sizeof(t_exec));
-// 	if (!node)
-// 		exit_failure(shell, "create_exec");
-// 	node->type.type = N_EXEC;
-// 	node->infiles = NULL;
-// 	node->command = NULL;
-// 	node->av = NULL;
-// 	node->outfiles = NULL;
-// 	get_infiles(shell, token_lst, &node->infiles);
-// 	get_outfiles(shell, token_lst, &node->outfiles);
-// 	current = get_name(token_lst);
-// 	if (current)
-// 	{
-// 		node->command = ((t_token *)current->content)->value;
-// 		node->av = get_argv(shell, token_lst);
-// 		if (ft_strcmp(node->av[0], "ls") == 0 || ft_strcmp(node->av[0], \
-// 				"grep") == 0)
-// 			node->av = get_colors(shell, node->av);
-// 	}
-// 	printf("created exec.\n");
-// 	return (node);
-// }
-
-/*build_tree.c*/
-// t_list	*get_name(t_list *tkn_lst)
-// {
-// 	t_list	*word;
-
-// 	word = NULL;
-// 	while (tkn_lst && (((t_token *)tkn_lst->content)->type != PIPE))
-// 	{
-// 		if (tkn_lst && (((t_token *)tkn_lst->content)->type == INFILE
-// 				|| ((t_token *)tkn_lst->content)->type == HEREDOC))
-// 		{
-// 			tkn_lst = tkn_lst->next->next;
-// 			continue ;
-// 		}
-// 		if (tkn_lst && (((t_token *)tkn_lst->content)->type == OUTFILE
-// 				|| ((t_token *)tkn_lst->content)->type == APPEND))
-// 		{
-// 			tkn_lst = tkn_lst->next->next;
-// 			continue ;
-// 		}
-// 		if (tkn_lst && (((t_token *)tkn_lst->content)->type == WORD
-// 				|| ((t_token *)tkn_lst->content)->state != EXPAND))
-// 			return (tkn_lst);
-// 		tkn_lst = tkn_lst->next;
-// 		if (tkn_lst && ((t_token *)tkn_lst->content)->type == AND_IF)
-// 			break ;
-// 	}
-// 	return (word);
-// }
-
-/*build_tree.c*/
-void	*create_pipe(t_shell *shell, void *left, void *right)
+void	*parse_factor(t_shell *shell, t_list **curr, bool in_subshell)
 {
-	t_pipe	*node;
+	void	*node;
+	t_token	*tmp;
+	t_op	*subshell_node;
 
-	node = (t_pipe *)malloc(sizeof(t_pipe));
-	if (!node)
-		exit_failure(shell, "create_exec");
-	node->type.type = N_PIPE;
-	node->left = left;
-	node->right = right;
-	return (node);
+	if (!(*curr) || !(*curr)->content)
+		return (NULL);
+	tmp = (t_token *)(*curr)->content;
+	if (tmp->type == PARENTHESIS && ft_strcmp(tmp->value, "(") == 0)
+	{
+		next_token(curr);
+		node = parse_expression(shell, curr, true);
+		if (!node)
+			return (NULL);
+		next_token(curr); // Can do parenthesis count later.
+		if (!in_subshell)
+		{
+			subshell_node = malloc(sizeof(t_op));
+			subshell_node->left = node;
+			subshell_node->right = NULL;
+			subshell_node->type.type = N_SUBSHELL;
+			return (subshell_node);
+		}
+		return (node);
+	}
+	return (create_exec_node(shell, curr));
 }
 
-/*build_tree.c*/
-// void	*insert_node(t_shell *shell, void *node, t_list *token_lst)
-// {
-// 	t_list	*new;
-// 	t_pipe	*pipe;
+void	*parse_term(t_shell *shell, t_list **curr, bool in_subshell)
+{
+	void	*left;
+	t_pipe	*node;
 
-// 	if (!node)
-// 		return (create_exec(shell, token_lst));
-// 	if (is_parenthesis(token_lst->next))
-// 	{
-// 		new = NULL;
-// 		new = new_sublist(token_lst->next);
-// 		pipe = create_pipe(shell, node, build_ltree(shell, new));
-// 		clean_sublist(new);
-// 	}
-// 	else
-// 		pipe = create_pipe(shell, node, create_exec(shell, token_lst->next));
-// 	return (pipe);
-// }
+	left = parse_factor(shell, curr, in_subshell);
+	if (!left)
+		return (NULL);
+	while (*curr && (((t_token *)(*curr)->content)->type == PIPE))
+	{
+		node = malloc(sizeof(t_pipe));
+		if (!node)
+			return (NULL);
+		node->type.type = N_PIPE;
+		node->left = left;
+		next_token(curr);
+		node->right = parse_factor(shell, curr, in_subshell);
+		if (!node->right)
+		{
+			free_ast_node(node);
+			return (NULL);
+		}
+		left = node;
+	}
+	return (left);
+}
 
-/*
-	build_tree.c
-	This function traverses the token list
-	checks for most important nodes (pipes and and_if nodes) to add to the root.
-	It dsipalces the previous root for the new root.
-*/
-// void	*build_tree(t_shell *shell, t_list *token_lst)
-// {
-// 	t_list	*tmp;
-// 	void	*root;
+void	*parse_expression(t_shell *shell, t_list **curr, bool in_subshell)
+{
+	void	*left;
+	t_op	*node;
 
-// 	printf("build_tree was called\n");
-// 	tmp = token_lst;
-// 	root = NULL;
-// 	while (check_token(tmp))
-// 	{
-// 		root = insert_node(shell, root, tmp);
-// 		if (((t_token *)tmp->content)->type != PIPE)
-// 			tmp = skip_if(tmp);
-// 		else
-// 			tmp = skip_else(tmp);
-// 	}
-// 	return (root);
-// }
+	left = parse_term(shell, curr, in_subshell);
+	while (*curr && ((((t_token *)(*curr)->content)->type == OR)
+			|| (((t_token *)(*curr)->content)->type == AND_IF)))
+	{
+		node = malloc(sizeof(t_op));
+		if (!node)
+			return (NULL);
+		node->type.type = (((t_token *)(*curr)->content)->type == OR) ? N_OR : N_ANDIF;
+		node->left = left;
+		next_token(curr);
+		node->right = parse_term(shell, curr, in_subshell);
+		if (!node->right) // If parsing the right operand fails
+		{
+			free_ast_node(node);
+			return (NULL); // Return NULL if the right operand is invalid
+		}
+		left = node;
+	}
+	return (left);
+}
+
+void	*build_ast(t_shell *shell)
+{
+	return (parse_expression(shell, &shell->token_lst, false));
+}

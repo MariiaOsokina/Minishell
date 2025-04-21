@@ -1,27 +1,5 @@
 #include "minishell.h"
 
-// void	free_outfile(void *content)
-// {
-// 	const t_outf	*outfile = (t_outf *)content;
-// 	if (outfile)
-// 	{
-// 		free(outfile->name);
-// 		free((void *)outfile);
-// 	}
-// }
-
-// void	free_infile(void *content)
-// {
-// 	const t_inf	*infile = (t_inf *)content;
-
-// 	if (infile)
-// 	{
-// 		free(infile->name);
-// 		free(infile->eof);
-// 		free((void *)infile);
-// 	}
-// }
-
 void	free_in_outfiles(void *content)
 {
 	const t_in_out	*in_ofiles = (t_in_out *)content;

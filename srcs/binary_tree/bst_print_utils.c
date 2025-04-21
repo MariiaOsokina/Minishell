@@ -1,26 +1,14 @@
 #include "minishell.h"
 
-// void	print_outfiles(t_list *outfiles, int space)
-// {
-// 	int	i;
+int	get_av_len(char **av)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (i < space + 2)
-// 	{
-// 		printf(" ");
-// 		i++;
-// 	}
-// 	printf("[OUTFILES]: ");
-// 	i = 0;
-// 	while (outfiles)
-// 	{
-// 		printf("%s", (char *)((t_outf *)outfiles->content)->name);
-// 		if (outfiles->next)
-// 			printf(", ");
-// 		outfiles = outfiles->next;
-// 	}
-// 	printf("\n");
-// }
+	i = 0;
+	while (av[i])
+		i++;
+	return (i);
+}
 
 void	print_i_ofiles(t_list *in_ofiles, int space)
 {
@@ -44,25 +32,20 @@ void	print_i_ofiles(t_list *in_ofiles, int space)
 	printf("\n");
 }
 
-// void	print_infiles(t_list *infiles, int space)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i < space + 2)
-// 	{
-// 		printf(" ");
-// 		i++;
-// 	}
-// 	printf("[INFILES]: ");
-// 	i = 0;
-// 	while (infiles)
-// 	{
-// 		printf("%s", (char *)((t_inf *)infiles->content)->eof);
-// 		if (infiles->next)
-// 			printf(", ");
-// 		infiles = infiles->next;
-// 	}
-// 	printf("\n");
-// }
-
+void	free_ast_node(void *node)
+{
+	if (!node)
+		return ;
+	if (((t_node *)node)->type == N_PIPE)
+	{
+		free_ast_node(((t_pipe *)node)->right);
+		free_ast_node(((t_pipe *)node)->left);
+	}
+	else if ((((t_node *)node)->type == N_ANDIF
+			|| (((t_node *)node)->type == N_OR)))
+	{
+		free_ast_node(((t_op *)node)->right);
+		free_ast_node(((t_op *)node)->left);
+	}
+	free(node);
+}

@@ -29,10 +29,8 @@ void	toggle_quotes(char c, bool *in_single_quote, bool *in_double_quote)
 {
 	if (c == '\'' && !*in_double_quote)
 		*in_single_quote = !*in_single_quote;
-			// Toggles single quote if not in double quote;
 	else if (c == '\"' && !*in_single_quote)
 		*in_double_quote = !*in_double_quote;
-			// Toggle double quote if not in single quote;
 }
 
 /*

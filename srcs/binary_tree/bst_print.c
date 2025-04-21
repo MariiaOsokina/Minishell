@@ -40,8 +40,6 @@ void	print_bst_exec(t_exec *node, int space)
 			printf(" ");
 		printf("  [%s]\n", node->command);
 	}
-	// if (node->infiles)
-	// 	print_infiles(node->infiles, space);
 }
 
 void	print_exec(char **av, int space)
