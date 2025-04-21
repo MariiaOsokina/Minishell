@@ -62,6 +62,8 @@ void	*print_bst(void *root, int space)
 	t_node	*node;
 	int		spacing;
 
+	node = NULL;
+
 	if (space == 5)
 		printf("\n\n\nTREE VIEW:\n");
 	spacing = 5;
