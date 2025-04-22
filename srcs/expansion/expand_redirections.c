@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:57:02 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/17 19:35:58 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/22 23:30:53 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	ft_expand_redir_name(t_shell *shell, t_in_out *io_node)
 	char	*expanded;
 	int		status;
 	char	**filenames;
+	int		match_count;
 
 	expanded = ft_var_expansion(shell, io_node->name);
 	status = ft_check_expanded(expanded, io_node->name);
@@ -91,10 +92,14 @@ int	ft_expand_redir_name(t_shell *shell, t_in_out *io_node)
 
 	if (expanded && ft_scan_for_asterisk(expanded))
 	{
-		filenames = ft_get_filenames_arr(expanded);
-		status = ft_check_globbing(io_node, &expanded, filenames);
-		if (status != ENO_SUCCESS)
-			return (status);
+		match_count = ft_match_count(expanded);
+		if (match_count > 0)
+		{
+			filenames = ft_get_filenames_arr(expanded, match_count);
+			status = ft_check_globbing(io_node, &expanded, filenames);
+			if (status != ENO_SUCCESS)
+				return (status);			
+		}
 	}
 	ft_remove_quotes_in_redir(io_node, expanded);
 	if (expanded)

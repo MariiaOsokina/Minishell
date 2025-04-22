@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/17 18:40:25 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/22 23:49:36 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,9 @@ void	ft_clean_empty_strs(t_exec *exec_node);
 char	*ft_quote_removal(const char *word);
 /*wildcards*/
 char 	**ft_replace_args(char **old_args, char **new_items, int index);
-char 	**ft_get_filenames_arr(const char *pattern);
-bool	ft_scan_for_asterisk(char *word);
+char 	**ft_get_filenames_arr(const char *pattern, int match_count);
+bool	ft_scan_for_asterisk(const char *word);
+int		ft_match_count(const char *pattern);
 
 
 /*move to utils.h*/
