@@ -6,11 +6,20 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:36:46 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/17 20:15:35 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/22 13:47:43 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*char **av = {"", "apple", "", "banana", NULL};
+Result after ft_remove_empty_strings(av):
+
+Memory for empty strings is freed.
+
+av itself is freed.
+
+You get back: {"apple", "banana", NULL}.*/
 
 static int	count_non_empty(char **av)
 {
@@ -64,6 +73,13 @@ void	ft_delete_empty_arg(t_exec *exec_node)
 		i++;
 	}
 }
+
+/*arg = strdup("hello''world\"\"!");
+After ft_clean_empty_strs_in_arg(arg):
+
+Removes '' and ""
+
+Returns: "helloworld!"*/
 
 static char	*ft_clean_empty_strs_in_arg(char *arg)
 {

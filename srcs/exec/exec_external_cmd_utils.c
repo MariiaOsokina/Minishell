@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 01:09:53 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/11 14:29:31 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/22 13:45:28 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_get_env_path(t_shell shell, char *cmd_name, t_err_no *err_no)
 {
 	char	*cmd_path;
 
-	if (!ft_strcmp(cmd_name, ".."))
+	if (!ft_strcmp(cmd_name, "..") || !ft_strcmp(cmd_name, "")) // added new
 	{
 		ft_err_msg(cmd_name, "command not found", NULL);
 		*(err_no) = ENO_NOT_FOUND;

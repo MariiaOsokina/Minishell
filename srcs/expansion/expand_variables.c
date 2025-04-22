@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 23:37:19 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/17 19:41:48 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/22 13:21:09 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ char	*ft_var_expansion(t_shell *shell, char *word)
 		// else if (word[i] == '$' && (word[i++] == '\'' || word[i++] == '\"'))
 		// 	i += 1; //just skip $
 		else if (word[i] == '$')
-			new_word = ft_strjoin_f(new_word, ft_handle_env_expand(shell, word, &i));
+			new_word = ft_strjoin_f(new_word, ft_handle_env_expand(shell, word, &i)); //DELETE FROM ARGS IF ""
 		else
 			new_word = ft_strjoin_f(new_word, ft_handle_normal_str(word, &i));
 	}
