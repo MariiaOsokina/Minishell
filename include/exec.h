@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/22 23:49:36 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/23 11:42:13 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,8 +132,8 @@ int		ft_expand_redir_name(t_shell *shell, t_in_out *io_node);
 char	*ft_var_expansion(t_shell *shell, char *word);
 char	**ft_expand_word_split(char const *word);
 size_t 	ft_count_words(const char *word);
-void	ft_delete_empty_arg(t_exec *exec_node);
-void	ft_clean_empty_strs(t_exec *exec_node);
+// void	ft_delete_empty_arg(t_exec *exec_node);
+// void	ft_clean_empty_strs(t_exec *exec_node);
 
 char	*ft_quote_removal(const char *word);
 /*wildcards*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 23:37:19 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/22 13:21:09 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/23 10:54:18 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_strjoin_f(char *s1, char *s2)
 	return (new_str);
 }
 
-static char *ft_handle_env_expand(t_shell *shell, char *word, size_t *i)
+static char	*ft_handle_env_expand(t_shell *shell, char *word, size_t *i)
 {
 	size_t	start;
 	t_env	*tmp_env;
@@ -53,7 +53,6 @@ static char *ft_handle_env_expand(t_shell *shell, char *word, size_t *i)
 	}
 	while (word[*i] && (ft_isalnum(word[*i]) || word[*i] == '_'))
 		(*i)++;
-
 	if (*i == start)
 		return (ft_strdup("$"));
 	var = ft_substr(word, start, *i - start);
@@ -70,7 +69,7 @@ static char *ft_handle_env_expand(t_shell *shell, char *word, size_t *i)
 static char	*ft_handle_dquote_str(char *word, size_t *i)
 {
 	size_t	start;
-	char *ret;
+	char	*ret;
 
 	start = *i;
 	while (word[*i] != '"' && word[*i] != '$')
@@ -82,7 +81,7 @@ static char	*ft_handle_dquote_str(char *word, size_t *i)
 char	*ft_handle_squotes(char *word, size_t *i)
 {
 	size_t	start;
-	char *ret;
+	char	*ret;
 
 	start = *i;
 	(*i)++;
@@ -98,7 +97,8 @@ char	*ft_handle_normal_str(char *str, size_t *i)
 	size_t	start;
 
 	start = *i;
-	while (str[*i] && str[*i] != '\'' && str[*i] != '"' && str[*i] != '$')
+	while (str[*i] && str[*i] != '\'' && \
+		str[*i] != '"' && str[*i] != '$')
 		(*i)++;
 	return (ft_substr(str, start, *i - start));
 }
@@ -124,7 +124,7 @@ char	*ft_handle_dquotes(t_shell *shell, char *word, size_t *i)
 char	*ft_var_expansion(t_shell *shell, char *word)
 {
 	size_t	i;
-	char *new_word;
+	char	*new_word;
 
 	i = 0;
 	new_word = ft_strdup("");
@@ -133,11 +133,13 @@ char	*ft_var_expansion(t_shell *shell, char *word)
 		if (word[i] == '\'')
 			new_word = ft_strjoin_f(new_word, ft_handle_squotes(word, &i));
 		else if (word[i] == '\"')
-			new_word = ft_strjoin_f(new_word, ft_handle_dquotes(shell, word, &i));
+			new_word = ft_strjoin_f(new_word, \
+			ft_handle_dquotes(shell, word, &i));
 		// else if (word[i] == '$' && (word[i++] == '\'' || word[i++] == '\"'))
 		// 	i += 1; //just skip $
 		else if (word[i] == '$')
-			new_word = ft_strjoin_f(new_word, ft_handle_env_expand(shell, word, &i)); //DELETE FROM ARGS IF ""
+			new_word = ft_strjoin_f(new_word, \
+			ft_handle_env_expand(shell, word, &i)); //DELETE FROM ARGS IF ""
 		else
 			new_word = ft_strjoin_f(new_word, ft_handle_normal_str(word, &i));
 	}

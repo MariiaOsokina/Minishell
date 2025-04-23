@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:57:02 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/22 23:30:53 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/23 10:50:29 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ Expand and validate a file name in redirection (like <, >, >>) by:
 
 static int	ft_check_expanded(char *expanded, char *original)
 {
-	if (!expanded || expanded[0] == '\0' ||
-        ft_count_words(expanded) > 1)
+	if (!expanded || expanded[0] == '\0' || ft_count_words(expanded) > 1)
 	{
 		if (expanded)
 			free(expanded);
@@ -37,7 +36,7 @@ static int	ft_check_expanded(char *expanded, char *original)
 	return (ENO_SUCCESS);
 }
 
-static void ft_remove_quotes_in_redir(t_in_out *io_n, char *str)
+static void	ft_remove_quotes_in_redir(t_in_out *io_n, char *str)
 {
 	char	*quoted_removed;
 
@@ -89,7 +88,6 @@ int	ft_expand_redir_name(t_shell *shell, t_in_out *io_node)
 	status = ft_check_expanded(expanded, io_node->name);
 	if (status != ENO_SUCCESS)
 		return (status);
-
 	if (expanded && ft_scan_for_asterisk(expanded))
 	{
 		match_count = ft_match_count(expanded);
@@ -98,7 +96,7 @@ int	ft_expand_redir_name(t_shell *shell, t_in_out *io_node)
 			filenames = ft_get_filenames_arr(expanded, match_count);
 			status = ft_check_globbing(io_node, &expanded, filenames);
 			if (status != ENO_SUCCESS)
-				return (status);			
+				return (status);
 		}
 	}
 	ft_remove_quotes_in_redir(io_node, expanded);

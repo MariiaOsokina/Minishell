@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/17 20:16:59 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/23 13:33:08 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ int	ft_redir_inf(t_shell *shell, t_in_out	*in_out_node)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
-		ft_putendl_fd("test open", STDERR_FILENO);
 		ft_err_msg(file, strerror(errno), NULL);
 		return (ENO_GENERAL);
 	}

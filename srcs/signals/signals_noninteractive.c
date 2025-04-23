@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_noninteractive.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 23:41:16 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/10 18:33:53 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/23 11:04:45 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
