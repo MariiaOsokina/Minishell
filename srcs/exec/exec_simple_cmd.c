@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_simple_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:03:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/17 20:24:27 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/23 10:57:56 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 	- Reset STDIN and STDOUT???
 3 - External command(execve) in child process;
 */
-
-
 // static void ft_print_str_arr(char **arr)
 // {
 // 	if (!arr)
@@ -38,7 +36,6 @@
 // 		printf("[%d] %s\n", i, arr[i]);
 // 	}
 // }
-
 
 static void	ft_reset_stdio(int tmp_stdin, int tmp_stdout);
 

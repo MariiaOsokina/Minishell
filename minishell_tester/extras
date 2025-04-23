@@ -1,0 +1,55 @@
+echo test <inf
+echo test <$USER
+echo test <'$USER'
+echo test <$EMPTY
+echo test <"$EMPTY"
+echo test <*
+echo test <synt*
+
+echo nest test is just space
+ 
+echo next test is just tab
+
+	
+$PWD
+$EMPTY
+$EMPTY echo hi
+./test_files/invalid_permission
+./missing.out
+missing.out
+"aaa"
+test_files
+./test_files
+/test_files
+minishell.h
+$
+$?
+README.md
+echo *
+echo test*
+echo 'test'*
+echo "test"*
+echo ../test*.c
+echo ../tests*.c
+echo ../t*ests*.c
+echo "*"
+echo '*'
+echo ../te"'s'**
+echo ../"te"'s'**
+echo ../"te"'s'*'*'
+echo .*
+echo *'*'
+echo "."*
+"" echo test
+$NOREXIST echo test
+$EMPTY echo test
+"$EMPTY" echo test
+'$EMPTY' echo test
+$USER echo test
+"$USER" echo test
+'$USER' echo test
+echo $EMPTY
+echo '"$USER"'
+echo "'$USER'"
+expr $? + $?
+

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_external_cmd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:44:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/22 13:45:47 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/23 11:00:34 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 2 - Redirections;
 3 - If absolute/relative path (with slash)  - check access to executable file
 4 - If only command name  - get the path from $PATH;
-5 - Execution of external command by using a function execve(), execve() replaces the child proccess;
+5 - Execution of external command by using a function execve(), 
+execve() replaces the child proccess;
 6 - Retrieving the exit code from child to parent with waitpid();
 7 - Get exit status (with macros WIFSIGNALED, WTERMSIG, WEXITSTATUS)
 */
@@ -31,7 +32,7 @@ static void	ft_exec_with_path(t_shell *shell, t_exec *exec_node)
 {
 	char	*cmd_path;
 	int		tmp_status;
-	
+
 	cmd_path = exec_node->av[0];
 	tmp_status = ft_check_access(cmd_path);
 	if (tmp_status != ENO_SUCCESS)
@@ -57,14 +58,13 @@ static void	ft_exec_from_env(t_shell *shell, t_exec *exec_node)
 
 int	ft_exec_external_cmd(t_shell *shell, t_exec *exec_node)
 {
-    int		tmp_status;
+	int		tmp_status;
 	int		fork_pid;
 
 	tmp_status = 0;
 	fork_pid = fork();
-	// to add error fork ...
-    if (fork_pid == 0)
-    {
+	if (fork_pid == 0)
+	{
 		tmp_status = ft_redirections(shell, exec_node);
 		if (tmp_status != ENO_SUCCESS)
 			ft_exit_with_full_cleanup(shell, tmp_status);
@@ -72,15 +72,16 @@ int	ft_exec_external_cmd(t_shell *shell, t_exec *exec_node)
 			ft_exec_with_path(shell, exec_node);
 		else
 			ft_exec_from_env(shell, exec_node);
-    }
-    waitpid(fork_pid, &tmp_status, 0);
+	}
+	waitpid(fork_pid, &tmp_status, 0);
 	return (ft_get_exit_status(tmp_status));
 }
 
-/* check the permission to the file, print the error msg and return the error number*/
+/* check the permission to the file, print the error 
+msg and return the error number*/
 
-int	ft_check_access(char *cmd_path) 
-{	
+int	ft_check_access(char *cmd_path)
+{
 	if (access(cmd_path, F_OK) != 0)
 	{
 		ft_err_msg(cmd_path, "No such file or directory", NULL);
@@ -90,8 +91,8 @@ int	ft_check_access(char *cmd_path)
 	{
 		ft_err_msg(cmd_path, "Is a directory", NULL);
 		return (ENO_CANT_EXEC);
-	}			
-	else if (access(cmd_path, X_OK) != 0)// no execution rights
+	}
+	else if (access(cmd_path, X_OK) != 0) // no execution rights
 	{
 		ft_err_msg(cmd_path, "Permission denied\n", NULL);
 		return (ENO_CANT_EXEC);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_replace_args.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:47:07 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/17 19:39:55 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/23 10:51:30 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static char	**ft_duplicate_items(char **items, int count)
 	copy = malloc(sizeof(char *) * (count + 1));
 	if (!copy)
 		return (NULL);
-
 	while (i < count)
 	{
 		copy[i] = ft_strdup(items[i]);
@@ -80,11 +79,11 @@ static void	ft_copy_after_index(char **dst, char **src, int ind, int new_l)
 
 char	**ft_replace_args(char **old_args, char **new_items, int index)
 {
-	int old_len;
-	int new_len;
-	int new_total;
-	char **new_args;
-	char **temp_items;
+	int		old_len;
+	int		new_len;
+	int		new_total;
+	char	**new_args;
+	char	**temp_items;
 
 	old_len = ft_count_str_arr(old_args);
 	new_len = ft_count_str_arr(new_items);

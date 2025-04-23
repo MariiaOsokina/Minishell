@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:43:58 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/17 20:24:27 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/23 11:02:57 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ echo $SHLVL
 exit 70 args
 echo $?
 */
-
 
 /*STEPS:
 1 - if not subshell (flagg) ???!!! put to STDERR!!! message “exit\n”;
@@ -118,7 +117,6 @@ int	ft_exit_child(t_shell *shell, t_exec *exec_node)
 		{
 			ft_err_msg("exit", exec_node->av[2], "too many arguments");
 			shell->exit_code = ENO_GENERAL;
-			// printf("exit status %d\n", shell->exit_code);
 			return (shell->exit_code);
 		}
 	}

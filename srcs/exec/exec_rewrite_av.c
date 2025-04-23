@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_rewrite_av.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 23:27:07 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/17 20:21:01 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/23 11:00:59 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,3 @@ void	ft_handle_av(t_shell *shell, t_exec *exec_node)
     // ft_print_str_arr(exec_node->av); //JUST FOR TESTS
 	return ;
 }
-
-int	size;
-
-
