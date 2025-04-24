@@ -6,7 +6,7 @@
 # include "errors.h"
 // # include "exec.h"
 # include "input.h"
-# include "libft.h"
+// # include "libft.h"
 # include "logic_tree.h"
 # include "structs.h"
 # include "tokens.h"

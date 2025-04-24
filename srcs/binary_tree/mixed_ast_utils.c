@@ -44,9 +44,9 @@ bool	is_valid_fd(t_list *curr)
 	return (false);
 }
 
-char	**copy_and_populate(char **av, t_list **curr, char **args)
+void	copy_and_populate(char **av, t_list **curr, char **args)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (av[i])
@@ -60,7 +60,6 @@ char	**copy_and_populate(char **av, t_list **curr, char **args)
 	while (av[++i])
 		free(av[i]);
 	free(av);
-	return (args);
 }
 
 t_in_out	*make_content(t_shell *shell, t_list **curr)
@@ -75,4 +74,3 @@ t_in_out	*make_content(t_shell *shell, t_list **curr)
 	next_token(curr);
 	return (content);
 }
-

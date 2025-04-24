@@ -53,7 +53,8 @@ void	print_exec(char **av, int space)
 		i = -1;
 		while (++i < space + 2)
 			printf(" ");
-		printf("[%s]\n", av[j]);
+		if (av[j])
+			printf("[%s]\n", av[j]);
 	}
 }
 

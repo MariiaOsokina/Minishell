@@ -10,8 +10,7 @@ TITLE  = $(shell printf "\33[32;40m")
 
 NAME = minishell
 LIBFTDIR = libft
-FLAGS = -Wall -Werror -Wextra -g -Iinclude -fsanitize=address
-IFLAGS = -Iinclude/ -I${LIBFTDIR}
+FLAGS = -Wall -Werror -Wextra -g -Iinclude -fsanitize=address #-fsanitize=leak
 CC = gcc
 SRCS = $(wildcard srcs/*.c) $(wildcard srcs/*/*.c)
 OBJS = ${SRCS:.c=.o}
@@ -21,7 +20,7 @@ ENV = env -i ${VALGRIND}
 
 UNAME := $(shell uname)
 ifeq ($(UNAME), Linux)
-	INCLUDE = -L${LIBFTDIR} -lft -readline -lhistory
+	INCLUDE = -L${LIBFTDIR} -lft -lreadline -lhistory
 	READLINE =
 else ifeq ($(UNAME), Darwin)
 	INCLUDE = -L${LIBFTDIR} -lft -L/opt/homebrew/opt/readline/lib -lreadline

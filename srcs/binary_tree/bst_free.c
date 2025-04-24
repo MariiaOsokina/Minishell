@@ -30,12 +30,17 @@ void	free_sub_pipes(t_pipe *pipe)
 
 void	free_exec(t_exec *node)
 {
+	int	i;
+
+	i = 0;
 	if (node)
 	{
 		if (node->command)
 			free(node->command);
 		if (node->av)
 		{
+			while(node->av[i])
+				free(node->av[i++]);
 			free(node->av);
 			node->av = NULL;
 		}

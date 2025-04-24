@@ -23,7 +23,7 @@ char	**collect_args(char **argv, t_list **curr)
 	if (!args)
 		return (NULL);
 	if (argv)
-		args = copy_and_populate(argv, curr, args);
+		copy_and_populate(argv, curr, args);
 	else
 		populate_args(curr, args, 0);
 	return (args);

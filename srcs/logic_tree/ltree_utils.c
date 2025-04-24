@@ -59,7 +59,7 @@ void	ltree_free(void *root)
 		ltree_free(((t_or *)node)->left);
 		ltree_free(((t_or *)node)->right);
 	}
-	if (node->type != AND_IF && node->type != N_OR && node->type != N_SUBSHELL)
+	if (node->type != N_ANDIF && node->type != N_OR && node->type != N_SUBSHELL)
 		free_bst((t_pipe *)root);
 	else if (node->type == N_ANDIF || node->type == N_OR
 		|| node->type == N_SUBSHELL)

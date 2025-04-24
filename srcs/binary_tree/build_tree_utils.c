@@ -46,14 +46,17 @@ char	**get_colors(t_shell *shell, char **av)
 	colors = malloc(sizeof(char *) * (i + 2));
 	if (!colors)
 		exit_failure(shell, "get_colors");
-	colors[0] = av[0];
-	colors[1] = "--color=auto";
+	colors[0] = ft_strdup(av[0]);
+	colors[1] = ft_strdup("--color=auto");
 	while (j < i)
 	{
 		colors[j + 1] = av[j];
 		j++;
 	}
 	colors[i + 1] = NULL;
+	i = -1;
+	while (av[++i])
+		free(av[i]);
 	free(av);
 	return (colors);
 }

@@ -1,7 +1,6 @@
 #ifndef UTILS_H
 # define UTILS_H
 
-# include "libft.h"
 # include "minishell.h"
 # include <limits.h>
 

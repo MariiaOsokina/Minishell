@@ -21,12 +21,16 @@ void	terminal(t_shell *shell, char **envp)
 		if (*shell->input)
 			add_history(shell->input);
 		lexer(shell, shell->trimmed_input);
-		//print_token_lst(shell->token_lst); // Printing token list
+		printf("Before AST\n");
+		print_token_lst(shell->token_lst); // Printing token list
 		shell->envp_arr = env_arr(shell);
 		shell->path = path_list(shell, envp);
 		shell->root = build_ast(shell);
 		print_bst(shell->root, 5);
+		printf("After AST\n");
+		print_token_lst(shell->token_lst); // Printing token list
 		free_shell(shell); //Not here..
+		// return ;
 		// Build and execute the cmd tree
 		/*section to call test functions to print out token and command lists*/
 		// lexec_tree(shell, shell->root);

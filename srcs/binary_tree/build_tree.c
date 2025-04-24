@@ -84,5 +84,8 @@ void	*parse_expression(t_shell *shell, t_list **curr, bool in_subshell)
 
 void	*build_ast(t_shell *shell)
 {
-	return (parse_expression(shell, &shell->token_lst, false));
+	t_list	*curr;
+
+	curr = shell->token_lst;
+	return (parse_expression(shell, &curr, false));
 }
