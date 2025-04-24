@@ -34,7 +34,8 @@ t_in_out	*redirection_content(t_shell *shell, t_list **curr)
 	t_token		*tmp;
 	t_in_out	*content;
 
-	content = malloc(sizeof(t_in_out));
+	// content = malloc(sizeof(t_in_out));
+	content = ft_calloc(sizeof(t_in_out), 1); // MO changes;
 	if (!content)
 		exit_failure(shell, "collect_io");
 	tmp = (t_token *)(*curr)->content;
@@ -49,7 +50,7 @@ t_in_out	*redirection_content(t_shell *shell, t_list **curr)
 	if (content->type == HERE)
 	{
 		content->eof = ft_strdup(((t_token *)(*curr)->next->content)->value);
-		content->name = ft_strdup(((t_token *)(*curr)->next->content)->value);
+		// content->name = ft_strdup(((t_token *)(*curr)->next->content)->value);
 	}
 	else
 		content->name = ft_strdup(((t_token *)(*curr)->next->content)->value);
@@ -64,12 +65,13 @@ void	collect_io(t_shell *shell, t_list **curr, t_list **i_ofiles)
 	{
 		while (*curr && !is_operator(*curr))
 		{
-			if (is_valid_fd(*curr))
-			{
-				content = make_content(shell, curr);
-				ft_lstadd_back(i_ofiles, ft_lstnew(content));
-			}
-			else if (is_redirection(*curr))
+			// if (is_valid_fd(*curr)) //MO deleted
+			// {
+			// 	content = make_content(shell, curr);
+			// 	ft_lstadd_back(i_ofiles, ft_lstnew(content));
+			// }
+			// else if (is_redirection(*curr))
+			if (is_redirection(*curr))
 			{
 				content = redirection_content(shell, curr);
 				ft_lstadd_back(i_ofiles, ft_lstnew(content));
@@ -109,6 +111,7 @@ void	*create_exec_node(t_shell *shell, t_list **curr)
 	node->i_ofiles = NULL;
 	node->av = NULL;
 	node->command = NULL;
+	node->i_ofiles = NULL; //MO added
 	node->av = collect_args(node->av, curr);
 	collect_io(shell, curr, &node->i_ofiles);
 	if (node->av) // Was second

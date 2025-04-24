@@ -26,7 +26,10 @@ void	print_i_ofiles(t_list *in_ofiles, int space)
 	i = 0;
 	while (in_ofiles)
 	{
-		printf("%s", (char *)((t_in_out *)in_ofiles->content)->name);
+		if ((t_io_type)((t_in_out *)in_ofiles->content)->type == HERE) // MO added
+			printf("%s", (char *)((t_in_out *)in_ofiles->content)->eof); // MO added
+		else // MO added
+			printf("%s", (char *)((t_in_out *)in_ofiles->content)->name);
 		if (in_ofiles->next)
 			printf(", ");
 		in_ofiles = in_ofiles->next;

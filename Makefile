@@ -10,7 +10,7 @@ TITLE  = $(shell printf "\33[32;40m")
 
 NAME = minishell
 LIBFTDIR = libft
-FLAGS = -Wall -Werror -Wextra -g -Iinclude -fsanitize=address #-fsanitize=leak
+FLAGS = -Wall -Werror -Wextra -g -Iinclude #-fsanitize=address #-fsanitize=leak
 CC = gcc
 SRCS = $(wildcard srcs/*.c) $(wildcard srcs/*/*.c)
 OBJS = ${SRCS:.c=.o}

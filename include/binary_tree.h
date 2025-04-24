@@ -26,13 +26,13 @@ typedef enum e_io_type
 	ADD,
 }				t_io_type;
 
-typedef struct s_in_out
+typedef struct s_in_out //MO changed
 {
 	t_io_type	type;
 	char		*name;
-	char		**expanded_name;
+	// char		**expanded_name; //MO deleted
 	char		*eof;
-	int			fd_heredoc;
+	// int			fd_heredoc; //MO deleted
 }				t_in_out;
 
 /*EXEC*/

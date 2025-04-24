@@ -8,8 +8,8 @@ void	free_in_outfiles(void *content)
 	{
 		if (in_ofiles->name)
 			free(in_ofiles->name);
-		if (in_ofiles->expanded_name)
-			free(in_ofiles->expanded_name);
+		// if (in_ofiles->expanded_name)
+		// 	free(in_ofiles->expanded_name);
 		if (in_ofiles->eof)
 			free(in_ofiles->eof);
 		free((void *)in_ofiles);
@@ -47,8 +47,9 @@ void	free_exec(t_exec *node)
 		if (node->i_ofiles)
 		{
 			ft_lstclear(&node->i_ofiles, free_in_outfiles);
-			node->i_ofiles = NULL;
+			// node->i_ofiles = NULL;
 		}
+		free(node->i_ofiles); // MO addded;
 		free(node);
 	}
 }
@@ -64,7 +65,7 @@ void	free_bst(void *root)
 		free_sub_pipes((t_pipe *)root);
 	else if (node->type == N_EXEC)
 		free_exec((t_exec *)root);
-	else if (node->type == AND_IF)
+	else if (node->type == N_ANDIF)
 		ltree_free((t_andif *)root);
 	else if (node->type == N_OR)
 		ltree_free((t_or *)root);
