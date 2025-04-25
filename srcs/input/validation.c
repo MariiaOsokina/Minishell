@@ -1,13 +1,31 @@
 #include "minishell.h"
 
+static bool ft_check_only_space(const char *sh_input)
+{
+    int i = 0;
+
+    while (sh_input[i]) 
+    {
+        if (sh_input[i] != ' ' && sh_input[i] != '\t')
+            return (false);
+        i++;
+    }
+    return (true);
+}
+
 /*
 	This function is validating shell user input,
 	may require extra functions for valid env input checks.
 	e.g. $VAR and ${VAR}
 */
+
+
+
 bool	input_validation(t_shell *shell)
 {
 	if (!shell->input || shell->input[0] == '\0')
+		return (true);
+	if (ft_check_only_space(shell->input) == true) // MO added
 		return (true);
 	shell->trimmed_input = ft_strtrim(shell->input, "\t ");
 	if (!shell->trimmed_input)
