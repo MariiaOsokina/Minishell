@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:03:55 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/25 20:26:59 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 20:31:42 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	ft_print_export_envp(t_list *env_list)
 		env_entry = (t_env *)current->content;
 		printf("declare -x %s", env_entry->key);
 		if (env_entry->value != NULL)
-			printf("=%s", env_entry->value);
+			printf("\"=%s\"", env_entry->value);
 		printf("\n");
 		current = current->next;
 	}
