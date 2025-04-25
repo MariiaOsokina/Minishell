@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:39:12 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/08 13:40:01 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 20:21:57 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*STEPS:
-1 - Loop the list of envp(parsed before);
-2 - If value not empty print “key”=”value”
-*/
-
-/*
-export MYVAR
-env | grep "MYVAR" //env doesn't print if no value
-export | grep "MYVAR" //export print w/o value
-
-*/
 
 /*Alphabetical order??*/
 

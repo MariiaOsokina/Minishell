@@ -3,39 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   exec_simple_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:03:32 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/25 14:47:05 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 19:49:52 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* STEPS:
-1 - No command:
-	- Redirections;
-	- Reset STDIN and STDOUT???
-2 - Built-ins: 
-	- Check is it built-in (is cmd in the  built-ins list)
-	- Redirections;
-	- execution(call built-in function);
-	- Reset STDIN and STDOUT???
-3 - External command(execve) in child process;
-*/
-static void ft_print_str_arr(char **arr)
-{
-	if (!arr)
-	{
-		printf("(null array)\n");
-		return;
-	}
+// static void ft_print_str_arr(char **arr)
+// {
+// 	if (!arr)
+// 	{
+// 		printf("(null array)\n");
+// 		return;
+// 	}
 
-	for (int i = 0; arr[i] != NULL; i++)
-	{
-		printf("[%d] %s\n", i, arr[i]);
-	}
-}
+// 	for (int i = 0; arr[i] != NULL; i++)
+// 	{
+// 		printf("[%d] %s\n", i, arr[i]);
+// 	}
+// }
 
 static void	ft_reset_stdio(int tmp_stdin, int tmp_stdout)
 {
@@ -88,7 +77,7 @@ int	ft_exec_simple_cmd(t_shell *shell, t_exec *exec_node)
 	int	tmp_status;
 
 	tmp_status = ENO_SUCCESS;
-	ft_print_str_arr(exec_node->av); // MO JUST FOT TEST
+	// ft_print_str_arr(exec_node->av); // MO JUST FOT TEST
 	ft_expand_args(shell, exec_node);
 	if (exec_node->av == NULL || exec_node->av[0] == NULL)
 		tmp_status = ft_exec_no_cmd(shell, exec_node);

@@ -6,57 +6,13 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:03:55 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/17 20:19:08 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 20:26:59 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*STEPS:
-1 - NOTE: Options are not in the Minishell Subject!
-2 - if just cmd without argos, put list shell.envp 
-with msg “declare -x” (!including key with value=NULL)
-3 - Loop argos:
-	a- Check is key value valid. It should start 
-	with the letter or ‘_’, followed by letters, numbers, or ‘_’.Plus ‘=’ exists
-	b- If key is not valid, error msg “not a valid identifier” 
-	and change exit code to 1.
-	c- If key is valid create a new node t_env 
-	from input (key = , value = ). If no value, value = NULL
-		- If key doesn't exist then add a new node t_env to shell.env;
-		- if key exists then update env value;
-*/
-
-/*TO BE SOLVED:
-- //alphabetic  order???
-- append +=???*/
-
-/*
-TESTS:
-export VAR
-export | grep "VAR"
-
-//VAR
-
-export VAR=
-export | grep "VAR"
-
-//VAR=""
-
-export VAR VAR
-export VAR=10 VAR=5
-
-export 2VAR
-export VAR,>vh
-
-export VAR,hs test=10
-echo $? //1
-export | grep test
-
-export VAR=10
-export VAR //doesn't change the value!! - to be fixed
-
-*/
+/*alphabetic  order???*/
 
 static int	ft_print_export_envp(t_list *env_list)
 {

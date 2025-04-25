@@ -6,28 +6,11 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:05:42 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/16 10:31:30 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 19:59:09 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// void	ft_free_env_lst(t_list **envp)
-// {
-// 	ft_lstclear(envp, (void (*)(void *))ft_free_env_node);
-// }
-
-// void	ft_free_env_node(t_env *envp_node)
-// {
-// 	if (envp_node)
-// 	{
-// 		if (envp_node->key)
-// 			free(envp_node->key);
-// 		if (envp_node->value)
-// 			free(envp_node->value);
-// 		free(envp_node);
-// 	}
-// }
 
 void	ft_free_env_node(void *envp)
 {
@@ -43,9 +26,6 @@ void	ft_free_env_node(void *envp)
 		free(envp_node);
 	}
 }
-
-//key and value are passed NOT malloced before
-//check exit_failure for malloc of internal variables;
 
 t_env	*ft_dup_env_node(t_shell *shell, char *key, char *value)
 {
@@ -108,14 +88,14 @@ void	ft_update_env_value(t_list *envp, char *key, char *new_value)
 	return ;
 }
 
-void	ft_print_env_lst(t_list *lst) //for testing
-{
-	t_env	*env_var;
+// void	ft_print_env_lst(t_list *lst) //for testing
+// {
+// 	t_env	*env_var;
 
-	while (lst)
-	{
-		env_var = (t_env *)lst->content;
-		printf("%s='%s'\n", env_var->key, env_var->value);
-		lst = lst->next;
-	}
-}
+// 	while (lst)
+// 	{
+// 		env_var = (t_env *)lst->content;
+// 		printf("%s='%s'\n", env_var->key, env_var->value);
+// 		lst = lst->next;
+// 	}
+// }

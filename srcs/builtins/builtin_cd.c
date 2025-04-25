@@ -6,32 +6,11 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:25:38 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/17 20:20:02 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 20:18:27 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* STEPS:
-1 - NOTES: No options in the Minishell Subject! 
-So, “--” and "-" should be treated as an option;
-
-2 - If more than two args, error “too many arguments” with exit code 1 
-(but NOT exit from the process!!!)
-
-3 - If no path(2nd arg), it should be home dir
-	- seach HOME path in the list of env variables, passed 
-	in the beginning of the program (shell.envp)
-	- if no HOME in envp, error “HOME not set” 
-	with exit code 1 (e.g. in case if unset HOME);
-
-4 - Change dir with function chdir(form unistd.h)
-	- If chdir returns error, error “No such file or directory” with exit code 1 
-
-5 - Update list of env (shell.envp);
- - if $PWD was unset, add new env node to envp, 
- else update value PWD, value is getcwd())
-*/
 
 static void	ft_update_pwd_env(t_shell *shell, char *new_dir)
 {

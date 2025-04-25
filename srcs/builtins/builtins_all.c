@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:07:12 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/16 10:40:41 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 20:27:49 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,6 @@ bool	ft_is_builtin(char *cmd_name)
 		return (true);
 	return (false);
 }
-
-/*NOTE:
-All builtins return an exit status of 2 to indicate incorrect usage, 
-generally invalid options or missing arguments.*/
 
 int	ft_exec_builtin(t_shell *shell, t_exec *exec_node)
 {
