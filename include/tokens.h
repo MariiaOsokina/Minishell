@@ -12,7 +12,7 @@ typedef enum s_token_type
 	HEREDOC,
 	AND_IF,
 	OR,
-	PARENTHESIS, // LPARENS?? RPARENS??
+	PARENTHESIS
 }					t_token_type;
 
 typedef enum s_token_state

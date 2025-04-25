@@ -20,61 +20,50 @@ void	balance_message(int balance)
 		ft_putendl_fd(OPEN_ERROR, 2);
 }
 
-/*Checking for valid parenthesis*/
-bool	check_parenthesis(char *str)
+bool	handle_paren(char c, int *bal)
 {
-	int		i;
-	int		balance;
-	bool	valid_content;
-
-	i = 0;
-	balance = 0;
-	valid_content = true;
-	while (str[i])
+	if (c == '(')
+		(*bal)++;
+	else if (c == ')')
 	{
-		if (str[i] == ')' && balance == 0)
-			return (balance_message(-1), false);
-		if (str[i] == '(')
-			balance++;
-		if (str[i] == '(' && (str[i + 1] == ')' || str[i + 1] == ' '))
-			return (balance_message(-1), false);
-		else if (str[i] == ')')
-			balance--;
-		i++;
+		if (*bal == 0)
+			return (false);
+		(*bal)--;
 	}
-	if (balance != 0)
-		balance_message(balance);
-	if (balance == 0 && valid_content)
-		return (true);
-	return (false);
+	return (true);
 }
 
+bool	check_parenthesis(char *str)
+{
+	int	i;
+	int	bal;
+	bool	sq;
+	bool	dq;
 
-// bool	is_space(char c)
-// {
-// 	return ((c >= 9 && c <= 13) || c == 32);
-// }
+	i = 0;
+	bal = 0;
+	sq = false;
+	dq = false;
 
-// bool	check_line_len(char *line)
-// {
-// 	if (ft_strlen(line) > 200)
-// 		return (ft_putendl_fd(LINE_ERROR, 2), false);
-// 	return (true);
-// }
+	while (str[i])
+	{
+		toggle_quotes(str[i], &sq, &dq);
+		if (!sq && !dq && !handle_paren(str[i], &bal))
+			return (balance_message(-1), false);
+		i++;
+	}
+	if (sq || dq)
+		return (ft_putendl_fd(OPEN_QUOTE, 2), false);
+	if (bal != 0)
+		return (balance_message(bal), false);
+	return (true);
+}
 
-// void	balance_message(int balance)
-// {
-// 	if (balance < 0)
-// 		ft_putendl_fd(CLOSE_ERROR, 2);
-// 	else if (balance > 0)
-// 		ft_putendl_fd(OPEN_ERROR, 2);
-// }
-
-// /*Checking for valid parenthesis*/
+/*Checking for valid parenthesis old version
 // bool	check_parenthesis(char *str)
 // {
-// 	int	i;
-// 	int	balance;
+// 	int		i;
+// 	int		balance;
 
 // 	i = 0;
 // 	balance = 0;
@@ -94,3 +83,4 @@ bool	check_parenthesis(char *str)
 // 		return (true);
 // 	return (false);
 // }
+*/

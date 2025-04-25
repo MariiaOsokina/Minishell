@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:44:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/23 11:00:34 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 14:30:51 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,44 @@ execve() replaces the child proccess;
  The return status is exit status as provided by waitpid(), 
 or 128+n if the command was terminated by signal n.
 - handle signals*/
+
+/*This function checks if a given command (or file path) is a directory. 
+It uses the stat() to retrieve info about the file 
+and stores it in a struct stat called cmd_stat. 
+The S_ISDIR macro is then used to check if the file is a directory 
+by examining the st_mode field of cmd_stat.*/
+
+static bool	ft_cmd_is_dir(char *cmd_path)
+{
+	struct stat	cmd_stat;
+
+	ft_memset(&cmd_stat, 0, sizeof(cmd_stat));
+	stat(cmd_path, &cmd_stat);
+	return (S_ISDIR(cmd_stat.st_mode));
+}
+
+/* check the permission to the file, print the error 
+msg and return the error number*/
+
+static int	ft_check_access(char *cmd_path)
+{
+	if (access(cmd_path, F_OK) != 0)
+	{
+		ft_err_msg(cmd_path, "No such file or directory", NULL);
+		return (ENO_NOT_FOUND);
+	}
+	else if (ft_cmd_is_dir(cmd_path))
+	{
+		ft_err_msg(cmd_path, "Is a directory", NULL);
+		return (ENO_CANT_EXEC);
+	}
+	else if (access(cmd_path, X_OK) != 0)
+	{
+		ft_err_msg(cmd_path, "Permission denied\n", NULL);
+		return (ENO_CANT_EXEC);
+	}
+	return (ENO_SUCCESS);
+}
 
 static void	ft_exec_with_path(t_shell *shell, t_exec *exec_node)
 {
@@ -75,42 +113,4 @@ int	ft_exec_external_cmd(t_shell *shell, t_exec *exec_node)
 	}
 	waitpid(fork_pid, &tmp_status, 0);
 	return (ft_get_exit_status(tmp_status));
-}
-
-/* check the permission to the file, print the error 
-msg and return the error number*/
-
-int	ft_check_access(char *cmd_path)
-{
-	if (access(cmd_path, F_OK) != 0)
-	{
-		ft_err_msg(cmd_path, "No such file or directory", NULL);
-		return (ENO_NOT_FOUND);
-	}
-	else if (ft_cmd_is_dir(cmd_path))
-	{
-		ft_err_msg(cmd_path, "Is a directory", NULL);
-		return (ENO_CANT_EXEC);
-	}
-	else if (access(cmd_path, X_OK) != 0) // no execution rights
-	{
-		ft_err_msg(cmd_path, "Permission denied\n", NULL);
-		return (ENO_CANT_EXEC);
-	}
-	return (ENO_SUCCESS);
-}
-
-/*This function checks if a given command (or file path) is a directory. 
-It uses the stat() to retrieve info about the file 
-and stores it in a struct stat called cmd_stat. 
-The S_ISDIR macro is then used to check if the file is a directory 
-by examining the st_mode field of cmd_stat.*/
-
-bool	ft_cmd_is_dir(char *cmd_path)
-{
-	struct stat	cmd_stat;
-
-	ft_memset(&cmd_stat, 0, sizeof(cmd_stat));
-	stat(cmd_path, &cmd_stat);
-	return (S_ISDIR(cmd_stat.st_mode));
 }

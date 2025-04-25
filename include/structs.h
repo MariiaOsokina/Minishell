@@ -1,6 +1,6 @@
 #pragma once
 
-#include "libft.h"
+#include "libft.h" //replace??? #include "../libft/libft.h"
 #include <limits.h>
 #include <stdbool.h>
 
@@ -15,7 +15,7 @@ typedef struct s_shell
 	char *trimmed_input; // Stores trimmed input (no leading/trailing spaces).
 	void *root;          // Root of an AST (Abstract Syntax Tree) for parsing
 	char *cmd_path;      // Stores the full executable path for a command.
-	char *cwd;           // Current working directory //MO: PROMPT
+	char *cwd;           // Current working directory
 	int exit_code;       // Stores the exit code of the last command
 	// int fd;              // Stores the file descriptor used for redirections. MO: we don't need it
 	t_list *heredoc_names; // MO: added
@@ -26,8 +26,6 @@ typedef struct s_env
 {
 	char		*value;
 	char		*key;
-	// bool		is_export; // Clarify use
-	// bool		is_printed;
 }				t_env;
 
 /*AST in this project is built using recursive descent..*/

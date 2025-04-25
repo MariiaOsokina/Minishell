@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+/*
 int	check_token(t_list *node)
 {
 	// printf("Got here-4.5\n");
@@ -12,6 +13,14 @@ int	check_token(t_list *node)
 				&& ((t_token *)node->content)->type != OR));
 	}
 	return (false);
+}
+*/
+
+int	check_token(t_list *node)
+{
+	printf("Checked token\n");
+	return (node && (((t_token *)node->content)->type != AND_IF
+			&& ((t_token *)node->content)->type != OR));
 }
 
 void	*ltree_print(void *root, int space)
@@ -33,8 +42,14 @@ void	*ltree_print(void *root, int space)
 	else if (node->type == N_OR)
 	{
 		ltree_print(((t_or *)root)->right, space);
-		// printf("%*s -> [||]\n", space, "");
+		printf("%*s -> [||]\n", space, "");
 		ltree_print(((t_or *)root)->left, space);
+	}
+	else if (node->type == N_SUBSHELL)
+	{
+		ltree_print(((t_op *)root)->right, space + spacing);
+		printf("\n\n%*s[SUBSH]\n", space, "");
+		ltree_print(((t_op *)root)->left, space + spacing);
 	}
 	else if (node->type == N_PIPE)
 		print_bst((t_pipe *)root, space + spacing);
@@ -50,7 +65,7 @@ void	ltree_free(void *root)
 	if (!root)
 		return ;
 	node = (t_node *)root;
-	if (node->type == N_ANDIF)
+	if (node->type == N_ANDIF || node->type == N_SUBSHELL)
 	{
 		ltree_free(((t_andif *)node)->left);
 		ltree_free(((t_andif *)node)->right);
@@ -60,9 +75,10 @@ void	ltree_free(void *root)
 		ltree_free(((t_or *)node)->left);
 		ltree_free(((t_or *)node)->right);
 	}
-	if (node->type != N_ANDIF && node->type != N_OR) //MO: fixed
-		free_bst((t_pipe *)root);
-	else if (node->type == N_ANDIF || node->type == N_OR)
+	if (node->type != N_ANDIF && node->type != N_OR && node->type != N_SUBSHELL)
+		free_bst((t_pipe *)root); //MO: check logic of free_bst, can we simplify??
+	else if (node->type == N_ANDIF || node->type == N_OR
+		|| node->type == N_SUBSHELL)
 		free(root);
 	return ;
 }

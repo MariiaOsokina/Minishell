@@ -18,8 +18,6 @@ void	del_token(void *token_node)
 	if (token)
 	{
 		free(token->value);
-		// if (token->value)
-		// 	free(token->value); // MO: added
 		free(token);
 	}
 }

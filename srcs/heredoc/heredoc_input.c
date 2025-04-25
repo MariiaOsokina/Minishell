@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_fill.c                                     :+:      :+:    :+:   */
+/*   heredoc_input.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/10 14:26:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/10 14:30:45 by mosokina         ###   ########.fr       */
+/*   Created: 2025/03/26 21:30:26 by mosokina          #+#    #+#             */
+/*   Updated: 2025/04/25 14:06:12 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,37 @@ static void	ft_print_heredoc_warning(t_in_out *io_here, int line_nbr)
 	ft_putstr_fd("\')\n", STDERR_FILENO);
 }
 
-void	ft_put_heredoc(t_shell *shell, char *hd_l, int hd_fd, bool has_quoted)
+static void	ft_put_heredoc(t_shell *shell, char *hd_l, int hd_fd, bool quoted)
 {
-	if (has_quoted == false)
+	if (quoted == false)
 		ft_heredoc_unquoted(shell, hd_l, hd_fd);
 	else
 		ft_putendl_fd(hd_l, hd_fd);
+}
+
+static bool	ft_is_delimiter(char *delimiter, char *hd_line)
+{
+	while (*hd_line)
+	{
+		if (*delimiter == '"' || *delimiter == '\'')
+		{
+			delimiter++;
+			continue ;
+		}
+		else if (*hd_line == *delimiter)
+		{
+			hd_line++;
+			delimiter++;
+		}
+		else
+			return (false);
+	}
+	while (*delimiter == '"' || *delimiter == '\'')
+		delimiter++;
+	if (!*delimiter)
+		return (true);
+	else
+		return (false);
 }
 
 void	ft_heredoc_input(t_shell *sh, t_in_out *io_here, int hd_fd, bool quoted)
@@ -57,17 +82,4 @@ void	ft_heredoc_input(t_shell *sh, t_in_out *io_here, int hd_fd, bool quoted)
 			line_nbr ++;
 		}
 	}
-}
-
-void	ft_fill_heredoc(t_shell *shell, t_in_out *io_here)
-{
-	bool	has_quoted;
-	int		hd_fd;
-
-	has_quoted = ft_is_delimiter_quoted(io_here->eof);
-	hd_fd = open(io_here->name, O_CREAT | O_WRONLY | O_TRUNC, 0644); //check?
-	ft_signals_heredoc();
-	ft_heredoc_input(shell, io_here, hd_fd, has_quoted);
-	close(hd_fd);
-	ft_signals_interactive();
 }
