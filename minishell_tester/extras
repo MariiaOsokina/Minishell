@@ -53,3 +53,28 @@ echo '"$USER"'
 echo "'$USER'"
 expr $? + $?
 
+echo
+echo "hello"
+echo  "hello hello"
+echo hello1 hello2
+echo -n hello
+echo -n hello hello
+echo -nnnnnnn
+echo -n -nnnnnnnn
+echo hello -n
+echo 
+
+
+export MYVAR && env | grep "MYVAR"
+export MYVAR && export | grep "MYVAR"
+
+export VAR= && export | grep "VAR"
+
+export VAR VAR && export VAR=10 VAR=5
+
+export 2VAR && export VAR,>vh
+
+export VAR,hs test=10
+export | grep test
+
+export VAR=10 && export VAR

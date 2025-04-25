@@ -5,20 +5,8 @@
 # include "minishell.h"
 # include <limits.h>
 
-/*Utils.h:  Shell Utils */
-void	free_shell(t_shell *shell);
-
-// /*Utils.h: Signals */
-// void	sig_main(int signo);
-// void	sig_pipe(int signo); // Might remove, doing nothing.
-// void	handle_signals(void);
-// void	set_main_signals(void);
-// void	set_fork1_signal(void);
-
-// /*Utils.h: Heredoc signal handling functions*/
-// void	heredoc_signal(void);
-// void	heredoc_sigint_handler(int signo);
-// t_shell	*shell_struct(t_shell *shell, int flag);
+// /*Utils.h:  Shell Utils */
+// void	free_shell(t_shell *shell);
 
 /*terminal.c & terminal_utils.c*/
 void	free_shell(t_shell *shell);
@@ -26,7 +14,7 @@ void	shell_input(t_shell *shell);
 
 /* terminal.c  && terminal_utils.c*/
 void	reset_shell(t_shell *shell);
-bool	is_env_empty(t_shell *shell);
+// bool	is_env_empty(t_shell *shell);
 // void	terminal(t_shell *shell, char **envp);
 void	terminal(t_shell *shell);
 

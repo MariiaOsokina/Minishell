@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_external_cmd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:44:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/25 14:30:51 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 19:44:34 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* STEPS:
-1 - fork() as an external command (execve) should be in child process:
-2 - Redirections;
-3 - If absolute/relative path (with slash)  - check access to executable file
-4 - If only command name  - get the path from $PATH;
-5 - Execution of external command by using a function execve(), 
-execve() replaces the child proccess;
-6 - Retrieving the exit code from child to parent with waitpid();
-7 - Get exit status (with macros WIFSIGNALED, WTERMSIG, WEXITSTATUS)
-*/
-
-/*NOTE:
- The return status is exit status as provided by waitpid(), 
-or 128+n if the command was terminated by signal n.
-- handle signals*/
 
 /*This function checks if a given command (or file path) is a directory. 
 It uses the stat() to retrieve info about the file 
@@ -42,9 +26,6 @@ static bool	ft_cmd_is_dir(char *cmd_path)
 	stat(cmd_path, &cmd_stat);
 	return (S_ISDIR(cmd_stat.st_mode));
 }
-
-/* check the permission to the file, print the error 
-msg and return the error number*/
 
 static int	ft_check_access(char *cmd_path)
 {

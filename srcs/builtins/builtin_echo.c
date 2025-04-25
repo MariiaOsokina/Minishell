@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:37:02 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/23 11:02:35 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 20:19:49 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*tests
-echo
-echo "hello"
-echo  "hello hello"
-echo hello1 hello2
-echo -n hello
-echo -n hello hello
-echo -nnnnnnn
-echo -n -nnnnnnnn
-echo hello -n
-echo 
-*/
 
 static bool	ft_is_n_option(char *str)
 {
@@ -38,12 +25,6 @@ static bool	ft_is_n_option(char *str)
 	}
 	return (true);
 }
-
-/* STEPS:
-1 - Check the option “-nnnn…” (could be as second and the following arguments)
-2 - Print the arguments with space between each other;
-3 - If option print “\n” in the end;
-*/
 
 int	ft_builtin_echo(t_shell *shell, t_exec *exec_node)
 {

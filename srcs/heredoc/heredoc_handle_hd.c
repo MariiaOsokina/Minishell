@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_handle_hd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:26:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/25 14:07:31 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 19:41:41 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,20 +65,6 @@ static char	*ft_generate_heredoc_name(void)
 	return (name);
 }
 
-/* functions for generating heredocs:
-
-loop the list of in out nodes and if in it is heredoc:
-
-	1- generate the tmp file name for heredoc in /tmp/ directory;
-
-	2- open fd(create heredoc tmp file and open it for write, chmod 0644); 
-	//check?
-
-	3 -fill heredoc tmp file line by line;
-
-	4 - close tmp_fd;
-*/
-
 void	ft_handle_heredocs(t_shell *shell, t_exec *exec_node)
 {
 	t_list		*current;
@@ -100,17 +86,6 @@ void	ft_handle_heredocs(t_shell *shell, t_exec *exec_node)
 	}
 	return ;
 }
-
-/*
-function for filling heredoc tmp file (line by line):
-1 -  check delimiter for quotes;
-Infinity Loop: 
-1 - readline (>);
-2 - check signal CTRL + D if true then break loop;
-3 - check "is delimiter" if true then break loop;
-4 - put heredoc line to heredoc tmp file;
-5 - free line as readline uses malloc;
-*/
 
 void	ft_unlink_heredocs(t_list *heredoc_names)
 {

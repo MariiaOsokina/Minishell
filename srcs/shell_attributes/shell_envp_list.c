@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_envp_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 20:54:33 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/09 12:30:35 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 20:00:12 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,11 @@ t_env	*ft_create_env_node(t_shell *shell, char *env)
 		exit_failure(shell, "create_env_node");
 	if (ft_strchr(env, '=') == NULL)
 	{
-		// printf("in %s  = not exists\n", env); //MO: for testing;
 		node->key = ft_strdup(env);
 		node->value = NULL;
 	}
 	else
 	{
-		// printf("in %s  = exists\n", env); //MO: for testing;
 		node->key = ft_extract_key(env);
 		node->value = ft_extract_value(env);
 	}

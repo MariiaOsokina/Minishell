@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/25 14:27:50 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 20:06:51 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ int		ft_exit_parent(t_shell *sh, t_exec *exec_node, int in, int out);
 int		ft_get_exit_code(char *exit_arg);
 
 /*SHELL ATTRIBUTES*/
-/*envp list utils*/
 
+/*envp list utils*/
 void	*ft_env_lst(t_shell *shell, char **envp);
 t_env	*ft_create_env_node(t_shell *shell, char *env);
 void	ft_free_env_node(void *envp);
@@ -98,17 +98,14 @@ void	ft_update_env_value(t_list *envp, char *key, char *new_value);
 void	ft_print_env_lst(t_list *lst); //for testing
 
 /*env arr and path list*/
-
 char	**ft_env_arr(t_shell *shell, t_list *envp_list);
 void	ft_free_str_arr(char **arr, int count);
 int		ft_arr_size(char **arr);
 int		ft_count_str_arr(char **arr);
 
-
+/*path list*/
 t_list	*ft_path_list(t_shell *shell);
 int		ft_get_path(t_shell *shell, t_list **path_list, char *path, int i);
-
-
 
 /*EXPANSION*/
 
@@ -138,13 +135,6 @@ void	ft_signals_noninteractive(void);
 int		ft_termios_echoctl(bool echo_ctl_chr);
 int		ft_termios_echo(bool echo);
 
-/*move to binary_tree.h*/
-t_list	*get_in_out_files(t_shell *shell, t_list *tkn_lst, t_list **i_ofiles);
-void	print_int_out_files(t_list *i_ofiles, int space);
-void	free_int_out_list(void *content);
-
-
-void	ft_process_av(t_shell *shell, void *node);
-
+// void	ft_process_av(t_shell *shell, void *node);
 
 #endif

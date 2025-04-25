@@ -6,19 +6,11 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:28:20 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/17 20:18:28 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 20:27:27 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*STEPS:
-1 - NOTE: Options are not in the Minishell Subject!
-2 - If just cmd without argos, just return with exit code 0;
-3 - Loop argos. 
-4 - If arg is key in envp, unset this key=value, 
-i.e. delete the node from list. 
-*/
 
 static void	ft_unset_key(t_shell *sh, t_list *cur, t_list *prev)
 {

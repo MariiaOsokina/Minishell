@@ -3,75 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/25 14:28:18 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 19:48:32 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*STEPS:
-LOOP thoought the list of in_out nodes and  based on type:
-1 - If fd_in (<)
-	a - check "ambigunous redirect" (
-	it occurs if after expansion there're 
-	more than one filename *wildcards <*inf or empty filename )
-	b - open file with flag O_RDONLY 
-	+ check the access (existance and permission)
- 	c - dup2(fd, STDIN) and close fd;
-2- If fd_out(>)
-	a - check "ambigunous redirect" (case: e.g.,  
-	if after expansion, more that one filename *wildcards,empty filename) 
-	b - open with flags (O_CREAT | O_WRONLY | O_TRUNC)  
-	+ check access (file’s existance and permission)
-	create the file (with mode 0664) if it doesn’t exist, 
-	open it for writing only, and TRUNCATE it to zero length
- 	c - dup2(fd, STDOUT) and close fd;
-3 - If fd_append (>>) 
-	a - check "ambigunoous redirect"  
-	
-	(case: e.g.,  if after expansion, 
-	more that one filename *wildcards,empty filename) 
-	b - open with flags  (O_CREAT | O_WRONLY | O_APPEND)  
-	+ check access (file’s existance and permission)
-	create the file (with mode 0664) if it doesn’t exist, 
-	open it for writing only, and APPEND it
-	c - dup2(fd, STDOUT) and close fd;
-4	- 	If case of an error with in(<), out(>) or append(>>) 
-(i.e. exit status is not SUCCESS) the redirection fails and stops
-		and return should be with teh exit status 1.
-5	- 	If here_doc(<<)
-	a - NOTE: Input was written to heredoc's fd BEFORE redirection!
-	b - handled by fd_in;
-*/
-
-/*TESTS
-1 - writting to the last file
-$ls >outfile1 >outfile2
-$cat outfile1
-$ cat outfile2
-a.out
-builtins
-
-
-1a - reading from the last file
-$ls <infile1 <infile2
-infile2
-
-2 - order of looping
-$>/nodir/outfile <infile ls
-bash: /nodir/outfile: No such file or directory
-
-<infile >/nodir/outfile 
-//bash: infile: No such file or directory
-
-3 - exit code 1
-$>/nodir/outfile <infile ls
-$echo $?
-1
-*/
 
 static int	ft_redir_inf(t_shell *shell, t_in_out	*in_out_node)
 {
