@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/23 11:42:13 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 14:27:50 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 #include <termios.h>
 #include <dirent.h>  // opendir, readdir, closedir
 
+/*EXECUTION*/
+
 # define HEREDOC_NAME "/tmp/.minishell_heredoc_"
 # define MAX_SIZE_HEREDOC 1024
 
@@ -45,30 +47,15 @@ typedef enum e_err_no
 	ENO_EXEC_255 = 255
 }	t_err_no;
 
-/*EXECUTION*/
 void	ft_start_execution(t_shell *shell);
 int		ft_exec_node(t_shell *shell, void *node);
-int		ft_exec_andif(t_shell *shell, t_andif *andif_node);
-int		ft_exec_or(t_shell *shell, t_or *or_node);
-int		ft_exec_subshell(t_shell *shell, t_op *subshell_node);
 int		ft_exec_pipeline(t_shell *shell, t_pipe *pipe_node);
-void	ft_exec_pipe_right(t_shell *shell, t_pipe *pipe_node, int *pipe_fds);
-void	ft_exec_pipe_left(t_shell *shell, t_pipe *pipe_node, int *pipe_fds);
+int		ft_redirections(t_shell *shell, t_exec *exec_node);
 
 /*execution of simple command*/
 int		ft_exec_simple_cmd(t_shell *shell, t_exec *exec_node);
 int		ft_exec_external_cmd(t_shell *shell, t_exec *exec_node);
-int		ft_check_access(char *cmd_path); // check the permission to the file, print the error msg and return the error number
-bool	ft_cmd_is_dir(char *cmd_path);
 char	*ft_get_env_path(t_shell shell, char *cmd_name, t_err_no *err_no);
-char	*ft_find_cmd_path(char *cmd_name, t_list *path_list);
-int		ft_exec_no_cmd(t_shell *shell, t_exec *exec_node);
-int		ft_exec_builtins_start(t_shell *shell, t_exec *exec_node);
-
-/*redirections*/
-int		ft_redirections(t_shell *shell, t_exec *exec_node);
-int		ft_redir_inf(t_shell *shell, t_in_out	*in_out_node);
-int		ft_redir_outf(t_shell *shell, t_in_out	*in_out_node);
 
 /*exec utils*/
 int		ft_get_exit_status(int status);
@@ -76,6 +63,12 @@ void	ft_err_msg(char *s1, char *s2, char *s3);
 void	ft_free_full_shell(t_shell *shell);
 void	ft_exit_with_full_cleanup(t_shell *shell, int status);
 
+/*HEREDOC*/
+void	ft_process_heredocs(t_shell *shell, void *node);
+void	ft_handle_heredocs(t_shell *shell, t_exec *exec_node);
+void	ft_unlink_heredocs(t_list *heredoc_names);
+void	ft_heredoc_input(t_shell *sh, t_in_out *io_here, int hd_fd, bool quoted);
+void	ft_heredoc_unquoted(t_shell *shell, char *hd_line, int hd_fd);
 
 /*BUILTINS*/
 bool	ft_is_builtin(char *cmd_name);
@@ -115,15 +108,7 @@ int		ft_count_str_arr(char **arr);
 t_list	*ft_path_list(t_shell *shell);
 int		ft_get_path(t_shell *shell, t_list **path_list, char *path, int i);
 
-/*HEREDOC*/
-void	ft_process_heredocs(t_shell *shell, void *node);
-void	ft_handle_heredocs(t_shell *shell, t_exec *exec_node);
-void	ft_fill_heredoc(t_shell *shell, t_in_out *io_here);
-char	*ft_generate_heredoc_name(void);
-bool	ft_is_delimiter_quoted(char *delimiter);
-bool	ft_is_delimiter(char *delimiter, char *hd_line);
-void	ft_unlink_heredocs(t_list *heredoc_names);
-void	ft_heredoc_unquoted(t_shell *shell, char *hd_line, int hd_fd);
+
 
 /*EXPANSION*/
 

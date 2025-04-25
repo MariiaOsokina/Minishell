@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 00:39:40 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/23 13:33:08 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 14:28:18 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,29 +73,7 @@ $echo $?
 1
 */
 
-int	ft_redirections(t_shell *shell, t_exec *exec_node)
-{
-	t_list		*tmp_io_list;
-	int			tmp_status;
-	t_in_out	*in_out_node;
-
-	tmp_io_list = exec_node->i_ofiles;
-	tmp_status = ENO_SUCCESS;
-	while (tmp_io_list)
-	{
-		in_out_node = (t_in_out *)tmp_io_list->content;
-		if (in_out_node->type == INF || in_out_node->type == HERE)
-			tmp_status = ft_redir_inf(shell, in_out_node);
-		else if (in_out_node->type == ADD || in_out_node->type == APP)
-			tmp_status = ft_redir_outf(shell, in_out_node);
-		if (tmp_status != ENO_SUCCESS)
-			return (tmp_status);
-		tmp_io_list = tmp_io_list->next;
-	}
-	return (tmp_status);
-}
-
-int	ft_redir_inf(t_shell *shell, t_in_out	*in_out_node)
+static int	ft_redir_inf(t_shell *shell, t_in_out	*in_out_node)
 {
 	int		fd;
 	char	*file;
@@ -117,7 +95,7 @@ int	ft_redir_inf(t_shell *shell, t_in_out	*in_out_node)
 	return (ENO_SUCCESS);
 }
 
-int	ft_redir_outf(t_shell *shell, t_in_out *in_out_node)
+static int	ft_redir_outf(t_shell *shell, t_in_out *in_out_node)
 {
 	int		fd;
 	char	*file;
@@ -137,4 +115,26 @@ int	ft_redir_outf(t_shell *shell, t_in_out *in_out_node)
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 	return (ENO_SUCCESS);
+}
+
+int	ft_redirections(t_shell *shell, t_exec *exec_node)
+{
+	t_list		*tmp_io_list;
+	int			tmp_status;
+	t_in_out	*in_out_node;
+
+	tmp_io_list = exec_node->i_ofiles;
+	tmp_status = ENO_SUCCESS;
+	while (tmp_io_list)
+	{
+		in_out_node = (t_in_out *)tmp_io_list->content;
+		if (in_out_node->type == INF || in_out_node->type == HERE)
+			tmp_status = ft_redir_inf(shell, in_out_node);
+		else if (in_out_node->type == ADD || in_out_node->type == APP)
+			tmp_status = ft_redir_outf(shell, in_out_node);
+		if (tmp_status != ENO_SUCCESS)
+			return (tmp_status);
+		tmp_io_list = tmp_io_list->next;
+	}
+	return (tmp_status);
 }

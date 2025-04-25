@@ -1,30 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_handle.c                                   :+:      :+:    :+:   */
+/*   heredoc_process_hd.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 00:27:52 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/17 20:24:26 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 13:52:22 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* functions for generating heredocs:
-
-loop the list of in out nodes and if in it is heredoc:
-
-	1- generate the tmp file name for heredoc in /tmp/ directory;
-
-	2- open fd(create heredoc tmp file and open it for write, chmod 0644); 
-	//check?
-
-	3 -fill heredoc tmp file line by line;
-
-	4 - close tmp_fd;
-*/
 
 static void	ft_process_hd_pipe(t_shell *shell, t_pipe *pipe)
 {
@@ -50,6 +36,12 @@ static void	ft_process_hd_or(t_shell *shell, t_or *or)
 		ft_process_heredocs(shell, or->right);
 }
 
+static void	ft_process_hd_subshell(t_shell *shell, t_op *sub)
+{
+	if (sub->left && g_signum != SIGINT)
+		ft_process_heredocs(shell, sub->left);
+}
+
 void	ft_process_heredocs(t_shell *shell, void *node)
 {
 	t_node	*type_node;
@@ -57,6 +49,8 @@ void	ft_process_heredocs(t_shell *shell, void *node)
 	if (g_signum == SIGINT || !node)
 		return ;
 	type_node = (t_node *)node;
+	if (type_node->type == N_SUBSHELL)
+		ft_process_hd_subshell(shell, (t_op *)node);
 	if (type_node->type == N_ANDIF)
 		ft_process_hd_andif(shell, (t_andif *)node);
 	else if (type_node->type == N_OR)
@@ -65,27 +59,5 @@ void	ft_process_heredocs(t_shell *shell, void *node)
 		ft_process_hd_pipe(shell, (t_pipe *)node);
 	else if (type_node->type == N_EXEC)
 		ft_handle_heredocs(shell, (t_exec *)node);
-	return ;
-}
-
-void	ft_handle_heredocs(t_shell *shell, t_exec *exec_node)
-{
-	t_list		*current;
-	t_in_out	*io_node;
-	char		*hd_arr_name;
-
-	current = exec_node->i_ofiles;
-	while (current && g_signum != SIGINT)
-	{
-		io_node = (t_in_out *)current->content;
-		if (io_node->type == HERE)
-		{
-			hd_arr_name = ft_generate_heredoc_name();
-			ft_lstadd_back(&(shell->heredoc_names), ft_lstnew(hd_arr_name));
-			io_node->name = ft_strdup(hd_arr_name);
-			ft_fill_heredoc(shell, io_node);
-		}
-		current = current->next;
-	}
 	return ;
 }

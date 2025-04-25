@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 01:01:22 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/11 00:36:29 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 14:26:06 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	ft_err_msg(char *s1, char *s2, char *s3)
 void	ft_free_full_shell(t_shell *shell)
 {
 	if (shell->envp != NULL)
-		// ft_free_env_lst(&(shell)->envp);
 		ft_lstclear(&shell->envp, ft_free_env_node);
 	free_shell(shell);
 }

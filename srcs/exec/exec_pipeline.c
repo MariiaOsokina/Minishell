@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:53:30 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/11 14:32:42 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 14:20:16 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	ft_exec_pipe_right(t_shell *shell, t_pipe *pipe_node, int *pipe_fds)
+{
+	int	tmp_status;
+
+	shell->in_child = true;
+	close(pipe_fds[1]);
+	dup2(pipe_fds[0], STDIN_FILENO);
+	close(pipe_fds[0]);
+	tmp_status = ft_exec_node(shell, pipe_node->right);
+	ft_exit_with_full_cleanup(shell, tmp_status);
+	exit(tmp_status);
+}
+
+static void	ft_exec_pipe_left(t_shell *shell, t_pipe *pipe_node, int *pipe_fds)
+{
+	int	tmp_status;
+
+	shell->in_child = true;
+	close(pipe_fds[0]);
+	dup2(pipe_fds[1], STDOUT_FILENO);
+	close(pipe_fds[1]);
+	tmp_status = ft_exec_node(shell, pipe_node->left);
+	ft_exit_with_full_cleanup(shell, tmp_status);
+	exit(tmp_status);
+}
 
 int	ft_exec_pipeline(t_shell *shell, t_pipe *pipe_node)
 {
@@ -39,30 +65,4 @@ int	ft_exec_pipeline(t_shell *shell, t_pipe *pipe_node)
 		}
 	}
 	return (ENO_GENERAL);
-}
-
-void	ft_exec_pipe_right(t_shell *shell, t_pipe *pipe_node, int *pipe_fds)
-{
-	int	tmp_status;
-
-	shell->in_child = true;
-	close(pipe_fds[1]);
-	dup2(pipe_fds[0], STDIN_FILENO);
-	close(pipe_fds[0]);
-	tmp_status = ft_exec_node(shell, pipe_node->right);
-	ft_exit_with_full_cleanup(shell, tmp_status);
-	exit(tmp_status);
-}
-
-void	ft_exec_pipe_left(t_shell *shell, t_pipe *pipe_node, int *pipe_fds)
-{
-	int	tmp_status;
-
-	shell->in_child = true;
-	close(pipe_fds[0]);
-	dup2(pipe_fds[1], STDOUT_FILENO);
-	close(pipe_fds[1]);
-	tmp_status = ft_exec_node(shell, pipe_node->left);
-	ft_exit_with_full_cleanup(shell, tmp_status);
-	exit(tmp_status);
 }

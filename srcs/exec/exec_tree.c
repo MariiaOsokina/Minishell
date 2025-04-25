@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/17 01:38:42 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/25 14:16:01 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	ft_start_execution(t_shell *shell)
 {
 	g_signum = 0;
-	// ft_process_av(shell, shell->root);
 	ft_process_heredocs(shell, shell->root);
 	if (g_signum == SIGINT)
 		shell->exit_code = 130;
@@ -33,6 +32,46 @@ void	ft_start_execution(t_shell *shell)
 	ft_unlink_heredocs(shell->heredoc_names);
 	if (shell->heredoc_names != NULL)
 		ft_lstclear(&(shell)->heredoc_names, free);
+}
+
+static int	ft_exec_andif(t_shell *shell, t_andif *andif_node)
+{
+	int	tmp_status;
+
+	tmp_status = ft_exec_node(shell, andif_node->left);
+	if (tmp_status == ENO_SUCCESS)
+		tmp_status = ft_exec_node(shell, andif_node->right);
+	return (tmp_status);
+}
+
+static int	ft_exec_or(t_shell *shell, t_or *or_node)
+{
+	int	tmp_status;
+
+	tmp_status = ft_exec_node(shell, or_node->left);
+	if (tmp_status != ENO_SUCCESS)
+		tmp_status = ft_exec_node(shell, or_node->right);
+	return (tmp_status);
+}
+
+static int	ft_exec_subshell(t_shell *shell, t_op *subshell_node)
+{
+	pid_t	pid_subshell;
+	int		tmp_status;
+
+	pid_subshell = fork();
+	if (pid_subshell == 0)
+	{
+		shell->in_child = true;
+		tmp_status = ft_exec_node(shell, subshell_node->left);
+		ft_exit_with_full_cleanup(shell, tmp_status);
+	}
+	else
+	{
+		waitpid(pid_subshell, &tmp_status, 0);
+		return (ft_get_exit_status(tmp_status));
+	}
+	return (ENO_GENERAL);
 }
 
 int	ft_exec_node(t_shell *shell, void *node)
@@ -53,44 +92,4 @@ int	ft_exec_node(t_shell *shell, void *node)
 	else if (type_node->type == N_EXEC)
 		tmp_status = ft_exec_simple_cmd(shell, (t_exec *)node);
 	return (tmp_status);
-}
-
-int	ft_exec_andif(t_shell *shell, t_andif *andif_node)
-{
-	int	tmp_status;
-
-	tmp_status = ft_exec_node(shell, andif_node->left);
-	if (tmp_status == ENO_SUCCESS)
-		tmp_status = ft_exec_node(shell, andif_node->right);
-	return (tmp_status);
-}
-
-int	ft_exec_or(t_shell *shell, t_or *or_node)
-{
-	int	tmp_status;
-
-	tmp_status = ft_exec_node(shell, or_node->left);
-	if (tmp_status != ENO_SUCCESS)
-		tmp_status = ft_exec_node(shell, or_node->right);
-	return (tmp_status);
-}
-
-int	ft_exec_subshell(t_shell *shell, t_op *subshell_node)
-{
-	pid_t	pid_subshell;
-	int		tmp_status;
-
-	pid_subshell = fork();
-	if (pid_subshell == 0)
-	{
-		shell->in_child = true;
-		tmp_status = ft_exec_node(shell, subshell_node->left);
-		ft_exit_with_full_cleanup(shell, tmp_status);
-	}
-	else
-	{
-		waitpid(pid_subshell, &tmp_status, 0);
-		return (ft_get_exit_status(tmp_status));
-	}
-	return (ENO_GENERAL);
 }

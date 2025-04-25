@@ -29,14 +29,15 @@ void	terminal(t_shell *shell)
 			continue ;
 		}
 		lexer(shell, shell->trimmed_input);
-		// // print_token_lst(shell->token_lst); // Printing token list
+		// print_token_lst(shell->token_lst); // Printing token list
 		shell->envp_arr = ft_env_arr(shell, shell->envp);
 		shell->path = ft_path_list(shell);
 		// print_path_list(shell->path);
 		// print_env_arr(shell); //Print array of env.
-		shell->root = build_ltree(shell, shell->token_lst);
-		// print_bst(shell->root, 5);
-		ft_process_av(shell, shell->root);
+		// shell->root = build_ltree(shell, shell->token_lst);
+		shell->root = build_ast(shell); ///IT IS THE LATEST!!
+		print_bst(shell->root, 5);
+		// ft_process_av(shell, shell->root);
 		ft_start_execution(shell);
 		// printf("exit status after execution %d\n", shell->exit_code); //MO: for testing
 		free_shell(shell);
