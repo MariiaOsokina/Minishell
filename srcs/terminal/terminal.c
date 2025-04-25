@@ -36,7 +36,7 @@ void	terminal(t_shell *shell)
 		// print_env_arr(shell); //Print array of env.
 		// shell->root = build_ltree(shell, shell->token_lst);
 		shell->root = build_ast(shell); ///IT IS THE LATEST!!
-		print_bst(shell->root, 5);
+		// print_bst(shell->root, 5);
 		// ft_process_av(shell, shell->root);
 		ft_start_execution(shell);
 		// printf("exit status after execution %d\n", shell->exit_code); //MO: for testing
