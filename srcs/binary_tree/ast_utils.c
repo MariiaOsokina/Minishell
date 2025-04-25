@@ -43,7 +43,7 @@ t_in_out	*redirection_content(t_shell *shell, t_list **curr)
 		content->type = INF;
 	else if (tmp->type == HEREDOC)
 		content->type = HERE;
-	else if (tmp->pos == OUTFILE)
+	else if (tmp->type == OUTFILE) //MO fixed "pos" is replaced
 		content->type = ADD;
 	else if (tmp->type == APPEND)
 		content->type = APP;
@@ -117,9 +117,9 @@ void	*create_exec_node(t_shell *shell, t_list **curr)
 	if (node->av) // Was second
 	{
 		node->command = ft_strdup(node->av[0]); // Needs to be freed;
-		if (ft_strcmp(node->av[0], "ls") == 0 || ft_strcmp(node->av[0],
-				"grep") == 0)
-			node->av = get_colors(shell, node->av);
+		// if (ft_strcmp(node->av[0], "ls") == 0 || ft_strcmp(node->av[0],
+		// 		"grep") == 0)
+		// 	node->av = get_colors(shell, node->av); MO: deleted
 	}
 	if (node->i_ofiles) // was first
 		repopulate_args(shell, curr, node);
