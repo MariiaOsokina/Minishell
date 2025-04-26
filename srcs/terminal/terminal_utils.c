@@ -36,5 +36,5 @@
 
 void	shell_input(t_shell *shell) // JUST FOR TESTER
 {
-	shell->cwd = ft_strdup(">");
+	shell->cwd = ft_strdup("→");
 }
