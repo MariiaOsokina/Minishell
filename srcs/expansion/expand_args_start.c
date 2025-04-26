@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_args.c                                      :+:      :+:    :+:   */
+/*   expand_args_start.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:37:16 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/23 14:21:03 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/26 01:16:28 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,38 +39,6 @@ static void	ft_expand_variables(t_shell *shell, t_exec *exec_node)
 		exec_node->av[i] = expanded;
 		i++;
 	}
-}
-
-/*NEW FUNCTION FOR TESTING*/
-/*
-ft_remove_arg_from_av
-- reallocates the array, skips the unwanted index, and shifts the rest.
-- frees the removed string and old array.
-*/
-
-char	**ft_remove_arg_from_av(char **av, int index)
-{
-	int		i;
-	int		j;
-	char	**new_av;
-
-	if (!av)
-		return (NULL);
-	new_av = ft_calloc(ft_arr_size(av), sizeof(char *));
-	if (!new_av)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (av[i])
-	{
-		if (i != index)
-			new_av[j++] = av[i];
-		else
-			free(av[i]);
-		i++;
-	}
-	free(av);
-	return (new_av);
 }
 
 /*ft_expand_word_splitting
@@ -116,31 +84,46 @@ Applies globbing only when * is detected outside quotes.
 Replaces exec_node->av[i] with matching filenames.
 */
 
+// static void	ft_expand_globbing(t_exec *exec_node)
+// {
+// 	int		i;
+// 	char	**filenames;
+// 	int		match_count;
+// 	char	*tmp_quoted_removed;
+
+// 	i = 0;
+// 	while (exec_node->av[i])
+// 	{
+// 		if (ft_scan_for_asterisk(exec_node->av[i]))
+// 		{
+// 			tmp_quoted_removed = ft_quote_removal(exec_node->av[i]);
+// 			match_count = ft_match_count(tmp_quoted_removed);
+// 			// printf("match_count %d\n", match_count);
+// 			if (match_count > 0)
+// 			{
+// 				filenames = ft_get_filenames_arr(tmp_quoted_removed, match_count);
+// 				if (filenames)
+// 				{
+// 					exec_node->av = ft_replace_args(exec_node->av, filenames, i);
+// 					ft_free_str_arr(filenames, ft_arr_size(filenames));
+// 				}
+// 			}
+// 			if (tmp_quoted_removed)
+// 				free(tmp_quoted_removed);
+// 		}
+// 		i++;
+// 	}
+// }
+
 static void	ft_expand_globbing(t_exec *exec_node)
 {
-	int		i;
-	char	**filenames;
-	int		match_count;
+	int	i;
 
 	i = 0;
 	while (exec_node->av[i])
 	{
 		if (ft_scan_for_asterisk(exec_node->av[i]))
-		{
-			printf("asteriks is OK\n");
-			
-			match_count = ft_match_count(exec_node->av[i]);
-			printf("match_count %d\n", match_count);
-			if (match_count > 0)
-			{
-				filenames = ft_get_filenames_arr(exec_node->av[i], match_count);
-				if (filenames)
-				{
-					exec_node->av = ft_replace_args(exec_node->av, filenames, i);
-					ft_free_str_arr(filenames, ft_arr_size(filenames));
-				}
-			}
-		}
+			ft_globbing_in_arg(exec_node, i);
 		i++;
 	}
 }
@@ -183,12 +166,6 @@ void	ft_expand_args(t_shell *shell, t_exec *exec_node)
 	if (exec_node->av == NULL || exec_node->av[0] == NULL)
 		return ;
 	ft_expand_variables(shell, exec_node);
-	// printf("after $\n");
-	// ft_print_str_arr(exec_node->av); //for testing
-	// ft_delete_empty_arg(exec_node);
-	// printf("after delete empty str arg\n");
-	// ft_print_str_arr(exec_node->av); //for testing
-	// ft_clean_empty_strs(exec_node);
 	ft_expand_word_splitting(exec_node);
 	// printf("after word splitting and deleting empty expanded string empty\n");
 	// ft_print_str_arr(exec_node->av); //for testing
@@ -196,7 +173,7 @@ void	ft_expand_args(t_shell *shell, t_exec *exec_node)
 	// printf("after globbing\n");
 	// ft_print_str_arr(exec_node->av); //for testing
 	ft_remove_quotes_in_args(exec_node);
-	// printf("after removing quotes\n");
+	// printf("after remove quptes\n");
 	// ft_print_str_arr(exec_node->av); //for testing
 	return ;
 }
