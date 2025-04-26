@@ -37,3 +37,15 @@ cd .. hi
 
 # Empty `cd` moves to home
 cd
+
+
+echo
+echo "hello"
+echo  "hello hello"
+echo hello1 hello2
+echo -n hello
+echo -n hello hello
+echo -nnnnnnn
+echo -n -nnnnnnnn
+echo hello -n
+echo 

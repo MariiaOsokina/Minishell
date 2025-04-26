@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/25 20:06:51 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/26 02:18:06 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,18 +111,25 @@ int		ft_get_path(t_shell *shell, t_list **path_list, char *path, int i);
 
 void	ft_expand_args(t_shell *shell, t_exec *exec_node);
 int		ft_expand_redir_name(t_shell *shell, t_in_out *io_node);
-char	*ft_var_expansion(t_shell *shell, char *word);
-char	**ft_expand_word_split(char const *word);
-size_t 	ft_count_words(const char *word);
-// void	ft_delete_empty_arg(t_exec *exec_node);
-// void	ft_clean_empty_strs(t_exec *exec_node);
+void	ft_fill_filenames_arr(const char *pattern, char **filenames);
 
+char	*ft_var_expansion(t_shell *shell, char *word);
+char	*ft_strjoin_f(char *s1, char *s2);
+char	*ft_handle_env_expand(t_shell *shell, char *word, size_t *i);
+
+char	**ft_expand_word_split(char const *word);
+char	**ft_remove_arg_from_av(char **av, int index);
+size_t 	ft_count_words(const char *word);
 char	*ft_quote_removal(const char *word);
+char	**ft_fill_arr(char const *word, char **new_arr);
+
+
 /*wildcards*/
 char 	**ft_replace_args(char **old_args, char **new_items, int index);
-char 	**ft_get_filenames_arr(const char *pattern, int match_count);
 bool	ft_scan_for_asterisk(const char *word);
 int		ft_match_count(const char *pattern);
+void	ft_globbing_in_arg(t_exec *exec_node, int i);
+bool	ft_match_pattern(const char *pattern, const char *filename);
 
 
 /*move to utils.h*/
