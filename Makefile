@@ -10,7 +10,7 @@ TITLE  = $(shell printf "\33[32;40m")
 
 NAME = minishell
 LIBFTDIR = libft
-FLAGS = -Wall -Werror -Wextra -g -Iinclude #-fsanitize=address #-fsanitize=leak
+FLAGS = -Wall -Werror -Wextra -g -Iinclude #-fsanitize=address -fsanitize=leak
 IFLAGS = -Iinclude/ -I${LIBFTDIR}
 CC = gcc
 SRCS = $(wildcard srcs/*.c) $(wildcard srcs/*/*.c)
@@ -55,7 +55,7 @@ ${NAME}:	${OBJS}
 
 clean:
 	@${RM} ${OBJS} ${NAME}
-	@cd ${LIBFTDIR} && $(MAKE) --silent clean
+	@cd ${LIBFTDIR} && $(MAKE) --silent fclean
 	@clear
 	@echo
 	@echo "$(RED)┏┓┓ ┏┓┏┓┳┓┏┓┳┓"

@@ -7,6 +7,7 @@
 #define OPEN_ERROR "near unexpected token `('"
 #define OPEN_QUOTE "`open quote'"
 #define PIPE_ERROR "near unexpected token `|'"
+#define AND_ERROR "near unexpected token `&'"
 #define REDIR_ERROR "near unexpected token `newline'"
 
 /*exit_messages.c*/

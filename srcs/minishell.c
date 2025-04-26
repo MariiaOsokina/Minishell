@@ -79,14 +79,11 @@ int	main(int ac, char **av, char **envp)
 	check_args(ac, av, envp);
 	// env_lst(&shell, envp);
 	ft_env_lst(&shell, envp);
-	// print_env_lst(shell.envp);
-	// update_shlvl(shell);
 	ft_update_shlvl(shell);
 	shell.exit_code = 0;
 	terminal(&shell); // Ongoing..
 	// free_env_lst(shell.envp);
-	if (&shell.envp != NULL)
-		// ft_free_env_lst(&shell.envp);
-		ft_lstclear(&shell.envp, ft_free_env_node);
+	// if (&shell.envp != NULL)
+	ft_lstclear(&shell.envp, ft_free_env_node);
 	return (0);
 }

@@ -7,7 +7,7 @@ bool	is_space(char c)
 
 bool	check_line_len(char *line)
 {
-	if (ft_strlen(line) > 200)
+	if (ft_strlen(line) > 400)
 		return (ft_putendl_fd(LINE_ERROR, 2), false);
 	return (true);
 }

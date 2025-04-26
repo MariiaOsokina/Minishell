@@ -68,14 +68,17 @@ void	*parse_expression(t_shell *shell, t_list **curr, bool in_subshell)
 		node = malloc(sizeof(t_op));
 		if (!node)
 			return (NULL);
-		node->type.type = (((t_token *)(*curr)->content)->type == OR) ? N_OR : N_ANDIF; //MO: it need to be changes!!!!!!
+		if (((t_token *)(*curr)->content)->type == OR)
+			node->type.type =  N_OR;
+		else
+			node->type.type =  N_ANDIF;
 		node->left = left;
 		next_token(curr);
 		node->right = parse_term(shell, curr, in_subshell);
-		if (!node->right) // If parsing the right operand fails
+		if (!node->right)
 		{
 			free_ast_node(node);
-			return (NULL); // Return NULL if the right operand is invalid
+			return (NULL);
 		}
 		left = node;
 	}

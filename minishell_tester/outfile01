@@ -1,9 +1,12 @@
-bash_outfiles
+README.md
 bash.supp
+bash_outfiles
 bonus
 bonus_bonus
 builtins
+exit_tests.txt
 extras
+heredoc_tests.txt
 local.supp
 loop.out
 manual_tests
@@ -12,9 +15,9 @@ os_specific
 outfile01
 outfiles
 pipes
-README.md
+redir_tests.txt
 redirects
 syntax
-tester
 test_files
+tester
 wildcards

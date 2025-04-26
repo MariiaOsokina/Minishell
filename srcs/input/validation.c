@@ -1,39 +1,35 @@
 #include "minishell.h"
 
-static bool ft_check_only_space(const char *sh_input)
-{
-    int i = 0;
-
-    while (sh_input[i]) 
-    {
-        if (sh_input[i] != ' ' && sh_input[i] != '\t')
-            return (false);
-        i++;
-    }
-    return (true);
-}
-
 /*
 	This function is validating shell user input,
 	may require extra functions for valid env input checks.
 	e.g. $VAR and ${VAR}
 */
 
+static bool	check_ands(char *s)
+{
+	int	i;
 
+	i = 0;
+
+	if (s[i] == '&' || s[strlen(s) - 1] == '&')
+		return (false);
+	return (true);
+}
 
 bool	input_validation(t_shell *shell)
 {
 	if (!shell->input || shell->input[0] == '\0')
 		return (true);
-	if (ft_check_only_space(shell->input) == true) // MO added
-		return (true);
 	shell->trimmed_input = ft_strtrim(shell->input, "\t ");
 	if (!shell->trimmed_input)
 		exit_failure(shell, "input_validation");
-	if (shell->trimmed_input[0] == '\0')
-		return (true); //new line
+	if (shell->trimmed_input[0] == '\0' || shell->trimmed_input[0] == 32) //This line should trigger the free function
+		return (true); 
 	if (!check_pipes(shell->trimmed_input))
 		return (syntax_error_msg(PIPE_ERROR), exit_code(2));
+	if (!check_ands(shell->trimmed_input))
+		return (syntax_error_msg(AND_ERROR), exit_code(2));
 	if (!check_quotes(shell->trimmed_input))
 		return (syntax_error_msg(OPEN_QUOTE), exit_code(2));
 	if (!check_redirections(shell->trimmed_input))
