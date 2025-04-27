@@ -1,13 +1,9 @@
 #include "minishell.h"
 
-int	exit_code(int value)
+int	exit_code(t_shell *shell, int value)
 {
-	static int	code = 0;
-
-	if (value == -1)
-		return (code);
-	code = value;
-	return (code);
+	shell->exit_code = value;
+	return (shell->exit_code);
 }
 
 char	*itoa_exit(t_shell *shell, char **str)
@@ -15,7 +11,7 @@ char	*itoa_exit(t_shell *shell, char **str)
 	char	*tmp;
 	char	*code;
 
-	code = ft_itoa(exit_code(-1));
+	code = ft_itoa(exit_code(shell, shell->exit_code));
 	if (!code)
 		exit_failure(shell, "itoa_exit");
 	tmp = *str;
@@ -26,3 +22,8 @@ char	*itoa_exit(t_shell *shell, char **str)
 		exit_failure(shell, "itoa_exits");
 	return (*str);
 }
+
+
+//Problems to address
+//(/bin/echo 1) (/bin/echo 2) subshell after subshell.
+//() empty subshell
