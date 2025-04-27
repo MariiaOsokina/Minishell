@@ -85,7 +85,6 @@ env | grep USER || grep lucas
 > *
 >> *
 < *
-<< *
 
 echo *.md
 echo built*
