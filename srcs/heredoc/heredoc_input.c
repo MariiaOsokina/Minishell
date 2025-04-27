@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_input.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 21:30:26 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/25 14:06:12 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/27 20:03:17 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	ft_print_heredoc_warning(t_in_out *io_here, int line_nbr)
 	ft_putstr_fd("bash: warning: here-document at line ", \
 	STDERR_FILENO);
 	ft_putnbr_fd(line_nbr, STDERR_FILENO);
-	ft_putstr_fd(" delimited by end-of-file (wanted \'", \
+	ft_putstr_fd(" delimited by end-of-file (wanted `", \
 	STDERR_FILENO);
 	ft_putstr_fd(io_here->eof, STDERR_FILENO);
 	ft_putstr_fd("\')\n", STDERR_FILENO);

@@ -68,7 +68,7 @@ export | grep test
 export VAR=10 && export VAR
 
 ls >outfile01 && cat outfile01
-cat <minishell.h&ls
+cat <minishell.h&&ls
 ||
 || echo oi
 &
