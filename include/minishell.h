@@ -49,7 +49,7 @@ void	shell_input(t_shell *shell);
 
 /*To go in errors.h*/
 void	print_exit(void);
-int		exit_code(int value);
+int	exit_code(t_shell *shell, int value);
 bool	syntax_error_msg(char *str);
 char	*itoa_exit(t_shell *shell, char **str);
 # define SYNTAX_ERROR "minishell: syntax error "

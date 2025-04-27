@@ -27,17 +27,17 @@ bool	input_validation(t_shell *shell)
 	if (shell->trimmed_input[0] == '\0' || shell->trimmed_input[0] == 32) //This line should trigger the free function
 		return (true); 
 	if (!check_pipes(shell->trimmed_input))
-		return (syntax_error_msg(PIPE_ERROR), exit_code(2));
+		return (syntax_error_msg(PIPE_ERROR), exit_code(shell, 2));
 	if (!check_ands(shell->trimmed_input))
-		return (syntax_error_msg(AND_ERROR), exit_code(2));
+		return (syntax_error_msg(AND_ERROR), exit_code(shell, 2));
 	if (!check_quotes(shell->trimmed_input))
-		return (syntax_error_msg(OPEN_QUOTE), exit_code(2));
+		return (syntax_error_msg(OPEN_QUOTE), exit_code(shell, 2));
 	if (!check_redirections(shell->trimmed_input))
-		return (exit_code(2));
+		return (exit_code(shell, 2));
 	if (!check_parenthesis(shell->trimmed_input))
-		return (exit_code(2));
-	if (!check_line_len(shell->trimmed_input))
-		return (exit_code(2));
+		return (exit_code(shell, 2));
+	// if (!check_line_len(shell->trimmed_input))
+	// 	return (exit_code(shell, 2));
 	return (false);
 }
 

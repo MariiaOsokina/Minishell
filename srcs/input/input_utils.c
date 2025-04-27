@@ -33,6 +33,25 @@ bool	handle_paren(char c, int *bal)
 	return (true);
 }
 
+bool	check_empty_parens(char *str)
+{
+	int	i;
+
+	i = 0;
+	 while (str[i])
+	{
+		if (str[i] == '(')
+		{
+			if (str[i + 1] == ')')
+				return true;
+			while (str[i] == 32)
+				i++;
+		}
+		i++;
+	}
+	return false;
+}
+
 bool	check_parenthesis(char *str)
 {
 	int	i;
@@ -45,6 +64,8 @@ bool	check_parenthesis(char *str)
 	sq = false;
 	dq = false;
 
+	if (check_empty_parens(str))
+		return (false);
 	while (str[i])
 	{
 		toggle_quotes(str[i], &sq, &dq);

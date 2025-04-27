@@ -13,7 +13,7 @@
 // 	char	*code;
 // 	char	*prompt;
 
-// 	code = ft_itoa(exit_code(shell->exit_code)); //MO: changed to shell.exit_code
+// 	code = ft_itoa(exit_code(shell, shell->exit_code)); //MO: changed to shell.exit_code
 // 	cwd = getcwd(NULL, 0);
 // 	prompt = ESC_START PROMPT ESC_RESET;
 // 	tmp = ft_strjoin(prompt, code);
