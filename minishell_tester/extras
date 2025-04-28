@@ -103,3 +103,76 @@ echo *EMPTY hello READ* world
 cat <README*
 echo "pip*"
 echo *bonus *.supp bonjour
+export VAR="" && cat <$VAR
+export a=cho 123
+export VAR=123456 && echo $VAR | wc -c
+
+
+bash$ echo 1 || echo 2 && echo 3
+bash$ echo 1 || (echo 2 && echo 3)
+(exit 5) || echo $?
+echo  a' '" "b
+exit | exit
+
+
+ls
+cat cmds.sh
+/bin/echo test1
+""
+"ls"
+"cat cmds.sh"
+"/bin/echo" test1
+""'/bin/'echo test1
+
+"."
+.ls
+./ls
+"./"ls
+"./""ls"
+"./"''"ls"
+lsa
+/ls
+/ls/
+/bin/
+/bin/cats
+./4242424242.sh
+
+/bin/echo $?
+
+/bin/echo $HOME
+
+/bin/echo $HOME$USER
+
+/bin/echo $"HOME"$USER
+
+/bin/echo $"HOM"E$USER
+
+/bin/echo $"'HOM'E"$USER
+
+/bin/echo $'HOM'E$USER
+
+/bin/echo $"HOME"
+
+/bin/echo $'HOME'
+
+/bin/echo $
+
+/bin/echo "$"
+
+/bin/echo '$='
+
+/bin/echo "$""$"
+
+/bin/echo $"$"
+
+/bin/echo $"42$"
+
+/bin/echo "$"$
+
+/bin/echo $'$'
+
+/bin/echo '$'$
+
+/bin/echo "$ "
+
+/bin/echo '$ '

@@ -49,3 +49,21 @@ echo -nnnnnnn
 echo -n -nnnnnnnn
 echo hello -n
 echo 
+
+export 123 22 A=20
+
+
+sleep 5 | sleep 5.
+cat | cat | ls
+echo -n test1
+
+echo -n "test1 test2"
+echo -n "test1 test2" test3
+echo -n " test1 test2 " 'test3 '
+echo -n test1		test2
+echo test1 -n
+echo "test1 -n"
+echo -n -n test1
+echo -n -n -n -n -n test1
+echo "-n test1 -n test2"
+echo "test1 -n test2"
