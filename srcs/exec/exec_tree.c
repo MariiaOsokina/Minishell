@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/25 14:16:01 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/28 23:49:42 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,18 @@ void	ft_start_execution(t_shell *shell)
 
 static int	ft_exec_andif(t_shell *shell, t_andif *andif_node)
 {
-	int	tmp_status;
-
-	tmp_status = ft_exec_node(shell, andif_node->left);
-	if (tmp_status == ENO_SUCCESS)
-		tmp_status = ft_exec_node(shell, andif_node->right);
-	return (tmp_status);
+	shell->exit_code = ft_exec_node(shell, andif_node->left);
+	if (shell->exit_code == ENO_SUCCESS)
+	shell->exit_code = ft_exec_node(shell, andif_node->right);
+	return (shell->exit_code);
 }
 
 static int	ft_exec_or(t_shell *shell, t_or *or_node)
 {
-	int	tmp_status;
-
-	tmp_status = ft_exec_node(shell, or_node->left);
-	if (tmp_status != ENO_SUCCESS)
-		tmp_status = ft_exec_node(shell, or_node->right);
-	return (tmp_status);
+	shell->exit_code = ft_exec_node(shell, or_node->left);
+	if (shell->exit_code != ENO_SUCCESS)
+	shell->exit_code = ft_exec_node(shell, or_node->right);
+	return (shell->exit_code);
 }
 
 static int	ft_exec_subshell(t_shell *shell, t_op *subshell_node)
