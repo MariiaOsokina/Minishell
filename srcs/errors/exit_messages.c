@@ -2,7 +2,6 @@
 
 void	exit_failure(t_shell *shell, char *info) //MO: for malloc errors?
 {
-	// free_env_lst(shell->envp);
 	if (shell->envp != NULL)
 		ft_lstclear(&shell->envp, ft_free_env_node);
 	free_shell(shell);
