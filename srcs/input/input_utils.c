@@ -68,7 +68,7 @@ bool	check_parenthesis(char *str)
 	dq = false;
 
 	if (check_empty_parens(str))
-		return (ft_putendl_fd(SYNTAX_ERROR OPEN_ERROR, 2), (false));
+		return (ft_putendl_fd(SYNTAX_ERROR CLOSE_ERROR, 2), (false));
 	while (str[i])
 	{
 		toggle_quotes(str[i], &sq, &dq);
