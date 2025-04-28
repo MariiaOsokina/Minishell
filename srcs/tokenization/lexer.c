@@ -55,9 +55,36 @@ void	set_token_position(t_list *lst)
 	}
 }
 
+
+bool	check_paren_types(t_shell *shell)
+{
+	t_list	*temp;
+	t_token	*token;
+
+	temp = shell->token_lst;
+
+	while (temp)
+	{
+		token = (t_token *)(temp)->content;
+		if (token->type == PARENTHESIS && token->value[0] == ')' && token->value[1] == '\0')
+		{
+			if (temp->next &&( ((t_token *)temp->next->content)->type == WORD || ((t_token *)temp->next->content)->value[0] == '('))
+			{
+				ft_putendl_fd(SYNTAX_ERROR OPEN_ERROR, 2);
+				ft_lstclear(&shell->token_lst, del_token);
+				free_shell(shell);
+				return (exit_code(shell, 2), false);
+			}
+		}
+		temp = temp->next;
+	}
+	return (true);
+}
+
 /*Lexing starts here*/
-void	lexer(t_shell *shell, char *input)
+bool	lexer(t_shell *shell, char *input)
 {
 	shell->token_lst = NULL;
 	tokenize_input(shell, input);
+	return (check_paren_types(shell));
 }

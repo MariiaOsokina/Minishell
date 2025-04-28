@@ -33,23 +33,26 @@ bool	handle_paren(char c, int *bal)
 	return (true);
 }
 
+//Bare parenthesis checks, no types!!
 bool	check_empty_parens(char *str)
 {
 	int	i;
 
 	i = 0;
-	 while (str[i])
+	while (str[i])
 	{
-		if (str[i] == '(')
+		if (str[i] == '(' && str[i + 1] == ')')
+			return (true);
+		if (str[i] == ')')
 		{
-			if (str[i + 1] == ')')
-				return true;
-			while (str[i] == 32)
-				i++;
+			if (i > 0 && str[i - 1] == '(')
+				return (true);
+			if (str[i + 1] == '(')
+				return (true);
 		}
 		i++;
 	}
-	return false;
+	return (false);
 }
 
 bool	check_parenthesis(char *str)
@@ -65,7 +68,7 @@ bool	check_parenthesis(char *str)
 	dq = false;
 
 	if (check_empty_parens(str))
-		return (false);
+		return (ft_putendl_fd(SYNTAX_ERROR CLOSE_ERROR, 2), (false));
 	while (str[i])
 	{
 		toggle_quotes(str[i], &sq, &dq);
@@ -105,3 +108,8 @@ bool	check_parenthesis(char *str)
 // 	return (false);
 // }
 */
+
+
+//Problems to address
+//(/bin/echo 1) (/bin/echo 2) subshell after subshell.
+//() empty subshell
