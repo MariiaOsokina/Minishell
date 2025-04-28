@@ -9,6 +9,7 @@
 #define PIPE_ERROR "near unexpected token `|'"
 #define AND_ERROR "near unexpected token `&'"
 #define REDIR_ERROR "near unexpected token `newline'"
+#define TOKEN_ERROR "near unexpected token `"
 
 /*exit_messages.c*/
 void	exit_failure(t_shell *shell, char *info);
