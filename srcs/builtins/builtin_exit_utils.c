@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:57:08 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/08 14:02:52 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/28 23:27:15 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	ft_get_exit_code(char *exit_arg)
 
 	i = 0;
 	sign = 1;
+	if (exit_arg[0] == '\0')
+		return (-1);
 	ft_handle_space_and_sign(exit_arg, &i, &sign);
 	if (!ft_is_numeric(exit_arg + i))
 	{

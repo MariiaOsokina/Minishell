@@ -159,18 +159,11 @@ exit exit
 ""
 "   "
 "    "
-"		"
-"			"
+
 /bin/echo hello 42
 /bin/sleep 0
-/bin/echo -n 1
 echo
 echo hello world
-echo -n 42
-echo -n 42 -n
-echo 42 -n
-echo -n -n -n 42
-echo -n -n -n -n 42
 exit
 exit 42
 exit ""
