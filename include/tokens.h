@@ -55,17 +55,6 @@ int					handle_closing(t_shell *shell, char *input, int i,
 int					handle_opening(t_shell *shell, char *input, int i,
 						bool valid);
 
-/*handle_expansion.c*/
-char				*handle_expansion(t_shell *shell, char *input, int i);
-int					expand_single(t_shell *shell, char **str, char *input,
-						int i);
-int					expand_quoted(t_shell *shell, char **str, char *input,
-						int i);
-int					expand_unquoted(t_shell *shell, char **str, char *input,
-						int i);
-int					process_expansion(t_shell *shell, char **str, char *input,
-						int i);
-
 /*tokenization_utils.c*/
 int					ft_flag(char c, int *i, bool flag);
 char				*ft_strjoin_char(char *str, char c);
@@ -78,7 +67,9 @@ t_token_type		token_type(char *value);
 void				del_token(void *token_node);
 void				set_token_position(t_list *lst);
 int					check_balance(char *input, int i);
-void				lexer(t_shell *shell, char *input);
+// void				lexer(t_shell *shell, char *input);
+bool				lexer(t_shell *shell, char *input);
+bool				check_paren_types(t_shell *shell);
 
 /*handlers.c*/
 int					handle_or(t_shell *shell, char *input, int i);

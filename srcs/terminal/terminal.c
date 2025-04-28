@@ -28,7 +28,9 @@ void	terminal(t_shell *shell)
 			free_shell(shell);
 			continue ;
 		}
-		lexer(shell, shell->trimmed_input);
+		if (!lexer(shell, shell->trimmed_input))
+			continue ;
+			// free_shell(shell); Done this in check_parens_type to reduce len of this terminal function.
 		// print_token_lst(shell->token_lst); // Printing token list
 		shell->envp_arr = ft_env_arr(shell, shell->envp);
 		shell->path = ft_path_list(shell);

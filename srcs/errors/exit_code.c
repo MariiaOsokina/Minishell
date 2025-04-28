@@ -23,7 +23,3 @@ char	*itoa_exit(t_shell *shell, char **str)
 	return (*str);
 }
 
-
-//Problems to address
-//(/bin/echo 1) (/bin/echo 2) subshell after subshell.
-//() empty subshell
