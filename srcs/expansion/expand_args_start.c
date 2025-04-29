@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_args_start.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 14:37:16 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/29 10:44:54 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/30 00:21:55 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,7 @@ void	ft_expand_args(t_shell *shell, t_exec *exec_node)
 		return ;
 	ft_expand_variables(shell, exec_node);
 	ft_expand_word_splitting(exec_node);
-	// printf("after word spl and deleting empty expanded string empty\n");
-	// ft_print_str_arr(exec_node->av); //for testing
 	ft_expand_globbing(exec_node);
-	// printf("after globbing\n");
-	// ft_print_str_arr(exec_node->av); //for testing
 	ft_remove_quotes_in_args(exec_node);
-	// printf("after remove quptes\n");
-	// ft_print_str_arr(exec_node->av); //for testing
 	return ;
 }

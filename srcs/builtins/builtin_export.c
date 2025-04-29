@@ -6,13 +6,11 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:03:55 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/25 22:12:54 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/30 00:25:59 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*alphabetic  order???*/
 
 static int	ft_print_export_envp(t_list *env_list)
 {

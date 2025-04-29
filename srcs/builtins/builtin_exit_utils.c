@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:57:08 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/28 23:27:15 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/30 00:25:45 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static bool	ft_is_numeric(char *s)
 	return (true);
 }
 
-/*skip spaces and get sign*/
 static void	ft_handle_space_and_sign(char *s, int *nbr, int *sign)
 {
 	while (s[*nbr] && s[*nbr] == ' ')

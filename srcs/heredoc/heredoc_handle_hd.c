@@ -6,19 +6,11 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:26:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/25 19:41:41 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/30 00:22:46 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-NOTE: 
-- If the delimiter is quoted, the text in the here-document 
-is taken literally, w/o any expansions.
-- If the delimiter is unquoted, the text in the here-document
- is subject to expansions.
-*/
 
 static bool	ft_is_delimiter_quoted(char *delimiter)
 {
@@ -43,12 +35,6 @@ static void	ft_fill_heredoc(t_shell *shell, t_in_out *io_here)
 	close(hd_fd);
 	ft_signals_interactive();
 }
-
-/* 
-	Function creates a name for the heredoc file. 
-	It will be a hidden file in the /temp
-	folder. The static variable guarantees to have successive numbers.
- */
 
 static char	*ft_generate_heredoc_name(void)
 {

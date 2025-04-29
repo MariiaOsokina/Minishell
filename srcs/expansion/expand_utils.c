@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 00:24:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/29 11:46:00 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/29 23:30:25 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,31 +36,6 @@ char	**ft_remove_arg_from_av(char **av, int index)
 	free(av);
 	return (new_av);
 }
-
-// int	ft_match_count(const char *pattern)
-// {
-// 	int				match_count;
-// 	DIR				*dir;
-// 	struct dirent	*entry;
-// 	int				pattern_starts_with_dot;
-
-// 	match_count = 0;
-// 	pattern_starts_with_dot = (pattern[0] == '.');
-// 	dir = opendir(".");
-// 	if (!dir)
-// 		return (-1);
-// 	while ((entry = readdir(dir)) != NULL) // NEED TO BE CHANGED
-// 	{
-// 		if (!pattern_starts_with_dot && entry->d_name[0] == '.')
-// 			continue ;
-// 		if (ft_match_pattern(pattern, entry->d_name))
-// 			match_count++;
-// 	}
-// 	closedir(dir);
-// 	return (match_count);
-// }
-
-// NEED TO BE TESTED AFTER REARRANGEMENT
 
 int	ft_match_count(const char *pattern)
 {
