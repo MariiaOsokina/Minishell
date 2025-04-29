@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_globbing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 23:40:03 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/29 12:02:07 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/29 23:36:03 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,31 +39,6 @@ bool	ft_match_pattern(const char *pattern, const char *filename)
 	return (*pattern == '\0' && *filename == '\0');
 }
 
-static int	ft_strcasecmp(const char *s1, const char *s2)
-{
-	char	c1;
-	char	c2;
-
-	while (*s1 || *s2)
-	{
-		if (*s1 >= 'A' && *s1 <= 'Z')
-			c1 = *s1 + 32;
-		else
-			c1 = *s1;
-		if (*s2 >= 'A' && *s2 <= 'Z')
-			c2 = *s2 + 32;
-		else
-			c2 = *s2;
-		if (c1 != c2)
-			return (c1 - c2);
-		if (*s1)
-			s1++;
-		if (*s2)
-			s2++;
-	}
-	return (0);
-}
-
 static void	ft_sort_alphabetical(char **arr, int size)
 {
 	int		i;
@@ -76,7 +51,7 @@ static void	ft_sort_alphabetical(char **arr, int size)
 		j = 0;
 		while (j < size - 1 - i)
 		{
-			if (ft_strcasecmp(arr[j], arr[j + 1]) > 0)
+			if (ft_strcmp(arr[j], arr[j + 1]) > 0)
 			{
 				temp = arr[j];
 				arr[j] = arr[j + 1];
@@ -87,34 +62,7 @@ static void	ft_sort_alphabetical(char **arr, int size)
 		i++;
 	}
 }
-// CORRECT!!!!!!
-// void	ft_fill_filenames_arr(const char *pattern, char **filenames)
-// {
-// 	DIR				*dir;
-// 	struct dirent	*entry;
-// 	int				count;
-// 	int				pattern_starts_with_dot;
 
-// 	count = 0;
-// 	pattern_starts_with_dot = (pattern[0] == '.');
-// 	if (!filenames)
-// 		return ;
-// 	dir = opendir(".");
-// 	if (!dir)
-// 		return ;
-// 	while ((entry = readdir(dir)) != NULL) // NEED TO BE CHANGED
-// 	{
-// 		if (!pattern_starts_with_dot && entry->d_name[0] == '.')
-// 			continue ;
-// 		if (ft_match_pattern(pattern, entry->d_name))
-// 			filenames[count++] = ft_strdup(entry->d_name);
-// 	}
-// 	filenames[count] = NULL;
-// 	closedir(dir);
-// 	ft_sort_alphabetical(filenames, ft_arr_size(filenames));
-// }
-
-// NEED TO BE TESTED AFTER REARRANGEMENT
 static void	ft_collect_matches(DIR *dir, const char *ptrn, char **fnames, int i)
 {
 	struct dirent	*entry;
