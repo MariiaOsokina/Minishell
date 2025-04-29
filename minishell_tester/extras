@@ -143,3 +143,157 @@ lsa
 /bin/echo $HOME
 
 /bin/echo $HOME$USER
+
+/bin/echo $"HOME"$USER
+
+/bin/echo $"HOM"E$USER
+
+/bin/echo $"'HOM'E"$USER
+
+/bin/echo $'HOM'E$USER
+
+/bin/echo $"HOME"
+
+/bin/echo $'HOME'
+
+/bin/echo $
+
+/bin/echo "$"
+
+/bin/echo '$='
+
+/bin/echo "$""$"
+
+/bin/echo $"$"
+
+/bin/echo $"42$"
+
+/bin/echo "$"$
+
+/bin/echo $'$'
+
+/bin/echo '$'$
+
+/bin/echo "$ "
+
+/bin/echo '$ '
+
+ 
+ ((echo 1) | (echo 2) | (echo 3 | (echo 4)))
+
+echo 1 | (echo 2 || echo 3 && echo 4) || echo 5 | echo 6
+
+echo 1 | (grep 1) | cat | (wc -l)
+
+(/bin/echo 1 | /bin/echo 2 && ((/bin/echo 3 | /bin/echo 3) | (/bin/echo 4 | /bin/echo 4)))
+
+(exit 4)
+
+(sleep 0 && (exit 4))
+
+(echo 1 | echo 2) | (exit 2)
+/bin/echo 1 && /bin/echo 2
+cat file_does_not_exist && /bin/echo 2
+
+/bin/echo 1 || /bin/echo 2
+cat file_does_not_exist || /bin/echo 2
+
+/bin/echo 1 && /bin/echo 2 && /bin/echo 3
+/bin/echo 1 || /bin/echo 2 || /bin/echo 3
+
+/bin/echo 1 && /bin/echo 2 | /bin/echo 3
+/bin/echo 1 || /bin/echo 2 | /bin/echo 3
+
+/bin/echo 1 && cat file_does_not_exist | /bin/echo 3
+/bin/echo 1 && /bin/echo 3 | cat file_does_not_exist
+/bin/echo 1 || cat file_does_not_exist | /bin/echo 3
+/bin/echo 1 || /bin/echo 2 | cat file_does_not_exist
+cat file_does_not_exist && /bin/echo 2 | /bin/echo 
+cat file_does_not_exist || /bin/echo 2 | /bin/echo 3
+
+/bin/echo 1 | /bin/echo 2 && /bin/echo 3
+/bin/echo 1 | /bin/echo 2 || /bin/echo 3
+
+/bin/echo 1 | cat file_does_not_exist && /bin/echo 3
+/bin/echo 1 | cat file_does_not_exist || /bin/echo 3
+cat file_does_not_exist | /bin/echo 2 && /bin/echo 3
+cat file_does_not_exist | /bin/echo 2 || /bin/echo 3
+/bin/echo 1 | /bin/echo 2 && cat file_does_not_exist
+/bin/echo 1 | /bin/echo 2 || cat file_does_not_exist
+
+/bin/echo 1 | /bin/echo 2 && /bin/echo 3 | /bin/echo 4
+/bin/echo 1 | /bin/echo 2 || /bin/echo 3 | /bin/echo 4
+
+/bin/echo 1 | /bin/echo 2 | /bin/echo 3 && /bin/echo 4 | /bin/echo 5
+/bin/echo 1 | /bin/echo 2 | /bin/echo 3 || /bin/echo 4 | /bin/echo 5
+
+ls || echo test1 || echo test2
+ls || echo test1 && echo test2
+ls && echo test1 || echo test2
+ls && echo test1 && echo test
+
+ls || echo test1 || nocmd1 test2
+ls || echo test1 && nocmd1 test2
+ls && echo test1 || nocmd1 test2
+ls && echo test1 && nocmd1 test
+
+ls || nocmd1 || echo test
+ls || nocmd1 && echo test
+ls && nocmd1 || echo test
+ls && nocmd1 && echo test
+
+nocmd1 || ls || echo test
+nocmd1 || ls && echo test
+nocmd1 && ls || echo test
+nocmd1 && ls && echo test
+
+nocmd1 || nocmd2 || echo test
+nocmd1 || nocmd2 && echo test
+nocmd1 && nocmd2 || echo test
+nocmd1 && nocmd2 && echo test
+
+nocmd1 || nocmd2 || nocmd3
+nocmd1 || nocmd2 && nocmd3
+nocmd1 && nocmd2 || nocmd3
+nocmd1 && nocmd2 && nocmd3
+
+ls | nocmd || echo test3
+ls | nocmd && echo test3
+ls | nocmd || echo test3
+
+nocmd1  | ls || nocmd2 || nocmd3
+nocmd1 | ls|| nocmd2 && nocmd3
+nocmd1 | ls && nocmd2 || nocmd3
+nocmd1 | ls && nocmd2 && nocmd3
+
+
+ls || (echo test1 || echo test2)
+ls || (echo test1 && echo test2)
+ls && (echo test1 || echo test2)
+ls && (echo test1 && echo test)
+
+ls || (echo test1 || nocmd1 test2)
+ls || (echo test1 && nocmd1 test2)
+ls && (echo test1 || nocmd1 test2)
+ls && (echo test1 && nocmd1 test)
+
+ls || (nocmd1 || echo test)
+ls || (nocmd1 && echo test)
+ls && (nocmd1 || echo test)
+ls && (nocmd1 && echo test)
+
+nocmd1 || (ls || echo test)
+nocmd1 || (ls && echo test)
+nocmd1 && (ls || echo test)
+nocmd1 && (ls && echo test)
+
+nocmd1 || (nocmd2 || echo test)
+nocmd1 || (nocmd2 && echo test)
+nocmd1 && (nocmd2 || echo test)
+nocmd1 && (nocmd2 && echo test)
+
+nocmd1 || (nocmd2 || nocmd3)
+nocmd1 || (nocmd2 && nocmd3)
+nocmd1 && (nocmd2 || nocmd3)
+nocmd1 && (nocmd2 && nocmd3)
+

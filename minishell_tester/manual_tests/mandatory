@@ -70,3 +70,5 @@ echo "test1 -n test2"
 
 "		"
 "			"
+echo "test		test"
+echo test1		test2

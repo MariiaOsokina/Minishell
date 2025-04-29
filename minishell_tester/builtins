@@ -30,7 +30,6 @@ echo echo"1"
 echo "test1 test2"
 echo "test1  test2" test3
 echo " test1 test2 " 'test3 '
-echo test1		test2
 echo ~42
 eCho
 eChO
