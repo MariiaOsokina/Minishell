@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bst_print.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/29 18:40:28 by aaladeok          #+#    #+#             */
+/*   Updated: 2025/04/29 18:40:40 by aaladeok         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	print_sub_pipe(t_pipe *pipe, int space)
@@ -64,7 +76,6 @@ void	*print_bst(void *root, int space)
 	int		spacing;
 
 	node = NULL;
-
 	if (space == 5)
 		printf("\n\n\nTREE VIEW:\n");
 	spacing = 5;

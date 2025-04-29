@@ -60,7 +60,7 @@ char	**ft_remove_arg_from_av(char **av, int index)
 // 	return (match_count);
 // }
 
-//NEED TO BE TESTED AFTER REARRANGEMENT
+// NEED TO BE TESTED AFTER REARRANGEMENT
 
 int	ft_match_count(const char *pattern)
 {
@@ -144,7 +144,7 @@ char	*ft_handle_env_expand(t_shell *shell, char *word, size_t *i)
 	return (ft_strdup(""));
 }
 
-void	ft_skip_word(char const *s, size_t	*i)
+void	ft_skip_word(char const *s, size_t *i)
 {
 	char	quotes;
 
@@ -160,21 +160,4 @@ void	ft_skip_word(char const *s, size_t	*i)
 			(*i)++;
 		}
 	}
-}
-
-size_t	ft_count_words(const char *word)
-{
-	size_t	word_count;
-	size_t	i;
-
-	word_count = 0;
-	i = 0;
-	while (word[i])
-	{
-		if (word[i] != ' ' && ++word_count)
-			ft_skip_word(word, &i);
-		while (word[i] && word[i] == ' ')
-			i++;
-	}
-	return (word_count);
 }

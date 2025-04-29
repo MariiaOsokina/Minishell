@@ -17,6 +17,7 @@ SRCS = $(wildcard srcs/*.c) $(wildcard srcs/*/*.c)
 OBJS = ${SRCS:.c=.o}
 INCLUDE = -L${LIBFTDIR} -lft -lreadline
 VALGRIND = valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all --suppressions=readline.supp
+
 ENV = env -i ${VALGRIND}
 
 UNAME := $(shell uname)
@@ -55,6 +56,7 @@ ${NAME}:	${OBJS}
 
 clean:
 	@${RM} ${OBJS} ${NAME}
+	@${RM} readline.supp
 	@cd ${LIBFTDIR} && $(MAKE) --silent fclean
 	@clear
 	@echo
@@ -72,31 +74,30 @@ fclean: clean
 	@echo "┗┛┗┛┗┛┛┗┛┗┗┛┻┛" $(RESET)
 	@echo
 
-test: ${NAME} readline.supp
+test: readline.supp ${NAME}
+	@echo "Running tests with Valgrind..."
 	${VALGRIND} ./${NAME}
 
 readline.supp:
-	@echo "Generating readline.supp..."
-	@cat <<EOF > readline.supp
-	{
-			leak readline
-			Memcheck:Leak
-			...
-			fun:readline
-	}
-	{
-			leak add_history
-			Memcheck:Leak
-			...
-			fun:add_history
-	}
-	{
-			leak rl_parse_and_bind
-			Memcheck:Leak
-			...
-			fun:rl_parse_and_bind
-	}
-	EOF
+	@echo "{" > readline.supp
+	@echo "    leak readline" >> readline.supp
+	@echo "    Memcheck:Leak" >> readline.supp
+	@echo "    ..." >> readline.supp
+	@echo "    fun:readline" >> readline.supp
+	@echo "}" >> readline.supp
+	@echo "{" >> readline.supp
+	@echo "    leak add_history" >> readline.supp
+	@echo "    Memcheck:Leak" >> readline.supp
+	@echo "    ..." >> readline.supp
+	@echo "    fun:add_history" >> readline.supp
+	@echo "}" >> readline.supp
+	@echo "{" >> readline.supp
+	@echo "    leak rl_parse_and_bind" >> readline.supp
+	@echo "    Memcheck:Leak" >> readline.supp
+	@echo "    ..." >> readline.supp
+	@echo "    fun:add_history" >> readline.supp
+	@echo "}" >> readline.supp
+
 
 env: ${NAME}
 	${ENV} ./${NAME}
@@ -104,22 +105,3 @@ env: ${NAME}
 re: fclean all
 
 .PHONY: all bonus clean fclean re test
-# readline.supp:
-# 	echo "{" > readline.supp
-# 	echo "    leak readline" >> readline.supp
-# 	echo "    Memcheck:Leak" >> readline.supp
-# 	echo "    ..." >> readline.supp
-# 	echo "    fun:readline" >> readline.supp
-# 	echo "}" >> readline.supp
-# 	echo "{" >> readline.supp
-# 	echo "    leak add_history" >> readline.supp
-# 	echo "    Memcheck:Leak" >> readline.supp
-# 	echo "    ..." >> readline.supp
-# 	echo "    fun:add_history" >> readline.supp
-# 	echo "}" >> readline.supp
-# 	echo "{" >> readline.supp
-# 	echo "    leak rl_parse_and_bind" >> readline.supp
-# 	echo "    Memcheck:Leak" >> readline.supp
-# 	echo "    ..." >> readline.supp
-# 	echo "    fun:add_history" >> readline.supp
-# 	echo "}" >> readline.supp

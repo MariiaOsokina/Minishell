@@ -12,27 +12,6 @@
 
 #include "minishell.h"
 
-// void	update_shlvl(t_shell shell)
-// {
-// 	t_list	*tmp;
-// 	int		value;
-// 	char	*n_val;
-
-// 	tmp = shell.envp;
-// 	while (tmp)
-// 	{
-// 		if (ft_strcmp(((t_env *)tmp->content)->key, "SHLVL=") == 0)
-// 			value = ft_atoi(((t_env *)tmp->content)->value);
-// 			value++;
-// 			n_val = ft_itoa(value);
-// 			free(((t_env *)tmp->content)->value);
-// 			((t_env *)tmp->content)->value = n_val;
-// 			break ;
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// }
-
 static void	ft_add_new_shlvl_env(t_shell shell)
 {
 	t_env	*new_shlvl_env;
@@ -61,7 +40,6 @@ void	ft_update_shlvl(t_shell shell)
 			n_val = ft_itoa(value);
 			free(((t_env *)tmp->content)->value);
 			((t_env *)tmp->content)->value = n_val;
-			// printf("new shvlv %s\n", ((t_env *)tmp->content)->value);
 			break ;
 		}
 		tmp = tmp->next;
@@ -77,13 +55,10 @@ int	main(int ac, char **av, char **envp)
 	t_shell	shell;
 
 	check_args(ac, av, envp);
-	// env_lst(&shell, envp);
 	ft_env_lst(&shell, envp);
 	ft_update_shlvl(shell);
 	shell.exit_code = 0;
-	terminal(&shell); // Ongoing..
-	// free_env_lst(shell.envp);
-	// if (&shell.envp != NULL)
+	terminal(&shell);
 	ft_lstclear(&shell.envp, ft_free_env_node);
 	return (0);
 }

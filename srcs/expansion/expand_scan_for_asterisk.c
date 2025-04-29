@@ -68,3 +68,20 @@ bool	ft_scan_for_asterisk(const char *word)
 		return (false);
 	return (ft_has_unquoted_asterisk(word));
 }
+
+size_t	ft_count_words(const char *word)
+{
+	size_t	word_count;
+	size_t	i;
+
+	word_count = 0;
+	i = 0;
+	while (word[i])
+	{
+		if (word[i] != ' ' && ++word_count)
+			ft_skip_word(word, &i);
+		while (word[i] && word[i] == ' ')
+			i++;
+	}
+	return (word_count);
+}

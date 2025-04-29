@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bst_free.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/29 18:42:13 by aaladeok          #+#    #+#             */
+/*   Updated: 2025/04/29 18:42:38 by aaladeok         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	free_in_outfiles(void *content)
@@ -8,8 +20,6 @@ void	free_in_outfiles(void *content)
 	{
 		if (in_ofiles->name)
 			free(in_ofiles->name);
-		// if (in_ofiles->expanded_name)
-		// 	free(in_ofiles->expanded_name);
 		if (in_ofiles->eof)
 			free(in_ofiles->eof);
 		free((void *)in_ofiles);
