@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   build_tree.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/29 18:40:58 by aaladeok          #+#    #+#             */
+/*   Updated: 2025/04/29 18:52:10 by aaladeok         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	*parse_factor(t_shell *shell, t_list **curr, bool in_subshell)
@@ -15,7 +27,7 @@ void	*parse_factor(t_shell *shell, t_list **curr, bool in_subshell)
 		node = parse_expression(shell, curr, true);
 		if (!node)
 			return (NULL);
-		next_token(curr); // Can do parenthesis count later.
+		next_token(curr);
 		if (!in_subshell)
 		{
 			subshell_node = malloc(sizeof(t_op));
@@ -63,15 +75,15 @@ void	*parse_expression(t_shell *shell, t_list **curr, bool in_subshell)
 
 	left = parse_term(shell, curr, in_subshell);
 	while (*curr && ((((t_token *)(*curr)->content)->type == OR)
-			|| (((t_token *)(*curr)->content)->type == AND_IF)))
+		|| (((t_token *)(*curr)->content)->type == AND_IF)))
 	{
 		node = malloc(sizeof(t_op));
 		if (!node)
 			return (NULL);
 		if (((t_token *)(*curr)->content)->type == OR)
-			node->type.type =  N_OR;
+			node->type.type = N_OR;
 		else
-			node->type.type =  N_ANDIF;
+			node->type.type = N_ANDIF;
 		node->left = left;
 		next_token(curr);
 		node->right = parse_term(shell, curr, in_subshell);

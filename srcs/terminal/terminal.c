@@ -1,10 +1,16 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   terminal.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/29 17:11:34 by aaladeok          #+#    #+#             */
+/*   Updated: 2025/04/29 17:11:54 by aaladeok         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-/*
-	terminal.c
-	calls the terminal function.
-	This is where the magic starts
-*/
+#include "minishell.h"
 
 void	terminal(t_shell *shell)
 {
@@ -23,7 +29,7 @@ void	terminal(t_shell *shell)
 			ft_exit_with_full_cleanup(shell, shell->exit_code);
 		}
 		add_history(shell->input);
-		if (input_validation(shell) == true || !shell->input[0]) //MO: Made changes by ADEWALE plus my changes to confirm
+		if (input_validation(shell) == true || !shell->input[0])
 		{
 			free_shell(shell);
 			continue ;
@@ -33,7 +39,7 @@ void	terminal(t_shell *shell)
 		// print_token_lst(shell->token_lst); // Printing token list
 		shell->envp_arr = ft_env_arr(shell, shell->envp);
 		shell->path = ft_path_list(shell);
-		shell->root = build_ast(shell); ///IT IS THE LATEST!!
+		shell->root = build_ast(shell);
 		// print_bst(shell->root, 5);
 		// ft_process_av(shell, shell->root);
 		ft_start_execution(shell);
@@ -63,11 +69,6 @@ void	free_shell(t_shell *shell) //it should not free evp list
 	reset_shell(shell);
 }
 
-// bool	is_env_empty(t_shell *shell)
-// {
-// 	return (shell->envp == NULL || ft_lstsize(shell->envp) == 0);
-// }
-
 void	reset_shell(t_shell *shell)
 {
 	shell->envp_arr = NULL;
@@ -79,7 +80,6 @@ void	reset_shell(t_shell *shell)
 	shell->cwd = NULL;
 	shell->root = NULL;
 	shell->heredoc_names = NULL;
-	shell->in_child = false; //MO: added
-	// shell->exit_code = 0; MO: moved up, we need exit code for the next loop iteration and for exit from minishell
+	shell->in_child = false;
 	g_signum = 0;
 }

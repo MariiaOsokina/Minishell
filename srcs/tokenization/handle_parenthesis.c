@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_parenthesis.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/29 16:38:48 by aaladeok          #+#    #+#             */
+/*   Updated: 2025/04/29 16:38:50 by aaladeok         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	skip_spaces(char *input, int i)
@@ -66,11 +78,6 @@ int	handle_opening(t_shell *shell, char *input, int i, bool valid)
 			exit_failure(shell, "handle_parenthesis");
 		i++;
 		new_token = ft_calloc(1, sizeof(t_token));
-		if (!new_token)
-		{
-			free(str);
-			exit_failure(shell, "handle_parenthesis_a");
-		}
 		new_token->value = str;
 		new_token->type = PARENTHESIS;
 		new_token->state = GENERAL;
@@ -85,8 +92,7 @@ int	handle_opening(t_shell *shell, char *input, int i, bool valid)
 int	handle_parenthesis(t_shell *shell, char *input, int i)
 {
 	int			start;
-	// char		*subs;
-	static bool	valid = true;//was false
+	static bool	valid = true;
 
 	if (input[i] == ')')
 	{
@@ -96,9 +102,6 @@ int	handle_parenthesis(t_shell *shell, char *input, int i)
 	}
 	start = i;
 	i = check_balance(input, i);
-	// subs = ft_substr(&input[start + 1], 0, i - start - 1);
-	// valid = validate_subs(subs);'
-	// free(subs);
 	i = handle_opening(shell, input, start, valid);
 	if (i != -1)
 		return (i);

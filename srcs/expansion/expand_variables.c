@@ -81,8 +81,6 @@ char	*ft_var_expansion(t_shell *shell, char *word)
 		else if (word[i] == '\"')
 			new_word = ft_strjoin_f(new_word, \
 			ft_handle_dquotes(shell, word, &i));
-		// else if (word[i] == '$' && (word[i++] == '\'' || word[i++] == '\"'))
-		// 	i += 1; //just skip $
 		else if (word[i] == '$')
 			new_word = ft_strjoin_f(new_word, \
 			ft_handle_env_expand(shell, word, &i));

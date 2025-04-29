@@ -1,24 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ltree_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/29 18:41:56 by aaladeok          #+#    #+#             */
+/*   Updated: 2025/04/29 18:41:59 by aaladeok         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-/*
 int	check_token(t_list *node)
 {
-	// printf("Got here-4.5\n");
-	if (node == NULL)
-		return (false);
-	else
-	{
-		// printf("%s\n", ((t_token *)node->content)->value);
-		return (node && (((t_token *)node->content)->type != AND_IF
-				&& ((t_token *)node->content)->type != OR));
-	}
-	return (false);
-}
-*/
-
-int	check_token(t_list *node)
-{
-	printf("Checked token\n");
 	return (node && (((t_token *)node->content)->type != AND_IF
 			&& ((t_token *)node->content)->type != OR));
 }
@@ -76,7 +71,7 @@ void	ltree_free(void *root)
 		ltree_free(((t_or *)node)->right);
 	}
 	if (node->type != N_ANDIF && node->type != N_OR && node->type != N_SUBSHELL)
-		free_bst((t_pipe *)root); //MO: check logic of free_bst, can we simplify??
+		free_bst((t_pipe *)root);
 	else if (node->type == N_ANDIF || node->type == N_OR
 		|| node->type == N_SUBSHELL)
 		free(root);

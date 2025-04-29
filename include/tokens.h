@@ -67,7 +67,6 @@ t_token_type		token_type(char *value);
 void				del_token(void *token_node);
 void				set_token_position(t_list *lst);
 int					check_balance(char *input, int i);
-// void				lexer(t_shell *shell, char *input);
 bool				lexer(t_shell *shell, char *input);
 bool				check_paren_types(t_shell *shell);
 

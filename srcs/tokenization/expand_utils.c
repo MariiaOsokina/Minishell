@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/29 16:35:31 by aaladeok          #+#    #+#             */
+/*   Updated: 2025/04/29 16:36:06 by aaladeok         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 bool	in_quotes(char *input, int i)
@@ -9,7 +21,7 @@ bool	in_quotes(char *input, int i)
 
 bool	is_meta(char *str, int i)
 {
-	int	j;
+	int		j;
 	char	*metachars;
 
 	metachars = "<|>();&";
@@ -46,30 +58,14 @@ int	set_simple(t_shell *sh, t_token *nw_tkn, char *input, int i)
 	return (i + 1);
 }
 
-bool	is_expandable(char *token)
+void	del_token(void *token_node)
 {
-	int	i;
-	bool in_quotes;
+	t_token	*token;
 
-	i = 0;
-	in_quotes = false;
-	while (is_space(token[i]))
-		i++;
-	if (token[i] == '\0')
-		return (false);
-	while (token[i])
+	token = (t_token *)token_node;
+	if (token)
 	{
-		if (is_quote(token[i]))
-		{
-			in_quotes = !in_quotes;
-			i++;
-			continue ;
-		}
-		if (token[i] == '$' && (token[i + 1] == '?' || ft_isalnum(token[i + 1])))
-			return (true);
-		if (!in_quotes && (is_space(token[i]) || is_meta(token, i)))
-			return (false);
-		i++;
+		free(token->value);
+		free(token);
 	}
-	return (false);
 }
