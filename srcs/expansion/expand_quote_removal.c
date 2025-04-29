@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_quote_removal.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 23:38:31 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/29 10:29:26 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/29 23:36:05 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,15 @@ char	*ft_quote_removal(const char *word)
 	size_t	j;
 	char	*new_word;
 
+	i = 0;
+	j = 0;
 	if (!word)
 		return (NULL);
+	if (word[i] == '$' && ft_strcmp(&word[i], "$") != 0)
+		i++;
 	new_word = malloc(ft_strlen((char *)word) + 1);
 	if (!new_word)
 		return (NULL);
-	i = 0;
-	j = 0;
 	while (word[i])
 	{
 		if (word[i] == '\'')
