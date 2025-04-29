@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 23:37:19 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/26 01:15:02 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/29 10:29:41 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	*ft_var_expansion(t_shell *shell, char *word)
 		// 	i += 1; //just skip $
 		else if (word[i] == '$')
 			new_word = ft_strjoin_f(new_word, \
-			ft_handle_env_expand(shell, word, &i)); //DELETE FROM ARGS IF ""
+			ft_handle_env_expand(shell, word, &i));
 		else
 			new_word = ft_strjoin_f(new_word, ft_handle_normal_str(word, &i));
 	}

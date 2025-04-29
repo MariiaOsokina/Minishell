@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/26 02:18:06 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/29 11:46:12 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,18 +119,17 @@ char	*ft_handle_env_expand(t_shell *shell, char *word, size_t *i);
 
 char	**ft_expand_word_split(char const *word);
 char	**ft_remove_arg_from_av(char **av, int index);
-size_t 	ft_count_words(const char *word);
+size_t	ft_count_words(const char *word);
+void	ft_skip_word(char const *s, size_t	*i);
 char	*ft_quote_removal(const char *word);
 char	**ft_fill_arr(char const *word, char **new_arr);
 
-
 /*wildcards*/
-char 	**ft_replace_args(char **old_args, char **new_items, int index);
+char	**ft_replace_args(char **old_args, char **new_items, int index);
 bool	ft_scan_for_asterisk(const char *word);
 int		ft_match_count(const char *pattern);
 void	ft_globbing_in_arg(t_exec *exec_node, int i);
 bool	ft_match_pattern(const char *pattern, const char *filename);
-
 
 /*move to utils.h*/
 
