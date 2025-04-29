@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 00:24:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/26 02:39:32 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/29 11:46:00 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
-/*
-ft_remove_arg_from_av
-- reallocates the array, skips the unwanted index, and shifts the rest.
-- frees the removed string and old array.
-*/
 
 char	**ft_remove_arg_from_av(char **av, int index)
 {
@@ -49,21 +42,25 @@ char	**ft_remove_arg_from_av(char **av, int index)
 // 	int				match_count;
 // 	DIR				*dir;
 // 	struct dirent	*entry;
+// 	int				pattern_starts_with_dot;
 
 // 	match_count = 0;
+// 	pattern_starts_with_dot = (pattern[0] == '.');
 // 	dir = opendir(".");
 // 	if (!dir)
 // 		return (-1);
-// 	entry = readdir(dir);
-// 	while (entry != NULL)
+// 	while ((entry = readdir(dir)) != NULL) // NEED TO BE CHANGED
 // 	{
-// 		if (entry->d_name[0] != '.' && ft_match_pattern(pattern, entry->d_name))
+// 		if (!pattern_starts_with_dot && entry->d_name[0] == '.')
+// 			continue ;
+// 		if (ft_match_pattern(pattern, entry->d_name))
 // 			match_count++;
-// 		entry = readdir(dir);
 // 	}
 // 	closedir(dir);
 // 	return (match_count);
 // }
+
+//NEED TO BE TESTED AFTER REARRANGEMENT
 
 int	ft_match_count(const char *pattern)
 {
@@ -74,21 +71,21 @@ int	ft_match_count(const char *pattern)
 
 	match_count = 0;
 	pattern_starts_with_dot = (pattern[0] == '.');
-
 	dir = opendir(".");
 	if (!dir)
 		return (-1);
-
-	while ((entry = readdir(dir)) != NULL)
+	entry = readdir(dir);
+	while (entry != NULL)
 	{
-		// Skip hidden files unless pattern starts with '.'
 		if (!pattern_starts_with_dot && entry->d_name[0] == '.')
-			continue;
-
+		{
+			entry = readdir(dir);
+			continue ;
+		}
 		if (ft_match_pattern(pattern, entry->d_name))
 			match_count++;
+		entry = readdir(dir);
 	}
-
 	closedir(dir);
 	return (match_count);
 }
@@ -147,43 +144,37 @@ char	*ft_handle_env_expand(t_shell *shell, char *word, size_t *i)
 	return (ft_strdup(""));
 }
 
-static void	ft_fill_words(const char *word, char **new_arr, size_t *i, size_t j)
+void	ft_skip_word(char const *s, size_t	*i)
 {
 	char	quotes;
-	size_t	k;
 
-	k = 0;
-	while (word[(*i)] && word[(*i)] != ' ')
+	while (s[*i] && s[*i] != ' ')
 	{
-		if (word[(*i)] != '\'' && word[(*i)] != '"')
-			new_arr[j][k++] = word[(*i)++];
+		if (s[*i] != '\'' && s[*i] != '"')
+			(*i)++;
 		else
 		{
-			quotes = word[(*i)++];
-			new_arr[j][k++] = quotes;
-			while (word[(*i)] != quotes)
-				new_arr[j][k++] = word[(*i)++];
-			new_arr[j][k++] = word[(*i)++];
+			quotes = s[(*i)++];
+			while (s[(*i)] != quotes)
+				(*i)++;
+			(*i)++;
 		}
 	}
 }
 
-char	**ft_fill_arr(char const *word, char **new_arr)
+size_t	ft_count_words(const char *word)
 {
+	size_t	word_count;
 	size_t	i;
-	size_t	j;
 
+	word_count = 0;
 	i = 0;
-	j = 0;
-	while (word[i] && new_arr[j])
+	while (word[i])
 	{
-		if (word[i] != ' ')
-		{
-			ft_fill_words(word, new_arr, &i, j);
-			j++;
-		}
+		if (word[i] != ' ' && ++word_count)
+			ft_skip_word(word, &i);
 		while (word[i] && word[i] == ' ')
 			i++;
 	}
-	return (new_arr);
+	return (word_count);
 }

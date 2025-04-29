@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_scan_for_asterisk.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 23:34:04 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/26 02:28:55 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/29 10:29:35 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 static bool	ft_has_quoted_asterisk(const char *word)
 {
-	size_t	i = 0;
-	char	quote = 0;
+	size_t	i;
+	char	quote;
 
+	i = 0;
+	quote = 0;
 	while (word[i])
 	{
 		if (word[i] == '\'' || word[i] == '"')
@@ -37,9 +39,11 @@ static bool	ft_has_quoted_asterisk(const char *word)
 
 static bool	ft_has_unquoted_asterisk(const char *word)
 {
-	size_t	i = 0;
-	char	quote = 0;
+	size_t	i;
+	char	quote;
 
+	i = 0;
+	quote = 0;
 	while (word[i])
 	{
 		if (word[i] == '\'' || word[i] == '"')
@@ -62,5 +66,5 @@ bool	ft_scan_for_asterisk(const char *word)
 {
 	if (ft_has_quoted_asterisk(word))
 		return (false);
-	return ft_has_unquoted_asterisk(word);
+	return (ft_has_unquoted_asterisk(word));
 }
