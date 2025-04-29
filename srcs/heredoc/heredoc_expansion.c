@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_expansion.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 20:00:44 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/10 14:29:34 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/30 00:22:30 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* 
-if delimiter is not quoted(has_quoted = false):
-- lines are subject to expansion;
-- \n is ignored;
-- \ for quoting characters \, $ and ` // to be check!!!
-*/
 
 static int	ft_heredoc_env_expand(t_shell *shell, char *str, size_t i, int fd)
 {

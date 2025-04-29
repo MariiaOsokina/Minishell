@@ -6,17 +6,11 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:44:24 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/25 19:44:34 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/30 00:24:52 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*This function checks if a given command (or file path) is a directory. 
-It uses the stat() to retrieve info about the file 
-and stores it in a struct stat called cmd_stat. 
-The S_ISDIR macro is then used to check if the file is a directory 
-by examining the st_mode field of cmd_stat.*/
 
 static bool	ft_cmd_is_dir(char *cmd_path)
 {

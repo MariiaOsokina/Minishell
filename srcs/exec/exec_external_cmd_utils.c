@@ -3,18 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_external_cmd_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 01:09:53 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/25 14:28:12 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/30 00:24:53 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*These functions gets the proper path for the command.
-It uses list of directories parsed in advanced 
-from $PATH and saved as shell.path*/
 
 static char	*ft_find_cmd_path(char *cmd_name, t_list *path_list)
 {

@@ -6,13 +6,11 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 13:39:12 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/25 20:21:57 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/30 00:25:38 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*Alphabetical order??*/
 
 int	ft_builtin_env(t_shell *shell, t_exec *exec_node)
 {

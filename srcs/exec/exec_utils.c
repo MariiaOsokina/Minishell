@@ -6,15 +6,11 @@
 /*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 01:01:22 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/25 19:50:40 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/30 00:25:16 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* MACROS WEXITSTATUS shifts to bits to right place,  
-as child exit status is stored in the higher bits.
-*/
 
 int	ft_get_exit_status(int status)
 {
@@ -22,8 +18,6 @@ int	ft_get_exit_status(int status)
 		return (128 + WTERMSIG(status));
 	return (WEXITSTATUS(status));
 }
-
-//function for printing an error message to STDERR
 
 void	ft_err_msg(char *s1, char *s2, char *s3)
 {
