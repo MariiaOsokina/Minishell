@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_input.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 21:30:26 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/27 20:03:17 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:18:03 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static bool	ft_is_delimiter(char *delimiter, char *hd_line)
 		return (false);
 }
 
-void	ft_heredoc_input(t_shell *sh, t_in_out *io_here, int hd_fd, bool quoted)
+void	ft_heredoc_input(t_shell *sh, t_in_out *io_here, int hd_fd, bool quote)
 {
 	char	*hd_line;
 	int		line_nbr;

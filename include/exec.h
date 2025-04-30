@@ -6,32 +6,32 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/29 11:46:12 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:17:47 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
 
-#include "../libft/libft.h"
-#include <limits.h>
-#include <stdbool.h> //for type bool;
+# include "../libft/libft.h"
+# include <limits.h>
+# include <stdbool.h> //for type bool;
 
-#include <stdio.h>  // for readline()
-#include <readline/readline.h> // for readline()
-#include <readline/history.h> // for readline()
-#include <unistd.h> //functions access(), pipe(), fork(), getpcwd(). chdir()
-#include <stdlib.h> // exit ()
-#include <wait.h> // for MACROS WIFSIGNALED, WTERMSIG, and WEXITSTATUS 
-#include <string.h> // for strerror()
-#include <sys/stat.h> // for stat() and stat structure
-#include <sys/types.h> // for MACRO S_ISDIR for t_pid
-#include <fcntl.h> // for open()
-#include <signal.h> //for signal()
-#include <sys/ioctl.h> //for iostl function
+# include <stdio.h>  // for readline()
+# include <readline/readline.h> // for readline()
+# include <readline/history.h> // for readline()
+# include <unistd.h> //functions access(), pipe(), fork(), getpcwd(). chdir()
+# include <stdlib.h> // exit ()
+# include <wait.h> // for MACROS WIFSIGNALED, WTERMSIG, and WEXITSTATUS 
+# include <string.h> // for strerror()
+# include <sys/stat.h> // for stat() and stat structure
+# include <sys/types.h> // for MACRO S_ISDIR for t_pid
+# include <fcntl.h> // for open()
+# include <signal.h> //for signal()
+# include <sys/ioctl.h> //for iostl function
 /*May require a pointer to cwd and old working dir*/
-#include <termios.h>
-#include <dirent.h>  // opendir, readdir, closedir
+# include <termios.h>
+# include <dirent.h>  // opendir, readdir, closedir
 
 /*EXECUTION*/
 
@@ -67,7 +67,7 @@ void	ft_exit_with_full_cleanup(t_shell *shell, int status);
 void	ft_process_heredocs(t_shell *shell, void *node);
 void	ft_handle_heredocs(t_shell *shell, t_exec *exec_node);
 void	ft_unlink_heredocs(t_list *heredoc_names);
-void	ft_heredoc_input(t_shell *sh, t_in_out *io_here, int hd_fd, bool quoted);
+void	ft_heredoc_input(t_shell *sh, t_in_out *io_here, int hd_fd, bool quote);
 void	ft_heredoc_unquoted(t_shell *shell, char *hd_line, int hd_fd);
 
 /*BUILTINS*/
