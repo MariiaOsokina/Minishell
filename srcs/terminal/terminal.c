@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   terminal.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:11:34 by aaladeok          #+#    #+#             */
-/*   Updated: 2025/04/29 17:11:54 by aaladeok         ###   ########.fr       */
+/*   Updated: 2025/04/30 12:04:58 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,14 @@ void	terminal(t_shell *shell)
 {
 	while (true)
 	{
-		// printf("exit code in the begining of loop: %d and g_signum: %d\n", shell->exit_code, g_signum); //MO: for testing
 		reset_shell(shell);
 		shell_input(shell);
 		ft_signals_interactive();
 		shell->input = readline(shell->cwd);
 		if (g_signum == SIGINT)
 			shell->exit_code = 130;
-		if (!shell->input)// Note: CTRL+D (EOF) case
-		{
-			// ft_putstr_fd("exit\n", STDERR_FILENO); //MO: RESET, muted for testing
+		if (!shell->input)
 			ft_exit_with_full_cleanup(shell, shell->exit_code);
-		}
 		add_history(shell->input);
 		if (input_validation(shell) == true || !shell->input[0])
 		{
@@ -36,12 +32,9 @@ void	terminal(t_shell *shell)
 		}
 		if (!lexer(shell, shell->trimmed_input))
 			continue ;
-		// print_token_lst(shell->token_lst); // Printing token list
 		shell->envp_arr = ft_env_arr(shell, shell->envp);
 		shell->path = ft_path_list(shell);
 		shell->root = build_ast(shell);
-		// print_bst(shell->root, 5);
-		// ft_process_av(shell, shell->root);
 		ft_start_execution(shell);
 		free_shell(shell);
 	}
@@ -54,7 +47,7 @@ void	free_shell(t_shell *shell) //it should not free evp list
 	ft_free_str_arr(shell->envp_arr, ft_arr_size(shell->envp_arr));
 	if (shell->path != NULL)
 		ft_lstclear(&shell->path, free);
-	if (shell->heredoc_names !=NULL)
+	if (shell->heredoc_names != NULL)
 		ft_lstclear(&shell->heredoc_names, free);
 	if (shell->input)
 		free(shell->input);
