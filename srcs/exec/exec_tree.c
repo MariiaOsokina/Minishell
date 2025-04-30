@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 10:20:57 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/28 23:49:42 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:13:16 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	ft_exec_andif(t_shell *shell, t_andif *andif_node)
 {
 	shell->exit_code = ft_exec_node(shell, andif_node->left);
 	if (shell->exit_code == ENO_SUCCESS)
-	shell->exit_code = ft_exec_node(shell, andif_node->right);
+		shell->exit_code = ft_exec_node(shell, andif_node->right);
 	return (shell->exit_code);
 }
 
@@ -46,7 +46,7 @@ static int	ft_exec_or(t_shell *shell, t_or *or_node)
 {
 	shell->exit_code = ft_exec_node(shell, or_node->left);
 	if (shell->exit_code != ENO_SUCCESS)
-	shell->exit_code = ft_exec_node(shell, or_node->right);
+		shell->exit_code = ft_exec_node(shell, or_node->right);
 	return (shell->exit_code);
 }
 
