@@ -49,22 +49,19 @@ void	free_exec(t_exec *node)
 			free(node->command);
 		if (node->av)
 		{
-			while(node->av[i])
+			while (node->av[i])
 				free(node->av[i++]);
 			free(node->av);
 			node->av = NULL;
 		}
 		if (node->i_ofiles)
-		{
 			ft_lstclear(&node->i_ofiles, free_in_outfiles);
-			// node->i_ofiles = NULL;
-		}
-		free(node->i_ofiles); // MO addded;
+		free(node->i_ofiles);
 		free(node);
 	}
 }
 
-void	free_bst(void *root) //MO CHECK THE LOGIC OF THE FUNCTION? SIMPLIFY?
+void	free_bst(void *root)
 {
 	t_node	*node;
 

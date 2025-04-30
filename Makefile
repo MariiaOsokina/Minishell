@@ -98,7 +98,6 @@ readline.supp:
 	@echo "    fun:add_history" >> readline.supp
 	@echo "}" >> readline.supp
 
-
 env: ${NAME}
 	${ENV} ./${NAME}
 

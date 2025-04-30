@@ -1,130 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validation.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/30 17:32:01 by aaladeok          #+#    #+#             */
+/*   Updated: 2025/04/30 17:32:07 by aaladeok         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-/*
-	This function is validating shell user input,
-	may require extra functions for valid env input checks.
-	e.g. $VAR and ${VAR}
-*/
-
-static bool	check_ands(char *s)
-{
-	int	i;
-
-	i = 0;
-
-	if (s[i] == '&' || s[strlen(s) - 1] == '&')
-		return (false);
-	return (true);
-}
-
-bool	input_validation(t_shell *shell)
-{
-	if (!shell->input || shell->input[0] == '\0')
-		return (true);
-	shell->trimmed_input = ft_strtrim(shell->input, "\t ");
-	if (!shell->trimmed_input)
-		exit_failure(shell, "input_validation");
-	if (shell->trimmed_input[0] == '\0' || shell->trimmed_input[0] == 32) //This line should trigger the free function
-		return (true); 
-	if (!check_pipes(shell->trimmed_input))
-		return (syntax_error_msg(PIPE_ERROR), exit_code(shell, 2));
-	if (!check_ands(shell->trimmed_input))
-		return (syntax_error_msg(AND_ERROR), exit_code(shell, 2));
-	if (!check_quotes(shell->trimmed_input))
-		return (syntax_error_msg(OPEN_QUOTE), exit_code(shell, 2));
-	if (!check_redirections(shell->trimmed_input))
-		return (exit_code(shell, 2));
-	if (!check_parenthesis(shell->trimmed_input))
-		return (exit_code(shell, 2));
-	// if (!check_line_len(shell->trimmed_input))
-	// 	return (exit_code(shell, 2));
-	return (false);
-}
-
-/*
-	validation.c
-	Checks for closed quotes
-*/
-bool	check_quotes(char *str)
+bool	check_parenthesis(char *str)
 {
 	int		i;
-	char	quote;
+	int		bal;
+	bool	sq;
+	bool	dq;
 
 	i = 0;
-	quote = 0;
+	bal = 0;
+	sq = false;
+	dq = false;
+	if (check_empty_parens(str))
+		return (ft_putendl_fd(SYNTAX_ERROR CLOSE_ERROR, 2), (false));
 	while (str[i])
 	{
-		if (is_quote(str[i]))
-		{
-			if (!quote)
-				quote = str[i];
-			else if (str[i] == quote)
-				quote = 0;
-		}
+		toggle_quotes(str[i], &sq, &dq);
+		if (!sq && !dq && !handle_paren(str[i], &bal))
+			return (balance_message(-1), false);
 		i++;
 	}
-	return (quote == 0); // Returns true if all quotes are closed.
-}
-
-/*
-	Check_pipes check for placement of pipes in command strings,
-	checks for pipes in quotes and ignores them.
-	It returns true or false if placement of pipes are correct or incorrect.
-*/
-bool	check_pipes(char *str)
-{
-	int		i;
-	bool	in_single_quote;
-	bool	in_double_quote;
-
-	i = 0;
-	in_single_quote = false;
-	in_double_quote = false;
-	if (str[i] == '|' || str[strlen(str) - 1] == '|')
-		return (false);
-	while (str[i])
-	{
-		toggle_quotes(str[i], &in_single_quote, &in_double_quote);
-		if (str[i] == '|' && !in_single_quote && !in_double_quote)
-		{
-			while (is_space(str[++i]))
-				;
-			if (str[i] == '|' && str[i - 1] != '|')
-				return (false);
-		}
-		i++;
-	}
+	if (sq || dq)
+		return (ft_putendl_fd(OPEN_QUOTE, 2), false);
+	if (bal != 0)
+		return (balance_message(bal), false);
 	return (true);
 }
-
-/*
-	Location: validation.c
-	This returns true if there are redirections in the command for execution
-*/
-bool	check_redirections(char *str)
-{
-	int	i;
-	int	redir_char_len;
-
-	i = 0;
-	while (str[i])
-	{
-		i = jump_quotation(str, i);
-		redir_char_len = is_redirect(&str[i]);
-		if (redir_char_len > 0)
-		{
-			if (!handle_redir_error(str, &i, redir_char_len))
-				return (false);
-			if (!str[i])
-			{
-				syntax_error_msg(REDIR_ERROR);
-				return (false);
-			}
-			continue ;
-		}
-		if (str[i])
-			i++;
-	}
-	return (true);
-}
-

@@ -18,6 +18,30 @@ int	check_token(t_list *node)
 			&& ((t_token *)node->content)->type != OR));
 }
 
+void	ltree_print_others(void *root, int space, int spacing)
+{
+	t_node	*node;
+
+	node = (t_node *)root;
+	if (node->type == N_OR)
+	{
+		ltree_print(((t_or *)root)->right, space);
+		printf("%*s -> [||]\n", space, "");
+		ltree_print(((t_or *)root)->left, space);
+	}
+	else if (node->type == N_SUBSHELL)
+	{
+		ltree_print(((t_op *)root)->right, space + spacing);
+		printf("\n\n%*s[SUBSH]\n", space, "");
+		ltree_print(((t_op *)root)->left, space + spacing);
+	}
+	else if (node->type == N_PIPE)
+		print_bst((t_pipe *)root, space + spacing);
+	else if (node->type == N_EXEC)
+		print_bst_exec((t_exec *)root, space + spacing);
+	return ;
+}
+
 void	*ltree_print(void *root, int space)
 {
 	int		spacing;
@@ -34,22 +58,8 @@ void	*ltree_print(void *root, int space)
 		printf("%*s -> [&&]\n", space, "");
 		ltree_print(((t_andif *)root)->left, space);
 	}
-	else if (node->type == N_OR)
-	{
-		ltree_print(((t_or *)root)->right, space);
-		printf("%*s -> [||]\n", space, "");
-		ltree_print(((t_or *)root)->left, space);
-	}
-	else if (node->type == N_SUBSHELL)
-	{
-		ltree_print(((t_op *)root)->right, space + spacing);
-		printf("\n\n%*s[SUBSH]\n", space, "");
-		ltree_print(((t_op *)root)->left, space + spacing);
-	}
-	else if (node->type == N_PIPE)
-		print_bst((t_pipe *)root, space + spacing);
-	else if (node->type == N_EXEC)
-		print_bst_exec((t_exec *)root, space + spacing);
+	else
+		ltree_print_others(root, space, spacing);
 	return (NULL);
 }
 

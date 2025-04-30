@@ -38,9 +38,9 @@ void	print_i_ofiles(t_list *in_ofiles, int space)
 	i = 0;
 	while (in_ofiles)
 	{
-		if ((t_io_type)((t_in_out *)in_ofiles->content)->type == HERE) // MO added
-			printf("%s", (char *)((t_in_out *)in_ofiles->content)->eof); // MO added
-		else // MO added
+		if ((t_io_type)((t_in_out *)in_ofiles->content)->type == HERE)
+			printf("%s", (char *)((t_in_out *)in_ofiles->content)->eof);
+		else
 			printf("%s", (char *)((t_in_out *)in_ofiles->content)->name);
 		if (in_ofiles->next)
 			printf(", ");
@@ -49,7 +49,7 @@ void	print_i_ofiles(t_list *in_ofiles, int space)
 	printf("\n");
 }
 
-void	free_ast_node(void *node) //MO: SUBSHELL??
+void	free_ast_node(void *node)
 {
 	if (!node)
 		return ;
@@ -66,4 +66,3 @@ void	free_ast_node(void *node) //MO: SUBSHELL??
 	}
 	free(node);
 }
-
