@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 21:30:26 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/30 11:18:03 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:39:04 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	ft_heredoc_input(t_shell *sh, t_in_out *io_here, int hd_fd, bool quote)
 				free(hd_line);
 				break ;
 			}
-			ft_put_heredoc(sh, hd_line, hd_fd, quoted);
+			ft_put_heredoc(sh, hd_line, hd_fd, quote);
 			free(hd_line);
 			line_nbr ++;
 		}
