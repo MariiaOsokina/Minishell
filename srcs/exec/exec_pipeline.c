@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosokina <mosokina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:53:30 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/30 00:24:42 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/30 10:46:48 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ int	ft_exec_pipeline(t_shell *shell, t_pipe *pipe_node)
 	int		tmp_status;
 
 	pipe(pipe_fds);
-	pid_right = fork();
-	if (pid_right == 0)
-		ft_exec_pipe_right(shell, pipe_node, pipe_fds);
+	pid_left = fork();
+	if (pid_left == 0)
+		ft_exec_pipe_left(shell, pipe_node, pipe_fds);
 	else
 	{
-		pid_left = fork();
-		if (pid_left == 0)
-			ft_exec_pipe_left(shell, pipe_node, pipe_fds);
+		pid_right = fork();
+		if (pid_right == 0)
+			ft_exec_pipe_right(shell, pipe_node, pipe_fds);
 		else
 		{
 			close(pipe_fds[0]);
