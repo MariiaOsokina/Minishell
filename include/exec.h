@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/30 11:17:47 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:28:09 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,21 @@
 
 # include "../libft/libft.h"
 # include <limits.h>
-# include <stdbool.h> //for type bool;
-
-# include <stdio.h>  // for readline()
-# include <readline/readline.h> // for readline()
-# include <readline/history.h> // for readline()
-# include <unistd.h> //functions access(), pipe(), fork(), getpcwd(). chdir()
-# include <stdlib.h> // exit ()
-# include <wait.h> // for MACROS WIFSIGNALED, WTERMSIG, and WEXITSTATUS 
-# include <string.h> // for strerror()
-# include <sys/stat.h> // for stat() and stat structure
-# include <sys/types.h> // for MACRO S_ISDIR for t_pid
-# include <fcntl.h> // for open()
-# include <signal.h> //for signal()
-# include <sys/ioctl.h> //for iostl function
-/*May require a pointer to cwd and old working dir*/
+# include <stdbool.h> 
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <wait.h>
+# include <string.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <fcntl.h>
+# include <signal.h>
+# include <sys/ioctl.h>
 # include <termios.h>
-# include <dirent.h>  // opendir, readdir, closedir
+# include <dirent.h>
 
 /*EXECUTION*/
 
@@ -95,8 +93,6 @@ t_env	*ft_dup_env_node(t_shell *shell, char *key, char *value);
 t_env	*ft_get_env_node(t_shell shell, char *target_key);
 void	ft_update_env_value(t_list *envp, char *key, char *new_value);
 
-void	ft_print_env_lst(t_list *lst); //for testing
-
 /*env arr and path list*/
 char	**ft_env_arr(t_shell *shell, t_list *envp_list);
 void	ft_free_str_arr(char **arr, int count);
@@ -140,7 +136,5 @@ void	ft_signals_noninteractive(void);
 
 int		ft_termios_echoctl(bool echo_ctl_chr);
 int		ft_termios_echo(bool echo);
-
-// void	ft_process_av(t_shell *shell, void *node);
 
 #endif
