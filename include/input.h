@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/30 14:38:28 by aaladeok          #+#    #+#             */
+/*   Updated: 2025/04/30 14:38:30 by aaladeok         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #pragma once
 
 #include "minishell.h"
@@ -10,8 +22,11 @@ bool	input_validation(t_shell *shell);
 
 /*input_utils.c*/
 bool	is_space(char c);
+void	balance_message(int balance);
 bool	check_line_len(char *line);
 bool	check_parenthesis(char *str);
+bool	check_empty_parens(char *str);
+bool	handle_paren(char c, int *bal);
 
 /*validation_utils.c*/
 bool	is_quote(char c);

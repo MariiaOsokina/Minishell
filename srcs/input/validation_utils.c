@@ -1,12 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validation_utils.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/30 17:33:02 by aaladeok          #+#    #+#             */
+/*   Updated: 2025/04/30 17:33:04 by aaladeok         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-/*validation_utils.c*/
 bool	is_quote(char c)
 {
 	return (c == '\'' || c == '"');
 }
 
-/*validation_utils.c*/
 int	is_redirect(char *c)
 {
 	if (c[0] == '>')
@@ -24,7 +34,6 @@ int	is_redirect(char *c)
 	return (0);
 }
 
-/*The function toggle_quote is being used to track texts in single and double quotes*/
 void	toggle_quotes(char c, bool *in_single_quote, bool *in_double_quote)
 {
 	if (c == '\'' && !*in_double_quote)
@@ -33,11 +42,6 @@ void	toggle_quotes(char c, bool *in_single_quote, bool *in_double_quote)
 		*in_double_quote = !*in_double_quote;
 }
 
-/*
-	Location: validation_utils.c
-	Loops through or skips texts in single or double quotes
-	This also ensure redirections in quotes are not processed
-*/
 int	jump_quotation(char *str, int i)
 {
 	if (str[i] && is_quote(str[i]))
@@ -51,11 +55,6 @@ int	jump_quotation(char *str, int i)
 	return (i);
 }
 
-/*
-	Location: validation_utils.c
-	This function is handling different
-	edge cases of wrong syntax combinations
-*/
 bool	handle_redir_error(char *str, int *i, int redir_len)
 {
 	char	*error_msg;

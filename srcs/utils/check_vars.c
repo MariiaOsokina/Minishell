@@ -1,10 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_vars.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/30 17:42:06 by aaladeok          #+#    #+#             */
+/*   Updated: 2025/04/30 17:42:10 by aaladeok         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
-// /*
-// 	Minishell is not expecting any argument when programme is launched.
-// 	Minishell is launched,
-// 	then it provides a prompt for the user to write an input
-// */
 int	check_args(int ac, char **av, char **envp)
 {
 	(void) av;
@@ -17,29 +24,3 @@ int	check_args(int ac, char **av, char **envp)
 	}
 	return (0);
 }
-
-// int	is_exact_var(t_env *env_var, const char *var_name)
-// {
-// 	char	*plus;
-// 	char	*equals_var;
-// 	char	*equals_env;
-// 	size_t	name_len;
-// 	size_t	env_len;
-
-// 	plus = ft_strnstr(var_name, "+=", ft_strlen((char *)var_name));
-// 	equals_var = ft_strchr(var_name, '=');
-// 	equals_env = ft_strchr(env_var->key, '=');
-// 	if (plus)
-// 		name_len = plus - var_name;
-// 	else if (equals_var)
-// 		name_len = equals_var - var_name;
-// 	else
-// 		name_len = ft_strlen((char *)var_name);
-// 	if (equals_env)
-// 		env_len = equals_var - env_var->key;
-// 	else
-// 		env_len = ft_strlen(env_var->key);
-// 	if (name_len != env_len)
-// 		return (0);
-// 	return (ft_strncmp(env_var->key, var_name, name_len) == 0);
-// }

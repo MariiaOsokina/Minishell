@@ -40,7 +40,7 @@ void	terminal(t_shell *shell)
 	}
 }
 
-void	free_shell(t_shell *shell) //it should not free evp list
+void	free_shell(t_shell *shell)
 {
 	if (shell->token_lst != NULL)
 		ft_lstclear(&shell->token_lst, del_token);

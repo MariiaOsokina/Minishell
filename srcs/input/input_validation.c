@@ -1,0 +1,119 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validation.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/30 17:23:30 by aaladeok          #+#    #+#             */
+/*   Updated: 2025/04/30 17:23:34 by aaladeok         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+static bool	check_ands(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (s[i] == '&' || s[strlen(s) - 1] == '&')
+		return (false);
+	return (true);
+}
+
+bool	input_validation(t_shell *shell)
+{
+	if (!shell->input || shell->input[0] == '\0')
+		return (true);
+	shell->trimmed_input = ft_strtrim(shell->input, "\t ");
+	if (!shell->trimmed_input)
+		exit_failure(shell, "input_validation");
+	if (shell->trimmed_input[0] == '\0' || shell->trimmed_input[0] == 32)
+		return (true);
+	if (!check_pipes(shell->trimmed_input))
+		return (syntax_error_msg(PIPE_ERROR), exit_code(shell, 2));
+	if (!check_ands(shell->trimmed_input))
+		return (syntax_error_msg(AND_ERROR), exit_code(shell, 2));
+	if (!check_quotes(shell->trimmed_input))
+		return (syntax_error_msg(OPEN_QUOTE), exit_code(shell, 2));
+	if (!check_redirections(shell->trimmed_input))
+		return (exit_code(shell, 2));
+	if (!check_parenthesis(shell->trimmed_input))
+		return (exit_code(shell, 2));
+	return (false);
+}
+
+bool	check_quotes(char *str)
+{
+	int		i;
+	char	quote;
+
+	i = 0;
+	quote = 0;
+	while (str[i])
+	{
+		if (is_quote(str[i]))
+		{
+			if (!quote)
+				quote = str[i];
+			else if (str[i] == quote)
+				quote = 0;
+		}
+		i++;
+	}
+	return (quote == 0);
+}
+
+bool	check_pipes(char *str)
+{
+	int		i;
+	bool	in_single_quote;
+	bool	in_double_quote;
+
+	i = 0;
+	in_single_quote = false;
+	in_double_quote = false;
+	if (str[i] == '|' || str[strlen(str) - 1] == '|')
+		return (false);
+	while (str[i])
+	{
+		toggle_quotes(str[i], &in_single_quote, &in_double_quote);
+		if (str[i] == '|' && !in_single_quote && !in_double_quote)
+		{
+			while (is_space(str[++i]))
+				;
+			if (str[i] == '|' && str[i - 1] != '|')
+				return (false);
+		}
+		i++;
+	}
+	return (true);
+}
+
+bool	check_redirections(char *str)
+{
+	int	i;
+	int	redir_char_len;
+
+	i = 0;
+	while (str[i])
+	{
+		i = jump_quotation(str, i);
+		redir_char_len = is_redirect(&str[i]);
+		if (redir_char_len > 0)
+		{
+			if (!handle_redir_error(str, &i, redir_char_len))
+				return (false);
+			if (!str[i])
+			{
+				syntax_error_msg(REDIR_ERROR);
+				return (false);
+			}
+			continue ;
+		}
+		if (str[i])
+			i++;
+	}
+	return (true);
+}

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   printers.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/30 17:38:05 by aaladeok          #+#    #+#             */
+/*   Updated: 2025/04/30 17:38:15 by aaladeok         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	print_cmd_lst(t_shell *shell)
@@ -72,8 +84,8 @@ void	print_token_lst(t_list *lst)
 
 void	print_env_arr(t_shell *shell)
 {
-	int	i;
-	char **envs;
+	int		i;
+	char	**envs;
 
 	envs = shell->envp_arr;
 	if (!envs)
