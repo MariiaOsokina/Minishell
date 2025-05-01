@@ -41,7 +41,9 @@ bool	check_paren_types(t_shell *shell)
 				&& ((t_token *)temp->next->content)->type == WORD)
 			|| (token->type == WORD && temp->next
 				&& ((t_token *)temp->next->content)->type == PARENTHESIS
-				&& ((t_token *)temp->next->content)->value[0] == '('))
+				&& ((t_token *)temp->next->content)->value[0] == '(')
+			|| (token->type == AND_IF && temp->next && 
+				((t_token *)temp->next->content)->type == AND_IF))
 		{
 			print_token_error_message(shell, temp->next);
 			return (exit_code(shell, 2), false);

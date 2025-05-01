@@ -31,6 +31,8 @@ bool	input_validation(t_shell *shell)
 		exit_failure(shell, "input_validation");
 	if (shell->trimmed_input[0] == '\0' || shell->trimmed_input[0] == 32)
 		return (true);
+	if (!check_logical_or(shell->trimmed_input))
+		return (syntax_error_msg(OR_ERROR), exit_code(shell, 2));
 	if (!check_pipes(shell->trimmed_input))
 		return (syntax_error_msg(PIPE_ERROR), exit_code(shell, 2));
 	if (!check_ands(shell->trimmed_input))
@@ -67,29 +69,33 @@ bool	check_quotes(char *str)
 
 bool	check_pipes(char *str)
 {
-	int		i;
-	bool	in_single_quote;
-	bool	in_double_quote;
+	int		i = 0;
+	bool	in_single = false;
+	bool	in_double = false;
 
-	i = 0;
-	in_single_quote = false;
-	in_double_quote = false;
-	if (str[i] == '|' || str[strlen(str) - 1] == '|')
+	if (str[i] == '|' && str[i + 1] != '|')
+		return (false);
+	if (str[strlen(str) - 1] == '|')
 		return (false);
 	while (str[i])
 	{
-		toggle_quotes(str[i], &in_single_quote, &in_double_quote);
-		if (str[i] == '|' && !in_single_quote && !in_double_quote)
+		toggle_quotes(str[i], &in_single, &in_double);
+		if (str[i] == '|' && str[i + 1] == '|' && str[i + 2] == '|')
+			return (false);
+		if (str[i] == '|' && str[i + 1] != '|' && !in_single && !in_double)
 		{
-			while (is_space(str[++i]))
-				;
-			if (str[i] == '|' && str[i - 1] != '|')
+			i++;
+			while (is_space(str[i]))
+				i++;
+			if (str[i] == '|' && str[i + 1] != '|')
 				return (false);
 		}
-		i++;
+		else
+			i++;
 	}
 	return (true);
 }
+
 
 bool	check_redirections(char *str)
 {

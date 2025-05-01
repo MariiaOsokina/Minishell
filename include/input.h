@@ -19,6 +19,7 @@ bool	check_pipes(char *str);
 bool	check_quotes(char *str);
 bool	check_redirections(char *str);
 bool	input_validation(t_shell *shell);
+bool	check_logical_or(char *str);
 
 /*input_utils.c*/
 bool	is_space(char c);

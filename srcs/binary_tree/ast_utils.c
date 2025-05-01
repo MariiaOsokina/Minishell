@@ -77,7 +77,7 @@ void	collect_io(t_shell *shell, t_list **curr, t_list **i_ofiles)
 			{
 				content = redirection_content(shell, curr);
 				ft_lstadd_back(i_ofiles, ft_lstnew(content));
-				if ((*curr))
+				if ((*curr) && (*curr)->next)
 				{
 					(*curr) = ((*curr)->next)->next;
 					if (!(*curr))
