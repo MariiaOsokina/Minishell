@@ -44,31 +44,3 @@ void	past_parenthesis(t_list **curr)
 		next_token(curr);
 }
 
-/*build_tree_utils.c*/
-// char	**get_colors(t_shell *shell, char **av)
-// {
-// 	int		i;
-// 	int		j;
-// 	char	**colors;
-
-// 	i = 0;
-// 	j = 1;
-// 	while (av[i])
-// 		i++;
-// 	colors = malloc(sizeof(char *) * (i + 2));
-// 	if (!colors)
-// 		exit_failure(shell, "get_colors");
-// 	colors[0] = ft_strdup(av[0]);
-// 	colors[1] = ft_strdup("--color=auto");
-// 	while (j < i)
-// 	{
-// 		colors[j + 1] = av[j];
-// 		j++;
-// 	}
-// 	colors[i + 1] = NULL;
-// 	i = -1;
-// 	while (av[++i])
-// 		free(av[i]);
-// 	free(av);
-// 	return (colors);
-// }

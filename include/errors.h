@@ -19,6 +19,7 @@
 #define OPEN_ERROR "near unexpected token `('"
 #define OPEN_QUOTE "`open quote'"
 #define PIPE_ERROR "near unexpected token `|'"
+#define OR_ERROR "near unexpected token `||'"
 #define AND_ERROR "near unexpected token `&'"
 #define REDIR_ERROR "near unexpected token `newline'"
 #define TOKEN_ERROR "near unexpected token `"

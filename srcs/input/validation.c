@@ -38,3 +38,28 @@ bool	check_parenthesis(char *str)
 		return (balance_message(bal), false);
 	return (true);
 }
+
+bool	check_logical_or(char *str)
+{
+	int		i = 0;
+	bool	in_single = false;
+	bool	in_double = false;
+
+	if (!str || (str[i] == '|' && str[i + 1] == '|') || strlen(str) < 2)
+		return (false);
+	while (str[i])
+	{
+		toggle_quotes(str[i], &in_single, &in_double);
+		if (str[i] == '|' && str[i + 1] == '|' && !in_single && !in_double)
+		{
+			i += 2;
+			while (is_space(str[i]))
+				i++;
+			if (!str[i] || (str[i] == '|' && str[i + 1] == '|'))
+				return (false);
+		}
+		else
+			i++;
+	}
+	return (true);
+}
