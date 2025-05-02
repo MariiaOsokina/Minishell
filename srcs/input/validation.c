@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 17:32:01 by aaladeok          #+#    #+#             */
-/*   Updated: 2025/04/30 17:32:07 by aaladeok         ###   ########.fr       */
+/*   Updated: 2025/05/02 10:52:43 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,13 @@ bool	check_parenthesis(char *str)
 
 bool	check_logical_or(char *str)
 {
-	int		i = 0;
-	bool	in_single = false;
-	bool	in_double = false;
+	int		i;
+	bool	in_single;
+	bool	in_double;
 
+	i = 0;
+	in_single = false;
+	in_double = false;
 	if (!str || (str[i] == '|' && str[i + 1] == '|') || strlen(str) < 2)
 		return (false);
 	while (str[i])

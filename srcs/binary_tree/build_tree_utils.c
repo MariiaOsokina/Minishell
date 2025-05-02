@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_tree_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:46:12 by aaladeok          #+#    #+#             */
-/*   Updated: 2025/04/29 18:46:14 by aaladeok         ###   ########.fr       */
+/*   Updated: 2025/05/02 10:44:47 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,3 @@ void	past_parenthesis(t_list **curr)
 	while (*curr && ((t_token *)(*curr)->content)->type == PARENTHESIS)
 		next_token(curr);
 }
-

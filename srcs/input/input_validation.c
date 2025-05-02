@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validation.c                                       :+:      :+:    :+:   */
+/*   input_validation.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 17:23:30 by aaladeok          #+#    #+#             */
-/*   Updated: 2025/04/30 17:23:34 by aaladeok         ###   ########.fr       */
+/*   Updated: 2025/05/02 11:26:13 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,35 +67,34 @@ bool	check_quotes(char *str)
 	return (quote == 0);
 }
 
-bool	check_pipes(char *str)
-{
-	int		i = 0;
-	bool	in_single = false;
-	bool	in_double = false;
+// bool	check_pipes(char *str)
+// {
+// 	int		i = 0;
+// 	bool	in_single = false;
+// 	bool	in_double = false;
 
-	if (str[i] == '|' && str[i + 1] != '|')
-		return (false);
-	if (str[strlen(str) - 1] == '|')
-		return (false);
-	while (str[i])
-	{
-		toggle_quotes(str[i], &in_single, &in_double);
-		if (str[i] == '|' && str[i + 1] == '|' && str[i + 2] == '|')
-			return (false);
-		if (str[i] == '|' && str[i + 1] != '|' && !in_single && !in_double)
-		{
-			i++;
-			while (is_space(str[i]))
-				i++;
-			if (str[i] == '|' && str[i + 1] != '|')
-				return (false);
-		}
-		else
-			i++;
-	}
-	return (true);
-}
-
+// 	if (str[i] == '|' && str[i + 1] != '|')
+// 		return (false);
+// 	if (str[strlen(str) - 1] == '|')
+// 		return (false);
+// 	while (str[i])
+// 	{
+// 		toggle_quotes(str[i], &in_single, &in_double);
+// 		if (str[i] == '|' && str[i + 1] == '|' && str[i + 2] == '|')
+// 			return (false);
+// 		if (str[i] == '|' && str[i + 1] != '|' && !in_single && !in_double)
+// 		{
+// 			i++;
+// 			while (is_space(str[i]))
+// 				i++;
+// 			if (str[i] == '|' && str[i + 1] != '|')
+// 				return (false);
+// 		}
+// 		else
+// 			i++;
+// 	}
+// 	return (true);
+// }
 
 bool	check_redirections(char *str)
 {
