@@ -48,7 +48,7 @@ bool	check_logical_or(char *str)
 	i = 0;
 	in_single = false;
 	in_double = false;
-	if (!str || (str[i] == '|' && str[i + 1] == '|') || strlen(str) < 2)
+	if (!str || (str[i] == '|' && str[i + 1] == '|'))
 		return (false);
 	while (str[i])
 	{
