@@ -42,8 +42,8 @@ bool	check_paren_types(t_shell *shell)
 			|| (token->type == WORD && temp->next
 				&& ((t_token *)temp->next->content)->type == PARENTHESIS
 				&& ((t_token *)temp->next->content)->value[0] == '(')
-			|| (token->type == AND_IF && temp->next
-				&& ((t_token *)temp->next->content)->type == AND_IF))
+			|| ((token->type == AND_IF || token->type == OR) && temp->next
+				&& is_operator(temp->next)))
 		{
 			print_token_error_message(shell, temp->next);
 			return (exit_code(shell, 2), false);
@@ -52,3 +52,7 @@ bool	check_paren_types(t_shell *shell)
 	}
 	return (true);
 }
+
+
+// && ((t_token *)temp->next->content)->type == AND_IF || 
+// ((t_token *)temp->next->content)->type == AND_IF))
