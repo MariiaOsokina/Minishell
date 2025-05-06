@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:40:25 by mosokina          #+#    #+#             */
-/*   Updated: 2025/04/30 11:28:09 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/05/06 09:55:13 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,6 @@ bool	ft_scan_for_asterisk(const char *word);
 int		ft_match_count(const char *pattern);
 void	ft_globbing_in_arg(t_exec *exec_node, int i);
 bool	ft_match_pattern(const char *pattern, const char *filename);
-
-/*move to utils.h*/
 
 /*SIGNALS*/
 void	ft_signals_interactive(void);

@@ -6,7 +6,7 @@
 /*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:53:16 by aaladeok          #+#    #+#             */
-/*   Updated: 2025/05/02 10:47:25 by mosokina         ###   ########.fr       */
+/*   Updated: 2025/05/06 09:53:36 by mosokina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ bool	check_paren_types(t_shell *shell)
 	}
 	return (true);
 }
-
 
 // && ((t_token *)temp->next->content)->type == AND_IF || 
 // ((t_token *)temp->next->content)->type == AND_IF))
