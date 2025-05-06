@@ -43,7 +43,8 @@ bool	check_pipes(char *str)
 	while (str[i])
 	{
 		toggle_quotes(str[i], &in_single, &in_double);
-		if (str[i] == '|' && str[i + 1] == '|' && str[i + 2] == '|')
+		if (str[i] == '|' && str[i + 1] == '|' \
+			 && str[i + 2] == '|' && !in_single && !in_double)
 			return (false);
 		if (is_invalid_pipeseq(str, &i, &in_single, &in_double))
 			return (false);

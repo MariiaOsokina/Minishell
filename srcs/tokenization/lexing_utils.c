@@ -52,6 +52,3 @@ bool	check_paren_types(t_shell *shell)
 	}
 	return (true);
 }
-
-// && ((t_token *)temp->next->content)->type == AND_IF || 
-// ((t_token *)temp->next->content)->type == AND_IF))
