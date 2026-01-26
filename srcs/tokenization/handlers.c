@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handlers.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/29 16:38:24 by aaladeok          #+#    #+#             */
+/*   Updated: 2025/04/29 16:38:26 by aaladeok         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*handlers.c*/
@@ -78,7 +90,6 @@ int	hndl_quoted_str(t_shell *shell, char **str, char *input, int i)
 	join = ft_substr(input, start, i - start + 1);
 	if (!join)
 		exit_failure(shell, "handle_quoted_str");
-	// TODO: Ensure exit code of the prev comnd is set in the shell.
 	tmp = *str;
 	*str = ft_strjoin(*str, join);
 	free(tmp);

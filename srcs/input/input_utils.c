@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/30 13:30:06 by aaladeok          #+#    #+#             */
+/*   Updated: 2025/04/30 17:26:08 by aaladeok         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 bool	is_space(char c)
@@ -7,7 +19,7 @@ bool	is_space(char c)
 
 bool	check_line_len(char *line)
 {
-	if (ft_strlen(line) > 200)
+	if (ft_strlen(line) > 400)
 		return (ft_putendl_fd(LINE_ERROR, 2), false);
 	return (true);
 }
@@ -20,27 +32,36 @@ void	balance_message(int balance)
 		ft_putendl_fd(OPEN_ERROR, 2);
 }
 
-/*Checking for valid parenthesis*/
-bool	check_parenthesis(char *str)
+bool	handle_paren(char c, int *bal)
+{
+	if (c == '(')
+		(*bal)++;
+	else if (c == ')')
+	{
+		if (*bal == 0)
+			return (false);
+		(*bal)--;
+	}
+	return (true);
+}
+
+bool	check_empty_parens(char *str)
 {
 	int	i;
-	int	balance;
 
 	i = 0;
-	balance = 0;
 	while (str[i])
 	{
-		if (str[i] == ')' && balance == 0)
-			return (balance_message(-1), false);
-		if (str[i] == '(')
-			balance++;
-		else if (str[i] == ')')
-			balance--;
+		if (str[i] == '(' && str[i + 1] == ')')
+			return (true);
+		if (str[i] == ')')
+		{
+			if (i > 0 && str[i - 1] == '(')
+				return (true);
+			if (str[i + 1] == '(')
+				return (true);
+		}
 		i++;
 	}
-	if (balance != 0)
-		balance_message(balance);
-	if (balance == 0)
-		return (true);
 	return (false);
 }

@@ -26,7 +26,7 @@ SRCS =	ft_isalpha.c ft_isalnum.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
 NAME = libft.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fPIC
 LIBC = ar rcs
 OBJS = $(SRCS:.c=.o)
 # BONUS_OBJS = $(BONUS_SRC:.c=.o)

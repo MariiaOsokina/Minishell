@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aaladeok <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/29 16:36:43 by aaladeok          #+#    #+#             */
+/*   Updated: 2025/04/29 16:36:46 by aaladeok         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*lexer.c*/
@@ -7,19 +19,6 @@ t_token_type	token_type(char *value)
 		return (PIPE);
 	else
 		return (WORD);
-}
-
-/*lexer.c*/
-void	del_token(void *token_node)
-{
-	t_token	*token;
-
-	token = (t_token *)token_node;
-	if (token)
-	{
-		free(token->value);
-		free(token);
-	}
 }
 
 /*lexer.c*/
@@ -56,8 +55,9 @@ void	set_token_position(t_list *lst)
 }
 
 /*Lexing starts here*/
-void	lexer(t_shell *shell, char *input)
+bool	lexer(t_shell *shell, char *input)
 {
 	shell->token_lst = NULL;
 	tokenize_input(shell, input);
+	return (check_paren_types(shell));
 }

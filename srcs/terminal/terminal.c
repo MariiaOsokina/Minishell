@@ -1,84 +1,54 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   terminal.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mosokina <mosokina@student.42london.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/29 17:11:34 by aaladeok          #+#    #+#             */
+/*   Updated: 2025/04/30 12:04:58 by mosokina         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-// static void print_path_list(t_list *path_list)
-// {
-//     t_list *current;
-//     int count;
-
-//     if (!path_list)
-//     {
-//         printf("PATH is empty or not set\n");
-//         return;
-//     }
-
-//     printf("PATH directories:\n");
-//     current = path_list;
-//     count = 0;
-    
-//     while (current)
-//     {
-//         // Print each path with an index
-//         printf("[%d] %s\n", count++, (char *)current->content);
-//         current = current->next;
-//     }
-    
-//     printf("Total: %d directories in PATH\n", count);
-// }
-
-
-/*
-	terminal.c
-	calls the terminal function.
-	This is where the magic starts
-*/
-void	terminal(t_shell *shell, char **envp)
+void	terminal(t_shell *shell)
 {
 	while (true)
 	{
 		reset_shell(shell);
-		handle_signals();
 		shell_input(shell);
+		ft_signals_interactive();
 		shell->input = readline(shell->cwd);
-		if (shell->input[0] && !input_validation(shell))
+		if (g_signum == SIGINT)
+			shell->exit_code = 130;
+		if (!shell->input)
+			ft_exit_with_full_cleanup(shell, shell->exit_code);
+		add_history(shell->input);
+		if (input_validation(shell) == true || !shell->input[0])
 		{
 			free_shell(shell);
 			continue ;
 		}
-		if (!shell->input || !ft_strcmp(shell->trimmed_input, "exit"))
-			return (print_exit(), free_shell(shell)); //MO:exit code! exit(shell.exit_code)
-		if (*shell->input)
-			add_history(shell->input);
-		lexer(shell, shell->trimmed_input);
-		print_token_lst(shell->token_lst); // Printing token list
-		shell->envp_arr = envp; //MO: added, need to be changed
-		// shell->envp_arr = env_arr(shell);
-		shell->path = path_list(shell, envp);
-		// print_path_list(shell->path);
-		// print_env_arr(shell); //Print array of env.
-		shell->root = build_ltree(shell, shell->token_lst);
-		print_bst(shell->root, 5);
+		if (!lexer(shell, shell->trimmed_input))
+			continue ;
+		shell->envp_arr = ft_env_arr(shell, shell->envp);
+		shell->path = ft_path_list(shell);
+		shell->root = build_ast(shell);
 		ft_start_execution(shell);
-		// Build and execute the cmd tree
-		/*section to call test functions to print out token and command lists*/
-		// lexec_tree(shell, shell->root);
-		// free_shell(shell);
-		// last_process(0); //Handles the last process in the pipeline.
+		free_shell(shell);
 	}
 }
 
 void	free_shell(t_shell *shell)
 {
-	int	i;
-
-	i = 0;
-	ft_lstclear(&shell->token_lst, del_token);
-	if (shell->envp_arr)
-	{
-		while (shell->envp_arr[i])
-			free(shell->envp_arr[i++]);
-		free(shell->envp_arr);
-	}
-	ft_lstclear(&shell->path, free);
+	if (shell->token_lst != NULL)
+		ft_lstclear(&shell->token_lst, del_token);
+	ft_free_str_arr(shell->envp_arr, ft_arr_size(shell->envp_arr));
+	if (shell->path != NULL)
+		ft_lstclear(&shell->path, free);
+	if (shell->heredoc_names != NULL)
+		ft_lstclear(&shell->heredoc_names, free);
 	if (shell->input)
 		free(shell->input);
 	if (shell->trimmed_input)
@@ -92,11 +62,6 @@ void	free_shell(t_shell *shell)
 	reset_shell(shell);
 }
 
-bool	is_env_empty(t_shell *shell)
-{
-	return (shell->envp == NULL || ft_lstsize(shell->envp) == 0);
-}
-
 void	reset_shell(t_shell *shell)
 {
 	shell->envp_arr = NULL;
@@ -107,5 +72,7 @@ void	reset_shell(t_shell *shell)
 	shell->cmd_path = NULL;
 	shell->cwd = NULL;
 	shell->root = NULL;
-	shell->exit_code = 0;
+	shell->heredoc_names = NULL;
+	shell->in_child = false;
+	g_signum = 0;
 }
